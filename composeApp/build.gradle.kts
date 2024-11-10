@@ -108,6 +108,7 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.composeViewModel)
+            implementation(libs.bundles.landscapist)
         }
         nativeMain.dependencies {
             implementation(libs.ktor.client.darwin)

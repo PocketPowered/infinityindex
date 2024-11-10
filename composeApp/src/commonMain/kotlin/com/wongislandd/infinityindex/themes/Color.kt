@@ -19,7 +19,7 @@ val backgroundColor
 // Text color (soft off-white/light gray for dark background, black for light theme)
 val textColor
     @Composable
-    get() = if (isSystemInDarkTheme()) Color(0xFFE0E0E0) else Color(0xFF000000) // Light gray for dark theme, black for light theme
+    get() = if (isSystemInDarkTheme()) Color(0xFFFFFFFF) else Color(0xFF000000) // Light gray for dark theme, black for light theme
 
 // Surface color (matches background color)
 val surfaceColor
