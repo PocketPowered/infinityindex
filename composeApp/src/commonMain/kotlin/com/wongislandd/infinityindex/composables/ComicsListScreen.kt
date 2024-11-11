@@ -1,9 +1,9 @@
 package com.wongislandd.infinityindex.composables
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -18,11 +18,17 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil3.CoilImage
@@ -51,7 +57,7 @@ fun ComicsListScreen() {
                 CircularProgressIndicator(
                     modifier = Modifier.size(32.dp).align(Alignment.Center),
                     strokeWidth = 1.dp,
-                    color = MaterialTheme.colors.onSurface,
+                    color = Color.White,
                 )
             }
 
@@ -70,7 +76,10 @@ fun ComicsListScreen() {
 
 @Composable
 private fun ComicsList(comicsList: List<NetworkComic>) {
-    LazyVerticalGrid(columns = GridCells.Fixed(2)) {
+    LazyVerticalGrid(
+        columns = GridCells.Adaptive(180.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp),
+    ) {
         items(comicsList.size) { index ->
             ComicCard(comicsList[index])
         }
@@ -80,10 +89,11 @@ private fun ComicsList(comicsList: List<NetworkComic>) {
 @Composable
 private fun ComicCard(comic: NetworkComic, modifier: Modifier = Modifier) {
     Card(
-        modifier = modifier
+        modifier = modifier.fillMaxWidth().height(500.dp)
+            .background(Color.DarkGray)
     ) {
         Column {
-            // invalidate these, should never make it to UI if these are missing
+//            // invalidate these, should never make it to UI if these are missing
             comic.thumbnail?.getFullUrl()?.also { url ->
                 ComicImage(url, modifier = Modifier.height(300.dp))
             }
@@ -96,32 +106,31 @@ private fun ComicCard(comic: NetworkComic, modifier: Modifier = Modifier) {
 
 @Composable
 private fun ComicTitlePlate(title: String, modifier: Modifier = Modifier) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
+    Column(
         modifier = modifier
             .fillMaxWidth()
-            .background(Color.DarkGray)
             .padding(8.dp)
     ) {
         Text(
             text = title,
             style = MaterialTheme.typography.h5,
             fontWeight = FontWeight.Bold,
-            color = Color.White
+            color = Color.White,
+            overflow = TextOverflow.Ellipsis
         )
     }
 }
 
 @Composable
 private fun ComicImage(url: String, modifier: Modifier = Modifier) {
-    Box(modifier = Modifier.background(Color.DarkGray).fillMaxSize()) {
+    Box(modifier = modifier.background(Color.Black).fillMaxWidth()) {
         CoilImage(
             imageModel = { url },
             imageOptions = ImageOptions(
-                contentScale = ContentScale.Fit,
+                contentScale = ContentScale.Inside,
                 alignment = Alignment.Center
             ),
-            modifier = modifier.align(Alignment.Center),
+            modifier = Modifier.align(Alignment.Center),
             component = rememberImageComponent {
                 ShimmerPlugin(
                     Shimmer.Flash(
