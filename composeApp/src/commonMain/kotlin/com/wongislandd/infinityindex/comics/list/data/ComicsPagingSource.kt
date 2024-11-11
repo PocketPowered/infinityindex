@@ -2,7 +2,7 @@ package com.wongislandd.infinityindex.comics.list.data
 
 import com.wongislandd.infinityindex.comics.list.models.Comic
 import com.wongislandd.infinityindex.comics.list.models.ComicsSortOption
-import com.wongislandd.infinityindex.comics.list.viewmodels.SearchQuery
+import com.wongislandd.infinityindex.comics.list.models.SearchQuery
 import com.wongislandd.infinityindex.networking.util.BasePagingSource
 import com.wongislandd.infinityindex.networking.util.PaginationContextWrapper
 import com.wongislandd.infinityindex.networking.util.Resource

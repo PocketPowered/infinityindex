@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 
 class ComicDetailsViewModel(private val comicId: Int) : ViewModel() {
     private val _screenState: MutableStateFlow<ComicDetailsScreenState> =
-        MutableStateFlow(ComicDetailsScreenState())
+        MutableStateFlow(ComicDetailsScreenState(comicId))
 
     val screenState: StateFlow<ComicDetailsScreenState> = _screenState
 

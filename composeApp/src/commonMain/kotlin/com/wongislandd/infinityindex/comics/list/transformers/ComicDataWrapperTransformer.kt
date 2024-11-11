@@ -1,19 +1,20 @@
-package com.wongislandd.infinityindex.networking
+package com.wongislandd.infinityindex.comics.list.transformers
 
-import com.wongislandd.infinityindex.comics.list.transformers.ComicDataContainerTransformer
+import com.wongislandd.infinityindex.comics.list.models.ComicDataWrapper
+import com.wongislandd.infinityindex.comics.list.models.NetworkComicDataWrapper
 import com.wongislandd.infinityindex.util.Transformer
 import com.wongislandd.infinityindex.util.safeLet
 
-class DataWrapperTransformer(
+class ComicDataWrapperTransformer(
     private val comicDataContainerTransformer: ComicDataContainerTransformer
-): Transformer<NetworkMarvelDataWrapper, MarvelDataWrapper> {
+): Transformer<NetworkComicDataWrapper, ComicDataWrapper> {
 
-    override fun transform(input: NetworkMarvelDataWrapper): MarvelDataWrapper? {
+    override fun transform(input: NetworkComicDataWrapper): ComicDataWrapper? {
         val transformedData = input.data?.let {
             comicDataContainerTransformer.transform(it)
         }
         return safeLet(input.code, input.status, transformedData) { code, status, data ->
-            MarvelDataWrapper(
+            ComicDataWrapper(
                 code = code,
                 status = status,
                 data = data

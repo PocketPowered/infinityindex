@@ -1,10 +1,9 @@
-package com.wongislandd.infinityindex.networking
+package com.wongislandd.infinityindex.comics.list.models
 
-import com.wongislandd.infinityindex.comics.list.models.NetworkComicDataContainer
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class NetworkMarvelDataWrapper(
+data class NetworkComicDataWrapper(
     val code: Int?,
     val status: String?,
     val copyright: String?,
