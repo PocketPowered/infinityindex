@@ -14,17 +14,17 @@ val secondaryColor = Color(0xFFFFC107) // Marvel Gold (Iron Man's arc reactor)
 // Background color (darkish gray for dark theme, white for light theme)
 val backgroundColor
     @Composable
-    get() = if (isSystemInDarkTheme()) Color(0xFF121212) else Color(0xFF121212) // Dark gray for dark mode, white for light mode
+    get() = if (isSystemInDarkTheme()) Color(0xFF121212) else Color(0xFFFAFAFA) // Dark gray for dark mode, off-white for light mode
 
 // Text color (soft off-white/light gray for dark background, black for light theme)
 val textColor
     @Composable
-    get() = if (isSystemInDarkTheme()) Color(0xFFFFFFFF) else Color(0xFFFFFFFF) // Light gray for dark theme, black for light theme
+    get() = if (isSystemInDarkTheme()) Color(0xFFFFFFFF) else Color(0xFF333333) // Light gray for dark theme, dark gray for light theme
 
-// Surface color (matches background color)
+// Surface color (off-white for light theme, dark gray for dark theme)
 val surfaceColor
     @Composable
-    get() = backgroundColor
+    get() = if (isSystemInDarkTheme()) Color(0xFF1E1E1E) else Color(0xFFF5F5F5) // Dark gray for dark mode, off-white for light mode
 
 val MarvelColors
     @Composable
@@ -34,19 +34,19 @@ val MarvelColors
             onPrimary = Color.White, // White text on dark red
             secondary = secondaryColor, // Marvel Gold for secondary color
             background = backgroundColor, // Dark background
-            surface = surfaceColor, // Surface color matches background
-            onSurface = textColor, // Text color for surface (soft light gray text color)
-            onBackground = textColor // Text color for background (soft light gray text color)
+            surface = surfaceColor, // Dark surface
+            onSurface = textColor, // Light text on surface
+            onBackground = textColor // Light text on background
         )
     } else {
         lightColors(
             primary = primaryColor,
-            onPrimary = Color.White, // Black text on dark red
+            onPrimary = Color.White, // White text on dark red
             secondary = secondaryColor, // Marvel Gold for secondary color
-            background = backgroundColor, // White background in light mode
-            surface = surfaceColor, // Surface color matches background
-            onSurface = textColor, // Text color for surface (black text on white surface)
-            onBackground = textColor // Text color for background (black text on white background)
+            background = backgroundColor, // Light background
+            surface = surfaceColor, // Off-white surface
+            onSurface = textColor, // Dark text on surface
+            onBackground = textColor // Dark text on background
         )
     }
 

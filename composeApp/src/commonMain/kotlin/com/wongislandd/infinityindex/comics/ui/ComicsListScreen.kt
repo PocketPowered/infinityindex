@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -15,7 +14,6 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
@@ -29,7 +27,6 @@ import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
@@ -41,25 +38,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import app.cash.paging.compose.LazyPagingItems
 import app.cash.paging.compose.collectAsLazyPagingItems
-import com.skydoves.landscapist.ImageOptions
-import com.skydoves.landscapist.coil3.CoilImage
-import com.skydoves.landscapist.components.rememberImageComponent
-import com.skydoves.landscapist.placeholder.shimmer.Shimmer
-import com.skydoves.landscapist.placeholder.shimmer.ShimmerPlugin
 import com.wongislandd.infinityindex.comics.models.ComicsSortOption
 import com.wongislandd.infinityindex.comics.models.NetworkComic
 import com.wongislandd.infinityindex.comics.viewmodels.ComicsListViewModel
-import com.wongislandd.infinityindex.networking.util.getFullUrl
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 
@@ -105,7 +92,7 @@ private fun ComicsTopAppBar(
     TopAppBar(
         title = {
             if (!isSearchBarExpanded) {
-                Text("Marvel Comics", color = Color.White)
+                Text("Marvel Comics", color = MaterialTheme.colors.onPrimary)
             }
         },
         modifier = modifier,
@@ -147,7 +134,7 @@ private fun ExpandingSearch(
                         Icon(
                             imageVector = Icons.Default.Close,
                             contentDescription = "Clear Search",
-                            tint = Color.Black
+                            tint = MaterialTheme.colors.onSurface
                         )
                     }
                 },
@@ -158,17 +145,15 @@ private fun ExpandingSearch(
                         Icon(
                             imageVector = Icons.AutoMirrored.Default.ArrowForward,
                             contentDescription = "Submit Search",
-                            tint = Color.Black
+                            tint = MaterialTheme.colors.onSurface
                         )
                     }
                 },
                 modifier = Modifier
                     .padding(horizontal = 16.dp),
                 colors = TextFieldDefaults.textFieldColors(
-                    textColor = Color.Black,
-                    backgroundColor = Color.White,
-                    focusedIndicatorColor = Color.Gray,
-                    unfocusedIndicatorColor = Color.LightGray
+                    textColor = MaterialTheme.colors.onSurface,
+                    backgroundColor = MaterialTheme.colors.surface,
                 ),
                 keyboardOptions = KeyboardOptions.Default.copy(
                     imeAction = ImeAction.Done
@@ -183,7 +168,7 @@ private fun ExpandingSearch(
             IconButton(onClick = onSearchIconClicked) {
                 Icon(
                     imageVector = Icons.Default.Search,
-                    tint = if (currentSearchParam.isNotEmpty()) MaterialTheme.colors.secondary else Color.White,
+                    tint = if (currentSearchParam.isNotEmpty()) MaterialTheme.colors.secondary else MaterialTheme.colors.onPrimary,
                     contentDescription = "Search"
                 )
             }
@@ -204,7 +189,7 @@ private fun ComicsSortSelection(
         ) {
             Icon(
                 imageVector = Icons.Default.Menu,
-                tint = if (currentSortSelection == ComicsSortOption.NONE) Color.White else MaterialTheme.colors.secondary,
+                tint = if (currentSortSelection == ComicsSortOption.NONE) MaterialTheme.colors.onPrimary else MaterialTheme.colors.secondary,
                 contentDescription = "Sort",
                 modifier = Modifier.size(24.dp) // Adjust icon size if needed
             )
@@ -240,7 +225,7 @@ private fun ComicsList(
         columns = GridCells.Adaptive(180.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp),
         modifier = modifier
-            .background(Color.DarkGray)
+            .background(MaterialTheme.colors.surface)
             .fillMaxSize()
     ) {
         items(pagedComics.itemCount) { index ->
@@ -270,65 +255,5 @@ private fun ComicsList(
                 }
             }
         }
-    }
-}
-
-@Composable
-private fun ComicCard(comic: NetworkComic, modifier: Modifier = Modifier) {
-    Card(
-        modifier = modifier.fillMaxWidth().height(420.dp),
-    ) {
-        Column {
-//            // invalidate these, should never make it to UI if these are missing
-            comic.thumbnail?.getFullUrl()?.also { url ->
-                ComicImage(url, modifier = Modifier.height(300.dp))
-            }
-            comic.title?.also {
-                ComicTitlePlate(it)
-            }
-        }
-    }
-}
-
-@Composable
-private fun ComicTitlePlate(title: String, modifier: Modifier = Modifier) {
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(8.dp)
-    ) {
-        Text(
-            text = title,
-            style = MaterialTheme.typography.h5,
-            fontWeight = FontWeight.Bold,
-            color = Color.White,
-            overflow = TextOverflow.Ellipsis
-        )
-    }
-}
-
-@Composable
-private fun ComicImage(url: String, modifier: Modifier = Modifier) {
-    Box(modifier = modifier.background(Color.Black).fillMaxWidth()) {
-        CoilImage(
-            imageModel = { url },
-            imageOptions = ImageOptions(
-                contentScale = ContentScale.Inside,
-                alignment = Alignment.Center
-            ),
-            modifier = Modifier.align(Alignment.Center),
-            component = rememberImageComponent {
-                +ShimmerPlugin(
-                    Shimmer.Flash(
-                        baseColor = Color.White,
-                        highlightColor = Color.LightGray,
-                        duration = 650
-                    )
-                )
-            },
-            failure = {
-                Text("Could not load image.")
-            }
-        )
     }
 }

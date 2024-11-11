@@ -43,6 +43,7 @@ buildkonfig {
 }
 
 
+
 kotlin {
     androidTarget {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
@@ -127,6 +128,9 @@ android {
     namespace = "com.wongislandd.infinityindex"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
+    buildFeatures {
+        compose = true
+    }
     defaultConfig {
         applicationId = "com.wongislandd.infinityindex"
         minSdk = libs.versions.android.minSdk.get().toInt()
