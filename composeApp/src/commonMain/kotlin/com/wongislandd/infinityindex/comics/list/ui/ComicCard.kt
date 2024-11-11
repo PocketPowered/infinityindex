@@ -1,4 +1,4 @@
-package com.wongislandd.infinityindex.comics.ui
+package com.wongislandd.infinityindex.comics.list.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -22,7 +22,7 @@ import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil3.CoilImage
 import com.skydoves.landscapist.components.rememberImageComponent
 import com.skydoves.landscapist.placeholder.shimmer.ShimmerPlugin
-import com.wongislandd.infinityindex.comics.models.Comic
+import com.wongislandd.infinityindex.comics.list.models.Comic
 import com.wongislandd.infinityindex.themes.MarvelTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.compose.ui.tooling.preview.PreviewParameter

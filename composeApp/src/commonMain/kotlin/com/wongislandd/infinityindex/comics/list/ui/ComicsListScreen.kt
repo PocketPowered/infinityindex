@@ -1,4 +1,4 @@
-package com.wongislandd.infinityindex.comics.ui
+package com.wongislandd.infinityindex.comics.list.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -45,10 +45,10 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import app.cash.paging.compose.LazyPagingItems
 import app.cash.paging.compose.collectAsLazyPagingItems
-import com.wongislandd.infinityindex.comics.models.Comic
-import com.wongislandd.infinityindex.comics.models.ComicsSortOption
+import com.wongislandd.infinityindex.comics.list.models.Comic
+import com.wongislandd.infinityindex.comics.list.models.ComicsSortOption
 import com.wongislandd.infinityindex.comics.util.ComicConstants
-import com.wongislandd.infinityindex.comics.viewmodels.ComicsListViewModel
+import com.wongislandd.infinityindex.comics.list.viewmodels.ComicsListViewModel
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 

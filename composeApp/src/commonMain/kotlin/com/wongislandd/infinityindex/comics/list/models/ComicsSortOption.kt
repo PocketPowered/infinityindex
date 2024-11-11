@@ -1,4 +1,4 @@
-package com.wongislandd.infinityindex.comics.models
+package com.wongislandd.infinityindex.comics.list.models
 
 /**
  * Directly maps to options available via. Marvel comics API

@@ -12,6 +12,6 @@ fun main() = application {
         onCloseRequest = ::exitApplication,
         title = "infinityindex",
     ) {
-        App()
+        InfinityIndexApp()
     }
 }

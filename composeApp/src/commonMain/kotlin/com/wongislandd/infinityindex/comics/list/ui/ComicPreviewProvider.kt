@@ -1,6 +1,6 @@
-package com.wongislandd.infinityindex.comics.ui
+package com.wongislandd.infinityindex.comics.list.ui
 
-import com.wongislandd.infinityindex.comics.models.Comic
+import com.wongislandd.infinityindex.comics.list.models.Comic
 import org.jetbrains.compose.ui.tooling.preview.PreviewParameterProvider
 
 class ComicPreviewProvider : PreviewParameterProvider<Comic> {

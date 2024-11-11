@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.wongislandd.infinityindex.comics.ui.ComicsListScreen
+import com.wongislandd.infinityindex.comics.list.ui.ComicsListScreen
 
 @Composable
 fun AppNavHost(

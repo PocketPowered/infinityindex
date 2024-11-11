@@ -1,7 +1,7 @@
-package com.wongislandd.infinityindex.comics.transformers
+package com.wongislandd.infinityindex.comics.list.transformers
 
-import com.wongislandd.infinityindex.comics.models.Comic
-import com.wongislandd.infinityindex.comics.models.NetworkComic
+import com.wongislandd.infinityindex.comics.list.models.Comic
+import com.wongislandd.infinityindex.comics.list.models.NetworkComic
 import com.wongislandd.infinityindex.util.Transformer
 import com.wongislandd.infinityindex.util.safeLet
 

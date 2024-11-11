@@ -1,6 +1,6 @@
 package com.wongislandd.infinityindex.di
 
-import com.wongislandd.infinityindex.comics.di.comicsModule
+import com.wongislandd.infinityindex.comics.list.di.comicsModule
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
 import org.koin.dsl.module

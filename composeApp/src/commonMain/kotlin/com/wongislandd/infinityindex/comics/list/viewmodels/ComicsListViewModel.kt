@@ -1,45 +1,26 @@
-package com.wongislandd.infinityindex.comics.viewmodels
+package com.wongislandd.infinityindex.comics.list.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import app.cash.paging.Pager
 import app.cash.paging.PagingConfig
-import com.wongislandd.infinityindex.comics.data.ComicsPagingSource
-import com.wongislandd.infinityindex.comics.data.ComicsRepository
-import com.wongislandd.infinityindex.comics.models.Comic
-import com.wongislandd.infinityindex.comics.models.ComicsSortOption
+import com.wongislandd.infinityindex.comics.list.data.ComicsPagingSource
+import com.wongislandd.infinityindex.comics.list.data.ComicsRepository
+import com.wongislandd.infinityindex.comics.list.models.Comic
+import com.wongislandd.infinityindex.comics.list.models.ComicsListScreenState
+import com.wongislandd.infinityindex.comics.list.models.ComicsSortOption
+import com.wongislandd.infinityindex.comics.list.models.SearchIntention
+import com.wongislandd.infinityindex.comics.list.models.SearchQuery
+import com.wongislandd.infinityindex.comics.list.models.SearchState
 import com.wongislandd.infinityindex.comics.util.ComicConstants
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-
-enum class SearchIntention {
-    PENDING,
-    SUBMITTED
-}
-
-data class SearchQuery(
-    val text: String = "",
-    val intention: SearchIntention = SearchIntention.PENDING
-)
-
-data class SearchState(
-    val searchQuery: SearchQuery,
-    val isSearchBoxVisible: Boolean
-)
-
-data class ComicsListScreenState(
-    val isLoading: Boolean,
-    val sortOption: ComicsSortOption,
-    val searchState: SearchState,
-    val pagingData: StateFlow<PagingData<Comic>>
-)
 
 class ComicsListViewModel(private val comicsRepository: ComicsRepository) : ViewModel() {
 

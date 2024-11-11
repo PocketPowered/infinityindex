@@ -1,4 +1,4 @@
-package com.wongislandd.infinityindex.comics.transformers
+package com.wongislandd.infinityindex.comics.list.transformers
 
 import com.wongislandd.infinityindex.util.Transformer
 
