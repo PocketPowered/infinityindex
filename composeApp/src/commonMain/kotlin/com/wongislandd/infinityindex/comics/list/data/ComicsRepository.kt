@@ -1,9 +1,9 @@
 package com.wongislandd.infinityindex.comics.list.data
 
-import com.wongislandd.infinityindex.networking.MarvelDataWrapper
 import com.wongislandd.infinityindex.comics.list.models.ComicsSortOption
-import com.wongislandd.infinityindex.networking.NetworkMarvelDataWrapper
 import com.wongislandd.infinityindex.networking.DataWrapperTransformer
+import com.wongislandd.infinityindex.networking.MarvelDataWrapper
+import com.wongislandd.infinityindex.networking.NetworkMarvelDataWrapper
 import com.wongislandd.infinityindex.networking.util.NetworkClient
 import com.wongislandd.infinityindex.networking.util.Resource
 import io.ktor.client.HttpClient
@@ -37,5 +37,4 @@ class ComicsRepository(
         val response: Resource<NetworkMarvelDataWrapper> = get<NetworkMarvelDataWrapper>("public/comics/$comicId")
         return response.map { dataWrapperTransformer.transform(it) }
     }
-    )
 }
