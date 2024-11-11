@@ -27,6 +27,7 @@ okio = "3.9.1"
 buildkonfig="0.15.2"
 kotlinx-serialization = "1.6.3"
 landscapist="2.4.0"
+paging3="3.3.0-alpha02-0.5.1"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -45,7 +46,8 @@ kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-co
 kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlin-datetime" }
 landscapist-coil = { module = "com.github.skydoves:landscapist-coil3", version.ref = "landscapist" }
 landscapist-placeholder = { module = "com.github.skydoves:landscapist-placeholder", version.ref = "landscapist" }
-
+paging-compose-common = { module = "app.cash.paging:paging-compose-common", version.ref = "paging3" }
+paging-common = { module = "app.cash.paging:paging-common", version.ref = "paging3" }
 
 squareup-okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
@@ -67,6 +69,7 @@ koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", versi
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koinCompose" }
 koin-composeViewModel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koinComposeViewModel" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
@@ -93,4 +96,9 @@ ktor = [
 landscapist = [
     "landscapist-coil",
     "landscapist-placeholder"
+]
+
+paging3 = [
+    "paging-common",
+    "paging-compose-common"
 ]

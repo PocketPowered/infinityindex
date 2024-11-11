@@ -1,8 +1,10 @@
-package com.wongislandd.infinityindex.util
+package com.wongislandd.infinityindex.networking.util
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
+import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.get
+import io.ktor.client.request.url
 import io.ktor.util.network.UnresolvedAddressException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,10 +16,18 @@ abstract class NetworkClient(val httpClient: HttpClient) {
 
     suspend inline fun <reified T> get(
         endpoint: String,
+        builder: HttpRequestBuilder.() -> Unit = {}
+    ): Resource<T> {
+        return makeNetworkRequest(endpoint, builder)
+    }
+
+    suspend inline fun <reified T> getFlow(
+        endpoint: String,
+        crossinline builder: HttpRequestBuilder.() -> Unit = {}
     ): StateFlow<Resource<T>> {
         val stateFlow = MutableStateFlow<Resource<T>>(Resource.Loading)
         withContext(Dispatchers.Default) {
-            makeNetworkRequest(endpoint, stateFlow)
+            makeNetworkRequestToFlow(endpoint, stateFlow, builder)
         }
         return stateFlow
 
@@ -25,15 +35,19 @@ abstract class NetworkClient(val httpClient: HttpClient) {
 
     suspend inline fun <reified T> makeNetworkRequest(
         endpoint: String,
-        stateFlow: MutableStateFlow<Resource<T>>
-    ) {
+        builder: HttpRequestBuilder.() -> Unit = {}
+    ): Resource<T> {
         try {
-            val response = httpClient.get(endpoint)
+            val response = httpClient.get {
+                url(endpoint)
+                builder()
+            }
             val newValue = when (response.status.value) {
                 in 200..299 -> {
                     val data: T = response.body()
                     Resource.Success(data)
                 }
+
                 401 -> Resource.Error(NetworkError.UNAUTHORIZED)
                 404 -> Resource.Error(NetworkError.NOT_FOUND)
                 409 -> Resource.Error(NetworkError.CONFLICT)
@@ -42,11 +56,19 @@ abstract class NetworkClient(val httpClient: HttpClient) {
                 in 500..599 -> Resource.Error(NetworkError.SERVER_ERROR)
                 else -> Resource.Error(NetworkError.UNKNOWN)
             }
-            stateFlow.value = newValue
+            return newValue
         } catch (e: UnresolvedAddressException) {
-            stateFlow.value = Resource.Error(NetworkError.NO_INTERNET)
+            return Resource.Error(NetworkError.NO_INTERNET)
         } catch (e: SerializationException) {
-            stateFlow.value = Resource.Error(NetworkError.SERIALIZATION)
+            return Resource.Error(NetworkError.SERIALIZATION)
         }
+    }
+
+    suspend inline fun <reified T> makeNetworkRequestToFlow(
+        endpoint: String,
+        stateFlow: MutableStateFlow<Resource<T>>,
+        builder: HttpRequestBuilder.() -> Unit = {}
+    ) {
+        stateFlow.value = makeNetworkRequest(endpoint, builder)
     }
 }

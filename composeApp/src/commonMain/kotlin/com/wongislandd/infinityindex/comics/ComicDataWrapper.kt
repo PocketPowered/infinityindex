@@ -1,4 +1,4 @@
-package com.wongislandd.infinityindex.networking.models
+package com.wongislandd.infinityindex.comics
 
 import kotlinx.serialization.Serializable
 
@@ -9,17 +9,17 @@ data class NetworkComicDataWrapper(
     val copyright: String?,
     val attributionText: String?,
     val attributionHTML: String?,
-    val data: NetworkComicDataContainer?,
+    val data: NetworkComicDataContainer,
     val etag: String?
 )
 
 @Serializable
 data class NetworkComicDataContainer(
-    val offset: Int?,
-    val limit: Int?,
-    val total: Int?,
-    val count: Int?,
-    val results: List<NetworkComic>?
+    val offset: Int,
+    val limit: Int,
+    val total: Int,
+    val count: Int,
+    val results: List<NetworkComic>
 )
 
 @Serializable

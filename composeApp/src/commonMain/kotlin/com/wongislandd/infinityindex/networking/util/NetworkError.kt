@@ -1,4 +1,6 @@
-package com.wongislandd.infinityindex.util
+package com.wongislandd.infinityindex.networking.util
+
+import com.wongislandd.infinityindex.util.Error
 
 enum class NetworkError : Error {
     REQUEST_TIMEOUT,
