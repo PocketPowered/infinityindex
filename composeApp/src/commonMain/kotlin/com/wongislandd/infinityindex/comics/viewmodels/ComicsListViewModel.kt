@@ -7,8 +7,8 @@ import app.cash.paging.Pager
 import app.cash.paging.PagingConfig
 import com.wongislandd.infinityindex.comics.data.ComicsPagingSource
 import com.wongislandd.infinityindex.comics.data.ComicsRepository
+import com.wongislandd.infinityindex.comics.models.Comic
 import com.wongislandd.infinityindex.comics.models.ComicsSortOption
-import com.wongislandd.infinityindex.comics.models.NetworkComic
 import com.wongislandd.infinityindex.comics.util.ComicConstants
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -38,12 +38,12 @@ data class ComicsListScreenState(
     val isLoading: Boolean,
     val sortOption: ComicsSortOption,
     val searchState: SearchState,
-    val pagingData: StateFlow<PagingData<NetworkComic>>
+    val pagingData: StateFlow<PagingData<Comic>>
 )
 
 class ComicsListViewModel(private val comicsRepository: ComicsRepository) : ViewModel() {
 
-    private val pagingData: MutableStateFlow<PagingData<NetworkComic>> =
+    private val pagingData: MutableStateFlow<PagingData<Comic>> =
         MutableStateFlow(PagingData.empty())
 
     // screen state

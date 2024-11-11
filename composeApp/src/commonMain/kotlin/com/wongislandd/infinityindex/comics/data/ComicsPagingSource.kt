@@ -1,7 +1,7 @@
 package com.wongislandd.infinityindex.comics.data
 
+import com.wongislandd.infinityindex.comics.models.Comic
 import com.wongislandd.infinityindex.comics.models.ComicsSortOption
-import com.wongislandd.infinityindex.comics.models.NetworkComic
 import com.wongislandd.infinityindex.comics.viewmodels.SearchQuery
 import com.wongislandd.infinityindex.networking.util.BasePagingSource
 import com.wongislandd.infinityindex.networking.util.PaginationContextWrapper
@@ -14,7 +14,7 @@ class ComicsPagingSource(
     private val comicsRepository: ComicsRepository,
     private val searchQuery: SearchQuery? = null,
     private val sortOption: ComicsSortOption
-) : KoinComponent, BasePagingSource<NetworkComic>() {
+) : KoinComponent, BasePagingSource<Comic>() {
 
     private val _isFetchingFirstPage: MutableStateFlow<Boolean> = MutableStateFlow(true)
     val isFetchingFirstPage: StateFlow<Boolean> = _isFetchingFirstPage
@@ -22,8 +22,13 @@ class ComicsPagingSource(
     override suspend fun fetchData(
         start: Int,
         count: Int
-    ): Resource<PaginationContextWrapper<NetworkComic>> {
-        return comicsRepository.getAllComics(start, count, searchParam = searchQuery?.text, sortOption).also {
+    ): Resource<PaginationContextWrapper<Comic>> {
+        return comicsRepository.getAllComics(
+            start,
+            count,
+            searchParam = searchQuery?.text,
+            sortOption
+        ).also {
             _isFetchingFirstPage.value = false
         }.map { data ->
             PaginationContextWrapper(

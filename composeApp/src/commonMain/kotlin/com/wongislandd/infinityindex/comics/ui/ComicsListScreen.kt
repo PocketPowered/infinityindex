@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -44,8 +45,8 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import app.cash.paging.compose.LazyPagingItems
 import app.cash.paging.compose.collectAsLazyPagingItems
+import com.wongislandd.infinityindex.comics.models.Comic
 import com.wongislandd.infinityindex.comics.models.ComicsSortOption
-import com.wongislandd.infinityindex.comics.models.NetworkComic
 import com.wongislandd.infinityindex.comics.util.ComicConstants
 import com.wongislandd.infinityindex.comics.viewmodels.ComicsListViewModel
 import org.koin.compose.viewmodel.koinViewModel
@@ -106,7 +107,8 @@ private fun ComicsTopAppBar(
                 isExpanded = isSearchBarExpanded
             )
             ComicsSortSelection(currentSortSelection, onSortSelected)
-        }
+        },
+        backgroundColor = MaterialTheme.colors.primary
     )
 }
 
@@ -223,16 +225,18 @@ private fun ComicsSortSelection(
 
 @Composable
 private fun ComicsList(
-    pagedComics: LazyPagingItems<NetworkComic>,
+    pagedComics: LazyPagingItems<Comic>,
     modifier: Modifier = Modifier
 ) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(180.dp),
-        verticalArrangement = Arrangement.spacedBy(4.dp),
+        contentPadding = PaddingValues(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
         modifier = modifier
             .background(MaterialTheme.colors.surface)
             .fillMaxSize()
     ) {
+
         items(pagedComics.itemCount) { index ->
             pagedComics[index]?.let { comic ->
                 ComicCard(comic)
@@ -252,9 +256,11 @@ private fun ComicsList(
                                 modifier = Modifier.align(Alignment.Center)
                             )
                         }
-
                         loadState.refresh is LoadState.Error || loadState.append is LoadState.Error -> {
                             Text(text = "Error")
+                        }
+                        loadState.refresh is LoadState.NotLoading && loadState.append.endOfPaginationReached && itemCount == 0 -> {
+                            Text(text = "No results found")
                         }
                     }
                 }

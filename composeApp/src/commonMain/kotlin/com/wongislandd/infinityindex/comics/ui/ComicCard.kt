@@ -1,6 +1,7 @@
 package com.wongislandd.infinityindex.comics.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,38 +22,37 @@ import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil3.CoilImage
 import com.skydoves.landscapist.components.rememberImageComponent
 import com.skydoves.landscapist.placeholder.shimmer.ShimmerPlugin
-import com.wongislandd.infinityindex.comics.models.NetworkComic
-import com.wongislandd.infinityindex.networking.util.getFullUrl
+import com.wongislandd.infinityindex.comics.models.Comic
 import com.wongislandd.infinityindex.themes.MarvelTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.compose.ui.tooling.preview.PreviewParameter
 
 @Composable
-fun ComicCard(comic: NetworkComic, modifier: Modifier = Modifier) {
+fun ComicCard(comic: Comic, modifier: Modifier = Modifier) {
     Card(
         modifier = modifier
             .background(MaterialTheme.colors.surface)
             .fillMaxWidth()
             .height(420.dp),
+        elevation = 8.dp
     ) {
         Column {
-            // invalidate these, should never make it to UI if these are missing
-            comic.thumbnail?.getFullUrl()?.also { url ->
-                ComicImage(url, modifier = Modifier.height(300.dp))
-            }
-            comic.title?.also {
-                ComicTitlePlate(it)
-            }
+            ComicImage(
+                url = comic.imageUrl,
+                modifier = Modifier.height(300.dp)
+            )
+            ComicTitlePlate(comic.title, comic.subtitle)
         }
     }
 }
 
 @Composable
-private fun ComicTitlePlate(title: String, modifier: Modifier = Modifier) {
+private fun ComicTitlePlate(title: String, subtitle: String?, modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(8.dp)
+            .padding(8.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         Text(
             text = title,
@@ -61,6 +61,14 @@ private fun ComicTitlePlate(title: String, modifier: Modifier = Modifier) {
             color = MaterialTheme.colors.onSurface,
             overflow = TextOverflow.Ellipsis
         )
+        subtitle?.also {
+            Text(
+                text = it,
+                style = MaterialTheme.typography.h6,
+                color = MaterialTheme.colors.onSurface,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
     }
 }
 
@@ -75,7 +83,7 @@ private fun ComicImage(url: String, modifier: Modifier = Modifier) {
             ),
             modifier = Modifier.align(Alignment.Center),
             component = rememberImageComponent {
-                + ShimmerPlugin()
+                +ShimmerPlugin()
             },
             failure = {
                 Text("Could not load image.")
@@ -86,7 +94,7 @@ private fun ComicImage(url: String, modifier: Modifier = Modifier) {
 
 @Preview
 @Composable
-fun ComicCardPreview(@PreviewParameter(ComicPreviewProvider::class) comic: NetworkComic) {
+fun ComicCardPreview(@PreviewParameter(ComicPreviewProvider::class) comic: Comic) {
     MarvelTheme {
         ComicCard(comic)
     }
