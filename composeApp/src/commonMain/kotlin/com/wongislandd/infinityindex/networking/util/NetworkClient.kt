@@ -47,7 +47,6 @@ abstract class NetworkClient(val httpClient: HttpClient) {
                     val data: T = response.body()
                     Resource.Success(data)
                 }
-
                 401 -> Resource.Error(NetworkError.UNAUTHORIZED)
                 404 -> Resource.Error(NetworkError.NOT_FOUND)
                 409 -> Resource.Error(NetworkError.CONFLICT)

@@ -9,7 +9,7 @@ import app.cash.paging.PagingState
 
 abstract class BasePagingSource<Value : Any> : PagingSource<Int, Value>() {
 
-    protected abstract suspend fun fetchData(start: Int, count: Int): Resource<PaginationItems<Value>>
+    protected abstract suspend fun fetchData(start: Int, count: Int): Resource<PaginationContextWrapper<Value>>
 
     override suspend fun load(params: PagingSourceLoadParams<Int>): PagingSourceLoadResult<Int, Value> {
         val start = params.key ?: 0
@@ -40,8 +40,6 @@ abstract class BasePagingSource<Value : Any> : PagingSource<Int, Value>() {
         }
     }
 
-    override fun getRefreshKey(state: PagingState<Int, Value>): Int? {
-        return state.anchorPosition
-    }
+    override fun getRefreshKey(state: PagingState<Int, Value>): Int? = null
 
 }

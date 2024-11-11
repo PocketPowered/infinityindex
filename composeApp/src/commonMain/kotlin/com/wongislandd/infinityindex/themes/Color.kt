@@ -14,12 +14,12 @@ val secondaryColor = Color(0xFFFFC107) // Marvel Gold (Iron Man's arc reactor)
 // Background color (darkish gray for dark theme, white for light theme)
 val backgroundColor
     @Composable
-    get() = if (isSystemInDarkTheme()) Color(0xFF121212) else Color(0xFFFFFFFF) // Dark gray for dark mode, white for light mode
+    get() = if (isSystemInDarkTheme()) Color(0xFF121212) else Color(0xFF121212) // Dark gray for dark mode, white for light mode
 
 // Text color (soft off-white/light gray for dark background, black for light theme)
 val textColor
     @Composable
-    get() = if (isSystemInDarkTheme()) Color(0xFFFFFFFF) else Color(0xFF000000) // Light gray for dark theme, black for light theme
+    get() = if (isSystemInDarkTheme()) Color(0xFFFFFFFF) else Color(0xFFFFFFFF) // Light gray for dark theme, black for light theme
 
 // Surface color (matches background color)
 val surfaceColor
@@ -41,7 +41,7 @@ val MarvelColors
     } else {
         lightColors(
             primary = primaryColor,
-            onPrimary = Color.Black, // Black text on dark red
+            onPrimary = Color.White, // Black text on dark red
             secondary = secondaryColor, // Marvel Gold for secondary color
             background = backgroundColor, // White background in light mode
             surface = surfaceColor, // Surface color matches background

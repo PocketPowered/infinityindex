@@ -1,7 +1,7 @@
 package com.wongislandd.infinityindex.di
 
-import com.wongislandd.infinityindex.comics.ComicsRepository
-import com.wongislandd.infinityindex.viewmodels.ComicsListViewModel
+import com.wongislandd.infinityindex.comics.data.ComicsRepository
+import com.wongislandd.infinityindex.comics.viewmodels.ComicsListViewModel
 import org.koin.compose.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module

@@ -6,8 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import coil3.annotation.ExperimentalCoilApi
-import com.wongislandd.infinityindex.composables.ComicsListScreen
+import com.wongislandd.infinityindex.comics.ui.ComicsListScreen
 import com.wongislandd.infinityindex.themes.MarvelTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.KoinContext

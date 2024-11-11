@@ -1,4 +1,4 @@
-package com.wongislandd.infinityindex.comics
+package com.wongislandd.infinityindex.comics.models
 
 import kotlinx.serialization.Serializable
 
