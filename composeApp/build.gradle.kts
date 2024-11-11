@@ -2,9 +2,7 @@ import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
-import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -111,6 +109,7 @@ kotlin {
             implementation(libs.koin.composeViewModel)
             implementation(libs.bundles.landscapist)
             implementation(libs.bundles.paging3)
+            implementation(libs.androidx.navigation)
         }
         nativeMain.dependencies {
             implementation(libs.ktor.client.darwin)
