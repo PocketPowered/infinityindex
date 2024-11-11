@@ -13,7 +13,7 @@ import org.koin.core.component.KoinComponent
 class ComicsPagingSource(
     private val comicsRepository: ComicsRepository,
     private val searchQuery: SearchQuery? = null,
-    private val sortOption: ComicsSortOption = ComicsSortOption.NONE
+    private val sortOption: ComicsSortOption
 ) : KoinComponent, BasePagingSource<NetworkComic>() {
 
     private val _isFetchingFirstPage: MutableStateFlow<Boolean> = MutableStateFlow(true)

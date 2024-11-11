@@ -9,6 +9,7 @@ import com.wongislandd.infinityindex.comics.data.ComicsPagingSource
 import com.wongislandd.infinityindex.comics.data.ComicsRepository
 import com.wongislandd.infinityindex.comics.models.ComicsSortOption
 import com.wongislandd.infinityindex.comics.models.NetworkComic
+import com.wongislandd.infinityindex.comics.util.ComicConstants
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -49,7 +50,7 @@ class ComicsListViewModel(private val comicsRepository: ComicsRepository) : View
     private val _screenState: MutableStateFlow<ComicsListScreenState> = MutableStateFlow(
         ComicsListScreenState(
             isLoading = true,
-            sortOption = ComicsSortOption.NONE,
+            sortOption = ComicConstants.DEFAULT_SORT_OPTION,
             searchState = SearchState(
                 searchQuery = SearchQuery("", SearchIntention.PENDING),
                 isSearchBoxVisible = false

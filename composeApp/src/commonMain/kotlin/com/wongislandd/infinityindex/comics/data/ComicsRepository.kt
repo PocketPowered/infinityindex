@@ -21,9 +21,7 @@ class ComicsRepository(okHttpClient: HttpClient) : NetworkClient(okHttpClient) {
             searchParam?.also { searchParam ->
                 parameter("titleStartsWith", searchParam)
             }
-            sortOption.sortKey?.also { sortKey ->
-                parameter("orderBy", sortKey)
-            }
+            parameter("orderBy", sortOption.sortKey)
         }
     }
 }

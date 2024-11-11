@@ -46,6 +46,7 @@ import app.cash.paging.compose.LazyPagingItems
 import app.cash.paging.compose.collectAsLazyPagingItems
 import com.wongislandd.infinityindex.comics.models.ComicsSortOption
 import com.wongislandd.infinityindex.comics.models.NetworkComic
+import com.wongislandd.infinityindex.comics.util.ComicConstants
 import com.wongislandd.infinityindex.comics.viewmodels.ComicsListViewModel
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -189,9 +190,13 @@ private fun ComicsSortSelection(
         ) {
             Icon(
                 imageVector = Icons.Default.Menu,
-                tint = if (currentSortSelection == ComicsSortOption.NONE) MaterialTheme.colors.onPrimary else MaterialTheme.colors.secondary,
+                tint = if (currentSortSelection == ComicConstants.DEFAULT_SORT_OPTION) {
+                    MaterialTheme.colors.onPrimary
+                } else {
+                    MaterialTheme.colors.secondary
+                },
                 contentDescription = "Sort",
-                modifier = Modifier.size(24.dp) // Adjust icon size if needed
+                modifier = Modifier.size(24.dp)
             )
         }
         DropdownMenu(
