@@ -12,11 +12,15 @@ class ComicsRepository(okHttpClient: HttpClient) : NetworkClient(okHttpClient) {
     suspend fun getAllComics(
         start: Int,
         count: Int,
+        searchParam: String?,
         sortOption: ComicsSortOption
     ): Resource<NetworkComicDataWrapper> {
         return get("public/comics") {
             parameter("offset", start)
             parameter("limit", count)
+            searchParam?.also { searchParam ->
+                parameter("titleStartsWith", searchParam)
+            }
             sortOption.sortKey?.also { sortKey ->
                 parameter("orderBy", sortKey)
             }

@@ -2,6 +2,7 @@ package com.wongislandd.infinityindex.comics.data
 
 import com.wongislandd.infinityindex.comics.models.ComicsSortOption
 import com.wongislandd.infinityindex.comics.models.NetworkComic
+import com.wongislandd.infinityindex.comics.viewmodels.SearchQuery
 import com.wongislandd.infinityindex.networking.util.BasePagingSource
 import com.wongislandd.infinityindex.networking.util.PaginationContextWrapper
 import com.wongislandd.infinityindex.networking.util.Resource
@@ -11,6 +12,7 @@ import org.koin.core.component.KoinComponent
 
 class ComicsPagingSource(
     private val comicsRepository: ComicsRepository,
+    private val searchQuery: SearchQuery? = null,
     private val sortOption: ComicsSortOption = ComicsSortOption.NONE
 ) : KoinComponent, BasePagingSource<NetworkComic>() {
 
@@ -21,7 +23,7 @@ class ComicsPagingSource(
         start: Int,
         count: Int
     ): Resource<PaginationContextWrapper<NetworkComic>> {
-        return comicsRepository.getAllComics(start, count, sortOption).also {
+        return comicsRepository.getAllComics(start, count, searchParam = searchQuery?.text, sortOption).also {
             _isFetchingFirstPage.value = false
         }.map { data ->
             PaginationContextWrapper(

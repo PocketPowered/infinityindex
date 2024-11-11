@@ -5,23 +5,34 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.ExposedDropdownMenuBox
-import androidx.compose.material.ExposedDropdownMenuDefaults
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
+import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -30,9 +41,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
@@ -55,16 +68,21 @@ import org.koin.core.annotation.KoinExperimentalAPI
 @Composable
 fun ComicsListScreen() {
     val viewModel = koinViewModel<ComicsListViewModel>()
-    val sortOption by viewModel.sortOption.collectAsState()
-    val isLoading by viewModel.isLoading.collectAsState()
-    val lazyPagingComics = viewModel.comicsResponse.collectAsLazyPagingItems()
-    Column(modifier = Modifier.fillMaxSize()) {
-        ComicsSortSelection(sortOption,
-            onSortSelected = { sortOption ->
-                viewModel.setSortOption(sortOption)
-            })
+    val screenState by viewModel.screenState.collectAsState()
+    val lazyPagingComics = screenState.pagingData.collectAsLazyPagingItems()
+    Scaffold(topBar = {
+        ComicsTopAppBar(
+            isSearchBarExpanded = screenState.searchState.isSearchBoxVisible,
+            currentSearchParam = screenState.searchState.searchQuery.text,
+            onSearchParamChanged = viewModel::setPendingSearchQuery,
+            onSearchParamSubmitted = viewModel::submitSearchQuery,
+            onSearchIconClicked = { viewModel.setSearchBoxVisibility(true) },
+            onSortSelected = viewModel::setSortOption,
+            currentSortSelection = screenState.sortOption,
+        )
+    }) {
         Box(modifier = Modifier.fillMaxSize()) {
-            if (isLoading) {
+            if (screenState.isLoading) {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
             } else {
                 ComicsList(lazyPagingComics)
@@ -73,7 +91,106 @@ fun ComicsListScreen() {
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
+@Composable
+private fun ComicsTopAppBar(
+    isSearchBarExpanded: Boolean,
+    onSearchIconClicked: () -> Unit,
+    currentSearchParam: String,
+    onSearchParamChanged: (String) -> Unit,
+    onSearchParamSubmitted: (String) -> Unit,
+    currentSortSelection: ComicsSortOption,
+    onSortSelected: (ComicsSortOption) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    TopAppBar(
+        title = {
+            if (!isSearchBarExpanded) {
+                Text("Marvel Comics", color = Color.White)
+            }
+        },
+        modifier = modifier,
+        actions = {
+            ExpandingSearch(
+                currentSearchParam = currentSearchParam,
+                onSearchParamChanged = onSearchParamChanged,
+                onSearchParamSubmitted = onSearchParamSubmitted,
+                onSearchIconClicked = onSearchIconClicked,
+                isExpanded = isSearchBarExpanded
+            )
+            ComicsSortSelection(currentSortSelection, onSortSelected)
+        }
+    )
+}
+
+@Composable
+private fun ExpandingSearch(
+    currentSearchParam: String,
+    onSearchParamChanged: (String) -> Unit,
+    onSearchParamSubmitted: (String) -> Unit,
+    onSearchIconClicked: () -> Unit,
+    isExpanded: Boolean,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.End,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        if (isExpanded) {
+            TextField(
+                value = currentSearchParam,
+                onValueChange = onSearchParamChanged,
+                placeholder = { Text("Search...") },
+                singleLine = true,
+                leadingIcon = {
+                    IconButton(onClick = { onSearchParamSubmitted("") }) {
+                        Icon(
+                            imageVector = Icons.Default.Close,
+                            contentDescription = "Clear Search",
+                            tint = Color.Black
+                        )
+                    }
+                },
+                trailingIcon = {
+                    IconButton(onClick = {
+                        onSearchParamSubmitted(currentSearchParam)
+                    }) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Default.ArrowForward,
+                            contentDescription = "Submit Search",
+                            tint = Color.Black
+                        )
+                    }
+                },
+                modifier = Modifier
+                    .padding(horizontal = 16.dp),
+                colors = TextFieldDefaults.textFieldColors(
+                    textColor = Color.Black,
+                    backgroundColor = Color.White,
+                    focusedIndicatorColor = Color.Gray,
+                    unfocusedIndicatorColor = Color.LightGray
+                ),
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    imeAction = ImeAction.Done
+                ),
+                keyboardActions = KeyboardActions(onDone = {
+                    onSearchParamSubmitted(
+                        currentSearchParam
+                    )
+                })
+            )
+        } else {
+            IconButton(onClick = onSearchIconClicked) {
+                Icon(
+                    imageVector = Icons.Default.Search,
+                    tint = if (currentSearchParam.isNotEmpty()) MaterialTheme.colors.secondary else Color.White,
+                    contentDescription = "Search"
+                )
+            }
+        }
+    }
+}
+
 @Composable
 private fun ComicsSortSelection(
     currentSortSelection: ComicsSortOption,
@@ -81,38 +198,38 @@ private fun ComicsSortSelection(
     modifier: Modifier = Modifier
 ) {
     var expanded by remember { mutableStateOf(false) }
-    Row(modifier = modifier.background(MaterialTheme.colors.surface)) {
-        Spacer(modifier = Modifier.weight(1f))
-        ExposedDropdownMenuBox(
-            expanded = expanded,
-            onExpandedChange = { expanded = !expanded },
+    Column(modifier = modifier) {
+        IconButton(
+            onClick = { expanded = true },
         ) {
-            TextField(
-                value = currentSortSelection.displayName,
-                onValueChange = {},
-                readOnly = true,
-                label = { Text("Sort by") },
-                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+            Icon(
+                imageVector = Icons.Default.Menu,
+                tint = if (currentSortSelection == ComicsSortOption.NONE) Color.White else MaterialTheme.colors.secondary,
+                contentDescription = "Sort",
+                modifier = Modifier.size(24.dp) // Adjust icon size if needed
             )
-            ExposedDropdownMenu(
-                expanded = expanded,
-                onDismissRequest = { expanded = false }
-            ) {
-                ComicsSortOption.entries.forEach { sortOption ->
-                    DropdownMenuItem(
-                        onClick = {
-                            expanded = false
-                            onSortSelected(sortOption)
-                        }
-                    ) {
-                        Text(text = sortOption.displayName)
+        }
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            ComicsSortOption.entries.forEach { sortOption ->
+                DropdownMenuItem(
+                    onClick = {
+                        expanded = false
+                        onSortSelected(sortOption)
                     }
+                ) {
+                    Text(
+                        text = sortOption.displayName, color = if (currentSortSelection
+                            == sortOption
+                        ) MaterialTheme.colors.primary else Color.Unspecified
+                    )
                 }
             }
         }
     }
 }
-
 
 @Composable
 private fun ComicsList(
@@ -159,7 +276,7 @@ private fun ComicsList(
 @Composable
 private fun ComicCard(comic: NetworkComic, modifier: Modifier = Modifier) {
     Card(
-        modifier = modifier.fillMaxWidth().height(500.dp),
+        modifier = modifier.fillMaxWidth().height(420.dp),
     ) {
         Column {
 //            // invalidate these, should never make it to UI if these are missing
