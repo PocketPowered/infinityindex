@@ -6,8 +6,8 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.wongislandd.infinityindex.comics.details.ui.ComicDetailsScreen
-import com.wongislandd.infinityindex.comics.list.ui.ComicsListScreen
+import com.wongislandd.infinityindex.pillars.comics.details.ui.ComicDetailsScreen
+import com.wongislandd.infinityindex.pillars.comics.list.ui.ComicsListScreen
 
 @Composable
 fun AppNavHost(

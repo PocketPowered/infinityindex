@@ -1,10 +1,10 @@
 package com.wongislandd.infinityindex.di
 
-import com.wongislandd.infinityindex.comics.details.di.comicDetailsModule
-import com.wongislandd.infinityindex.comics.di.comicsModule
-import com.wongislandd.infinityindex.comics.list.di.comicsListModule
-import com.wongislandd.infinityindex.comics.list.transformers.DateTransformer
-import com.wongislandd.infinityindex.comics.list.transformers.ImageUrlTransformer
+import com.wongislandd.infinityindex.pillars.comics.details.di.comicDetailsModule
+import com.wongislandd.infinityindex.pillars.comics.di.comicsModule
+import com.wongislandd.infinityindex.pillars.comics.list.di.comicsListModule
+import com.wongislandd.infinityindex.pillars.comics.list.transformers.DateTransformer
+import com.wongislandd.infinityindex.pillars.comics.list.transformers.ImageUrlTransformer
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
