@@ -22,5 +22,5 @@ data class ComicsListScreenState(
     val isLoading: Boolean,
     val sortOption: ComicsSortOption,
     val searchState: SearchState,
-    val pagingData: StateFlow<PagingData<Comic>>
+    val pagingData: StateFlow<PagingData<BasicComic>>
 )

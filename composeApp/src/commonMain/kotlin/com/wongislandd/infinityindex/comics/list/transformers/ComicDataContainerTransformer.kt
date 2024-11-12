@@ -5,11 +5,13 @@ import com.wongislandd.infinityindex.comics.list.models.NetworkComicDataContaine
 import com.wongislandd.infinityindex.util.Transformer
 import com.wongislandd.infinityindex.util.safeLet
 
-class ComicDataContainerTransformer(private val comicTransformer: ComicTransformer) :
+class ComicDataContainerTransformer(
+    private val basicComicTransformer: BasicComicTransformer
+) :
     Transformer<NetworkComicDataContainer, ComicDataContainer> {
     override fun transform(input: NetworkComicDataContainer): ComicDataContainer? {
         val transformedResults = input.results?.mapNotNull {
-            comicTransformer.transform(it)
+            basicComicTransformer.transform(it)
         } ?: emptyList()
         return safeLet(
             input.offset,

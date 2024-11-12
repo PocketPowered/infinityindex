@@ -5,9 +5,9 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import app.cash.paging.Pager
 import app.cash.paging.PagingConfig
-import com.wongislandd.infinityindex.comics.list.data.ComicsPagingSource
-import com.wongislandd.infinityindex.comics.list.data.ComicsRepository
-import com.wongislandd.infinityindex.comics.list.models.Comic
+import com.wongislandd.infinityindex.comics.list.data.ComicsListPagingSource
+import com.wongislandd.infinityindex.comics.ComicsRepository
+import com.wongislandd.infinityindex.comics.list.models.BasicComic
 import com.wongislandd.infinityindex.comics.list.models.ComicsListScreenState
 import com.wongislandd.infinityindex.comics.list.models.ComicsSortOption
 import com.wongislandd.infinityindex.comics.list.models.SearchIntention
@@ -24,7 +24,7 @@ import kotlinx.coroutines.launch
 
 class ComicsListViewModel(private val comicsRepository: ComicsRepository) : ViewModel() {
 
-    private val pagingData: MutableStateFlow<PagingData<Comic>> =
+    private val pagingData: MutableStateFlow<PagingData<BasicComic>> =
         MutableStateFlow(PagingData.empty())
 
     // screen state
@@ -41,7 +41,7 @@ class ComicsListViewModel(private val comicsRepository: ComicsRepository) : View
     )
     val screenState = _screenState.asStateFlow()
 
-    private var currentPagingSource: ComicsPagingSource? = null
+    private var currentPagingSource: ComicsListPagingSource? = null
     private var currentRefreshWatcherJob: Job? = null
 
     init {
@@ -54,7 +54,7 @@ class ComicsListViewModel(private val comicsRepository: ComicsRepository) : View
                     prefetchDistance = 10
                 )
             ) {
-                val newPagingSource = ComicsPagingSource(
+                val newPagingSource = ComicsListPagingSource(
                     comicsRepository = comicsRepository,
                     searchQuery = if (_screenState.value.searchState.searchQuery.isQueryable()) {
                         _screenState.value.searchState.searchQuery

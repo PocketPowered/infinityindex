@@ -1,6 +1,7 @@
 package com.wongislandd.infinityindex.comics.list.data
 
-import com.wongislandd.infinityindex.comics.list.models.Comic
+import com.wongislandd.infinityindex.comics.ComicsRepository
+import com.wongislandd.infinityindex.comics.list.models.BasicComic
 import com.wongislandd.infinityindex.comics.list.models.ComicsSortOption
 import com.wongislandd.infinityindex.comics.list.models.SearchQuery
 import com.wongislandd.infinityindex.networking.util.BasePagingSource
@@ -10,11 +11,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import org.koin.core.component.KoinComponent
 
-class ComicsPagingSource(
+class ComicsListPagingSource(
     private val comicsRepository: ComicsRepository,
     private val searchQuery: SearchQuery? = null,
     private val sortOption: ComicsSortOption
-) : KoinComponent, BasePagingSource<Comic>() {
+) : KoinComponent, BasePagingSource<BasicComic>() {
 
     private val _isFetchingFirstPage: MutableStateFlow<Boolean> = MutableStateFlow(true)
     val isFetchingFirstPage: StateFlow<Boolean> = _isFetchingFirstPage
@@ -22,7 +23,7 @@ class ComicsPagingSource(
     override suspend fun fetchData(
         start: Int,
         count: Int
-    ): Resource<PaginationContextWrapper<Comic>> {
+    ): Resource<PaginationContextWrapper<BasicComic>> {
         return comicsRepository.getAllComics(
             start,
             count,

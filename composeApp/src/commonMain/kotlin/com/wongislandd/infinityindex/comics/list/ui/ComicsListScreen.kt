@@ -45,7 +45,7 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import app.cash.paging.compose.LazyPagingItems
 import app.cash.paging.compose.collectAsLazyPagingItems
-import com.wongislandd.infinityindex.comics.list.models.Comic
+import com.wongislandd.infinityindex.comics.list.models.BasicComic
 import com.wongislandd.infinityindex.comics.list.models.ComicsSortOption
 import com.wongislandd.infinityindex.comics.util.ComicConstants
 import com.wongislandd.infinityindex.comics.list.viewmodels.ComicsListViewModel
@@ -225,7 +225,7 @@ private fun ComicsSortSelection(
 
 @Composable
 private fun ComicsList(
-    pagedComics: LazyPagingItems<Comic>,
+    pagedComics: LazyPagingItems<BasicComic>,
     modifier: Modifier = Modifier
 ) {
     LazyVerticalGrid(

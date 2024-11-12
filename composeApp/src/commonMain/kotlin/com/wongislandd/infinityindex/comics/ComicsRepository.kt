@@ -1,5 +1,6 @@
-package com.wongislandd.infinityindex.comics.list.data
+package com.wongislandd.infinityindex.comics
 
+import com.wongislandd.infinityindex.comics.list.models.BasicComic
 import com.wongislandd.infinityindex.comics.list.models.ComicDataWrapper
 import com.wongislandd.infinityindex.comics.list.models.ComicsSortOption
 import com.wongislandd.infinityindex.comics.list.models.NetworkComicDataWrapper
@@ -33,8 +34,10 @@ class ComicsRepository(
 
     suspend fun getComic(
         comicId: Int
-    ): Resource<ComicDataWrapper> {
+    ): Resource<BasicComic> {
         val response: Resource<NetworkComicDataWrapper> = get<NetworkComicDataWrapper>("public/comics/$comicId")
-        return response.map { comicDataWrapperTransformer.transform(it) }
+        return response.map { comicDataWrapperTransformer.transform(it) }.map {
+            it.data.results.firstOrNull()
+        }
     }
 }

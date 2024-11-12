@@ -22,26 +22,26 @@ import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil3.CoilImage
 import com.skydoves.landscapist.components.rememberImageComponent
 import com.skydoves.landscapist.placeholder.shimmer.ShimmerPlugin
-import com.wongislandd.infinityindex.comics.list.models.Comic
+import com.wongislandd.infinityindex.comics.list.models.BasicComic
 import com.wongislandd.infinityindex.themes.MarvelTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.compose.ui.tooling.preview.PreviewParameter
 
 @Composable
-fun ComicCard(comic: Comic, modifier: Modifier = Modifier) {
+fun ComicCard(basicComic: BasicComic, modifier: Modifier = Modifier) {
     Card(
         modifier = modifier
             .background(MaterialTheme.colors.surface)
             .fillMaxWidth()
-            .height(420.dp),
+            .height(460.dp),
         elevation = 8.dp
     ) {
         Column {
             ComicImage(
-                url = comic.imageUrl,
+                url = basicComic.imageUrl,
                 modifier = Modifier.height(300.dp)
             )
-            ComicTitlePlate(comic.title, comic.subtitle)
+            ComicTitlePlate(basicComic.title, basicComic.subtitle)
         }
     }
 }
@@ -94,8 +94,8 @@ private fun ComicImage(url: String, modifier: Modifier = Modifier) {
 
 @Preview
 @Composable
-fun ComicCardPreview(@PreviewParameter(ComicPreviewProvider::class) comic: Comic) {
+fun ComicCardPreview(@PreviewParameter(ComicPreviewProvider::class) basicComic: BasicComic) {
     MarvelTheme {
-        ComicCard(comic)
+        ComicCard(basicComic)
     }
 }

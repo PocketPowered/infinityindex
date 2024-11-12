@@ -1,21 +1,21 @@
 package com.wongislandd.infinityindex.comics.list.transformers
 
-import com.wongislandd.infinityindex.comics.list.models.Comic
+import com.wongislandd.infinityindex.comics.list.models.BasicComic
 import com.wongislandd.infinityindex.comics.list.models.NetworkComic
 import com.wongislandd.infinityindex.util.Transformer
 import com.wongislandd.infinityindex.util.safeLet
 
-class ComicTransformer(
+class BasicComicTransformer(
     private val dateTransformer: DateTransformer,
     private val imageUrlTransformer: ImageUrlTransformer
-) : Transformer<NetworkComic, Comic> {
+) : Transformer<NetworkComic, BasicComic> {
 
-    override fun transform(input: NetworkComic): Comic? {
+    override fun transform(input: NetworkComic): BasicComic? {
         return safeLet(
             input.thumbnail,
             input.title,
         ) { thumbnail, title ->
-            Comic(
+            BasicComic(
                 imageUrl = imageUrlTransformer.transform(thumbnail),
                 title = title,
 //                subtitle = dateTransformer.transform(lastModifiedDate)

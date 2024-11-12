@@ -5,5 +5,5 @@ data class ComicDataContainer(
     val limit: Int,
     val total: Int,
     val count: Int,
-    val results: List<Comic>
+    val results: List<BasicComic>
 )
