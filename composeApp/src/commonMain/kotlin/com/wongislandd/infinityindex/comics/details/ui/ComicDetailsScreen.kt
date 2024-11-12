@@ -38,9 +38,9 @@ fun ComicDetailsScreen(
 ) {
     val viewModel = koinViewModel<ComicDetailsViewModel>()
     LaunchedEffect(Unit) {
-        viewModel.initialize(comicId)
+        viewModel.uiEventBus.sendEvent(ComicDetailsUiEvent.PageInitialized(comicId))
     }
-    val screenState by viewModel.screenState.collectAsState()
+    val screenState by viewModel.comicDetailsScreenStateSlice.screenState.collectAsState()
     Scaffold(topBar = {
         GlobalTopAppBar()
     }) {
