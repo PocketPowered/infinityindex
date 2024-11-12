@@ -20,6 +20,7 @@ class DetailedComicTransformer(
         ) { thumbnail, title ->
             DetailedComic(
                 title = title,
+                imageUrl = imageUrlTransformer.transform(thumbnail),
             )
         }
     }

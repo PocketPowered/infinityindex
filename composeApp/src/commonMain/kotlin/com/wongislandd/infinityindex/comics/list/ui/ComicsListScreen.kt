@@ -87,31 +87,6 @@ fun ComicsListScreen() {
 }
 
 @Composable
-private fun ComicsTopAppBar(
-    isSearchBarExpanded: Boolean,
-    onSearchIconClicked: () -> Unit,
-    currentSearchParam: String,
-    onSearchParamChanged: (String) -> Unit,
-    onSearchParamSubmitted: (String) -> Unit,
-    currentSortSelection: ComicsSortOption,
-    onSortSelected: (ComicsSortOption) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    TopAppBar(
-        title = {
-            if (!isSearchBarExpanded) {
-                Text("Marvel Comics", color = MaterialTheme.colors.onPrimary)
-            }
-        },
-        modifier = modifier,
-        actions = {
-
-        },
-        backgroundColor = MaterialTheme.colors.primary
-    )
-}
-
-@Composable
 private fun ExpandingSearch(
     currentSearchParam: String,
     onSearchParamChanged: (String) -> Unit,
@@ -236,7 +211,9 @@ private fun ComicsList(
             .fillMaxSize()
     ) {
 
-        items(pagedComics.itemCount) { index ->
+        items(pagedComics.itemCount, key= { index ->
+            pagedComics[index]?.id ?: index
+        }) { index ->
             pagedComics[index]?.let { comic ->
                 ComicCard(comic)
             }

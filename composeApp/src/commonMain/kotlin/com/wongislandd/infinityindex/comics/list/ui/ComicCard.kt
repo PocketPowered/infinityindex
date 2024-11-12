@@ -46,7 +46,7 @@ fun ComicCard(basicComic: BasicComic, modifier: Modifier = Modifier) {
         elevation = 8.dp
     ) {
         Column {
-            ComicImage(
+            ComicListImage(
                 url = basicComic.imageUrl,
                 modifier = Modifier.height(300.dp)
             )
@@ -82,7 +82,7 @@ private fun ComicTitlePlate(title: String, subtitle: String?, modifier: Modifier
 }
 
 @Composable
-private fun ComicImage(url: String, modifier: Modifier = Modifier) {
+private fun ComicListImage(url: String, modifier: Modifier = Modifier) {
     Box(modifier = modifier.background(Color.Black).fillMaxWidth()) {
         CoilImage(
             imageModel = { url },
