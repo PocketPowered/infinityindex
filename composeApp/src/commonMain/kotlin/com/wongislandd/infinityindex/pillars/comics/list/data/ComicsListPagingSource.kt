@@ -3,7 +3,7 @@ package com.wongislandd.infinityindex.pillars.comics.list.data
 import com.wongislandd.infinityindex.networking.util.BasePagingSource
 import com.wongislandd.infinityindex.networking.util.PaginationContextWrapper
 import com.wongislandd.infinityindex.networking.util.Resource
-import com.wongislandd.infinityindex.pillars.comics.ComicsRepository
+import com.wongislandd.infinityindex.pillars.comics.details.data.ComicsRepository
 import com.wongislandd.infinityindex.pillars.comics.list.models.BasicComic
 import com.wongislandd.infinityindex.pillars.comics.list.models.ComicsSortOption
 import com.wongislandd.infinityindex.pillars.comics.list.models.SearchQuery

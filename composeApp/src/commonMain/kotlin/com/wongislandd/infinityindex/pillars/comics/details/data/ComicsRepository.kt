@@ -1,4 +1,4 @@
-package com.wongislandd.infinityindex.pillars.comics
+package com.wongislandd.infinityindex.pillars.comics.details.data
 
 import com.wongislandd.infinityindex.networking.util.NetworkClient
 import com.wongislandd.infinityindex.networking.util.Resource

@@ -6,7 +6,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import app.cash.paging.Pager
 import app.cash.paging.PagingConfig
-import com.wongislandd.infinityindex.pillars.comics.ComicsRepository
+import com.wongislandd.infinityindex.pillars.comics.details.data.ComicsRepository
 import com.wongislandd.infinityindex.pillars.comics.list.data.ComicsListPagingSource
 import com.wongislandd.infinityindex.pillars.comics.list.models.BasicComic
 import com.wongislandd.infinityindex.pillars.comics.list.models.ComicsListScreenState
