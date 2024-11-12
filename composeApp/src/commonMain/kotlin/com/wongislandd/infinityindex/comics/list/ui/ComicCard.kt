@@ -1,6 +1,7 @@
 package com.wongislandd.infinityindex.comics.list.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,17 +24,25 @@ import com.skydoves.landscapist.coil3.CoilImage
 import com.skydoves.landscapist.components.rememberImageComponent
 import com.skydoves.landscapist.placeholder.shimmer.ShimmerPlugin
 import com.wongislandd.infinityindex.comics.list.models.BasicComic
+import com.wongislandd.infinityindex.navigation.LocalNavHostController
+import com.wongislandd.infinityindex.navigation.RouteHelper
 import com.wongislandd.infinityindex.themes.MarvelTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.compose.ui.tooling.preview.PreviewParameter
 
 @Composable
 fun ComicCard(basicComic: BasicComic, modifier: Modifier = Modifier) {
+    val navController = LocalNavHostController.current
     Card(
         modifier = modifier
             .background(MaterialTheme.colors.surface)
             .fillMaxWidth()
-            .height(460.dp),
+            .height(460.dp)
+            .clickable {
+                navController.navigate(RouteHelper.getComicDetailsRouteForId(
+                    basicComic.id
+                ))
+            },
         elevation = 8.dp
     ) {
         Column {

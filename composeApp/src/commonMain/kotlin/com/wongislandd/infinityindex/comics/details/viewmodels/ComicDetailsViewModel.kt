@@ -9,18 +9,26 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class ComicDetailsViewModel(
-    private val comicId: Int,
     private val comicsRepository: ComicsRepository
 ) : ViewModel() {
+
     private val _screenState: MutableStateFlow<ComicDetailsScreenState> =
-        MutableStateFlow(ComicDetailsScreenState(comicId))
+        MutableStateFlow(ComicDetailsScreenState())
 
     val screenState: StateFlow<ComicDetailsScreenState> = _screenState
 
-    init {
+    fun initialize(comicId: Int) {
+        if (_screenState.value.comicId == comicId) {
+            return
+        }
+        _screenState.value = _screenState.value.copy(comicId = comicId)
+        loadComicDetails(comicId)
+    }
+
+    private fun loadComicDetails(comicId: Int) {
         viewModelScope.launch {
-            // Fetch comic details
             val comic = comicsRepository.getComic(comicId)
+            _screenState.value = screenState.value.copy(detailedComicRes = comic)
         }
     }
 }

@@ -7,13 +7,14 @@ import com.wongislandd.infinityindex.comics.list.transformers.DateTransformer
 import com.wongislandd.infinityindex.comics.list.transformers.ImageUrlTransformer
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 expect val platformModule: Module
 
 val appModule = module {
-    single<ImageUrlTransformer> { ImageUrlTransformer() }
-    single<DateTransformer> { DateTransformer() }
+    singleOf(::ImageUrlTransformer)
+    singleOf(::DateTransformer)
 }
 
 fun initializeKoin() {

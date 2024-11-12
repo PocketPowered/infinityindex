@@ -45,6 +45,7 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import app.cash.paging.compose.LazyPagingItems
 import app.cash.paging.compose.collectAsLazyPagingItems
+import com.wongislandd.infinityindex.GlobalTopAppBar
 import com.wongislandd.infinityindex.comics.list.models.BasicComic
 import com.wongislandd.infinityindex.comics.list.models.ComicsSortOption
 import com.wongislandd.infinityindex.comics.util.ComicConstants
@@ -60,14 +61,19 @@ fun ComicsListScreen() {
     val screenState by viewModel.screenState.collectAsState()
     val lazyPagingComics = screenState.pagingData.collectAsLazyPagingItems()
     Scaffold(topBar = {
-        ComicsTopAppBar(
-            isSearchBarExpanded = screenState.searchState.isSearchBoxVisible,
-            currentSearchParam = screenState.searchState.searchQuery.text,
-            onSearchParamChanged = viewModel::setPendingSearchQuery,
-            onSearchParamSubmitted = viewModel::submitSearchQuery,
-            onSearchIconClicked = { viewModel.setSearchBoxVisibility(true) },
-            onSortSelected = viewModel::setSortOption,
-            currentSortSelection = screenState.sortOption,
+        GlobalTopAppBar(
+            isTitleShown = !screenState.searchState.isSearchBoxVisible,
+            showBackButton = false,
+            actions = {
+                ExpandingSearch(
+                    isExpanded = screenState.searchState.isSearchBoxVisible,
+                    currentSearchParam = screenState.searchState.searchQuery.text,
+                    onSearchParamChanged = viewModel::setPendingSearchQuery,
+                    onSearchParamSubmitted = viewModel::submitSearchQuery,
+                    onSearchIconClicked = { viewModel.setSearchBoxVisibility(true) },
+                )
+                ComicsSortSelection(screenState.sortOption, viewModel::setSortOption)
+            }
         )
     }) {
         Box(modifier = Modifier.fillMaxSize()) {
@@ -99,14 +105,7 @@ private fun ComicsTopAppBar(
         },
         modifier = modifier,
         actions = {
-            ExpandingSearch(
-                currentSearchParam = currentSearchParam,
-                onSearchParamChanged = onSearchParamChanged,
-                onSearchParamSubmitted = onSearchParamSubmitted,
-                onSearchIconClicked = onSearchIconClicked,
-                isExpanded = isSearchBarExpanded
-            )
-            ComicsSortSelection(currentSortSelection, onSortSelected)
+
         },
         backgroundColor = MaterialTheme.colors.primary
     )
@@ -256,9 +255,11 @@ private fun ComicsList(
                                 modifier = Modifier.align(Alignment.Center)
                             )
                         }
+
                         loadState.refresh is LoadState.Error || loadState.append is LoadState.Error -> {
                             Text(text = "Error")
                         }
+
                         loadState.refresh is LoadState.NotLoading && loadState.append.endOfPaginationReached && itemCount == 0 -> {
                             Text(text = "No results found")
                         }

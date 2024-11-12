@@ -1,20 +1,20 @@
 package com.wongislandd.infinityindex.comics.list.transformers
 
-import com.wongislandd.infinityindex.comics.list.models.ComicDataWrapper
+import com.wongislandd.infinityindex.comics.list.models.BasicComicDataWrapper
 import com.wongislandd.infinityindex.comics.list.models.NetworkComicDataWrapper
 import com.wongislandd.infinityindex.util.Transformer
 import com.wongislandd.infinityindex.util.safeLet
 
-class ComicDataWrapperTransformer(
-    private val comicDataContainerTransformer: ComicDataContainerTransformer
-): Transformer<NetworkComicDataWrapper, ComicDataWrapper> {
+class BasicComicDataWrapperTransformer(
+    private val basicComicDataContainerTransformer: BasicComicDataContainerTransformer
+): Transformer<NetworkComicDataWrapper, BasicComicDataWrapper> {
 
-    override fun transform(input: NetworkComicDataWrapper): ComicDataWrapper? {
+    override fun transform(input: NetworkComicDataWrapper): BasicComicDataWrapper? {
         val transformedData = input.data?.let {
-            comicDataContainerTransformer.transform(it)
+            basicComicDataContainerTransformer.transform(it)
         }
         return safeLet(input.code, input.status, transformedData) { code, status, data ->
-            ComicDataWrapper(
+            BasicComicDataWrapper(
                 code = code,
                 status = status,
                 data = data

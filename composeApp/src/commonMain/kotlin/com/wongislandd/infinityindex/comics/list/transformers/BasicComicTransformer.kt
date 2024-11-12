@@ -12,10 +12,12 @@ class BasicComicTransformer(
 
     override fun transform(input: NetworkComic): BasicComic? {
         return safeLet(
+            input.id,
             input.thumbnail,
             input.title,
-        ) { thumbnail, title ->
+        ) { id, thumbnail, title ->
             BasicComic(
+                id = id,
                 imageUrl = imageUrlTransformer.transform(thumbnail),
                 title = title,
 //                subtitle = dateTransformer.transform(lastModifiedDate)

@@ -1,15 +1,14 @@
 package com.wongislandd.infinityindex.comics.list.transformers
 
-import com.wongislandd.infinityindex.comics.list.models.ComicDataContainer
+import com.wongislandd.infinityindex.comics.list.models.BasicComicDataContainer
 import com.wongislandd.infinityindex.comics.list.models.NetworkComicDataContainer
 import com.wongislandd.infinityindex.util.Transformer
 import com.wongislandd.infinityindex.util.safeLet
 
-class ComicDataContainerTransformer(
+class BasicComicDataContainerTransformer(
     private val basicComicTransformer: BasicComicTransformer
-) :
-    Transformer<NetworkComicDataContainer, ComicDataContainer> {
-    override fun transform(input: NetworkComicDataContainer): ComicDataContainer? {
+) : Transformer<NetworkComicDataContainer, BasicComicDataContainer> {
+    override fun transform(input: NetworkComicDataContainer): BasicComicDataContainer? {
         val transformedResults = input.results?.mapNotNull {
             basicComicTransformer.transform(it)
         } ?: emptyList()
@@ -19,7 +18,7 @@ class ComicDataContainerTransformer(
             input.total,
             input.count,
         ) { offset, limit, total, count ->
-            ComicDataContainer(
+            BasicComicDataContainer(
                 offset = offset,
                 limit = limit,
                 total = total,

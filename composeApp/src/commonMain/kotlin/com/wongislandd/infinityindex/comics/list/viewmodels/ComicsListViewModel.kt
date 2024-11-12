@@ -3,6 +3,7 @@ package com.wongislandd.infinityindex.comics.list.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import app.cash.paging.Pager
 import app.cash.paging.PagingConfig
 import com.wongislandd.infinityindex.comics.list.data.ComicsListPagingSource
@@ -71,7 +72,7 @@ class ComicsListViewModel(private val comicsRepository: ComicsRepository) : View
                     }
                 }
                 newPagingSource
-            }.flow.collectLatest {
+            }.flow.cachedIn(viewModelScope).collectLatest {
                 pagingData.value = it
             }
         }

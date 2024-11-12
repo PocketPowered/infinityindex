@@ -1,7 +1,7 @@
 package com.wongislandd.infinityindex.comics.list.models
 
-data class ComicDataWrapper(
+data class BasicComicDataWrapper(
     val code: Int?,
     val status: String?,
-    val data: ComicDataContainer,
+    val data: BasicComicDataContainer,
 )
