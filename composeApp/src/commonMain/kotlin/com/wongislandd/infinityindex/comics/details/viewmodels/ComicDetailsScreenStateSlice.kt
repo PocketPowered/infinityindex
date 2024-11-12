@@ -6,7 +6,7 @@ import com.wongislandd.infinityindex.util.events.BackChannelEvent
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-class ComicDetailsScreenStateSlice : ViewModelSlice() {
+class ComicDetailsScreenStateSlice: ViewModelSlice() {
     private val _screenState: MutableStateFlow<ComicDetailsScreenState> =
         MutableStateFlow(ComicDetailsScreenState())
 
