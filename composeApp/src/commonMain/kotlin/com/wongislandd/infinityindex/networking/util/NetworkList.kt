@@ -9,3 +9,5 @@ data class NetworkList<T>(
     val collectionURI: String?,
     val items: List<T>?
 )
+
+fun <T> NetworkList<T>?.hasItems(): Boolean = this?.items?.isNotEmpty() ?: false

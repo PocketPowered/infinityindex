@@ -17,5 +17,9 @@ data class Comic(
     val diamondCode: String?,
     val ean: String?,
     val issn: String?,
-    val format: String?
+    val format: String?,
+    val hasEvents: Boolean,
+    val hasStories: Boolean,
+    val hasCharacters: Boolean,
+    val hasCreators: Boolean
 )

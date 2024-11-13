@@ -4,6 +4,7 @@ import com.wongislandd.infinityindex.util.DataWrapperTransformer
 import com.wongislandd.infinityindex.pillars.comics.details.models.Comic
 import com.wongislandd.infinityindex.pillars.comics.list.models.NetworkComic
 import com.wongislandd.infinityindex.networking.util.ImageUrlTransformer
+import com.wongislandd.infinityindex.networking.util.hasItems
 import com.wongislandd.infinityindex.util.safeLet
 
 class DetailedComicTransformer(
@@ -50,7 +51,11 @@ class DetailedComicTransformer(
                 diamondCode = input.diamondCode.dropIfEmpty(),
                 ean = input.ean.dropIfEmpty(),
                 issn = input.issn.dropIfEmpty(),
-                format = input.format.dropIfEmpty()
+                format = input.format.dropIfEmpty(),
+                hasEvents = input.events.hasItems(),
+                hasStories = input.stories.hasItems(),
+                hasCharacters = input.characters.hasItems(),
+                hasCreators = input.creators.hasItems()
             )
         }
     }
