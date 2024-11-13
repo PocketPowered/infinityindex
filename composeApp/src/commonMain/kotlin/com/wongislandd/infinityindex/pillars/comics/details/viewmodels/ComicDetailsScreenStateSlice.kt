@@ -15,7 +15,7 @@ class ComicDetailsScreenStateSlice: ViewModelSlice() {
     override fun handleBackChannelEvent(event: BackChannelEvent) {
         when (event) {
             is ComicDetailsBackChannelEvent.DetailedComicsResUpdate -> {
-                _screenState.value = _screenState.value.copy(detailedComicRes = event.update)
+                _screenState.value = _screenState.value.copy(comicRes = event.update)
             }
         }
     }

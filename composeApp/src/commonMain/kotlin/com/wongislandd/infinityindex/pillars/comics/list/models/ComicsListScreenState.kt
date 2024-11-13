@@ -1,6 +1,7 @@
 package com.wongislandd.infinityindex.pillars.comics.list.models
 
 import androidx.paging.PagingData
+import com.wongislandd.infinityindex.pillars.comics.details.models.Comic
 import kotlinx.coroutines.flow.StateFlow
 
 enum class SearchIntention {
@@ -22,5 +23,5 @@ data class ComicsListScreenState(
     val isLoading: Boolean,
     val sortOption: ComicsSortOption,
     val searchState: SearchState,
-    val pagingData: StateFlow<PagingData<BasicComic>>
+    val pagingData: StateFlow<PagingData<Comic>>
 )

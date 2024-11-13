@@ -1,7 +1,9 @@
 package com.wongislandd.infinityindex.pillars.comics.list.models
 
+import com.wongislandd.infinityindex.networking.util.NetworkImage
 import com.wongislandd.infinityindex.networking.util.NetworkList
 import com.wongislandd.infinityindex.networking.util.NetworkSummary
+import com.wongislandd.infinityindex.networking.util.NetworkUrl
 import com.wongislandd.infinityindex.networking.util.TypedNetworkSummary
 import kotlinx.serialization.Serializable
 
@@ -46,12 +48,6 @@ data class NetworkTextObject(
 )
 
 @Serializable
-data class NetworkUrl(
-    val type: String?,
-    val url: String?
-)
-
-@Serializable
 data class NetworkComicDate(
     val type: String?,
     val date: String?
@@ -62,89 +58,6 @@ data class NetworkComicPrice(
     val type: String?,
     val price: Float?
 )
-
-@Serializable
-data class NetworkImage(
-    val path: String?,
-    val extension: String?
-)
-
-@Serializable
-data class NetworkCharacterList(
-    val available: Int?,
-    val returned: Int?,
-    val collectionURI: String?,
-    val items: List<NetworkCharacterSummary>?
-)
-
-@Serializable
-data class NetworkCreatorList(
-    val available: Int?,
-    val returned: Int?,
-    val collectionURI: String?,
-    val items: List<NetworkCreatorSummary>?
-)
-
-
-@Serializable
-data class NetworkStoryList(
-    val available: Int?,
-    val returned: Int?,
-    val collectionURI: String?,
-    val items: List<NetworkStorySummary>?
-)
-
-
-@Serializable
-data class NetworkEventList(
-    val available: Int?,
-    val returned: Int?,
-    val collectionURI: String?,
-    val items: List<NetworkEventSummary>?
-)
-
-
-
-@Serializable
-data class NetworkCharacterSummary(
-    val resourceURI: String?,
-    val name: String?,
-    val role: String?
-)
-
-@Serializable
-data class NetworkStorySummary(
-    val resourceURI: String?,
-    val name: String?,
-    val type: String?
-)
-
-@Serializable
-data class NetworkEventSummary(
-    val resourceURI: String?,
-    val name: String?
-)
-
-
-@Serializable
-data class NetworkCreatorSummary(
-    val resourceURI: String?,
-    val name: String?,
-    val role: String?
-)
-
-@Serializable
-data class NetworkSeriesSummary(
-    val resourceURI: String?,
-    val name: String?
-)
-
-@Serializable
-data class NetworkComicSummary(
-    val resourceURI: String?,
-    val name: String?
-)
-
 
 
 

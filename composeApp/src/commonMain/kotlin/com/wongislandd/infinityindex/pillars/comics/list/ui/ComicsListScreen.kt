@@ -25,7 +25,6 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Close
@@ -46,10 +45,10 @@ import androidx.paging.LoadState
 import app.cash.paging.compose.LazyPagingItems
 import app.cash.paging.compose.collectAsLazyPagingItems
 import com.wongislandd.infinityindex.GlobalTopAppBar
-import com.wongislandd.infinityindex.pillars.comics.list.models.BasicComic
+import com.wongislandd.infinityindex.pillars.comics.details.models.Comic
 import com.wongislandd.infinityindex.pillars.comics.list.models.ComicsSortOption
-import com.wongislandd.infinityindex.pillars.comics.util.ComicConstants
 import com.wongislandd.infinityindex.pillars.comics.list.viewmodels.ComicsListViewModel
+import com.wongislandd.infinityindex.pillars.comics.util.ComicConstants
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 
@@ -199,7 +198,7 @@ private fun ComicsSortSelection(
 
 @Composable
 private fun ComicsList(
-    pagedComics: LazyPagingItems<BasicComic>,
+    pagedComics: LazyPagingItems<Comic>,
     modifier: Modifier = Modifier
 ) {
     LazyVerticalGrid(

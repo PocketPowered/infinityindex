@@ -7,8 +7,8 @@ import androidx.paging.cachedIn
 import app.cash.paging.Pager
 import app.cash.paging.PagingConfig
 import com.wongislandd.infinityindex.pillars.comics.details.data.ComicsRepository
+import com.wongislandd.infinityindex.pillars.comics.details.models.Comic
 import com.wongislandd.infinityindex.pillars.comics.list.data.ComicsListPagingSource
-import com.wongislandd.infinityindex.pillars.comics.list.models.BasicComic
 import com.wongislandd.infinityindex.pillars.comics.list.models.ComicsListScreenState
 import com.wongislandd.infinityindex.pillars.comics.list.models.ComicsSortOption
 import com.wongislandd.infinityindex.pillars.comics.list.models.SearchIntention
@@ -25,7 +25,7 @@ import kotlinx.coroutines.launch
 
 class ComicsListViewModel(private val comicsRepository: ComicsRepository) : ViewModel() {
 
-    private val pagingData: MutableStateFlow<PagingData<BasicComic>> =
+    private val pagingData: MutableStateFlow<PagingData<Comic>> =
         MutableStateFlow(PagingData.empty())
 
     // screen state

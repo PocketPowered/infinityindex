@@ -25,7 +25,7 @@ import com.skydoves.landscapist.components.rememberImageComponent
 import com.skydoves.landscapist.placeholder.shimmer.ShimmerPlugin
 import com.wongislandd.infinityindex.GlobalTopAppBar
 import com.wongislandd.infinityindex.networking.util.Resource
-import com.wongislandd.infinityindex.pillars.comics.details.models.DetailedComic
+import com.wongislandd.infinityindex.pillars.comics.details.models.Comic
 import com.wongislandd.infinityindex.pillars.comics.details.viewmodels.ComicDetailsViewModel
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -44,7 +44,7 @@ fun ComicDetailsScreen(
         GlobalTopAppBar()
     }) {
         Box(modifier = Modifier.fillMaxSize()) {
-            when (val comicRes = screenState.detailedComicRes) {
+            when (val comicRes = screenState.comicRes) {
                 is Resource.Success -> {
                     ComicDetails(comicRes.data, modifier = Modifier.align(Alignment.Center).fillMaxWidth(.8f))
                 }
@@ -65,7 +65,7 @@ fun ComicDetailsScreen(
 }
 
 @Composable
-private fun ComicDetails(comic: DetailedComic, modifier: Modifier = Modifier) {
+private fun ComicDetails(comic: Comic, modifier: Modifier = Modifier) {
     LazyColumn(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         item {
             FullScreenComicImage(imageUrl = comic.imageUrl)

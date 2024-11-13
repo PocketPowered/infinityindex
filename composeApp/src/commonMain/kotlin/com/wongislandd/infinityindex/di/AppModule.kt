@@ -5,7 +5,7 @@ import com.wongislandd.infinityindex.pillars.comics.details.di.comicDetailsModul
 import com.wongislandd.infinityindex.pillars.comics.di.comicsModule
 import com.wongislandd.infinityindex.pillars.comics.list.di.comicsListModule
 import com.wongislandd.infinityindex.pillars.comics.list.transformers.DateTransformer
-import com.wongislandd.infinityindex.pillars.comics.list.transformers.ImageUrlTransformer
+import com.wongislandd.infinityindex.networking.util.ImageUrlTransformer
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf

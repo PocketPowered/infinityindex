@@ -25,13 +25,10 @@ import com.skydoves.landscapist.components.rememberImageComponent
 import com.skydoves.landscapist.placeholder.shimmer.ShimmerPlugin
 import com.wongislandd.infinityindex.navigation.LocalNavHostController
 import com.wongislandd.infinityindex.navigation.RouteHelper
-import com.wongislandd.infinityindex.pillars.comics.list.models.BasicComic
-import com.wongislandd.infinityindex.themes.MarvelTheme
-import org.jetbrains.compose.ui.tooling.preview.Preview
-import org.jetbrains.compose.ui.tooling.preview.PreviewParameter
+import com.wongislandd.infinityindex.pillars.comics.details.models.Comic
 
 @Composable
-fun ComicCard(basicComic: BasicComic, modifier: Modifier = Modifier) {
+fun ComicCard(comic: Comic, modifier: Modifier = Modifier) {
     val navController = LocalNavHostController.current
     Card(
         modifier = modifier
@@ -39,24 +36,30 @@ fun ComicCard(basicComic: BasicComic, modifier: Modifier = Modifier) {
             .fillMaxWidth()
             .height(460.dp)
             .clickable {
-                navController.navigate(RouteHelper.getComicDetailsRouteForId(
-                    basicComic.id
-                ))
+                navController.navigate(
+                    RouteHelper.getComicDetailsRouteForId(
+                        comic.id
+                    )
+                )
             },
         elevation = 8.dp
     ) {
         Column {
             ComicListImage(
-                url = basicComic.imageUrl,
+                url = comic.imageUrl,
                 modifier = Modifier.height(300.dp)
             )
-            ComicTitlePlate(basicComic.title, basicComic.subtitle)
+            ComicTitlePlate(comic.title)
         }
     }
 }
 
 @Composable
-private fun ComicTitlePlate(title: String, subtitle: String?, modifier: Modifier = Modifier) {
+private fun ComicTitlePlate(
+    title: String,
+    subtitle: String? = null,
+    modifier: Modifier = Modifier
+) {
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -98,13 +101,5 @@ private fun ComicListImage(url: String, modifier: Modifier = Modifier) {
                 Text("Could not load image.")
             }
         )
-    }
-}
-
-@Preview
-@Composable
-fun ComicCardPreview(@PreviewParameter(ComicPreviewProvider::class) basicComic: BasicComic) {
-    MarvelTheme {
-        ComicCard(basicComic)
     }
 }

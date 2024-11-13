@@ -1,6 +1,7 @@
 package com.wongislandd.infinityindex.pillars.comics.details.models
 
-data class DetailedComic(
+data class Comic(
+    val id: Int,
     val title: String,
     val imageUrl: String,
     val pageCount: Int?,

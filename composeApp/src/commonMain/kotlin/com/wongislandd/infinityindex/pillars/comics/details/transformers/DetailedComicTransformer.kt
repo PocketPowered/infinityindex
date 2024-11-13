@@ -1,9 +1,9 @@
 package com.wongislandd.infinityindex.pillars.comics.details.transformers
 
 import com.wongislandd.infinityindex.util.DataWrapperTransformer
-import com.wongislandd.infinityindex.pillars.comics.details.models.DetailedComic
+import com.wongislandd.infinityindex.pillars.comics.details.models.Comic
 import com.wongislandd.infinityindex.pillars.comics.list.models.NetworkComic
-import com.wongislandd.infinityindex.pillars.comics.list.transformers.ImageUrlTransformer
+import com.wongislandd.infinityindex.networking.util.ImageUrlTransformer
 import com.wongislandd.infinityindex.util.safeLet
 
 class DetailedComicTransformer(
@@ -12,9 +12,9 @@ class DetailedComicTransformer(
     private val relatedTextsTransformer: RelatedTextsTransformer,
     private val relatedLinksTransformer: RelatedLinksTransformer,
     private val relatedPricesTransformer: RelatedPricesTransformer
-) : DataWrapperTransformer<NetworkComic, DetailedComic>() {
+) : DataWrapperTransformer<NetworkComic, Comic>() {
 
-    override fun itemTransformer(input: NetworkComic): DetailedComic? {
+    override fun itemTransformer(input: NetworkComic): Comic? {
         val relatedDates = input.dates?.let {
             relatedDatesTransformer.transform(it)
         } ?: emptyList()
@@ -29,10 +29,12 @@ class DetailedComicTransformer(
         } ?: emptyList()
 
         return safeLet(
+            input.id,
             input.thumbnail,
             input.title,
-        ) { thumbnail, title ->
-            DetailedComic(
+        ) { id, thumbnail, title ->
+            Comic(
+                id = id,
                 title = title,
                 imageUrl = imageUrlTransformer.transform(thumbnail),
                 pageCount = input.pageCount,

@@ -1,6 +1,5 @@
-package com.wongislandd.infinityindex.pillars.comics.list.transformers
+package com.wongislandd.infinityindex.networking.util
 
-import com.wongislandd.infinityindex.pillars.comics.list.models.NetworkImage
 import com.wongislandd.infinityindex.util.Transformer
 
 /**
