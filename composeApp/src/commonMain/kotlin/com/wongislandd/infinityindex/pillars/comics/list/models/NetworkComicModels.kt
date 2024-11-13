@@ -3,15 +3,6 @@ package com.wongislandd.infinityindex.pillars.comics.list.models
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class NetworkComicDataContainer(
-    val offset: Int?,
-    val limit: Int?,
-    val total: Int?,
-    val count: Int?,
-    val results: List<NetworkComic>?
-)
-
-@Serializable
 data class NetworkComic(
     val id: Int? = null,
     val digitalId: Int? = null,

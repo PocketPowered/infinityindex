@@ -1,8 +1,6 @@
 package com.wongislandd.infinityindex.pillars.comics.details.di
 
 import com.wongislandd.infinityindex.pillars.comics.details.helpers.NetworkFieldTypeMapper
-import com.wongislandd.infinityindex.pillars.comics.details.transformers.DetailedComicDataContainerTransformer
-import com.wongislandd.infinityindex.pillars.comics.details.transformers.DetailedComicDataWrapperTransformer
 import com.wongislandd.infinityindex.pillars.comics.details.transformers.DetailedComicTransformer
 import com.wongislandd.infinityindex.pillars.comics.details.transformers.RelatedDatesTransformer
 import com.wongislandd.infinityindex.pillars.comics.details.transformers.RelatedLinksTransformer
@@ -26,8 +24,6 @@ import org.koin.dsl.module
 val comicDetailsModule = module {
     eventBusFactory<ComicDetailsUiEvent>()
     eventBusFactory<ComicDetailsBackChannelEvent>()
-    singleOf(::DetailedComicDataWrapperTransformer)
-    singleOf(::DetailedComicDataContainerTransformer)
     singleOf(::RelatedDatesTransformer)
     singleOf(::RelatedLinksTransformer)
     singleOf(::RelatedPricesTransformer)

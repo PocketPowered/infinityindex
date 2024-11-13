@@ -1,19 +1,21 @@
 package com.wongislandd.infinityindex.pillars.comics.details.data
 
+import com.wongislandd.infinityindex.networking.util.DataWrapper
 import com.wongislandd.infinityindex.networking.util.NetworkClient
+import com.wongislandd.infinityindex.networking.util.NetworkDataWrapper
 import com.wongislandd.infinityindex.networking.util.Resource
 import com.wongislandd.infinityindex.pillars.comics.details.models.DetailedComic
-import com.wongislandd.infinityindex.pillars.comics.details.transformers.DetailedComicDataWrapperTransformer
-import com.wongislandd.infinityindex.pillars.comics.list.models.BasicComicDataWrapper
+import com.wongislandd.infinityindex.pillars.comics.details.transformers.DetailedComicTransformer
+import com.wongislandd.infinityindex.pillars.comics.list.models.BasicComic
 import com.wongislandd.infinityindex.pillars.comics.list.models.ComicsSortOption
-import com.wongislandd.infinityindex.pillars.comics.list.models.NetworkComicDataWrapper
-import com.wongislandd.infinityindex.pillars.comics.list.transformers.BasicComicDataWrapperTransformer
+import com.wongislandd.infinityindex.pillars.comics.list.models.NetworkComic
+import com.wongislandd.infinityindex.pillars.comics.list.transformers.BasicComicTransformer
 import io.ktor.client.HttpClient
 import io.ktor.client.request.parameter
 
 class ComicsRepository(
-    private val basicComicDataWrapperTransformer: BasicComicDataWrapperTransformer,
-    private val detailComicDataWrapperTransformer: DetailedComicDataWrapperTransformer,
+    private val basicComicTransformer: BasicComicTransformer,
+    private val detailComicDataWrapperTransformer: DetailedComicTransformer,
     okHttpClient: HttpClient
 ) : NetworkClient(okHttpClient) {
 
@@ -22,22 +24,24 @@ class ComicsRepository(
         count: Int,
         searchParam: String?,
         sortOption: ComicsSortOption
-    ): Resource<BasicComicDataWrapper> {
-        val response: Resource<NetworkComicDataWrapper> = get<NetworkComicDataWrapper>("public/comics") {
-            parameter("offset", start)
-            parameter("limit", count)
-            searchParam?.also { searchParam ->
-                parameter("titleStartsWith", searchParam)
+    ): Resource<DataWrapper<BasicComic>> {
+        val response: Resource<NetworkDataWrapper<NetworkComic>> =
+            get<NetworkDataWrapper<NetworkComic>>("public/comics") {
+                parameter("offset", start)
+                parameter("limit", count)
+                searchParam?.also { searchParam ->
+                    parameter("titleStartsWith", searchParam)
+                }
+                parameter("orderBy", sortOption.sortKey)
             }
-            parameter("orderBy", sortOption.sortKey)
-        }
-        return response.map { basicComicDataWrapperTransformer.transform(it) }
+        return response.map { basicComicTransformer.transform(it) }
     }
 
     suspend fun getComic(
         comicId: Int
     ): Resource<DetailedComic> {
-        val response: Resource<NetworkComicDataWrapper> = get<NetworkComicDataWrapper>("public/comics/$comicId")
+        val response: Resource<NetworkDataWrapper<NetworkComic>> =
+            get<NetworkDataWrapper<NetworkComic>>("public/comics/$comicId")
         return response.map { detailComicDataWrapperTransformer.transform(it) }.map {
             it.data.results.firstOrNull()
         }
