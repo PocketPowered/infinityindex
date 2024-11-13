@@ -1,38 +1,41 @@
 package com.wongislandd.infinityindex.pillars.comics.list.models
 
+import com.wongislandd.infinityindex.networking.util.NetworkList
+import com.wongislandd.infinityindex.networking.util.NetworkSummary
+import com.wongislandd.infinityindex.networking.util.TypedNetworkSummary
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class NetworkComic(
-    val id: Int? = null,
-    val digitalId: Int? = null,
-    val title: String? = null,
-    val issueNumber: Double? = null,
-    val variantDescription: String? = null,
-    val description: String? = null,
-    val modified: String? = null,
-    val isbn: String? = null,
-    val upc: String? = null,
-    val diamondCode: String? = null,
-    val ean: String? = null,
-    val issn: String? = null,
-    val format: String? = null,
-    val pageCount: Int? = null,
-    val textObjects: List<NetworkTextObject>? = null,
-    val resourceURI: String? = null,
-    val urls: List<NetworkUrl>? = null,
-    val series: NetworkSeriesSummary? = null,
-    val variants: List<NetworkComicSummary>? = null,
-    val collections: List<NetworkComicSummary>? = null,
-    val collectedIssues: List<NetworkComicSummary>? = null,
-    val dates: List<NetworkComicDate>? = null,
-    val prices: List<NetworkComicPrice>? = null,
-    val thumbnail: NetworkImage? = null,
-    val images: List<NetworkImage>? = null,
-    val creators: NetworkCreatorList? = null,
-    val characters: NetworkCharacterList? = null,
-    val stories: NetworkStoryList? = null,
-    val events: NetworkEventList? = null
+    val id: Int?,
+    val digitalId: Int?,
+    val title: String?,
+    val issueNumber: Double?,
+    val variantDescription: String?,
+    val description: String?,
+    val modified: String?,
+    val isbn: String?,
+    val upc: String?,
+    val diamondCode: String?,
+    val ean: String?,
+    val issn: String?,
+    val format: String?,
+    val pageCount: Int?,
+    val textObjects: List<NetworkTextObject>?,
+    val resourceURI: String?,
+    val urls: List<NetworkUrl>?,
+    val series: NetworkSummary?,
+    val variants: List<NetworkSummary>?,
+    val collections: List<NetworkSummary>?,
+    val collectedIssues: List<NetworkSummary>?,
+    val dates: List<NetworkComicDate>?,
+    val prices: List<NetworkComicPrice>?,
+    val thumbnail: NetworkImage?,
+    val images: List<NetworkImage>?,
+    val creators: NetworkList<NetworkSummary>?,
+    val characters: NetworkList<NetworkSummary>?,
+    val stories: NetworkList<TypedNetworkSummary>?,
+    val events: NetworkList<NetworkSummary>?
 )
 
 @Serializable
@@ -46,18 +49,6 @@ data class NetworkTextObject(
 data class NetworkUrl(
     val type: String?,
     val url: String?
-)
-
-@Serializable
-data class NetworkSeriesSummary(
-    val resourceURI: String?,
-    val name: String?
-)
-
-@Serializable
-data class NetworkComicSummary(
-    val resourceURI: String?,
-    val name: String?
 )
 
 @Serializable
@@ -79,21 +70,6 @@ data class NetworkImage(
 )
 
 @Serializable
-data class NetworkCreatorList(
-    val available: Int?,
-    val returned: Int?,
-    val collectionURI: String?,
-    val items: List<NetworkCreatorSummary>?
-)
-
-@Serializable
-data class NetworkCreatorSummary(
-    val resourceURI: String?,
-    val name: String?,
-    val role: String?
-)
-
-@Serializable
 data class NetworkCharacterList(
     val available: Int?,
     val returned: Int?,
@@ -102,11 +78,13 @@ data class NetworkCharacterList(
 )
 
 @Serializable
-data class NetworkCharacterSummary(
-    val resourceURI: String?,
-    val name: String?,
-    val role: String?
+data class NetworkCreatorList(
+    val available: Int?,
+    val returned: Int?,
+    val collectionURI: String?,
+    val items: List<NetworkCreatorSummary>?
 )
+
 
 @Serializable
 data class NetworkStoryList(
@@ -114,6 +92,24 @@ data class NetworkStoryList(
     val returned: Int?,
     val collectionURI: String?,
     val items: List<NetworkStorySummary>?
+)
+
+
+@Serializable
+data class NetworkEventList(
+    val available: Int?,
+    val returned: Int?,
+    val collectionURI: String?,
+    val items: List<NetworkEventSummary>?
+)
+
+
+
+@Serializable
+data class NetworkCharacterSummary(
+    val resourceURI: String?,
+    val name: String?,
+    val role: String?
 )
 
 @Serializable
@@ -124,15 +120,32 @@ data class NetworkStorySummary(
 )
 
 @Serializable
-data class NetworkEventList(
-    val available: Int?,
-    val returned: Int?,
-    val collectionURI: String?,
-    val items: List<NetworkEventSummary>?
-)
-
-@Serializable
 data class NetworkEventSummary(
     val resourceURI: String?,
     val name: String?
 )
+
+
+@Serializable
+data class NetworkCreatorSummary(
+    val resourceURI: String?,
+    val name: String?,
+    val role: String?
+)
+
+@Serializable
+data class NetworkSeriesSummary(
+    val resourceURI: String?,
+    val name: String?
+)
+
+@Serializable
+data class NetworkComicSummary(
+    val resourceURI: String?,
+    val name: String?
+)
+
+
+
+
+
