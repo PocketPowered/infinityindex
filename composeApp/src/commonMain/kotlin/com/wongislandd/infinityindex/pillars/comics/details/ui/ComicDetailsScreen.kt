@@ -26,6 +26,7 @@ import com.wongislandd.infinityindex.composables.MarvelImage
 import com.wongislandd.infinityindex.composables.SectionedList
 import com.wongislandd.infinityindex.networking.util.Resource
 import com.wongislandd.infinityindex.pillars.comics.details.models.Comic
+import com.wongislandd.infinityindex.pillars.comics.details.models.ComicDetailsScreenState
 import com.wongislandd.infinityindex.pillars.comics.details.viewmodels.ComicDetailsViewModel
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
@@ -40,64 +41,17 @@ fun ComicDetailsScreen(
         viewModel.uiEventBus.sendEvent(ComicDetailsUiEvent.PageInitialized(comicId))
     }
     val screenState by viewModel.comicDetailsScreenStateSlice.screenState.collectAsState()
-    val pagedCharacters = screenState.characterData.collectAsLazyPagingItems()
-    val pagedCreators = screenState.creatorsData.collectAsLazyPagingItems()
-    val pagedEvents = screenState.eventsData.collectAsLazyPagingItems()
-    val pagedStories = screenState.storiesData.collectAsLazyPagingItems()
-    val pagedSeries = screenState.seriesData.collectAsLazyPagingItems()
     Scaffold(topBar = {
         GlobalTopAppBar()
     }) {
         Box(modifier = Modifier.fillMaxSize()) {
             when (val comicRes = screenState.comicRes) {
                 is Resource.Success -> {
-                    LazyColumn(
-                        modifier = Modifier.fillMaxSize(),
-                        contentPadding = PaddingValues(vertical = 8.dp)
-                    ) {
-                        item {
-                            ComicDetails(
-                                comicRes.data,
-                                modifier = Modifier.fillMaxWidth()
-                            )
-                        }
-                        item {
-                            SectionedList(
-                                title = "Characters",
-                                pagedItems = pagedCharacters,
-                            )
-                        }
-                        item {
-                            SectionedList(
-                                title = "Creators",
-                                pagedItems = pagedCreators,
-                            )
-                        }
-                        item {
-                            SectionedList(
-                                title = "Events",
-                                pagedItems = pagedEvents,
-                            )
-                        }
-                        item {
-                            SectionedList(
-                                title = "Stories",
-                                pagedItems = pagedStories,
-                            )
-                        }
-                        item {
-                            SectionedList(
-                                title = "Series",
-                                pagedItems = pagedSeries,
-                            )
-                        }
-                    }
+                    ComicDetailsScreenContents(comicRes.data, screenState)
                 }
-
                 is Resource.Loading -> {
                     CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
                 }
-
                 is Resource.Error -> {
                     Text(
                         text = "Error loading comic details",
@@ -105,6 +59,60 @@ fun ComicDetailsScreen(
                     )
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun ComicDetailsScreenContents(
+    comic: Comic,
+    screenState: ComicDetailsScreenState,
+    modifier: Modifier = Modifier
+) {
+    val pagedCharacters = screenState.characterData.collectAsLazyPagingItems()
+    val pagedCreators = screenState.creatorsData.collectAsLazyPagingItems()
+    val pagedEvents = screenState.eventsData.collectAsLazyPagingItems()
+    val pagedStories = screenState.storiesData.collectAsLazyPagingItems()
+    val pagedSeries = screenState.seriesData.collectAsLazyPagingItems()
+    LazyColumn(
+        modifier = modifier.fillMaxSize(),
+        contentPadding = PaddingValues(vertical = 8.dp)
+    ) {
+        item {
+            ComicDetails(
+                comic,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
+        item {
+            SectionedList(
+                title = "Characters",
+                pagedItems = pagedCharacters,
+            )
+        }
+        item {
+            SectionedList(
+                title = "Creators",
+                pagedItems = pagedCreators,
+            )
+        }
+        item {
+            SectionedList(
+                title = "Events",
+                pagedItems = pagedEvents,
+            )
+        }
+        item {
+            SectionedList(
+                title = "Stories",
+                pagedItems = pagedStories,
+            )
+        }
+        item {
+            SectionedList(
+                title = "Series",
+                pagedItems = pagedSeries,
+            )
         }
     }
 }
