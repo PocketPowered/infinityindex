@@ -18,7 +18,7 @@ class EntityPagingSource<NETWORK_MODEL, LOCAL_MODEL: Any>(
                 start,
                 count
             )
-        } ?: repository.getAll<NETWORK_MODEL>(
+        } ?: repository.getAll(
             start,
             count,
             query?.text,

@@ -12,15 +12,15 @@ import io.ktor.client.request.parameter
 import kotlinx.serialization.KSerializer
 
 abstract class BaseRepository<NETWORK_MODEL, LOCAL_MODEL>(
-    val transformer: DataWrapperTransformer<NETWORK_MODEL, LOCAL_MODEL>,
-    okHttpClient: HttpClient, val primaryEntityType: EntityType,
+    private val transformer: DataWrapperTransformer<NETWORK_MODEL, LOCAL_MODEL>,
+    okHttpClient: HttpClient, private val primaryEntityType: EntityType,
     networkModelSerializer: KSerializer<NETWORK_MODEL>
 ) : NetworkClient(okHttpClient) {
 
-    val networkDataWrapperSerializer: KSerializer<NetworkDataWrapper<NETWORK_MODEL>> =
+    private val networkDataWrapperSerializer: KSerializer<NetworkDataWrapper<NETWORK_MODEL>> =
         NetworkDataWrapper.serializer(networkModelSerializer)
 
-    suspend inline fun <reified : NETWORK_MODEL> getAll(
+    suspend fun getAll(
         start: Int,
         count: Int,
         searchParam: String?,
