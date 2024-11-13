@@ -4,7 +4,6 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import app.cash.paging.Pager
 import app.cash.paging.PagingConfig
-import com.wongislandd.infinityindex.networking.util.Resource
 import com.wongislandd.infinityindex.pillars.characters.data.CharactersPagingSource
 import com.wongislandd.infinityindex.pillars.characters.data.CharactersRepository
 import com.wongislandd.infinityindex.pillars.characters.models.Character
