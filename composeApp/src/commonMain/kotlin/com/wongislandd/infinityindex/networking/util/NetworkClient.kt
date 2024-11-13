@@ -59,6 +59,8 @@ abstract class NetworkClient(val httpClient: HttpClient) {
             return Resource.Error(NetworkError.NO_INTERNET)
         } catch (e: SerializationException) {
             return Resource.Error(NetworkError.SERIALIZATION)
+        } catch (e: Exception) {
+            return Resource.Error(NetworkError.UNKNOWN)
         }
     }
 
