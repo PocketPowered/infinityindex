@@ -22,7 +22,7 @@ class CharacterTransformer(
         ) { id, thumbnail, name ->
             Character(
                 id = id,
-                name = name,
+                displayName = name,
                 imageUrl = imageUrlTransformer.transform(thumbnail),
                 description = input.description,
                 modified = input.modified,

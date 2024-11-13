@@ -2,6 +2,7 @@ package com.wongislandd.infinityindex.pillars.comics.details.ui
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -19,14 +20,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import app.cash.paging.compose.LazyPagingItems
 import app.cash.paging.compose.collectAsLazyPagingItems
 import com.wongislandd.infinityindex.GlobalTopAppBar
-import com.wongislandd.infinityindex.composables.EntityCard
 import com.wongislandd.infinityindex.composables.MarvelImage
 import com.wongislandd.infinityindex.composables.SectionedList
 import com.wongislandd.infinityindex.networking.util.Resource
-import com.wongislandd.infinityindex.pillars.characters.models.Character
 import com.wongislandd.infinityindex.pillars.comics.details.models.Comic
 import com.wongislandd.infinityindex.pillars.comics.details.viewmodels.ComicDetailsViewModel
 import org.koin.compose.viewmodel.koinViewModel
@@ -43,13 +41,20 @@ fun ComicDetailsScreen(
     }
     val screenState by viewModel.comicDetailsScreenStateSlice.screenState.collectAsState()
     val pagedCharacters = screenState.characterData.collectAsLazyPagingItems()
+    val pagedCreators = screenState.creatorsData.collectAsLazyPagingItems()
+    val pagedEvents = screenState.eventsData.collectAsLazyPagingItems()
+    val pagedStories = screenState.storiesData.collectAsLazyPagingItems()
+    val pagedSeries = screenState.seriesData.collectAsLazyPagingItems()
     Scaffold(topBar = {
         GlobalTopAppBar()
     }) {
-        Box(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+        Box(modifier = Modifier.fillMaxSize()) {
             when (val comicRes = screenState.comicRes) {
                 is Resource.Success -> {
-                    LazyColumn(modifier = Modifier.fillMaxSize()) {
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize(),
+                        contentPadding = PaddingValues(vertical = 8.dp)
+                    ) {
                         item {
                             ComicDetails(
                                 comicRes.data,
@@ -57,7 +62,34 @@ fun ComicDetailsScreen(
                             )
                         }
                         item {
-                            CharactersList(pagedCharacters)
+                            SectionedList(
+                                title = "Characters",
+                                pagedItems = pagedCharacters,
+                            )
+                        }
+                        item {
+                            SectionedList(
+                                title = "Creators",
+                                pagedItems = pagedCreators,
+                            )
+                        }
+                        item {
+                            SectionedList(
+                                title = "Events",
+                                pagedItems = pagedEvents,
+                            )
+                        }
+                        item {
+                            SectionedList(
+                                title = "Stories",
+                                pagedItems = pagedStories,
+                            )
+                        }
+                        item {
+                            SectionedList(
+                                title = "Series",
+                                pagedItems = pagedSeries,
+                            )
                         }
                     }
                 }
@@ -78,24 +110,11 @@ fun ComicDetailsScreen(
 }
 
 @Composable
-private fun CharactersList(pagedCharacters: LazyPagingItems<Character>) {
-    SectionedList(
-        title = "Characters",
-        items = pagedCharacters,
-        itemKey = { it.id }
-    ) { character ->
-        CharacterCard(character)
-    }
-}
-
-@Composable
-private fun CharacterCard(character: Character, modifier: Modifier = Modifier) {
-    EntityCard(character.imageUrl, character.name, modifier)
-}
-
-@Composable
 private fun ComicDetails(comic: Comic, modifier: Modifier = Modifier) {
-    Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(
+        modifier = modifier.padding(horizontal = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         MarvelImage(imageUrl = comic.imageUrl, modifier = Modifier.fillMaxWidth())
         Text(
             text = comic.title,

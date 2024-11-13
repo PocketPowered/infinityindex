@@ -2,6 +2,7 @@ package com.wongislandd.infinityindex.composables
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
@@ -13,32 +14,37 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import app.cash.paging.compose.LazyPagingItems
+import com.wongislandd.infinityindex.util.DisplayableEntity
 
 @Composable
-fun <T : Any> SectionedList(
+fun <T : DisplayableEntity> SectionedList(
     title: String,
-    items: LazyPagingItems<T>,
-    itemKey: (T) -> Any?,
-    itemContent: @Composable (T) -> Unit
+    pagedItems: LazyPagingItems<T>,
+    itemKey: (T) -> Any? = { it.id }
 ) {
-    if (items.itemCount == 0) {
+    if (pagedItems.itemCount == 0) {
         return
     }
-
     Column(modifier = Modifier.fillMaxWidth()) {
-        SectionHeader(text = title)
+        SectionHeader(text = title, modifier = Modifier.padding(horizontal = 16.dp))
         LazyRow(
             modifier = Modifier.fillMaxWidth(),
+            contentPadding = PaddingValues(
+                start = 16.dp
+            ),
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             items(
-                count = items.itemCount,
+                count = pagedItems.itemCount,
                 key = { index ->
-                    items[index]?.let(itemKey) ?: index
+                    pagedItems[index]?.let(itemKey) ?: index
                 }
             ) { index ->
-                items[index]?.let { item ->
-                    itemContent(item)
+                pagedItems[index]?.let { item ->
+                    EntityCard(
+                        imageUrl = item.imageUrl,
+                        title = item.displayName
+                    )
                 }
             }
         }

@@ -17,7 +17,7 @@ class CreatorTransformer(
         ) { id, thumbnail, name ->
             Creator(
                 id = id,
-                fullName = name,
+                displayName = name,
                 imageUrl = imageUrlTransformer.transform(thumbnail),
             )
         }

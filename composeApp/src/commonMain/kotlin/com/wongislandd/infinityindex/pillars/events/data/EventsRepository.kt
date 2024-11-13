@@ -6,7 +6,7 @@ import com.wongislandd.infinityindex.networking.util.NetworkDataWrapper
 import com.wongislandd.infinityindex.networking.util.Resource
 import com.wongislandd.infinityindex.networking.util.SupportedPillars
 import com.wongislandd.infinityindex.pillars.events.models.ComicEvent
-import com.wongislandd.infinityindex.pillars.events.models.NetworkEvent
+import com.wongislandd.infinityindex.pillars.events.models.NetworkComicEvent
 import com.wongislandd.infinityindex.pillars.events.transformers.EventTransformer
 import io.ktor.client.HttpClient
 import io.ktor.client.request.parameter
@@ -22,7 +22,7 @@ class EventsRepository(
         searchParam: String?,
         sortKey: String?
     ): Resource<DataWrapper<ComicEvent>> {
-        val response: Resource<NetworkDataWrapper<NetworkEvent>> =
+        val response: Resource<NetworkDataWrapper<NetworkComicEvent>> =
             get(SupportedPillars.CHARACTERS.basePath) {
                 parameter("offset", start)
                 parameter("limit", count)
@@ -39,7 +39,7 @@ class EventsRepository(
     suspend fun get(
         eventId: Int
     ): Resource<ComicEvent> {
-        val response: Resource<NetworkDataWrapper<NetworkEvent>> = get("${SupportedPillars.CHARACTERS.basePath}/$eventId")
+        val response: Resource<NetworkDataWrapper<NetworkComicEvent>> = get("${SupportedPillars.CHARACTERS.basePath}/$eventId")
         return response.map { eventTransformer.transform(it) }.map {
             it.data.results.firstOrNull()
         }
@@ -50,7 +50,7 @@ class EventsRepository(
         start: Int,
         count: Int
     ): Resource<DataWrapper<ComicEvent>> {
-        val response: Resource<NetworkDataWrapper<NetworkEvent>> = get("comics/$comicId/events") {
+        val response: Resource<NetworkDataWrapper<NetworkComicEvent>> = get("comics/$comicId/events") {
             parameter("offset", start)
             parameter("limit", count)
         }
@@ -60,7 +60,7 @@ class EventsRepository(
     suspend fun getEventsInComic(
         comicId: Int
     ): Resource<DataWrapper<ComicEvent>> {
-        val response: Resource<NetworkDataWrapper<NetworkEvent>> = get("comics/$comicId/events")
+        val response: Resource<NetworkDataWrapper<NetworkComicEvent>> = get("comics/$comicId/events")
         return response.map { eventTransformer.transform(it) }
     }
 

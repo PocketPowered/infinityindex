@@ -8,16 +8,22 @@ import com.wongislandd.infinityindex.networking.util.NetworkUrl
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class NetworkEvent(
+data class NetworkComicEvent(
     val id: Int?,
-    val name: String?,
+    val title: String?,
     val description: String?,
-    val modified: String?,
     val resourceURI: String?,
     val urls: List<NetworkUrl>?,
+    val modified: String?,
+    val start: String?,
+    val end: String?,
     val thumbnail: NetworkImage?,
     val comics: NetworkList<NetworkSummary>?,
     val stories: NetworkList<TypedNetworkSummary>?,
+    val series: NetworkList<NetworkSummary>?,
     val events: NetworkList<NetworkSummary>?,
-    val series: NetworkList<NetworkSummary>?
+    val characters: NetworkList<NetworkSummary>?,
+    val creators: NetworkList<NetworkSummary>?,
+    val next: NetworkSummary?,
+    val previous: NetworkSummary?
 )

@@ -1,12 +1,11 @@
 package com.wongislandd.infinityindex.pillars.stories.models
 
-import com.wongislandd.infinityindex.pillars.comics.details.models.RelatedLink
+import com.wongislandd.infinityindex.util.DisplayableEntity
 
 data class Story(
-    val id: Int,
-    val name: String,
-    val description: String?,
-    val imageUrl: String,
-    val modified: String?,
-    val relatedLinks: List<RelatedLink>,
-)
+    override val id: Int,
+    override val displayName: String,
+    override val imageUrl: String,
+    val type: String?,
+    val description: String?
+): DisplayableEntity
