@@ -1,7 +1,7 @@
 package com.wongislandd.infinityindex.pillars.events.transformers
 
 import com.wongislandd.infinityindex.networking.util.ImageUrlTransformer
-import com.wongislandd.infinityindex.pillars.events.models.Event
+import com.wongislandd.infinityindex.pillars.events.models.ComicEvent
 import com.wongislandd.infinityindex.pillars.events.models.NetworkEvent
 import com.wongislandd.infinityindex.pillars.comics.details.transformers.RelatedLinksTransformer
 import com.wongislandd.infinityindex.util.DataWrapperTransformer
@@ -10,8 +10,8 @@ import com.wongislandd.infinityindex.util.safeLet
 class EventTransformer(
     private val imageUrlTransformer: ImageUrlTransformer,
     private val relatedLinksTransformer: RelatedLinksTransformer,
-) : DataWrapperTransformer<NetworkEvent, Event>() {
-    override fun itemTransformer(input: NetworkEvent): Event? {
+) : DataWrapperTransformer<NetworkEvent, ComicEvent>() {
+    override fun itemTransformer(input: NetworkEvent): ComicEvent? {
         val relatedLinks = input.urls?.let {
             relatedLinksTransformer.transform(it)
         } ?: emptyList()
@@ -20,7 +20,7 @@ class EventTransformer(
             input.thumbnail,
             input.name,
         ) { id, thumbnail, name ->
-            Event(
+            ComicEvent(
                 id = id,
                 name = name,
                 imageUrl = imageUrlTransformer.transform(thumbnail),

@@ -32,10 +32,10 @@ class ComicDetailsCharactersSlice(
     }
 
     private fun initialize(comicId: Int) {
-        loadCharacterDetails(comicId)
+        load(comicId)
     }
 
-    private fun loadCharacterDetails(comicId: Int) {
+    private fun load(comicId: Int) {
         sliceScope.launch {
             Pager(
                 config = PagingConfig(

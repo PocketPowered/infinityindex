@@ -1,13 +1,13 @@
 package com.wongislandd.infinityindex.pillars.comics.details.viewmodels
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import app.cash.paging.Pager
-import app.cash.paging.PagingConfig
 import com.wongislandd.infinityindex.pillars.comics.details.ui.ComicDetailsUiEvent
-import com.wongislandd.infinityindex.pillars.creators.data.CreatorsPagingSource
-import com.wongislandd.infinityindex.pillars.creators.data.CreatorsRepository
-import com.wongislandd.infinityindex.pillars.creators.models.Creator
+import com.wongislandd.infinityindex.pillars.series.data.SeriesPagingSource
+import com.wongislandd.infinityindex.pillars.series.data.SeriesRepository
+import com.wongislandd.infinityindex.pillars.series.models.Series
 import com.wongislandd.infinityindex.util.ViewModelSlice
 import com.wongislandd.infinityindex.util.events.UiEvent
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,13 +15,13 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class ComicDetailsCreatorsSlice(
-    private val creatorsRepository: CreatorsRepository
+class ComicDetailsSeriesSlice(
+    private val seriesRepository: SeriesRepository
 ) : ViewModelSlice() {
 
-    private val _creatorsPagingData: MutableStateFlow<PagingData<Creator>> =
+    private val _seriesPagingData: MutableStateFlow<PagingData<Series>> =
         MutableStateFlow(PagingData.empty())
-    val creatorsPagingData: StateFlow<PagingData<Creator>> = _creatorsPagingData
+    val seriesPagingData: StateFlow<PagingData<Series>> = _seriesPagingData
 
     override fun handleUiEvent(event: UiEvent) {
         when (event) {
@@ -45,11 +45,11 @@ class ComicDetailsCreatorsSlice(
                     prefetchDistance = 5
                 )
             ) {
-                CreatorsPagingSource(creatorsRepository, comicId)
+                SeriesPagingSource(seriesRepository, comicId)
             }.flow.cachedIn(sliceScope).collectLatest {
-                _creatorsPagingData.value = it
+                _seriesPagingData.value = it
                 backChannelEvents.sendEvent(
-                    ComicDetailsBackChannelEvent.CreatorResUpdate(it)
+                    ComicDetailsBackChannelEvent.SeriesResUpdate(it)
                 )
             }
         }

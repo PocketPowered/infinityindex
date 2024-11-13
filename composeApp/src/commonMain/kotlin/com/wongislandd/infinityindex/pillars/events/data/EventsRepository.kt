@@ -5,7 +5,7 @@ import com.wongislandd.infinityindex.networking.util.NetworkClient
 import com.wongislandd.infinityindex.networking.util.NetworkDataWrapper
 import com.wongislandd.infinityindex.networking.util.Resource
 import com.wongislandd.infinityindex.networking.util.SupportedPillars
-import com.wongislandd.infinityindex.pillars.events.models.Event
+import com.wongislandd.infinityindex.pillars.events.models.ComicEvent
 import com.wongislandd.infinityindex.pillars.events.models.NetworkEvent
 import com.wongislandd.infinityindex.pillars.events.transformers.EventTransformer
 import io.ktor.client.HttpClient
@@ -21,7 +21,7 @@ class EventsRepository(
         count: Int,
         searchParam: String?,
         sortKey: String?
-    ): Resource<DataWrapper<Event>> {
+    ): Resource<DataWrapper<ComicEvent>> {
         val response: Resource<NetworkDataWrapper<NetworkEvent>> =
             get(SupportedPillars.CHARACTERS.basePath) {
                 parameter("offset", start)
@@ -38,7 +38,7 @@ class EventsRepository(
 
     suspend fun get(
         eventId: Int
-    ): Resource<Event> {
+    ): Resource<ComicEvent> {
         val response: Resource<NetworkDataWrapper<NetworkEvent>> = get("${SupportedPillars.CHARACTERS.basePath}/$eventId")
         return response.map { eventTransformer.transform(it) }.map {
             it.data.results.firstOrNull()
@@ -49,7 +49,7 @@ class EventsRepository(
         comicId: Int,
         start: Int,
         count: Int
-    ): Resource<DataWrapper<Event>> {
+    ): Resource<DataWrapper<ComicEvent>> {
         val response: Resource<NetworkDataWrapper<NetworkEvent>> = get("comics/$comicId/events") {
             parameter("offset", start)
             parameter("limit", count)
@@ -59,7 +59,7 @@ class EventsRepository(
 
     suspend fun getEventsInComic(
         comicId: Int
-    ): Resource<DataWrapper<Event>> {
+    ): Resource<DataWrapper<ComicEvent>> {
         val response: Resource<NetworkDataWrapper<NetworkEvent>> = get("comics/$comicId/events")
         return response.map { eventTransformer.transform(it) }
     }

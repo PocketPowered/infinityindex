@@ -50,7 +50,7 @@ class CreatorsRepository(
         start: Int,
         count: Int
     ): Resource<DataWrapper<Creator>> {
-        val response: Resource<NetworkDataWrapper<NetworkCreator>> = get("comics/$comicId/Creators") {
+        val response: Resource<NetworkDataWrapper<NetworkCreator>> = get("comics/$comicId/creators") {
             parameter("offset", start)
             parameter("limit", count)
         }
@@ -60,7 +60,7 @@ class CreatorsRepository(
     suspend fun getCreatorsInComic(
         comicId: Int
     ): Resource<DataWrapper<Creator>> {
-        val response: Resource<NetworkDataWrapper<NetworkCreator>> = get("comics/$comicId/Creators")
+        val response: Resource<NetworkDataWrapper<NetworkCreator>> = get("comics/$comicId/creators")
         return response.map { creatorTransformer.transform(it) }
     }
 }
