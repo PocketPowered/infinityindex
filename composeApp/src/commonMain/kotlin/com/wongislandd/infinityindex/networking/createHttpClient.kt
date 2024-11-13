@@ -11,6 +11,7 @@ import kotlinx.datetime.Clock
 import kotlinx.serialization.json.Json
 import okio.ByteString.Companion.encodeUtf8
 import com.wongislandd.infinityindex.BuildKonfig
+import io.ktor.client.plugins.logging.Logger
 
 
 private const val BASE_URL = "https://gateway.marvel.com/v1/public/"
@@ -28,11 +29,19 @@ fun createHttpClient(engine: HttpClientEngine): HttpClient {
             url.parameters.append(HASH_QUERY_PARAM, hash(timestamp))
         }
         install(Logging) {
-            level = LogLevel.ALL
+            logger = object : Logger {
+                override fun log(message: String) {
+                    co.touchlab.kermit.Logger.withTag("Network").d {
+                        message
+                    }
+                }
+            }
+            level = LogLevel.BODY
         }
         install(ContentNegotiation) {
             json(
                 json = Json {
+                    prettyPrint = true
                     ignoreUnknownKeys = true
                     isLenient = true
                     explicitNulls = false

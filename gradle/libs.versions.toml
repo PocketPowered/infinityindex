@@ -29,6 +29,7 @@ kotlinx-serialization = "1.6.3"
 landscapist="2.4.0"
 paging3="3.3.0-alpha02-0.5.1"
 navigation="2.8.0-alpha10"
+kermit="2.0.4"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -50,6 +51,7 @@ landscapist-coil = { module = "com.github.skydoves:landscapist-coil3", version.r
 landscapist-placeholder = { module = "com.github.skydoves:landscapist-placeholder", version.ref = "landscapist" }
 paging-compose-common = { module = "app.cash.paging:paging-compose-common", version.ref = "paging3" }
 paging-common = { module = "app.cash.paging:paging-common", version.ref = "paging3" }
+kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
 
 squareup-okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }

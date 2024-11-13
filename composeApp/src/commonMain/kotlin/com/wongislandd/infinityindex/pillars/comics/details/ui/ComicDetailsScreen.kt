@@ -1,6 +1,7 @@
 package com.wongislandd.infinityindex.pillars.comics.details.ui
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -15,16 +16,17 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.skydoves.landscapist.ImageOptions
-import com.skydoves.landscapist.coil3.CoilImage
-import com.skydoves.landscapist.components.rememberImageComponent
-import com.skydoves.landscapist.placeholder.shimmer.ShimmerPlugin
+import app.cash.paging.compose.LazyPagingItems
+import app.cash.paging.compose.collectAsLazyPagingItems
 import com.wongislandd.infinityindex.GlobalTopAppBar
+import com.wongislandd.infinityindex.composables.EntityCard
+import com.wongislandd.infinityindex.composables.MarvelImage
+import com.wongislandd.infinityindex.composables.SectionedList
 import com.wongislandd.infinityindex.networking.util.Resource
+import com.wongislandd.infinityindex.pillars.characters.models.Character
 import com.wongislandd.infinityindex.pillars.comics.details.models.Comic
 import com.wongislandd.infinityindex.pillars.comics.details.viewmodels.ComicDetailsViewModel
 import org.koin.compose.viewmodel.koinViewModel
@@ -40,13 +42,24 @@ fun ComicDetailsScreen(
         viewModel.uiEventBus.sendEvent(ComicDetailsUiEvent.PageInitialized(comicId))
     }
     val screenState by viewModel.comicDetailsScreenStateSlice.screenState.collectAsState()
+    val pagedCharacters = screenState.characterData.collectAsLazyPagingItems()
     Scaffold(topBar = {
         GlobalTopAppBar()
     }) {
-        Box(modifier = Modifier.fillMaxSize()) {
+        Box(modifier = Modifier.fillMaxSize().padding(16.dp)) {
             when (val comicRes = screenState.comicRes) {
                 is Resource.Success -> {
-                    ComicDetails(comicRes.data, modifier = Modifier.align(Alignment.Center).fillMaxWidth(.8f))
+                    LazyColumn(modifier = Modifier.fillMaxSize()) {
+                        item {
+                            ComicDetails(
+                                comicRes.data,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        }
+                        item {
+                            CharactersList(pagedCharacters)
+                        }
+                    }
                 }
 
                 is Resource.Loading -> {
@@ -65,36 +78,31 @@ fun ComicDetailsScreen(
 }
 
 @Composable
-private fun ComicDetails(comic: Comic, modifier: Modifier = Modifier) {
-    LazyColumn(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
-        item {
-            FullScreenComicImage(imageUrl = comic.imageUrl)
-        }
-        item {
-            Text(
-                text = comic.title,
-                modifier = Modifier.padding(16.dp),
-                style = MaterialTheme.typography.h4,
-                fontWeight = FontWeight.SemiBold,
-                textAlign = TextAlign.Center
-            )
-        }
+private fun CharactersList(pagedCharacters: LazyPagingItems<Character>) {
+    SectionedList(
+        title = "Characters",
+        items = pagedCharacters,
+        itemKey = { it.id }
+    ) { character ->
+        CharacterCard(character)
     }
 }
 
 @Composable
-fun FullScreenComicImage(imageUrl: String) {
-    CoilImage(
-        imageModel = { imageUrl },
-        imageOptions = ImageOptions(
-            contentScale = ContentScale.Inside,
-            alignment = Alignment.Center
-        ),
-        component = rememberImageComponent {
-            +ShimmerPlugin()
-        },
-        failure = {
-            Text("Could not load image.")
-        }
-    )
+private fun CharacterCard(character: Character, modifier: Modifier = Modifier) {
+    EntityCard(character.imageUrl, character.name, modifier)
+}
+
+@Composable
+private fun ComicDetails(comic: Comic, modifier: Modifier = Modifier) {
+    Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
+        MarvelImage(imageUrl = comic.imageUrl, modifier = Modifier.fillMaxWidth())
+        Text(
+            text = comic.title,
+            modifier = Modifier.padding(16.dp),
+            style = MaterialTheme.typography.h4,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center
+        )
+    }
 }

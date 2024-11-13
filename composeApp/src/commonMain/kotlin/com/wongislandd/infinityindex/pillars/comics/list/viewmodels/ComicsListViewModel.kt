@@ -8,7 +8,7 @@ import app.cash.paging.Pager
 import app.cash.paging.PagingConfig
 import com.wongislandd.infinityindex.pillars.comics.details.data.ComicsRepository
 import com.wongislandd.infinityindex.pillars.comics.details.models.Comic
-import com.wongislandd.infinityindex.pillars.comics.list.data.ComicsListPagingSource
+import com.wongislandd.infinityindex.pillars.comics.list.data.ComicsPagingSource
 import com.wongislandd.infinityindex.pillars.comics.list.models.ComicsListScreenState
 import com.wongislandd.infinityindex.pillars.comics.list.models.ComicsSortOption
 import com.wongislandd.infinityindex.pillars.comics.list.models.SearchIntention
@@ -42,7 +42,7 @@ class ComicsListViewModel(private val comicsRepository: ComicsRepository) : View
     )
     val screenState = _screenState.asStateFlow()
 
-    private var currentPagingSource: ComicsListPagingSource? = null
+    private var currentPagingSource: ComicsPagingSource? = null
     private var currentRefreshWatcherJob: Job? = null
 
     init {
@@ -55,7 +55,7 @@ class ComicsListViewModel(private val comicsRepository: ComicsRepository) : View
                     prefetchDistance = 10
                 )
             ) {
-                val newPagingSource = ComicsListPagingSource(
+                val newPagingSource = ComicsPagingSource(
                     comicsRepository = comicsRepository,
                     searchQuery = if (_screenState.value.searchState.searchQuery.isQueryable()) {
                         _screenState.value.searchState.searchQuery

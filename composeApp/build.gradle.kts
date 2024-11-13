@@ -110,6 +110,7 @@ kotlin {
             implementation(libs.bundles.landscapist)
             implementation(libs.bundles.paging3)
             implementation(libs.androidx.navigation)
+            implementation(libs.kermit)
         }
         nativeMain.dependencies {
             implementation(libs.ktor.client.darwin)

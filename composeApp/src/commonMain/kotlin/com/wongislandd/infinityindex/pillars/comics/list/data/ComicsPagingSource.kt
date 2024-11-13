@@ -9,11 +9,11 @@ import com.wongislandd.infinityindex.pillars.comics.list.models.ComicsSortOption
 import com.wongislandd.infinityindex.pillars.comics.list.models.SearchQuery
 import org.koin.core.component.KoinComponent
 
-class ComicsListPagingSource(
+class ComicsPagingSource(
     private val comicsRepository: ComicsRepository,
     private val searchQuery: SearchQuery? = null,
     private val sortOption: ComicsSortOption
-) : KoinComponent, BasePagingSource<Comic>() {
+) : BasePagingSource<Comic>() {
     override suspend fun fetchData(start: Int, count: Int): Resource<DataWrapper<Comic>> {
         return comicsRepository.getAll(
             start,
