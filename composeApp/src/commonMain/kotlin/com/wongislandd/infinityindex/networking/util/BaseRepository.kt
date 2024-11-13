@@ -6,7 +6,7 @@ import io.ktor.client.request.parameter
 
 abstract class BaseRepository<NETWORK_MODEL, LOCAL_MODEL>(
     private val transformer: DataWrapperTransformer<NETWORK_MODEL, LOCAL_MODEL>,
-    private val endpoint: String, okHttpClient: HttpClient
+    private val pillar: SupportedPillars, okHttpClient: HttpClient
 ) : NetworkClient(okHttpClient) {
 
     suspend fun getAll(
@@ -16,7 +16,7 @@ abstract class BaseRepository<NETWORK_MODEL, LOCAL_MODEL>(
         sortKey: String,
     ): Resource<DataWrapper<LOCAL_MODEL>> {
         val response: Resource<NetworkDataWrapper<NETWORK_MODEL>> =
-            get<NetworkDataWrapper<NETWORK_MODEL>>(endpoint) {
+            get<NetworkDataWrapper<NETWORK_MODEL>>(pillar.basePath) {
                 parameter("offset", start)
                 parameter("limit", count)
                 searchParam?.also { searchParam ->
@@ -31,7 +31,7 @@ abstract class BaseRepository<NETWORK_MODEL, LOCAL_MODEL>(
         id: Int
     ): Resource<LOCAL_MODEL> {
         val response: Resource<NetworkDataWrapper<NETWORK_MODEL>> =
-            get<NetworkDataWrapper<NETWORK_MODEL>>("$endpoint/$id")
+            get<NetworkDataWrapper<NETWORK_MODEL>>("${pillar.basePath}/$id")
         return response.map { transformer.transform(it) }.map {
             it.data.results.firstOrNull()
         }

@@ -13,7 +13,7 @@ import okio.ByteString.Companion.encodeUtf8
 import com.wongislandd.infinityindex.BuildKonfig
 
 
-private const val BASE_URL = "https://gateway.marvel.com/v1/"
+private const val BASE_URL = "https://gateway.marvel.com/v1/public/"
 private const val API_KEY_QUERY_PARAM = "apikey"
 private const val TIMESTAMP_QUERY_PARAM = "ts"
 private const val HASH_QUERY_PARAM = "hash"

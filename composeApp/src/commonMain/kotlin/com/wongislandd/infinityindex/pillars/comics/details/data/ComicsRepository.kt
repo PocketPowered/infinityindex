@@ -22,7 +22,7 @@ class ComicsRepository(
         sortKey: String
     ): Resource<DataWrapper<Comic>> {
         val response: Resource<NetworkDataWrapper<NetworkComic>> =
-            get<NetworkDataWrapper<NetworkComic>>("public/comics") {
+            get<NetworkDataWrapper<NetworkComic>>("comics") {
                 parameter("offset", start)
                 parameter("limit", count)
                 searchParam?.also { searchParam ->
