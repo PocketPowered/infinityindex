@@ -51,13 +51,14 @@ abstract class BaseRepository<NETWORK_MODEL, LOCAL_MODEL>(
         }
     }
 
-    suspend fun getPagedEntityFromComic(
-        comicId: Int,
+    suspend fun getPagedPrimaryEntityRelatedToOtherEntity(
+        otherEntityType: EntityType,
+        otherEntityId: Int,
         start: Int,
         count: Int
     ): Resource<DataWrapper<LOCAL_MODEL>> {
         val response: Resource<NetworkDataWrapper<NETWORK_MODEL>> =
-            makeRequest("comics/$comicId/${primaryEntityType.key}", networkDataWrapperSerializer) {
+            makeRequest("${otherEntityType.key}/$otherEntityId/${primaryEntityType.key}", networkDataWrapperSerializer) {
                 parameter("offset", start)
                 parameter("limit", count)
             }

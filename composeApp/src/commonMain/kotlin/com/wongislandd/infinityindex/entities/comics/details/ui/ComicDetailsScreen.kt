@@ -21,7 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import app.cash.paging.compose.collectAsLazyPagingItems
-import com.wongislandd.infinityindex.GlobalTopAppBar
+import com.wongislandd.infinityindex.infra.composables.GlobalTopAppBar
 import com.wongislandd.infinityindex.infra.composables.MarvelImage
 import com.wongislandd.infinityindex.infra.composables.SectionedList
 import com.wongislandd.infinityindex.infra.util.Resource

@@ -1,4 +1,4 @@
-package com.wongislandd.infinityindex
+package com.wongislandd.infinityindex.infra.composables
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.Icon

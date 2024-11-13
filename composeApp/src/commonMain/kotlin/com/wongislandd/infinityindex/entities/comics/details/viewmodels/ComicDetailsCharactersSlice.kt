@@ -8,6 +8,8 @@ import com.wongislandd.infinityindex.infra.paging.EntityPagingSource
 import com.wongislandd.infinityindex.entities.characters.data.CharactersEntityRepository
 import com.wongislandd.infinityindex.entities.characters.models.Character
 import com.wongislandd.infinityindex.entities.comics.details.ui.ComicDetailsUiEvent
+import com.wongislandd.infinityindex.infra.paging.RelatedEntityPagingSource
+import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.util.ViewModelSlice
 import com.wongislandd.infinityindex.infra.util.events.UiEvent
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -45,7 +47,11 @@ class ComicDetailsCharactersSlice(
                     prefetchDistance = 5
                 )
             ) {
-                EntityPagingSource(charactersRepository, comicId)
+                RelatedEntityPagingSource(
+                    charactersRepository,
+                    EntityType.COMICS,
+                    comicId
+                )
             }.flow.cachedIn(sliceScope).collectLatest {
                 _characterPagingData.value = it
                 backChannelEvents.sendEvent(

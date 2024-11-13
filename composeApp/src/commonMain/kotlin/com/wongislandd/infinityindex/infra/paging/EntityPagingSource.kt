@@ -7,18 +7,11 @@ import com.wongislandd.infinityindex.infra.util.SortOption
 
 class EntityPagingSource<NETWORK_MODEL, LOCAL_MODEL: Any>(
     private val repository: BaseRepository<NETWORK_MODEL, LOCAL_MODEL>,
-    private val comicId: Int? = null,
     private val query: SearchQuery? = null,
     private val sortOption: SortOption? = null
 ) : BasePagingSource<LOCAL_MODEL>() {
     override suspend fun fetchData(start: Int, count: Int): Resource<DataWrapper<LOCAL_MODEL>> {
-        return comicId?.let {
-            repository.getPagedEntityFromComic(
-                it,
-                start,
-                count
-            )
-        } ?: repository.getAll(
+        return repository.getAll(
             start,
             count,
             query?.text,

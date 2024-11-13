@@ -44,7 +44,7 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import app.cash.paging.compose.LazyPagingItems
 import app.cash.paging.compose.collectAsLazyPagingItems
-import com.wongislandd.infinityindex.GlobalTopAppBar
+import com.wongislandd.infinityindex.infra.composables.GlobalTopAppBar
 import com.wongislandd.infinityindex.entities.comics.details.models.Comic
 import com.wongislandd.infinityindex.entities.comics.list.models.ComicsSortOption
 import com.wongislandd.infinityindex.entities.comics.list.viewmodels.ComicsListViewModel
