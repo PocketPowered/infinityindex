@@ -4,7 +4,7 @@ import com.wongislandd.infinityindex.entities.stories.models.NetworkStory
 import com.wongislandd.infinityindex.entities.stories.models.Story
 import com.wongislandd.infinityindex.entities.stories.transformers.StoryTransformer
 import com.wongislandd.infinityindex.infra.paging.BaseRepository
-import com.wongislandd.infinityindex.infra.util.SupportedPillars
+import com.wongislandd.infinityindex.infra.util.EntityType
 import io.ktor.client.HttpClient
 
 class StoriesEntityRepository(
@@ -13,6 +13,6 @@ class StoriesEntityRepository(
 ) : BaseRepository<NetworkStory, Story>(
     storyTransformer,
     okHttpClient,
-    SupportedPillars.STORIES,
+    EntityType.STORIES,
     NetworkStory.serializer()
 )

@@ -3,7 +3,6 @@ package com.wongislandd.infinityindex.infra.networking
 import com.wongislandd.infinityindex.infra.util.NetworkError
 import com.wongislandd.infinityindex.infra.util.Resource
 import io.ktor.client.HttpClient
-import io.ktor.client.call.body
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.get
 import io.ktor.client.request.url
@@ -15,12 +14,11 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerializationException
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 
 abstract class NetworkClient(val httpClient: HttpClient) {
 
-    suspend inline fun <reified T> get(
+    suspend inline fun <reified T> makeRequest(
         endpoint: String,
         serializer : KSerializer<T>,
         builder: HttpRequestBuilder.() -> Unit = {},
@@ -52,6 +50,7 @@ abstract class NetworkClient(val httpClient: HttpClient) {
             }
             val newValue = when (response.status.value) {
                 in 200..299 -> {
+                    // This is not making use of ktor client, find a way. It seemed faster.
                     val data: T = Json.decodeFromString(serializer, response.bodyAsText())
                     Resource.Success(data)
                 }

@@ -11,12 +11,12 @@ import com.skydoves.landscapist.components.rememberImageComponent
 import com.skydoves.landscapist.placeholder.shimmer.ShimmerPlugin
 
 @Composable
-fun MarvelImage(imageUrl: String, modifier: Modifier) {
+fun MarvelImage(imageUrl: String, contentScale: ContentScale = ContentScale.Inside, modifier: Modifier) {
     CoilImage(
         modifier = modifier,
         imageModel = { imageUrl },
         imageOptions = ImageOptions(
-            contentScale = ContentScale.Inside,
+            contentScale = contentScale,
             alignment = Alignment.Center
         ),
         component = rememberImageComponent {

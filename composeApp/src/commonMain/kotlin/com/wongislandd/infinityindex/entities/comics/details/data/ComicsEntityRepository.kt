@@ -4,7 +4,7 @@ import com.wongislandd.infinityindex.entities.comics.details.models.Comic
 import com.wongislandd.infinityindex.entities.comics.details.transformers.DetailedComicTransformer
 import com.wongislandd.infinityindex.entities.comics.list.models.NetworkComic
 import com.wongislandd.infinityindex.infra.paging.BaseRepository
-import com.wongislandd.infinityindex.infra.util.SupportedPillars
+import com.wongislandd.infinityindex.infra.util.EntityType
 import io.ktor.client.HttpClient
 
 class ComicsEntityRepository(
@@ -13,6 +13,6 @@ class ComicsEntityRepository(
 ) : BaseRepository<NetworkComic, Comic>(
     detailComicDataWrapperTransformer,
     okHttpClient,
-    SupportedPillars.COMICS,
+    EntityType.COMICS,
     NetworkComic.serializer()
 )

@@ -14,6 +14,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
@@ -26,10 +27,11 @@ fun EntityCard(imageUrl: String, title: String, modifier: Modifier = Modifier) {
         shape = RoundedCornerShape(16.dp)
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) { // Make the Column fill the width
-            MarvelImage(imageUrl = imageUrl, modifier = Modifier.size(150.dp))
+            MarvelImage(imageUrl = imageUrl,
+                contentScale = ContentScale.Fit,
+                modifier = Modifier.size(150.dp))
             Box(
                 modifier = Modifier
-                    .fillMaxWidth()  // Ensure the box fills the width of the parent
                     .background(MaterialTheme.colors.primary)
                     .padding(16.dp)
             ) {
