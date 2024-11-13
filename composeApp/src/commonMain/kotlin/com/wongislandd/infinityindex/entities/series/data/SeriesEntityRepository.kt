@@ -1,10 +1,10 @@
 package com.wongislandd.infinityindex.entities.series.data
 
-import com.wongislandd.infinityindex.networking.util.DataWrapper
-import com.wongislandd.infinityindex.networking.util.NetworkClient
-import com.wongislandd.infinityindex.networking.util.NetworkDataWrapper
-import com.wongislandd.infinityindex.networking.util.Resource
-import com.wongislandd.infinityindex.networking.util.SupportedPillars
+import com.wongislandd.infinityindex.infra.networking.models.DataWrapper
+import com.wongislandd.infinityindex.infra.networking.NetworkClient
+import com.wongislandd.infinityindex.infra.networking.models.NetworkDataWrapper
+import com.wongislandd.infinityindex.infra.util.Resource
+import com.wongislandd.infinityindex.infra.util.SupportedPillars
 import com.wongislandd.infinityindex.entities.comics.details.viewmodels.BasicEntityRepository
 import com.wongislandd.infinityindex.entities.series.models.Series
 import com.wongislandd.infinityindex.entities.series.models.NetworkSeries
@@ -24,7 +24,7 @@ class SeriesEntityRepository(
         sortKey: String?
     ): Resource<DataWrapper<Series>> {
         val response: Resource<NetworkDataWrapper<NetworkSeries>> =
-            get(SupportedPillars.CHARACTERS.basePath) {
+            get(SupportedPillars.SERIES.basePath) {
                 parameter("offset", start)
                 parameter("limit", count)
                 searchParam?.also { searchParam ->
@@ -40,7 +40,7 @@ class SeriesEntityRepository(
     override suspend fun get(
         id: Int
     ): Resource<Series> {
-        val response: Resource<NetworkDataWrapper<NetworkSeries>> = get("${SupportedPillars.CHARACTERS.basePath}/$id")
+        val response: Resource<NetworkDataWrapper<NetworkSeries>> = get("${SupportedPillars.SERIES.basePath}/$id")
         return response.map { seriesTransformer.transform(it) }.map {
             it.data.results.firstOrNull()
         }
@@ -51,7 +51,7 @@ class SeriesEntityRepository(
         start: Int,
         count: Int
     ): Resource<DataWrapper<Series>> {
-        val response: Resource<NetworkDataWrapper<NetworkSeries>> = get("comics/$comicId/series") {
+        val response: Resource<NetworkDataWrapper<NetworkSeries>> = get("comics/$comicId/${SupportedPillars.SERIES.basePath}") {
             parameter("offset", start)
             parameter("limit", count)
         }

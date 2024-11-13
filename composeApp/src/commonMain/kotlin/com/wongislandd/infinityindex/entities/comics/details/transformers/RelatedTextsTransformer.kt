@@ -3,8 +3,8 @@ package com.wongislandd.infinityindex.entities.comics.details.transformers
 import com.wongislandd.infinityindex.entities.comics.details.models.RelatedText
 import com.wongislandd.infinityindex.entities.comics.details.helpers.NetworkFieldTypeMapper
 import com.wongislandd.infinityindex.entities.comics.list.models.NetworkTextObject
-import com.wongislandd.infinityindex.util.Transformer
-import com.wongislandd.infinityindex.util.safeLet
+import com.wongislandd.infinityindex.infra.util.Transformer
+import com.wongislandd.infinityindex.infra.util.safeLet
 
 class RelatedTextsTransformer(
     private val networkFieldTypeMapper: NetworkFieldTypeMapper

@@ -22,9 +22,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import app.cash.paging.compose.collectAsLazyPagingItems
 import com.wongislandd.infinityindex.GlobalTopAppBar
-import com.wongislandd.infinityindex.composables.MarvelImage
-import com.wongislandd.infinityindex.composables.SectionedList
-import com.wongislandd.infinityindex.networking.util.Resource
+import com.wongislandd.infinityindex.infra.composables.MarvelImage
+import com.wongislandd.infinityindex.infra.composables.SectionedList
+import com.wongislandd.infinityindex.infra.util.Resource
 import com.wongislandd.infinityindex.entities.comics.details.models.Comic
 import com.wongislandd.infinityindex.entities.comics.details.models.ComicDetailsScreenState
 import com.wongislandd.infinityindex.entities.comics.details.viewmodels.ComicDetailsViewModel

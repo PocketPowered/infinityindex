@@ -1,7 +1,7 @@
 package com.wongislandd.infinityindex.entities.characters.models
 
 import com.wongislandd.infinityindex.entities.comics.details.models.RelatedLink
-import com.wongislandd.infinityindex.util.DisplayableEntity
+import com.wongislandd.infinityindex.infra.util.DisplayableEntity
 
 data class Character(
     override val id: Int,

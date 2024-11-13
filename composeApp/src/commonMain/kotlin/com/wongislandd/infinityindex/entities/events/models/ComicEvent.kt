@@ -1,6 +1,6 @@
 package com.wongislandd.infinityindex.entities.events.models
 
-import com.wongislandd.infinityindex.util.DisplayableEntity
+import com.wongislandd.infinityindex.infra.util.DisplayableEntity
 
 data class ComicEvent(
     override val id: Int,

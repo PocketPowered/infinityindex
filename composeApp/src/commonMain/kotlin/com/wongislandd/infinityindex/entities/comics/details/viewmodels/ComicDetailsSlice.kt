@@ -2,8 +2,8 @@ package com.wongislandd.infinityindex.entities.comics.details.viewmodels
 
 import com.wongislandd.infinityindex.entities.comics.details.data.ComicsEntityRepository
 import com.wongislandd.infinityindex.entities.comics.details.ui.ComicDetailsUiEvent
-import com.wongislandd.infinityindex.util.ViewModelSlice
-import com.wongislandd.infinityindex.util.events.UiEvent
+import com.wongislandd.infinityindex.infra.util.ViewModelSlice
+import com.wongislandd.infinityindex.infra.util.events.UiEvent
 import kotlinx.coroutines.launch
 
 class ComicDetailsSlice(

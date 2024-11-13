@@ -7,8 +7,8 @@ import com.wongislandd.infinityindex.entities.creators.models.Creator
 import com.wongislandd.infinityindex.entities.events.models.ComicEvent
 import com.wongislandd.infinityindex.entities.series.models.Series
 import com.wongislandd.infinityindex.entities.stories.models.Story
-import com.wongislandd.infinityindex.util.ViewModelSlice
-import com.wongislandd.infinityindex.util.events.BackChannelEvent
+import com.wongislandd.infinityindex.infra.util.ViewModelSlice
+import com.wongislandd.infinityindex.infra.util.events.BackChannelEvent
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 

@@ -1,6 +1,6 @@
 package com.wongislandd.infinityindex.entities.stories.models
 
-import com.wongislandd.infinityindex.networking.util.SortOption
+import com.wongislandd.infinityindex.infra.util.SortOption
 
 enum class StoriesSortOption(
     override val displayName: String,

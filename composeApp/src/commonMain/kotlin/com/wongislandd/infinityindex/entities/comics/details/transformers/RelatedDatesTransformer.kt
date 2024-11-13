@@ -3,8 +3,8 @@ package com.wongislandd.infinityindex.entities.comics.details.transformers
 import com.wongislandd.infinityindex.entities.comics.details.helpers.NetworkFieldTypeMapper
 import com.wongislandd.infinityindex.entities.comics.details.models.RelatedDate
 import com.wongislandd.infinityindex.entities.comics.list.models.NetworkComicDate
-import com.wongislandd.infinityindex.util.Transformer
-import com.wongislandd.infinityindex.util.safeLet
+import com.wongislandd.infinityindex.infra.util.Transformer
+import com.wongislandd.infinityindex.infra.util.safeLet
 
 class RelatedDatesTransformer(
     private val networkFieldTypeMapper: NetworkFieldTypeMapper,

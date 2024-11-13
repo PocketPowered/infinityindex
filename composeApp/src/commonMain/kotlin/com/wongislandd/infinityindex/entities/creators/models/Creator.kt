@@ -1,6 +1,6 @@
 package com.wongislandd.infinityindex.entities.creators.models
 
-import com.wongislandd.infinityindex.util.DisplayableEntity
+import com.wongislandd.infinityindex.infra.util.DisplayableEntity
 
 data class Creator(
     override val id: Int,

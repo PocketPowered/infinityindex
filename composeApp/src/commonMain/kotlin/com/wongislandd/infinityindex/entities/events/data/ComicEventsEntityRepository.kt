@@ -1,10 +1,10 @@
 package com.wongislandd.infinityindex.entities.events.data
 
-import com.wongislandd.infinityindex.networking.util.DataWrapper
-import com.wongislandd.infinityindex.networking.util.NetworkClient
-import com.wongislandd.infinityindex.networking.util.NetworkDataWrapper
-import com.wongislandd.infinityindex.networking.util.Resource
-import com.wongislandd.infinityindex.networking.util.SupportedPillars
+import com.wongislandd.infinityindex.infra.networking.models.DataWrapper
+import com.wongislandd.infinityindex.infra.networking.NetworkClient
+import com.wongislandd.infinityindex.infra.networking.models.NetworkDataWrapper
+import com.wongislandd.infinityindex.infra.util.Resource
+import com.wongislandd.infinityindex.infra.util.SupportedPillars
 import com.wongislandd.infinityindex.entities.comics.details.viewmodels.BasicEntityRepository
 import com.wongislandd.infinityindex.entities.events.models.ComicEvent
 import com.wongislandd.infinityindex.entities.events.models.NetworkComicEvent
@@ -24,7 +24,7 @@ class ComicEventsEntityRepository(
         sortKey: String?
     ): Resource<DataWrapper<ComicEvent>> {
         val response: Resource<NetworkDataWrapper<NetworkComicEvent>> =
-            get(SupportedPillars.CHARACTERS.basePath) {
+            get(SupportedPillars.COMIC_EVENTS.basePath) {
                 parameter("offset", start)
                 parameter("limit", count)
                 searchParam?.also { searchParam ->
@@ -40,7 +40,7 @@ class ComicEventsEntityRepository(
     override suspend fun get(
         id: Int
     ): Resource<ComicEvent> {
-        val response: Resource<NetworkDataWrapper<NetworkComicEvent>> = get("${SupportedPillars.CHARACTERS.basePath}/$id")
+        val response: Resource<NetworkDataWrapper<NetworkComicEvent>> = get("${SupportedPillars.COMIC_EVENTS.basePath}/$id")
         return response.map { eventTransformer.transform(it) }.map {
             it.data.results.firstOrNull()
         }
@@ -51,7 +51,7 @@ class ComicEventsEntityRepository(
         start: Int,
         count: Int
     ): Resource<DataWrapper<ComicEvent>> {
-        val response: Resource<NetworkDataWrapper<NetworkComicEvent>> = get("comics/$comicId/events") {
+        val response: Resource<NetworkDataWrapper<NetworkComicEvent>> = get("comics/$comicId/${SupportedPillars.COMIC_EVENTS.basePath}") {
             parameter("offset", start)
             parameter("limit", count)
         }

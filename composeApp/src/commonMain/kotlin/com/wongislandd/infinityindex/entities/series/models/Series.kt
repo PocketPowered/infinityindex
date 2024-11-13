@@ -1,6 +1,6 @@
 package com.wongislandd.infinityindex.entities.series.models
 
-import com.wongislandd.infinityindex.util.DisplayableEntity
+import com.wongislandd.infinityindex.infra.util.DisplayableEntity
 
 data class Series(
     override val id: Int,

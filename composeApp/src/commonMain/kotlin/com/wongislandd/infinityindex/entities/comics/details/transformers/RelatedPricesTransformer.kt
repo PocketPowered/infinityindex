@@ -3,8 +3,8 @@ package com.wongislandd.infinityindex.entities.comics.details.transformers
 import com.wongislandd.infinityindex.entities.comics.details.models.RelatedPrice
 import com.wongislandd.infinityindex.entities.comics.details.helpers.NetworkFieldTypeMapper
 import com.wongislandd.infinityindex.entities.comics.list.models.NetworkComicPrice
-import com.wongislandd.infinityindex.util.Transformer
-import com.wongislandd.infinityindex.util.safeLet
+import com.wongislandd.infinityindex.infra.util.Transformer
+import com.wongislandd.infinityindex.infra.util.safeLet
 
 class RelatedPricesTransformer(
     private val networkFieldTypeMapper: NetworkFieldTypeMapper

@@ -1,8 +1,8 @@
 package com.wongislandd.infinityindex.entities.stories.models
 
-import com.wongislandd.infinityindex.networking.util.NetworkImage
-import com.wongislandd.infinityindex.networking.util.NetworkList
-import com.wongislandd.infinityindex.networking.util.NetworkSummary
+import com.wongislandd.infinityindex.infra.networking.models.NetworkImage
+import com.wongislandd.infinityindex.infra.networking.models.NetworkList
+import com.wongislandd.infinityindex.infra.networking.models.NetworkSummary
 import kotlinx.serialization.Serializable
 
 @Serializable

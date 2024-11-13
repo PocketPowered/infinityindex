@@ -1,10 +1,10 @@
 package com.wongislandd.infinityindex.entities.characters.data
 
-import com.wongislandd.infinityindex.networking.util.DataWrapper
-import com.wongislandd.infinityindex.networking.util.NetworkClient
-import com.wongislandd.infinityindex.networking.util.NetworkDataWrapper
-import com.wongislandd.infinityindex.networking.util.Resource
-import com.wongislandd.infinityindex.networking.util.SupportedPillars
+import com.wongislandd.infinityindex.infra.networking.models.DataWrapper
+import com.wongislandd.infinityindex.infra.networking.NetworkClient
+import com.wongislandd.infinityindex.infra.networking.models.NetworkDataWrapper
+import com.wongislandd.infinityindex.infra.util.Resource
+import com.wongislandd.infinityindex.infra.util.SupportedPillars
 import com.wongislandd.infinityindex.entities.characters.models.Character
 import com.wongislandd.infinityindex.entities.characters.models.NetworkCharacter
 import com.wongislandd.infinityindex.entities.characters.transformers.CharacterTransformer

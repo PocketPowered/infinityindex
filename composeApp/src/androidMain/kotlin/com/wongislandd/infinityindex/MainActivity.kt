@@ -3,7 +3,7 @@ package com.wongislandd.infinityindex
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.wongislandd.infinityindex.di.initializeKoin
+import com.wongislandd.infinityindex.infra.di.initializeKoin
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

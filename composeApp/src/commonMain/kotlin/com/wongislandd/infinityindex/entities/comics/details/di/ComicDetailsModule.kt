@@ -15,7 +15,7 @@ import com.wongislandd.infinityindex.entities.comics.details.viewmodels.ComicDet
 import com.wongislandd.infinityindex.entities.comics.details.viewmodels.ComicDetailsSlice
 import com.wongislandd.infinityindex.entities.comics.details.viewmodels.ComicDetailsStoriesSlice
 import com.wongislandd.infinityindex.entities.comics.details.viewmodels.ComicDetailsViewModel
-import com.wongislandd.infinityindex.util.events.eventBusFactory
+import com.wongislandd.infinityindex.infra.util.events.eventBusFactory
 import org.koin.compose.viewmodel.dsl.viewModelOf
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf

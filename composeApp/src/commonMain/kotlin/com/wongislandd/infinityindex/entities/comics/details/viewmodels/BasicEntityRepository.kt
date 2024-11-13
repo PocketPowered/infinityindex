@@ -1,7 +1,7 @@
 package com.wongislandd.infinityindex.entities.comics.details.viewmodels
 
-import com.wongislandd.infinityindex.networking.util.DataWrapper
-import com.wongislandd.infinityindex.networking.util.Resource
+import com.wongislandd.infinityindex.infra.networking.models.DataWrapper
+import com.wongislandd.infinityindex.infra.util.Resource
 
 interface BasicEntityRepository <T>{
     suspend fun getAll(

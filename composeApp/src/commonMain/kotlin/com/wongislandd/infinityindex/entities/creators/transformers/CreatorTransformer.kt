@@ -1,10 +1,10 @@
 package com.wongislandd.infinityindex.entities.creators.transformers
 
-import com.wongislandd.infinityindex.networking.util.ImageUrlTransformer
+import com.wongislandd.infinityindex.infra.transformers.ImageUrlTransformer
 import com.wongislandd.infinityindex.entities.creators.models.Creator
 import com.wongislandd.infinityindex.entities.creators.models.NetworkCreator
-import com.wongislandd.infinityindex.util.DataWrapperTransformer
-import com.wongislandd.infinityindex.util.safeLet
+import com.wongislandd.infinityindex.infra.transformers.DataWrapperTransformer
+import com.wongislandd.infinityindex.infra.util.safeLet
 
 class CreatorTransformer(
     private val imageUrlTransformer: ImageUrlTransformer,

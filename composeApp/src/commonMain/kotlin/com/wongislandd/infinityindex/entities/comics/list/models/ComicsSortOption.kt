@@ -1,6 +1,6 @@
 package com.wongislandd.infinityindex.entities.comics.list.models
 
-import com.wongislandd.infinityindex.networking.util.SortOption
+import com.wongislandd.infinityindex.infra.util.SortOption
 
 enum class ComicsSortOption(
     override val displayName: String,

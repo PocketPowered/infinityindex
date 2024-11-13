@@ -1,9 +1,9 @@
 package com.wongislandd.infinityindex.entities.comics.details.viewmodels
 
-import com.wongislandd.infinityindex.util.SliceableViewModel
-import com.wongislandd.infinityindex.util.events.BackChannelEvent
-import com.wongislandd.infinityindex.util.events.EventBus
-import com.wongislandd.infinityindex.util.events.UiEvent
+import com.wongislandd.infinityindex.infra.util.SliceableViewModel
+import com.wongislandd.infinityindex.infra.util.events.BackChannelEvent
+import com.wongislandd.infinityindex.infra.util.events.EventBus
+import com.wongislandd.infinityindex.infra.util.events.UiEvent
 
 class ComicDetailsViewModel(
     val comicDetailsScreenStateSlice: ComicDetailsScreenStateSlice,

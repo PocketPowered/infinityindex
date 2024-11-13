@@ -2,9 +2,9 @@ package com.wongislandd.infinityindex.entities.comics.details.transformers
 
 import com.wongislandd.infinityindex.entities.comics.details.models.RelatedLink
 import com.wongislandd.infinityindex.entities.comics.details.helpers.NetworkFieldTypeMapper
-import com.wongislandd.infinityindex.networking.util.NetworkUrl
-import com.wongislandd.infinityindex.util.Transformer
-import com.wongislandd.infinityindex.util.safeLet
+import com.wongislandd.infinityindex.infra.networking.models.NetworkUrl
+import com.wongislandd.infinityindex.infra.util.Transformer
+import com.wongislandd.infinityindex.infra.util.safeLet
 
 class RelatedLinksTransformer(
     private val networkFieldTypeMapper: NetworkFieldTypeMapper,

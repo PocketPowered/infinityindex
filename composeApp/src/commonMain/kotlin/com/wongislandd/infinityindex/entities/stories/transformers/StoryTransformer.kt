@@ -1,10 +1,10 @@
 package com.wongislandd.infinityindex.entities.stories.transformers
 
-import com.wongislandd.infinityindex.networking.util.ImageUrlTransformer
+import com.wongislandd.infinityindex.infra.transformers.ImageUrlTransformer
 import com.wongislandd.infinityindex.entities.stories.models.NetworkStory
 import com.wongislandd.infinityindex.entities.stories.models.Story
-import com.wongislandd.infinityindex.util.DataWrapperTransformer
-import com.wongislandd.infinityindex.util.safeLet
+import com.wongislandd.infinityindex.infra.transformers.DataWrapperTransformer
+import com.wongislandd.infinityindex.infra.util.safeLet
 
 class StoryTransformer(
     private val imageUrlTransformer: ImageUrlTransformer,

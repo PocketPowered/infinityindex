@@ -1,14 +1,15 @@
 package com.wongislandd.infinityindex.entities.comics.details.data
 
-import com.wongislandd.infinityindex.networking.util.DataWrapper
-import com.wongislandd.infinityindex.networking.util.NetworkClient
-import com.wongislandd.infinityindex.networking.util.NetworkDataWrapper
-import com.wongislandd.infinityindex.networking.util.Resource
+import com.wongislandd.infinityindex.infra.networking.models.DataWrapper
+import com.wongislandd.infinityindex.infra.networking.NetworkClient
+import com.wongislandd.infinityindex.infra.networking.models.NetworkDataWrapper
+import com.wongislandd.infinityindex.infra.util.Resource
 import com.wongislandd.infinityindex.entities.comics.details.models.Comic
 import com.wongislandd.infinityindex.entities.comics.details.transformers.DetailedComicTransformer
 import com.wongislandd.infinityindex.entities.comics.details.viewmodels.BasicEntityRepository
 import com.wongislandd.infinityindex.entities.comics.list.models.NetworkComic
-import com.wongislandd.infinityindex.util.ClientError
+import com.wongislandd.infinityindex.infra.util.ClientError
+import com.wongislandd.infinityindex.infra.util.SupportedPillars
 import io.ktor.client.HttpClient
 import io.ktor.client.request.parameter
 
@@ -24,7 +25,7 @@ class ComicsEntityRepository(
         sortKey: String?
     ): Resource<DataWrapper<Comic>> {
         val response: Resource<NetworkDataWrapper<NetworkComic>> =
-            get("comics") {
+            get(SupportedPillars.COMICS.basePath) {
                 parameter("offset", start)
                 parameter("limit", count)
                 searchParam?.also { searchParam ->
@@ -39,7 +40,7 @@ class ComicsEntityRepository(
         id: Int
     ): Resource<Comic> {
         val response: Resource<NetworkDataWrapper<NetworkComic>> =
-            get("comics/$id")
+            get("${SupportedPillars.COMICS.basePath}/$id")
         return response.map { detailComicDataWrapperTransformer.transform(it) }.map {
             it.data.results.firstOrNull()
         }

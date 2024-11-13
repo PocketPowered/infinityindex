@@ -4,12 +4,12 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.wongislandd.infinityindex.networking.util.EntityPagingSource
+import com.wongislandd.infinityindex.infra.paging.EntityPagingSource
 import com.wongislandd.infinityindex.entities.comics.details.ui.ComicDetailsUiEvent
 import com.wongislandd.infinityindex.entities.series.data.SeriesEntityRepository
 import com.wongislandd.infinityindex.entities.series.models.Series
-import com.wongislandd.infinityindex.util.ViewModelSlice
-import com.wongislandd.infinityindex.util.events.UiEvent
+import com.wongislandd.infinityindex.infra.util.ViewModelSlice
+import com.wongislandd.infinityindex.infra.util.events.UiEvent
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest

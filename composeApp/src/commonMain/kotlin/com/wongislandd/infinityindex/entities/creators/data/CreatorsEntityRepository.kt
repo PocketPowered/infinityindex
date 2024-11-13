@@ -1,10 +1,10 @@
 package com.wongislandd.infinityindex.entities.creators.data
 
-import com.wongislandd.infinityindex.networking.util.DataWrapper
-import com.wongislandd.infinityindex.networking.util.NetworkClient
-import com.wongislandd.infinityindex.networking.util.NetworkDataWrapper
-import com.wongislandd.infinityindex.networking.util.Resource
-import com.wongislandd.infinityindex.networking.util.SupportedPillars
+import com.wongislandd.infinityindex.infra.networking.models.DataWrapper
+import com.wongislandd.infinityindex.infra.networking.NetworkClient
+import com.wongislandd.infinityindex.infra.networking.models.NetworkDataWrapper
+import com.wongislandd.infinityindex.infra.util.Resource
+import com.wongislandd.infinityindex.infra.util.SupportedPillars
 import com.wongislandd.infinityindex.entities.comics.details.viewmodels.BasicEntityRepository
 import com.wongislandd.infinityindex.entities.creators.transformers.CreatorTransformer
 import com.wongislandd.infinityindex.entities.creators.models.Creator

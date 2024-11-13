@@ -1,6 +1,6 @@
 package com.wongislandd.infinityindex.entities.comics.list.transformers
 
-import com.wongislandd.infinityindex.util.Transformer
+import com.wongislandd.infinityindex.infra.util.Transformer
 
 class DateTransformer: Transformer<String, String> {
 

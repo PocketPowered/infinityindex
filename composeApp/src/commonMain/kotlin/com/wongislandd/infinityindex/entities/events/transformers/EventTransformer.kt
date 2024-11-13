@@ -1,10 +1,10 @@
 package com.wongislandd.infinityindex.entities.events.transformers
 
-import com.wongislandd.infinityindex.networking.util.ImageUrlTransformer
+import com.wongislandd.infinityindex.infra.transformers.ImageUrlTransformer
 import com.wongislandd.infinityindex.entities.events.models.ComicEvent
 import com.wongislandd.infinityindex.entities.events.models.NetworkComicEvent
-import com.wongislandd.infinityindex.util.DataWrapperTransformer
-import com.wongislandd.infinityindex.util.safeLet
+import com.wongislandd.infinityindex.infra.transformers.DataWrapperTransformer
+import com.wongislandd.infinityindex.infra.util.safeLet
 
 class EventTransformer(
     private val imageUrlTransformer: ImageUrlTransformer,

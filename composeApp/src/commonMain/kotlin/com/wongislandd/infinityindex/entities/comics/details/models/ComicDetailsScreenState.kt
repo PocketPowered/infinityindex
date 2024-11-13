@@ -1,7 +1,7 @@
 package com.wongislandd.infinityindex.entities.comics.details.models
 
 import app.cash.paging.PagingData
-import com.wongislandd.infinityindex.networking.util.Resource
+import com.wongislandd.infinityindex.infra.util.Resource
 import com.wongislandd.infinityindex.entities.characters.models.Character
 import com.wongislandd.infinityindex.entities.creators.models.Creator
 import com.wongislandd.infinityindex.entities.events.models.ComicEvent

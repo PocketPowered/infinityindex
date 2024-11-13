@@ -1,10 +1,10 @@
 package com.wongislandd.infinityindex.entities.characters.models
 
-import com.wongislandd.infinityindex.networking.util.NetworkList
-import com.wongislandd.infinityindex.networking.util.NetworkSummary
-import com.wongislandd.infinityindex.networking.util.TypedNetworkSummary
-import com.wongislandd.infinityindex.networking.util.NetworkImage
-import com.wongislandd.infinityindex.networking.util.NetworkUrl
+import com.wongislandd.infinityindex.infra.networking.models.NetworkList
+import com.wongislandd.infinityindex.infra.networking.models.NetworkSummary
+import com.wongislandd.infinityindex.infra.networking.models.TypedNetworkSummary
+import com.wongislandd.infinityindex.infra.networking.models.NetworkImage
+import com.wongislandd.infinityindex.infra.networking.models.NetworkUrl
 import kotlinx.serialization.Serializable
 
 @Serializable

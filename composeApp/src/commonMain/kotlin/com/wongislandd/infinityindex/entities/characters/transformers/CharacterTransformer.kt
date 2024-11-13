@@ -1,11 +1,11 @@
 package com.wongislandd.infinityindex.entities.characters.transformers
 
-import com.wongislandd.infinityindex.networking.util.ImageUrlTransformer
+import com.wongislandd.infinityindex.infra.transformers.ImageUrlTransformer
 import com.wongislandd.infinityindex.entities.characters.models.Character
 import com.wongislandd.infinityindex.entities.characters.models.NetworkCharacter
 import com.wongislandd.infinityindex.entities.comics.details.transformers.RelatedLinksTransformer
-import com.wongislandd.infinityindex.util.DataWrapperTransformer
-import com.wongislandd.infinityindex.util.safeLet
+import com.wongislandd.infinityindex.infra.transformers.DataWrapperTransformer
+import com.wongislandd.infinityindex.infra.util.safeLet
 
 class CharacterTransformer(
     private val imageUrlTransformer: ImageUrlTransformer,
