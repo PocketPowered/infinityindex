@@ -1,5 +1,6 @@
 package com.wongislandd.infinityindex.di
 
+import com.wongislandd.infinityindex.pillars.characters.di.charactersModule
 import com.wongislandd.infinityindex.pillars.comics.details.di.comicDetailsModule
 import com.wongislandd.infinityindex.pillars.comics.di.comicsModule
 import com.wongislandd.infinityindex.pillars.comics.list.di.comicsListModule
@@ -19,6 +20,9 @@ val appModule = module {
 
 fun initializeKoin() {
     startKoin {
-        modules(appModule, platformModule, comicsModule, comicsListModule, comicDetailsModule)
+        modules(
+            appModule, platformModule, comicsModule, comicsListModule, comicDetailsModule,
+            charactersModule
+        )
     }
 }
