@@ -24,7 +24,7 @@ class ComicDetailsSlice(
 
     private fun loadComicDetails(comicId: Int) {
         sliceScope.launch {
-            val comicRes = comicsRepository.getComic(comicId)
+            val comicRes = comicsRepository.get(comicId)
             backChannelEvents.sendEvent(
                 ComicDetailsBackChannelEvent.DetailedComicsResUpdate(
                     comicRes

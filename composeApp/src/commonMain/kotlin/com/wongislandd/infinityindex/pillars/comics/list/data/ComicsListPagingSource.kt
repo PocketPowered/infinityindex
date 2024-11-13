@@ -15,7 +15,7 @@ class ComicsListPagingSource(
     private val sortOption: ComicsSortOption
 ) : KoinComponent, BasePagingSource<Comic>() {
     override suspend fun fetchData(start: Int, count: Int): Resource<DataWrapper<Comic>> {
-        return comicsRepository.getAllComics(
+        return comicsRepository.getAll(
             start,
             count,
             searchParam = searchQuery?.text,

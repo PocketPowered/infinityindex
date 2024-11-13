@@ -15,14 +15,14 @@ class ComicsRepository(
     okHttpClient: HttpClient
 ) : NetworkClient(okHttpClient) {
 
-    suspend fun getAllComics(
+    suspend fun getAll(
         start: Int,
         count: Int,
         searchParam: String?,
         sortKey: String
     ): Resource<DataWrapper<Comic>> {
         val response: Resource<NetworkDataWrapper<NetworkComic>> =
-            get<NetworkDataWrapper<NetworkComic>>("comics") {
+            get("comics") {
                 parameter("offset", start)
                 parameter("limit", count)
                 searchParam?.also { searchParam ->
@@ -33,11 +33,11 @@ class ComicsRepository(
         return response.map { detailComicDataWrapperTransformer.transform(it) }
     }
 
-    suspend fun getComic(
+    suspend fun get(
         comicId: Int
     ): Resource<Comic> {
         val response: Resource<NetworkDataWrapper<NetworkComic>> =
-            get<NetworkDataWrapper<NetworkComic>>("public/comics/$comicId")
+            get("comics/$comicId")
         return response.map { detailComicDataWrapperTransformer.transform(it) }.map {
             it.data.results.firstOrNull()
         }

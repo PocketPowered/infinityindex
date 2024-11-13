@@ -2,9 +2,10 @@ package com.wongislandd.infinityindex.pillars.characters.data
 
 import com.wongislandd.infinityindex.networking.util.DataWrapper
 import com.wongislandd.infinityindex.networking.util.NetworkClient
+import com.wongislandd.infinityindex.networking.util.NetworkDataWrapper
 import com.wongislandd.infinityindex.networking.util.Resource
 import com.wongislandd.infinityindex.pillars.characters.models.Character
-import com.wongislandd.infinityindex.pillars.characters.models.CharactersSortOption
+import com.wongislandd.infinityindex.pillars.characters.models.NetworkCharacter
 import com.wongislandd.infinityindex.pillars.characters.transformers.CharacterTransformer
 import io.ktor.client.HttpClient
 import io.ktor.client.request.parameter
@@ -14,21 +15,31 @@ class CharactersRepository(
     okHttpClient: HttpClient
 ) : NetworkClient(okHttpClient) {
 
-    suspend fun getCharacters(
+    suspend fun getAll(
         start: Int,
         count: Int,
         searchParam: String?,
-        sortOption: CharactersSortOption
+        sortKey: String
     ): Resource<DataWrapper<Character>> {
-        val response = get<DataWrapper<Character>>("public/characters") {
-            parameter("offset", start)
-            parameter("limit", count)
-            searchParam?.also { searchParam ->
-                parameter("nameStartsWith", searchParam)
+        val response: Resource<NetworkDataWrapper<NetworkCharacter>> =
+            get("comics") {
+                parameter("offset", start)
+                parameter("limit", count)
+                searchParam?.also { searchParam ->
+                    parameter("nameStartsWith", searchParam)
+                }
+                parameter("orderBy", sortKey)
             }
-            parameter("orderBy", sortOption.sortKey)
+        return response.map { characterTransformer.transform(it) }
+    }
+
+    suspend fun get(
+        comicId: Int
+    ): Resource<Character> {
+        val response: Resource<NetworkDataWrapper<NetworkCharacter>> = get("comics/$comicId")
+        return response.map { characterTransformer.transform(it) }.map {
+            it.data.results.firstOrNull()
         }
-        return response
     }
 
 
