@@ -12,6 +12,7 @@ import com.wongislandd.infinityindex.entities.comics.details.viewmodels.ComicDet
 import com.wongislandd.infinityindex.entities.comics.details.viewmodels.ComicDetailsCreatorsSlice
 import com.wongislandd.infinityindex.entities.comics.details.viewmodels.ComicDetailsEventsSlice
 import com.wongislandd.infinityindex.entities.comics.details.viewmodels.ComicDetailsScreenStateSlice
+import com.wongislandd.infinityindex.entities.comics.details.viewmodels.ComicDetailsSeriesSlice
 import com.wongislandd.infinityindex.entities.comics.details.viewmodels.ComicDetailsSlice
 import com.wongislandd.infinityindex.entities.comics.details.viewmodels.ComicDetailsStoriesSlice
 import com.wongislandd.infinityindex.entities.comics.details.viewmodels.ComicDetailsViewModel
@@ -32,6 +33,7 @@ val comicDetailsModule = module {
     singleOf(::NetworkFieldTypeMapper)
     singleOf(::RelatedDatesTransformer)
     factoryOf(::ComicDetailsSlice)
+    factoryOf(::ComicDetailsSeriesSlice)
     factoryOf(::ComicDetailsScreenStateSlice)
     factoryOf(::ComicDetailsCharactersSlice)
     factoryOf(::ComicDetailsCreatorsSlice)

@@ -12,6 +12,7 @@ class ComicDetailsViewModel(
     comicDetailsEventsSlice: ComicDetailsEventsSlice,
     comicDetailsCreatorsSlice: ComicDetailsCreatorsSlice,
     comicDetailsCharactersSlice: ComicDetailsCharactersSlice,
+    comicDetailsSeriesSlice: ComicDetailsSeriesSlice,
     uiEventBus: EventBus<UiEvent>,
     backChannelEventBus: EventBus<BackChannelEvent>
 ) : SliceableViewModel(uiEventBus, backChannelEventBus) {
@@ -23,5 +24,6 @@ class ComicDetailsViewModel(
         registerSlice(comicDetailsEventsSlice)
         registerSlice(comicDetailsCreatorsSlice)
         registerSlice(comicDetailsCharactersSlice)
+        registerSlice(comicDetailsSeriesSlice)
     }
 }
