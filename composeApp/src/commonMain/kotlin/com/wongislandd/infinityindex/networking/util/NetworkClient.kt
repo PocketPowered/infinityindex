@@ -30,7 +30,6 @@ abstract class NetworkClient(val httpClient: HttpClient) {
             makeNetworkRequestToFlow(endpoint, stateFlow, builder)
         }
         return stateFlow
-
     }
 
     suspend inline fun <reified T> makeNetworkRequest(
