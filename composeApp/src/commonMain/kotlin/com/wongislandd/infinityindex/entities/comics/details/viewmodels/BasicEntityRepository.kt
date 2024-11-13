@@ -20,6 +20,4 @@ interface BasicEntityRepository <T>{
         start: Int,
         count: Int
     ): Resource<DataWrapper<T>>
-
-
 }

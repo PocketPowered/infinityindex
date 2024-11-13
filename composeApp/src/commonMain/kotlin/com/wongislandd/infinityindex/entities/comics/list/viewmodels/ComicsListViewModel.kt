@@ -11,6 +11,7 @@ import com.wongislandd.infinityindex.entities.comics.details.data.ComicsEntityRe
 import com.wongislandd.infinityindex.entities.comics.details.models.Comic
 import com.wongislandd.infinityindex.entities.comics.list.models.ComicsListScreenState
 import com.wongislandd.infinityindex.entities.comics.list.models.ComicsSortOption
+import com.wongislandd.infinityindex.entities.comics.list.models.NetworkComic
 import com.wongislandd.infinityindex.entities.comics.list.models.SearchIntention
 import com.wongislandd.infinityindex.entities.comics.list.models.SearchQuery
 import com.wongislandd.infinityindex.entities.comics.list.models.SearchState
@@ -42,7 +43,7 @@ class ComicsListViewModel(private val comicsRepository: ComicsEntityRepository) 
     )
     val screenState = _screenState.asStateFlow()
 
-    private var currentPagingSource: EntityPagingSource<Comic>? = null
+    private var currentPagingSource: EntityPagingSource<NetworkComic, Comic>? = null
     private var currentRefreshWatcherJob: Job? = null
 
     init {

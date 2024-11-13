@@ -4,6 +4,7 @@ import com.wongislandd.infinityindex.infra.networking.models.NetworkImage
 import com.wongislandd.infinityindex.infra.networking.models.NetworkList
 import com.wongislandd.infinityindex.infra.networking.models.NetworkSummary
 import com.wongislandd.infinityindex.infra.networking.models.NetworkUrl
+import com.wongislandd.infinityindex.infra.networking.models.RoledNetworkSummary
 import com.wongislandd.infinityindex.infra.networking.models.TypedNetworkSummary
 import kotlinx.serialization.Serializable
 
@@ -34,7 +35,7 @@ data class NetworkComic(
     val prices: List<NetworkComicPrice>?,
     val thumbnail: NetworkImage?,
     val images: List<NetworkImage>?,
-    val creators: NetworkList<NetworkSummary>?,
+    val creators: NetworkList<RoledNetworkSummary>?,
     val characters: NetworkList<NetworkSummary>?,
     val stories: NetworkList<TypedNetworkSummary>?,
     val events: NetworkList<NetworkSummary>?

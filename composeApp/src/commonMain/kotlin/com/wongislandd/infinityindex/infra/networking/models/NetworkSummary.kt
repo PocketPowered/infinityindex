@@ -9,6 +9,13 @@ data class NetworkSummary(
 )
 
 @Serializable
+data class RoledNetworkSummary(
+    val resourceURI: String?,
+    val name: String?,
+    val role: String?
+)
+
+@Serializable
 data class TypedNetworkSummary(
     val resourceURI: String?,
     val name: String?,

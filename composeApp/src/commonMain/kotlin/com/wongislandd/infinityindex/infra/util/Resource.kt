@@ -4,7 +4,7 @@ sealed class Resource<out T> {
 
     object Loading : Resource<Nothing>()
     data class Success<out T>(val data: T) : Resource<T>()
-    data class Error(val error: com.wongislandd.infinityindex.infra.util.Error?) : Resource<Nothing>()
+    data class Error(val error: com.wongislandd.infinityindex.infra.util.Error?, val throwable: Throwable? = null) : Resource<Nothing>()
 
     fun <R> map(transform: (T) -> R?): Resource<R> {
         return when (this) {
