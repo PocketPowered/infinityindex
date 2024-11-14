@@ -11,7 +11,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.request.parameter
 import io.ktor.util.reflect.TypeInfo
 
-abstract class BaseRepository<NETWORK_MODEL: Any, LOCAL_MODEL>(
+abstract class BaseRepository<NETWORK_MODEL, LOCAL_MODEL>(
     private val transformer: DataWrapperTransformer<NETWORK_MODEL, LOCAL_MODEL>,
     okHttpClient: HttpClient, private val primaryEntityType: EntityType,
     private val typeInfo: TypeInfo
