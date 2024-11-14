@@ -1,5 +1,6 @@
 package com.wongislandd.infinityindex.entities.comics.details.ui
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -75,7 +76,8 @@ private fun ComicDetailsScreenContents(
     val pagedStories = screenState.storiesData.collectAsLazyPagingItems()
     LazyColumn(
         modifier = modifier.fillMaxSize(),
-        contentPadding = PaddingValues(vertical = 8.dp)
+        contentPadding = PaddingValues(vertical = 8.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         item {
             ComicDetails(
@@ -116,9 +118,9 @@ private fun ComicDetails(comic: Comic, modifier: Modifier = Modifier) {
         modifier = modifier.padding(horizontal = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        MarvelImage(imageUrl = comic.imageUrl, modifier = Modifier.fillMaxWidth())
+        MarvelImage(image = comic.image, modifier = Modifier.fillMaxWidth())
         Text(
-            text = comic.title,
+            text = comic.displayName,
             modifier = Modifier.padding(16.dp),
             style = MaterialTheme.typography.h4,
             fontWeight = FontWeight.Bold,

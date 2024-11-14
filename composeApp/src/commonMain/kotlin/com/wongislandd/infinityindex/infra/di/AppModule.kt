@@ -4,7 +4,7 @@ import com.wongislandd.infinityindex.entities.comics.details.di.comicDetailsModu
 import com.wongislandd.infinityindex.entities.comics.di.comicsModule
 import com.wongislandd.infinityindex.entities.comics.list.di.comicsListModule
 import com.wongislandd.infinityindex.entities.comics.list.transformers.DateTransformer
-import com.wongislandd.infinityindex.infra.transformers.ImageUrlTransformer
+import com.wongislandd.infinityindex.infra.transformers.LoadableImageTransformer
 import com.wongislandd.infinityindex.entities.characters.di.charactersModule
 import com.wongislandd.infinityindex.entities.creators.di.creatorsModule
 import com.wongislandd.infinityindex.entities.events.di.eventsModule
@@ -18,7 +18,7 @@ import org.koin.dsl.module
 expect val platformModule: Module
 
 val appModule = module {
-    singleOf(::ImageUrlTransformer)
+    singleOf(::LoadableImageTransformer)
     singleOf(::DateTransformer)
 }
 

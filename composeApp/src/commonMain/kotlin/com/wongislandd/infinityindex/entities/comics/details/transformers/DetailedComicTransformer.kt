@@ -3,12 +3,14 @@ package com.wongislandd.infinityindex.entities.comics.details.transformers
 import com.wongislandd.infinityindex.infra.transformers.DataWrapperTransformer
 import com.wongislandd.infinityindex.entities.comics.details.models.Comic
 import com.wongislandd.infinityindex.entities.comics.list.models.NetworkComic
-import com.wongislandd.infinityindex.infra.transformers.ImageUrlTransformer
+import com.wongislandd.infinityindex.infra.models.DefaultImageType
+import com.wongislandd.infinityindex.infra.transformers.LoadableImageTransformer
 import com.wongislandd.infinityindex.infra.networking.models.hasItems
+import com.wongislandd.infinityindex.infra.transformers.LoadableImageTransformerInput
 import com.wongislandd.infinityindex.infra.util.safeLet
 
 class DetailedComicTransformer(
-    private val imageUrlTransformer: ImageUrlTransformer,
+    private val loadableImageTransformer: LoadableImageTransformer,
     private val relatedDatesTransformer: RelatedDatesTransformer,
     private val relatedTextsTransformer: RelatedTextsTransformer,
     private val relatedLinksTransformer: RelatedLinksTransformer,
@@ -31,13 +33,17 @@ class DetailedComicTransformer(
 
         return safeLet(
             input.id,
-            input.thumbnail,
             input.title,
-        ) { id, thumbnail, title ->
+        ) { id, title ->
             Comic(
                 id = id,
-                title = title,
-                imageUrl = imageUrlTransformer.transform(thumbnail),
+                displayName = title,
+                image = loadableImageTransformer.transform(
+                    LoadableImageTransformerInput(
+                        networkImage = input.thumbnail,
+                        defaultImageType = DefaultImageType.BOOK
+                    )
+                ),
                 pageCount = input.pageCount,
                 issueNumber = input.issueNumber,
                 lastModified = input.modified.dropIfEmpty(),

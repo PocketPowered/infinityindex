@@ -1,9 +1,12 @@
 package com.wongislandd.infinityindex.entities.comics.details.models
 
+import com.wongislandd.infinityindex.infra.models.LoadableImage
+import com.wongislandd.infinityindex.infra.util.DisplayableEntity
+
 data class Comic(
-    val id: Int,
-    val title: String,
-    val imageUrl: String,
+    override val id: Int,
+    override val displayName: String,
+    override val image: LoadableImage,
     val pageCount: Int?,
     val issueNumber: Double?,
     val lastModified: String?,
@@ -22,4 +25,4 @@ data class Comic(
     val hasStories: Boolean,
     val hasCharacters: Boolean,
     val hasCreators: Boolean
-)
+): DisplayableEntity

@@ -1,24 +1,30 @@
 package com.wongislandd.infinityindex.entities.creators.transformers
 
-import com.wongislandd.infinityindex.infra.transformers.ImageUrlTransformer
+import com.wongislandd.infinityindex.infra.transformers.LoadableImageTransformer
 import com.wongislandd.infinityindex.entities.creators.models.Creator
 import com.wongislandd.infinityindex.entities.creators.models.NetworkCreator
+import com.wongislandd.infinityindex.infra.models.DefaultImageType
 import com.wongislandd.infinityindex.infra.transformers.DataWrapperTransformer
+import com.wongislandd.infinityindex.infra.transformers.LoadableImageTransformerInput
 import com.wongislandd.infinityindex.infra.util.safeLet
 
 class CreatorTransformer(
-    private val imageUrlTransformer: ImageUrlTransformer,
+    private val loadableImageTransformer: LoadableImageTransformer,
 ) : DataWrapperTransformer<NetworkCreator, Creator>() {
     override fun itemTransformer(input: NetworkCreator): Creator? {
         return safeLet(
             input.id,
-            input.thumbnail,
             input.fullName,
-        ) { id, thumbnail, name ->
+        ) { id, name ->
             Creator(
                 id = id,
                 displayName = name,
-                imageUrl = imageUrlTransformer.transform(thumbnail),
+                image = loadableImageTransformer.transform(
+                    LoadableImageTransformerInput(
+                        networkImage = input.thumbnail,
+                        defaultImageType = DefaultImageType.PERSON
+                    ),
+                )
             )
         }
     }

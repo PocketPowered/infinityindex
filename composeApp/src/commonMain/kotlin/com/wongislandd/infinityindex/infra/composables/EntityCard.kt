@@ -17,9 +17,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.wongislandd.infinityindex.infra.models.LoadableImage
 
 @Composable
-fun EntityCard(imageUrl: String, title: String, modifier: Modifier = Modifier) {
+fun EntityCard(
+    image: LoadableImage,
+    title: String,
+    modifier: Modifier = Modifier
+) {
     Card(
         modifier = modifier
             .wrapContentHeight(),
@@ -27,9 +32,11 @@ fun EntityCard(imageUrl: String, title: String, modifier: Modifier = Modifier) {
         shape = RoundedCornerShape(16.dp)
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) { // Make the Column fill the width
-            MarvelImage(imageUrl = imageUrl,
-                contentScale = ContentScale.Fit,
-                modifier = Modifier.size(150.dp))
+            MarvelImage(
+                image = image,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.size(150.dp)
+            )
             Box(
                 modifier = Modifier
                     .background(MaterialTheme.colors.primary)

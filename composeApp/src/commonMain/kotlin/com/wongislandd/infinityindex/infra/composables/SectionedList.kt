@@ -30,7 +30,7 @@ fun <T : DisplayableEntity> SectionedList(
         LazyRow(
             modifier = Modifier.fillMaxWidth(),
             contentPadding = PaddingValues(
-                start = 16.dp
+                horizontal = 16.dp
             ),
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
@@ -42,7 +42,7 @@ fun <T : DisplayableEntity> SectionedList(
             ) { index ->
                 pagedItems[index]?.let { item ->
                     EntityCard(
-                        imageUrl = item.imageUrl,
+                        image = item.image,
                         title = item.displayName
                     )
                 }

@@ -40,10 +40,10 @@ fun ComicCard(comic: Comic, modifier: Modifier = Modifier) {
     ) {
         Column {
             MarvelImage(
-                imageUrl = comic.imageUrl,
+                image = comic.image,
                 modifier = Modifier.height(300.dp).background(Color.Black)
             )
-            ComicTitlePlate(comic.title)
+            ComicTitlePlate(comic.displayName)
         }
     }
 }
