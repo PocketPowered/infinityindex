@@ -18,8 +18,8 @@ import com.wongislandd.infinityindex.infra.models.DefaultImageType
 
 
 @Composable
-fun UnknownImage(icon: DefaultImageType, modifier: Modifier = Modifier) {
-    val icon = when (icon) {
+fun UnknownImage(imageType: DefaultImageType, modifier: Modifier = Modifier) {
+    val placeholderIcon = when (imageType) {
         DefaultImageType.PERSON -> Icons.Default.Person
         DefaultImageType.PLACE -> Icons.Default.Place
         DefaultImageType.BOOK -> Icons.Default.Menu
@@ -30,7 +30,7 @@ fun UnknownImage(icon: DefaultImageType, modifier: Modifier = Modifier) {
             .padding(16.dp)
     ) {
         Icon(
-            imageVector = icon,
+            imageVector = placeholderIcon,
             contentDescription = "Unknown image",
             tint = MaterialTheme.colors.onPrimary,
             modifier = Modifier.size(100.dp).align(Alignment.Center)

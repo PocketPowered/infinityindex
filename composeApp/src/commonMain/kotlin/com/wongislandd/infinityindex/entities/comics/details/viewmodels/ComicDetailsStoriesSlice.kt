@@ -1,64 +1,13 @@
 package com.wongislandd.infinityindex.entities.comics.details.viewmodels
 
-import androidx.paging.PagingData
-import androidx.paging.cachedIn
-import app.cash.paging.Pager
-import app.cash.paging.PagingConfig
-import com.wongislandd.infinityindex.infra.paging.EntityPagingSource
-import com.wongislandd.infinityindex.entities.comics.details.ui.ComicDetailsUiEvent
 import com.wongislandd.infinityindex.entities.stories.data.StoriesEntityRepository
+import com.wongislandd.infinityindex.entities.stories.models.NetworkStory
 import com.wongislandd.infinityindex.entities.stories.models.Story
-import com.wongislandd.infinityindex.infra.paging.RelatedEntityPagingSource
 import com.wongislandd.infinityindex.infra.util.EntityType
-import com.wongislandd.infinityindex.infra.util.ViewModelSlice
-import com.wongislandd.infinityindex.infra.util.events.UiEvent
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 class ComicDetailsStoriesSlice(
-    private val storiesRepository: StoriesEntityRepository
-) : ViewModelSlice() {
-
-    private val _storiesPagingData: MutableStateFlow<PagingData<Story>> =
-        MutableStateFlow(PagingData.empty())
-    val storiesPagingData: StateFlow<PagingData<Story>> = _storiesPagingData
-
-    override fun handleUiEvent(event: UiEvent) {
-        when (event) {
-            is ComicDetailsUiEvent.PageInitialized -> {
-                initialize(event.comicId)
-            }
-        }
-    }
-
-    private fun initialize(comicId: Int) {
-        load(comicId)
-    }
-
-    private fun load(comicId: Int) {
-        sliceScope.launch {
-            Pager(
-                config = PagingConfig(
-                    initialLoadSize = 5,
-                    pageSize = 5,
-                    enablePlaceholders = false,
-                    prefetchDistance = 5
-                )
-            ) {
-                RelatedEntityPagingSource(
-                    storiesRepository,
-                    EntityType.COMICS,
-                    comicId
-                )
-            }.flow.cachedIn(sliceScope).collectLatest {
-                _storiesPagingData.value = it
-                backChannelEvents.sendEvent(
-                    ComicDetailsBackChannelEvent.StoriesResUpdate(it)
-                )
-            }
-        }
-    }
-
-}
+    storiesRepository: StoriesEntityRepository
+) : BaseSlice<NetworkStory,Story>(
+    storiesRepository,
+    EntityType.STORIES
+)

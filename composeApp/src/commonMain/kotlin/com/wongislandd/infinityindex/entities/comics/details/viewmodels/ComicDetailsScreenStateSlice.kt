@@ -2,10 +2,13 @@ package com.wongislandd.infinityindex.entities.comics.details.viewmodels
 
 import androidx.paging.PagingData
 import com.wongislandd.infinityindex.entities.characters.models.Character
+import com.wongislandd.infinityindex.entities.comics.details.models.Comic
 import com.wongislandd.infinityindex.entities.comics.details.models.ComicDetailsScreenState
 import com.wongislandd.infinityindex.entities.creators.models.Creator
 import com.wongislandd.infinityindex.entities.events.models.ComicEvent
 import com.wongislandd.infinityindex.entities.stories.models.Story
+import com.wongislandd.infinityindex.infra.util.EntityType
+import com.wongislandd.infinityindex.infra.util.Resource
 import com.wongislandd.infinityindex.infra.util.ViewModelSlice
 import com.wongislandd.infinityindex.infra.util.events.BackChannelEvent
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -41,24 +44,51 @@ class ComicDetailsScreenStateSlice : ViewModelSlice() {
 
     override fun handleBackChannelEvent(event: BackChannelEvent) {
         when (event) {
-            is ComicDetailsBackChannelEvent.ComicsResUpdate -> {
-                _screenState.value = _screenState.value.copy(comicRes = event.update)
+            is ComicDetailsBackChannelEvent.SingleDataResUpdate<*> -> {
+                (event.update as? Resource<Comic>)?.let {
+                    _screenState.value = _screenState.value.copy(comicRes = it)
+                }
             }
 
-            is ComicDetailsBackChannelEvent.CharacterResUpdate -> {
-                _characterPagingData.value = event.update
+            is ComicDetailsBackChannelEvent.PagingDataResUpdate<*> -> {
+                handlePagingUpdate(event)
+            }
+        }
+    }
+
+    /**
+     * Find a better way around the genericness here, so that you don't need an unchecked cast.
+     * Although this is kind of safe, as long as the right entity type is passed!
+     */
+    @Suppress("UNCHECKED_CAST")
+    private fun handlePagingUpdate(event: ComicDetailsBackChannelEvent.PagingDataResUpdate<*>) {
+        when (event.type) {
+            EntityType.CHARACTERS -> {
+                (event.update as? PagingData<Character>)?.let {
+                    _characterPagingData.value = it
+                }
             }
 
-            is ComicDetailsBackChannelEvent.CreatorResUpdate -> {
-                _creatorsPagingData.value = event.update
+            EntityType.COMIC_EVENTS -> {
+                (event.update as? PagingData<ComicEvent>)?.let {
+                    _eventsPagingData.value = it
+                }
             }
 
-            is ComicDetailsBackChannelEvent.EventsResUpdate -> {
-                _eventsPagingData.value = event.update
+            EntityType.CREATORS -> {
+                (event.update as? PagingData<Creator>)?.let {
+                    _creatorsPagingData.value = it
+                }
             }
 
-            is ComicDetailsBackChannelEvent.StoriesResUpdate -> {
-                _storiesPagingData.value = event.update
+            EntityType.STORIES -> {
+                (event.update as? PagingData<Story>)?.let {
+                    _storiesPagingData.value = it
+                }
+            }
+
+            else -> {
+                // do nothing
             }
         }
     }

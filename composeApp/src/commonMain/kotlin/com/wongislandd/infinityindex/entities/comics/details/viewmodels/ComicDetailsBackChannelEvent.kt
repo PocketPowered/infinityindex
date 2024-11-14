@@ -8,13 +8,13 @@ import com.wongislandd.infinityindex.entities.creators.models.Creator
 import com.wongislandd.infinityindex.entities.events.models.ComicEvent
 import com.wongislandd.infinityindex.entities.series.models.Series
 import com.wongislandd.infinityindex.entities.stories.models.Story
+import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.util.events.BackChannelEvent
 
 sealed class ComicDetailsBackChannelEvent : BackChannelEvent {
-    data class ComicsResUpdate(val update: Resource<Comic>) : BackChannelEvent
-    data class CharacterResUpdate(val update: PagingData<Character>) : BackChannelEvent
-    data class CreatorResUpdate(val update: PagingData<Creator>) : BackChannelEvent
-    data class SeriesResUpdate(val update: PagingData<Series>) : BackChannelEvent
-    data class EventsResUpdate(val update: PagingData<ComicEvent>) : BackChannelEvent
-    data class StoriesResUpdate(val update: PagingData<Story>) : BackChannelEvent
+    data class PagingDataResUpdate<T : Any>(val update: PagingData<T>, val type: EntityType) :
+        BackChannelEvent
+
+    data class SingleDataResUpdate<T : Any>(val update: Resource<T>, val type: EntityType) : BackChannelEvent
+
 }

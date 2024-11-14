@@ -32,5 +32,5 @@ fun MarvelImage(
                 Text("Could not load image.")
             }
         )
-    } ?: UnknownImage(icon = image.defaultEntity, modifier = modifier)
+    } ?: UnknownImage(imageType = image.defaultEntity, modifier = modifier)
 }
