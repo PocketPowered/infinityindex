@@ -21,10 +21,6 @@ abstract class BaseResolutionSlice<NETWORK_TYPE, LOCAL_TYPE : PillarModel>(
     private val primaryEntityType: EntityType,
 ) : ViewModelSlice<LOCAL_TYPE>() {
 
-    private val _pagingData: MutableStateFlow<PagingData<LOCAL_TYPE>> =
-        MutableStateFlow(PagingData.empty())
-    val pagingData: MutableStateFlow<PagingData<LOCAL_TYPE>> = _pagingData
-
     override fun handleUiEvent(event: UiEvent) {
         when (event) {
             is DetailsUiEvent.PageInitialized -> {
@@ -65,7 +61,6 @@ abstract class BaseResolutionSlice<NETWORK_TYPE, LOCAL_TYPE : PillarModel>(
         ) {
             RelatedEntityPagingSource(repository, relatedEntityType, comicId)
         }.flow.cachedIn(sliceScope).collectLatest {
-            _pagingData.value = it
             backChannelEvents.sendEvent(
                 ComicDetailsBackChannelEvent.PagingDataResUpdate(it, primaryEntityType)
             )
