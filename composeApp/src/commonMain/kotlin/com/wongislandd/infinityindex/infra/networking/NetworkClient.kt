@@ -1,46 +1,30 @@
 package com.wongislandd.infinityindex.infra.networking
 
+import co.touchlab.kermit.Logger
 import com.wongislandd.infinityindex.infra.util.NetworkError
 import com.wongislandd.infinityindex.infra.util.Resource
 import io.ktor.client.HttpClient
+import io.ktor.client.call.body
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.get
 import io.ktor.client.request.url
-import io.ktor.client.statement.bodyAsText
 import io.ktor.util.network.UnresolvedAddressException
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.withContext
-import kotlinx.serialization.KSerializer
+import io.ktor.util.reflect.TypeInfo
 import kotlinx.serialization.SerializationException
-import kotlinx.serialization.json.Json
 
 abstract class NetworkClient(val httpClient: HttpClient) {
 
     suspend inline fun <reified T> makeRequest(
         endpoint: String,
-        serializer : KSerializer<T>,
+        typeInfo : TypeInfo,
         builder: HttpRequestBuilder.() -> Unit = {},
     ): Resource<T> {
-        return makeNetworkRequest(endpoint, serializer, builder)
-    }
-
-    suspend inline fun <reified T> getFlow(
-        endpoint: String,
-        serializer : KSerializer<T>,
-        crossinline builder: HttpRequestBuilder.() -> Unit = {}
-    ): StateFlow<Resource<T>> {
-        val stateFlow = MutableStateFlow<Resource<T>>(Resource.Loading)
-        withContext(Dispatchers.Default) {
-            makeNetworkRequestToFlow(endpoint, stateFlow, serializer, builder)
-        }
-        return stateFlow
+        return makeNetworkRequest(endpoint, typeInfo, builder)
     }
 
     suspend inline fun <reified T> makeNetworkRequest(
         endpoint: String,
-        serializer : KSerializer<T>,
+        typeInfo : TypeInfo,
         builder: HttpRequestBuilder.() -> Unit = {}
     ): Resource<T> {
         try {
@@ -51,7 +35,7 @@ abstract class NetworkClient(val httpClient: HttpClient) {
             val newValue = when (response.status.value) {
                 in 200..299 -> {
                     // This is not making use of ktor client, find a way. It seemed faster.
-                    val data: T = Json.decodeFromString(serializer, response.bodyAsText())
+                    val data: T = response.body(typeInfo)
                     Resource.Success(data)
                 }
                 401 -> Resource.Error(NetworkError.UNAUTHORIZED)
@@ -68,16 +52,10 @@ abstract class NetworkClient(val httpClient: HttpClient) {
         } catch (e: SerializationException) {
             return Resource.Error(NetworkError.SERIALIZATION)
         } catch (e: Exception) {
+            Logger.e(tag = "Network Error", null) {
+                e.toString()
+            }
             return Resource.Error(NetworkError.UNKNOWN, e)
         }
-    }
-
-    suspend inline fun <reified T> makeNetworkRequestToFlow(
-        endpoint: String,
-        stateFlow: MutableStateFlow<Resource<T>>,
-        serializer : KSerializer<T>,
-        builder: HttpRequestBuilder.() -> Unit = {}
-    ) {
-        stateFlow.value = makeNetworkRequest(endpoint, serializer, builder)
     }
 }

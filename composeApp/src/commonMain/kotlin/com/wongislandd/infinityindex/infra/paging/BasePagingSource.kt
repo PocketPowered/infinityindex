@@ -1,11 +1,11 @@
 package com.wongislandd.infinityindex.infra.paging
 
-import app.cash.paging.PagingSource
+import androidx.paging.PagingSource
+import androidx.paging.PagingState
 import app.cash.paging.PagingSourceLoadParams
 import app.cash.paging.PagingSourceLoadResult
 import app.cash.paging.PagingSourceLoadResultError
 import app.cash.paging.PagingSourceLoadResultPage
-import app.cash.paging.PagingState
 import com.wongislandd.infinityindex.infra.networking.models.DataWrapper
 import com.wongislandd.infinityindex.infra.util.Resource
 import kotlinx.coroutines.flow.MutableStateFlow

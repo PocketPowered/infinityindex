@@ -6,6 +6,7 @@ import com.wongislandd.infinityindex.entities.creators.transformers.CreatorTrans
 import com.wongislandd.infinityindex.infra.paging.BaseRepository
 import com.wongislandd.infinityindex.infra.util.EntityType
 import io.ktor.client.HttpClient
+import io.ktor.util.reflect.typeInfo
 
 class CreatorsEntityRepository(
     creatorTransformer: CreatorTransformer,
@@ -14,5 +15,5 @@ class CreatorsEntityRepository(
     creatorTransformer,
     okHttpClient,
     EntityType.CREATORS,
-    NetworkCreator.serializer()
+    typeInfo<NetworkCreator>()
 )

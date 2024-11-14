@@ -50,10 +50,9 @@ class ComicsListViewModel(private val comicsRepository: ComicsEntityRepository) 
         viewModelScope.launch {
             Pager(
                 config = PagingConfig(
-                    initialLoadSize = 40,
                     pageSize = 20,
                     enablePlaceholders = false,
-                    prefetchDistance = 10
+                    prefetchDistance = 20
                 )
             ) {
                 val newPagingSource = EntityPagingSource(

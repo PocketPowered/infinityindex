@@ -9,16 +9,13 @@ import com.wongislandd.infinityindex.infra.util.Resource
 import com.wongislandd.infinityindex.infra.util.safeLet
 import io.ktor.client.HttpClient
 import io.ktor.client.request.parameter
-import kotlinx.serialization.KSerializer
+import io.ktor.util.reflect.TypeInfo
 
 abstract class BaseRepository<NETWORK_MODEL, LOCAL_MODEL>(
     private val transformer: DataWrapperTransformer<NETWORK_MODEL, LOCAL_MODEL>,
     okHttpClient: HttpClient, private val primaryEntityType: EntityType,
-    networkModelSerializer: KSerializer<NETWORK_MODEL>
+    private val typeInfo: TypeInfo
 ) : NetworkClient(okHttpClient) {
-
-    private val networkDataWrapperSerializer: KSerializer<NetworkDataWrapper<NETWORK_MODEL>> =
-        NetworkDataWrapper.serializer(networkModelSerializer)
 
     suspend fun getAll(
         start: Int,
@@ -27,7 +24,7 @@ abstract class BaseRepository<NETWORK_MODEL, LOCAL_MODEL>(
         sortKey: String?,
     ): Resource<DataWrapper<LOCAL_MODEL>> {
         val response: Resource<NetworkDataWrapper<NETWORK_MODEL>> =
-            makeRequest(primaryEntityType.key, networkDataWrapperSerializer) {
+            makeRequest(primaryEntityType.key, typeInfo) {
                 parameter("offset", start)
                 parameter("limit", count)
                 parameter("orderBy", sortKey)
@@ -45,7 +42,7 @@ abstract class BaseRepository<NETWORK_MODEL, LOCAL_MODEL>(
         id: Int
     ): Resource<LOCAL_MODEL> {
         val response: Resource<NetworkDataWrapper<NETWORK_MODEL>> =
-            makeRequest("${primaryEntityType.key}/$id", networkDataWrapperSerializer)
+            makeRequest("${primaryEntityType.key}/$id", typeInfo)
         return response.map { transformer.transform(it) }.map {
             it.data.results.firstOrNull()
         }
@@ -58,7 +55,7 @@ abstract class BaseRepository<NETWORK_MODEL, LOCAL_MODEL>(
         count: Int
     ): Resource<DataWrapper<LOCAL_MODEL>> {
         val response: Resource<NetworkDataWrapper<NETWORK_MODEL>> =
-            makeRequest("${otherEntityType.key}/$otherEntityId/${primaryEntityType.key}", networkDataWrapperSerializer) {
+            makeRequest("${otherEntityType.key}/$otherEntityId/${primaryEntityType.key}", typeInfo) {
                 parameter("offset", start)
                 parameter("limit", count)
             }
