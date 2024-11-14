@@ -6,8 +6,9 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.wongislandd.infinityindex.entities.comics.details.ui.ComicDetailsScreen
+import com.wongislandd.infinityindex.entities.comics.details.viewmodels.ComicDetailsViewModel
 import com.wongislandd.infinityindex.entities.comics.list.ui.ComicsListScreen
+import com.wongislandd.infinityindex.infra.composables.GenericDetailsScreen
 
 @Composable
 fun AppNavHost(
@@ -28,7 +29,7 @@ fun AppNavHost(
             arguments = listOf(navArgument("comicId") { type = NavType.IntType })
         ) { backStackEntry ->
             val comicId = backStackEntry.arguments?.getInt("comicId") ?: 0
-            ComicDetailsScreen(comicId = comicId)
+            GenericDetailsScreen<ComicDetailsViewModel>(primaryId = comicId)
         }
     }
 }

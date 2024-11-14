@@ -6,7 +6,7 @@ import com.wongislandd.infinityindex.entities.characters.models.NetworkCharacter
 import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.viewmodels.BaseResolutionSlice
 
-class ComicDetailsCharactersResolutionSlice(
+class CharactersResolutionSlice(
     charactersRepository: CharactersEntityRepository
 ) : BaseResolutionSlice<NetworkCharacter, Character>(
     charactersRepository,

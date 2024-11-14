@@ -6,7 +6,7 @@ import com.wongislandd.infinityindex.entities.stories.models.Story
 import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.viewmodels.BaseResolutionSlice
 
-class ComicDetailsStoriesResolutionSlice(
+class StoriesResolutionSlice(
     storiesRepository: StoriesEntityRepository
 ) : BaseResolutionSlice<NetworkStory, Story>(
     storiesRepository,

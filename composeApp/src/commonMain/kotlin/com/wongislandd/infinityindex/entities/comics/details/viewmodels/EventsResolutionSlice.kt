@@ -6,7 +6,7 @@ import com.wongislandd.infinityindex.entities.events.models.NetworkComicEvent
 import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.viewmodels.BaseResolutionSlice
 
-class ComicDetailsEventsResolutionSlice(
+class EventsResolutionSlice(
     comicEventsRepository: ComicEventsEntityRepository
 ) : BaseResolutionSlice<NetworkComicEvent, ComicEvent>(
     comicEventsRepository,

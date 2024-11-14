@@ -6,15 +6,15 @@ import com.wongislandd.infinityindex.entities.comics.details.transformers.Relate
 import com.wongislandd.infinityindex.entities.comics.details.transformers.RelatedLinksTransformer
 import com.wongislandd.infinityindex.entities.comics.details.transformers.RelatedPricesTransformer
 import com.wongislandd.infinityindex.entities.comics.details.transformers.RelatedTextsTransformer
-import com.wongislandd.infinityindex.entities.comics.details.ui.ComicDetailsUiEvent
+import com.wongislandd.infinityindex.infra.DetailsUiEvent
 import com.wongislandd.infinityindex.entities.comics.details.viewmodels.ComicDetailsBackChannelEvent
-import com.wongislandd.infinityindex.entities.comics.details.viewmodels.ComicDetailsCharactersResolutionSlice
-import com.wongislandd.infinityindex.entities.comics.details.viewmodels.ComicDetailsCreatorsResolutionSlice
-import com.wongislandd.infinityindex.entities.comics.details.viewmodels.ComicDetailsEventsResolutionSlice
+import com.wongislandd.infinityindex.entities.comics.details.viewmodels.CharactersResolutionSlice
+import com.wongislandd.infinityindex.entities.comics.details.viewmodels.CreatorsResolutionSlice
+import com.wongislandd.infinityindex.entities.comics.details.viewmodels.EventsResolutionSlice
 import com.wongislandd.infinityindex.entities.comics.details.viewmodels.ComicDetailsScreenStateSlice
-import com.wongislandd.infinityindex.entities.comics.details.viewmodels.ComicDetailsSeriesResolutionSlice
-import com.wongislandd.infinityindex.entities.comics.details.viewmodels.ComicDetailsResolutionSlice
-import com.wongislandd.infinityindex.entities.comics.details.viewmodels.ComicDetailsStoriesResolutionSlice
+import com.wongislandd.infinityindex.entities.comics.details.viewmodels.SeriesResolutionSlice
+import com.wongislandd.infinityindex.entities.comics.details.viewmodels.ComicResolutionSlice
+import com.wongislandd.infinityindex.entities.comics.details.viewmodels.StoriesResolutionSlice
 import com.wongislandd.infinityindex.entities.comics.details.viewmodels.ComicDetailsViewModel
 import com.wongislandd.infinityindex.infra.util.events.eventBusFactory
 import org.koin.compose.viewmodel.dsl.viewModelOf
@@ -23,7 +23,7 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 val comicDetailsModule = module {
-    eventBusFactory<ComicDetailsUiEvent>()
+    eventBusFactory<DetailsUiEvent>()
     eventBusFactory<ComicDetailsBackChannelEvent>()
     singleOf(::RelatedDatesTransformer)
     singleOf(::RelatedLinksTransformer)
@@ -32,12 +32,12 @@ val comicDetailsModule = module {
     singleOf(::DetailedComicTransformer)
     singleOf(::NetworkFieldTypeMapper)
     singleOf(::RelatedDatesTransformer)
-    factoryOf(::ComicDetailsResolutionSlice)
-    factoryOf(::ComicDetailsSeriesResolutionSlice)
+    factoryOf(::ComicResolutionSlice)
+    factoryOf(::SeriesResolutionSlice)
     factoryOf(::ComicDetailsScreenStateSlice)
-    factoryOf(::ComicDetailsCharactersResolutionSlice)
-    factoryOf(::ComicDetailsCreatorsResolutionSlice)
-    factoryOf(::ComicDetailsEventsResolutionSlice)
-    factoryOf(::ComicDetailsStoriesResolutionSlice)
+    factoryOf(::CharactersResolutionSlice)
+    factoryOf(::CreatorsResolutionSlice)
+    factoryOf(::EventsResolutionSlice)
+    factoryOf(::StoriesResolutionSlice)
     viewModelOf(::ComicDetailsViewModel)
 }

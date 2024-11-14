@@ -1,0 +1,128 @@
+package com.wongislandd.infinityindex.infra.composables
+
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import app.cash.paging.compose.collectAsLazyPagingItems
+import com.wongislandd.infinityindex.entities.comics.details.models.BaseDetailsScreenState
+import com.wongislandd.infinityindex.entities.comics.details.models.Comic
+import com.wongislandd.infinityindex.entities.comics.details.ui.ComicDetails
+import com.wongislandd.infinityindex.infra.DetailsUiEvent
+import com.wongislandd.infinityindex.infra.util.PillarModel
+import com.wongislandd.infinityindex.infra.util.Resource
+import com.wongislandd.infinityindex.infra.util.SliceableViewModel
+import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.annotation.KoinExperimentalAPI
+
+@OptIn(KoinExperimentalAPI::class)
+@Composable
+inline fun <reified T : SliceableViewModel<out PillarModel>> GenericDetailsScreen(
+    primaryId: Int,
+    modifier: Modifier = Modifier,
+) {
+    val viewModel = koinViewModel<T>()
+    LaunchedEffect(Unit) {
+        viewModel.uiEventBus.sendEvent(
+            DetailsUiEvent.PageInitialized(
+                primaryId,
+                viewModel.entityType
+            )
+        )
+    }
+    val screenState by viewModel.screenStateSlice.screenState.collectAsState()
+    Scaffold(modifier = modifier, topBar = {
+        GlobalTopAppBar()
+    }) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            when (val primaryRes = screenState.primaryRes) {
+                is Resource.Success -> {
+                    AdditionalDetailsContents(primaryRes.data, screenState)
+                }
+
+                is Resource.Loading -> {
+                    CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                }
+
+                is Resource.Error -> {
+                    Text(
+                        text = "Error loading comic details",
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun AdditionalDetailsContents(
+    primaryModel: PillarModel,
+    screenState: BaseDetailsScreenState<PillarModel>,
+    modifier: Modifier = Modifier
+) {
+    val pagedCharacters = screenState.characterData.collectAsLazyPagingItems()
+    val pagedCreators = screenState.creatorsData.collectAsLazyPagingItems()
+    val pagedEvents = screenState.eventsData.collectAsLazyPagingItems()
+    val pagedStories = screenState.storiesData.collectAsLazyPagingItems()
+    val pagedSeries = screenState.seriesData.collectAsLazyPagingItems()
+    val pagedComics = screenState.comicData.collectAsLazyPagingItems()
+
+    AdditionalDetailsLazyColumn(modifier = modifier) {
+        item {
+            PrimaryDetailContents(primaryModel)
+        }
+        item {
+            SectionedList(
+                title = "Characters",
+                pagedItems = pagedCharacters,
+            )
+        }
+        item {
+            SectionedList(
+                title = "Creators",
+                pagedItems = pagedCreators,
+            )
+        }
+        item {
+            SectionedList(
+                title = "Events",
+                pagedItems = pagedEvents,
+            )
+        }
+        item {
+            SectionedList(
+                title = "Stories",
+                pagedItems = pagedStories,
+            )
+        }
+        item {
+            SectionedList(
+                title = "Series",
+                pagedItems = pagedSeries,
+            )
+        }
+        item {
+            SectionedList(
+                title = "Comics",
+                pagedItems = pagedComics,
+            )
+        }
+    }
+}
+
+@Composable
+private fun PrimaryDetailContents(primaryModel: PillarModel, modifier: Modifier = Modifier) {
+    when (primaryModel) {
+        is Comic -> {
+            ComicDetails(primaryModel, modifier)
+        }
+    }
+}

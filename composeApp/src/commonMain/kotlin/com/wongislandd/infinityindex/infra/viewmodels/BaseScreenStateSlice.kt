@@ -51,6 +51,7 @@ abstract class BaseScreenStateSlice<model: PillarModel> : ViewModelSlice<model>(
 
     val screenState: StateFlow<BaseDetailsScreenState<PillarModel>> = _screenState
 
+    @Suppress("UNCHECKED_CAST")
     override fun handleBackChannelEvent(event: BackChannelEvent) {
         when (event) {
             is ComicDetailsBackChannelEvent.SingleDataResUpdate<*> -> {
