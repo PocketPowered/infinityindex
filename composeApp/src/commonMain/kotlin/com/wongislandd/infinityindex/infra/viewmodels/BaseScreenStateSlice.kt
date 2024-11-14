@@ -4,7 +4,7 @@ import androidx.paging.PagingData
 import com.wongislandd.infinityindex.entities.characters.models.Character
 import com.wongislandd.infinityindex.entities.comics.details.models.BaseDetailsScreenState
 import com.wongislandd.infinityindex.entities.comics.details.models.Comic
-import com.wongislandd.infinityindex.entities.comics.details.viewmodels.ComicDetailsBackChannelEvent
+import com.wongislandd.infinityindex.infra.DetailsBackChannelEvent
 import com.wongislandd.infinityindex.entities.creators.models.Creator
 import com.wongislandd.infinityindex.entities.events.models.ComicEvent
 import com.wongislandd.infinityindex.entities.series.models.Series
@@ -54,13 +54,13 @@ abstract class BaseScreenStateSlice<model: PillarModel> : ViewModelSlice<model>(
     @Suppress("UNCHECKED_CAST")
     override fun handleBackChannelEvent(event: BackChannelEvent) {
         when (event) {
-            is ComicDetailsBackChannelEvent.SingleDataResUpdate<*> -> {
+            is DetailsBackChannelEvent.SingleDataResUpdate<*> -> {
                 (event.update as? Resource<model>)?.let {
                     _screenState.value = _screenState.value.copy(primaryRes = it)
                 }
             }
 
-            is ComicDetailsBackChannelEvent.PagingDataResUpdate<*> -> {
+            is DetailsBackChannelEvent.PagingDataResUpdate<*> -> {
                 handlePagingUpdate(event)
             }
         }
@@ -71,7 +71,7 @@ abstract class BaseScreenStateSlice<model: PillarModel> : ViewModelSlice<model>(
      * Although this is kind of safe, as long as the right entity type is passed!
      */
     @Suppress("UNCHECKED_CAST")
-    private fun handlePagingUpdate(event: ComicDetailsBackChannelEvent.PagingDataResUpdate<*>) {
+    private fun handlePagingUpdate(event: DetailsBackChannelEvent.PagingDataResUpdate<*>) {
         when (event.type) {
             EntityType.CHARACTERS -> {
                 (event.update as? PagingData<Character>)?.let {

@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import app.cash.paging.compose.collectAsLazyPagingItems
 import com.wongislandd.infinityindex.entities.comics.details.models.BaseDetailsScreenState
 import com.wongislandd.infinityindex.entities.comics.details.models.Comic
-import com.wongislandd.infinityindex.entities.comics.details.ui.ComicDetails
+import com.wongislandd.infinityindex.entities.comics.details.ComicDetails
 import com.wongislandd.infinityindex.infra.DetailsUiEvent
 import com.wongislandd.infinityindex.infra.util.PillarModel
 import com.wongislandd.infinityindex.infra.util.Resource

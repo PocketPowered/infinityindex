@@ -7,7 +7,7 @@ import androidx.paging.cachedIn
 import app.cash.paging.Pager
 import app.cash.paging.PagingConfig
 import com.wongislandd.infinityindex.infra.paging.EntityPagingSource
-import com.wongislandd.infinityindex.entities.comics.details.data.ComicsEntityRepository
+import com.wongislandd.infinityindex.repositories.ComicsEntityRepository
 import com.wongislandd.infinityindex.entities.comics.details.models.Comic
 import com.wongislandd.infinityindex.entities.comics.list.models.ComicsListScreenState
 import com.wongislandd.infinityindex.entities.comics.list.models.ComicsSortOption
