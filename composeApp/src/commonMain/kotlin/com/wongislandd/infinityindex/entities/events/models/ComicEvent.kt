@@ -2,6 +2,7 @@ package com.wongislandd.infinityindex.entities.events.models
 
 import com.wongislandd.infinityindex.infra.models.LoadableImage
 import com.wongislandd.infinityindex.infra.util.DisplayableEntity
+import com.wongislandd.infinityindex.infra.util.PillarModel
 
 data class ComicEvent(
     override val id: Int,
@@ -10,4 +11,4 @@ data class ComicEvent(
     val description: String?,
     val start: String?,
     val end: String?
-): DisplayableEntity
+): DisplayableEntity, PillarModel

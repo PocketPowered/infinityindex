@@ -7,7 +7,7 @@ import com.wongislandd.infinityindex.infra.util.events.UiEvent
 import com.wongislandd.infinityindex.infra.util.events.collectEvents
 import kotlinx.coroutines.CoroutineScope
 
-abstract class ViewModelSlice {
+abstract class ViewModelSlice<model: PillarModel> {
     // For managing coroutine scope
     lateinit var sliceScope: CoroutineScope
     // For accessing UI events
@@ -15,7 +15,7 @@ abstract class ViewModelSlice {
     // For accessing backchannel events
     lateinit var backChannelEvents: EventBus<BackChannelEvent>
 
-    fun register(viewModel: SliceableViewModel) {
+    fun register(viewModel: SliceableViewModel<*>) {
         sliceScope = viewModel.viewModelScope
         uiEvents = viewModel.uiEventBus
         backChannelEvents = viewModel.backChannelEventBus

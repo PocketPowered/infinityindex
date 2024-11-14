@@ -4,10 +4,11 @@ import com.wongislandd.infinityindex.entities.series.data.SeriesEntityRepository
 import com.wongislandd.infinityindex.entities.series.models.NetworkSeries
 import com.wongislandd.infinityindex.entities.series.models.Series
 import com.wongislandd.infinityindex.infra.util.EntityType
+import com.wongislandd.infinityindex.infra.viewmodels.BaseResolutionSlice
 
-class ComicDetailsSeriesSlice(
+class ComicDetailsSeriesResolutionSlice(
     seriesRepository: SeriesEntityRepository
-) : BaseSlice<NetworkSeries, Series>(
+) : BaseResolutionSlice<NetworkSeries, Series>(
     seriesRepository,
     EntityType.SERIES
 )

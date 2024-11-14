@@ -8,13 +8,13 @@ import com.wongislandd.infinityindex.entities.comics.details.transformers.Relate
 import com.wongislandd.infinityindex.entities.comics.details.transformers.RelatedTextsTransformer
 import com.wongislandd.infinityindex.entities.comics.details.ui.ComicDetailsUiEvent
 import com.wongislandd.infinityindex.entities.comics.details.viewmodels.ComicDetailsBackChannelEvent
-import com.wongislandd.infinityindex.entities.comics.details.viewmodels.ComicDetailsCharactersSlice
-import com.wongislandd.infinityindex.entities.comics.details.viewmodels.ComicDetailsCreatorsSlice
-import com.wongislandd.infinityindex.entities.comics.details.viewmodels.ComicDetailsEventsSlice
+import com.wongislandd.infinityindex.entities.comics.details.viewmodels.ComicDetailsCharactersResolutionSlice
+import com.wongislandd.infinityindex.entities.comics.details.viewmodels.ComicDetailsCreatorsResolutionSlice
+import com.wongislandd.infinityindex.entities.comics.details.viewmodels.ComicDetailsEventsResolutionSlice
 import com.wongislandd.infinityindex.entities.comics.details.viewmodels.ComicDetailsScreenStateSlice
-import com.wongislandd.infinityindex.entities.comics.details.viewmodels.ComicDetailsSeriesSlice
-import com.wongislandd.infinityindex.entities.comics.details.viewmodels.ComicDetailsSlice
-import com.wongislandd.infinityindex.entities.comics.details.viewmodels.ComicDetailsStoriesSlice
+import com.wongislandd.infinityindex.entities.comics.details.viewmodels.ComicDetailsSeriesResolutionSlice
+import com.wongislandd.infinityindex.entities.comics.details.viewmodels.ComicDetailsResolutionSlice
+import com.wongislandd.infinityindex.entities.comics.details.viewmodels.ComicDetailsStoriesResolutionSlice
 import com.wongislandd.infinityindex.entities.comics.details.viewmodels.ComicDetailsViewModel
 import com.wongislandd.infinityindex.infra.util.events.eventBusFactory
 import org.koin.compose.viewmodel.dsl.viewModelOf
@@ -32,12 +32,12 @@ val comicDetailsModule = module {
     singleOf(::DetailedComicTransformer)
     singleOf(::NetworkFieldTypeMapper)
     singleOf(::RelatedDatesTransformer)
-    factoryOf(::ComicDetailsSlice)
-    factoryOf(::ComicDetailsSeriesSlice)
+    factoryOf(::ComicDetailsResolutionSlice)
+    factoryOf(::ComicDetailsSeriesResolutionSlice)
     factoryOf(::ComicDetailsScreenStateSlice)
-    factoryOf(::ComicDetailsCharactersSlice)
-    factoryOf(::ComicDetailsCreatorsSlice)
-    factoryOf(::ComicDetailsEventsSlice)
-    factoryOf(::ComicDetailsStoriesSlice)
+    factoryOf(::ComicDetailsCharactersResolutionSlice)
+    factoryOf(::ComicDetailsCreatorsResolutionSlice)
+    factoryOf(::ComicDetailsEventsResolutionSlice)
+    factoryOf(::ComicDetailsStoriesResolutionSlice)
     viewModelOf(::ComicDetailsViewModel)
 }

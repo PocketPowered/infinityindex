@@ -4,10 +4,11 @@ import com.wongislandd.infinityindex.entities.creators.data.CreatorsEntityReposi
 import com.wongislandd.infinityindex.entities.creators.models.Creator
 import com.wongislandd.infinityindex.entities.creators.models.NetworkCreator
 import com.wongislandd.infinityindex.infra.util.EntityType
+import com.wongislandd.infinityindex.infra.viewmodels.BaseResolutionSlice
 
-class ComicDetailsCreatorsSlice(
+class ComicDetailsCreatorsResolutionSlice(
     creatorsRepository: CreatorsEntityRepository
-) : BaseSlice<NetworkCreator, Creator>(
+) : BaseResolutionSlice<NetworkCreator, Creator>(
     creatorsRepository,
     EntityType.COMICS
 )

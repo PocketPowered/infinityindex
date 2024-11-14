@@ -4,10 +4,11 @@ import com.wongislandd.infinityindex.entities.events.data.ComicEventsEntityRepos
 import com.wongislandd.infinityindex.entities.events.models.ComicEvent
 import com.wongislandd.infinityindex.entities.events.models.NetworkComicEvent
 import com.wongislandd.infinityindex.infra.util.EntityType
+import com.wongislandd.infinityindex.infra.viewmodels.BaseResolutionSlice
 
-class ComicDetailsEventsSlice(
+class ComicDetailsEventsResolutionSlice(
     comicEventsRepository: ComicEventsEntityRepository
-) : BaseSlice<NetworkComicEvent, ComicEvent>(
+) : BaseResolutionSlice<NetworkComicEvent, ComicEvent>(
     comicEventsRepository,
     EntityType.COMIC_EVENTS
 )

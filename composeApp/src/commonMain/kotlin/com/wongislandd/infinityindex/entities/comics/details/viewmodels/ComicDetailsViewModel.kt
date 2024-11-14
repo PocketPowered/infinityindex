@@ -1,21 +1,22 @@
 package com.wongislandd.infinityindex.entities.comics.details.viewmodels
 
+import com.wongislandd.infinityindex.entities.comics.details.models.Comic
+import com.wongislandd.infinityindex.infra.util.PillarModel
 import com.wongislandd.infinityindex.infra.util.SliceableViewModel
 import com.wongislandd.infinityindex.infra.util.events.BackChannelEvent
 import com.wongislandd.infinityindex.infra.util.events.EventBus
 import com.wongislandd.infinityindex.infra.util.events.UiEvent
 
 class ComicDetailsViewModel(
-    val comicDetailsScreenStateSlice: ComicDetailsScreenStateSlice,
-    comicDetailsSlice: ComicDetailsSlice,
-    comicDetailsStoriesSlice: ComicDetailsStoriesSlice,
-    comicDetailsEventsSlice: ComicDetailsEventsSlice,
-    comicDetailsCreatorsSlice: ComicDetailsCreatorsSlice,
-    comicDetailsCharactersSlice: ComicDetailsCharactersSlice,
-    comicDetailsSeriesSlice: ComicDetailsSeriesSlice,
+    comicDetailsScreenStateSlice: ComicDetailsScreenStateSlice,
+    comicDetailsSlice: ComicDetailsResolutionSlice,
+    comicDetailsStoriesSlice: ComicDetailsStoriesResolutionSlice,
+    comicDetailsEventsSlice: ComicDetailsEventsResolutionSlice,
+    comicDetailsCreatorsSlice: ComicDetailsCreatorsResolutionSlice,
+    comicDetailsCharactersSlice: ComicDetailsCharactersResolutionSlice,
     uiEventBus: EventBus<UiEvent>,
     backChannelEventBus: EventBus<BackChannelEvent>
-) : SliceableViewModel(uiEventBus, backChannelEventBus) {
+) : SliceableViewModel<Comic>(comicDetailsScreenStateSlice, uiEventBus, backChannelEventBus) {
 
     init {
         registerSlice(comicDetailsScreenStateSlice)
@@ -24,6 +25,5 @@ class ComicDetailsViewModel(
         registerSlice(comicDetailsEventsSlice)
         registerSlice(comicDetailsCreatorsSlice)
         registerSlice(comicDetailsCharactersSlice)
-        registerSlice(comicDetailsSeriesSlice)
     }
 }

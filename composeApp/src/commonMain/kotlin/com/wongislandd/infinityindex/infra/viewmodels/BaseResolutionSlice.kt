@@ -1,13 +1,15 @@
-package com.wongislandd.infinityindex.entities.comics.details.viewmodels
+package com.wongislandd.infinityindex.infra.viewmodels
 
 import androidx.paging.cachedIn
 import app.cash.paging.Pager
 import app.cash.paging.PagingConfig
 import app.cash.paging.PagingData
 import com.wongislandd.infinityindex.entities.comics.details.ui.ComicDetailsUiEvent
+import com.wongislandd.infinityindex.entities.comics.details.viewmodels.ComicDetailsBackChannelEvent
 import com.wongislandd.infinityindex.infra.paging.BaseRepository
 import com.wongislandd.infinityindex.infra.paging.RelatedEntityPagingSource
 import com.wongislandd.infinityindex.infra.util.EntityType
+import com.wongislandd.infinityindex.infra.util.PillarModel
 import com.wongislandd.infinityindex.infra.util.ViewModelSlice
 import com.wongislandd.infinityindex.infra.util.events.UiEvent
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,11 +21,11 @@ enum class BaseSliceType {
     SINGLE
 }
 
-abstract class BaseSlice<NETWORK_TYPE, LOCAL_TYPE : Any>(
+abstract class BaseResolutionSlice<NETWORK_TYPE, LOCAL_TYPE : PillarModel>(
     private val repository: BaseRepository<NETWORK_TYPE, LOCAL_TYPE>,
     private val entity: EntityType,
     private val config: BaseSliceType = BaseSliceType.PAGING,
-) : ViewModelSlice() {
+) : ViewModelSlice<LOCAL_TYPE>() {
 
     private val _pagingData: MutableStateFlow<PagingData<LOCAL_TYPE>> =
         MutableStateFlow(PagingData.empty())
@@ -43,6 +45,7 @@ abstract class BaseSlice<NETWORK_TYPE, LOCAL_TYPE : Any>(
                 BaseSliceType.PAGING -> {
                     launchPagingFlow(comicId)
                 }
+
                 BaseSliceType.SINGLE -> {
                     launchSingleGetFlow(comicId)
                 }
