@@ -11,7 +11,7 @@ enum class ComicsSortOption(
     FOC_DATE_ASC(displayName = "FOC Date (asc)", sortKey = "focDate"),
     TITLE_DESC(displayName = "Title (dec)", sortKey = "-title"),
     TITLE_ASC(displayName = "Title (asc)", sortKey = "title"),
-    MODIFIED_DESC(displayName = "Last Modified (dec)", sortKey = "-modified"),
+    MODIFIED_DESC(displayName = "Last Modified (dec)", sortKey = "-modified", isDefault = true),
     MODIFIED_ASC(displayName = "Last Modified (asc)", sortKey = "modified"),
     ONSALE_DATE_DESC(displayName = "On Sale Date (dec)", sortKey = "-onsaleDate"),
     ONSALE_DATE_ASC(displayName = "On Sale Date (asc)", sortKey = "onsaleDate"),

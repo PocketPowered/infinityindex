@@ -1,4 +1,4 @@
-package com.wongislandd.infinityindex.entities.comics.util
+package com.wongislandd.infinityindex
 
 import com.wongislandd.infinityindex.entities.comics.list.models.ComicsSortOption
 

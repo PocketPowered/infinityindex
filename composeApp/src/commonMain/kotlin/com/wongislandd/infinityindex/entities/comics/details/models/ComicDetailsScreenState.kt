@@ -14,7 +14,6 @@ data class ComicDetailsScreenState(
     val comicRes: Resource<Comic> = Resource.Loading,
     val characterData: StateFlow<PagingData<Character>>,
     val creatorsData: StateFlow<PagingData<Creator>>,
-    val seriesData: StateFlow<PagingData<Series>>,
     val eventsData: StateFlow<PagingData<ComicEvent>>,
     val storiesData: StateFlow<PagingData<Story>>
 )

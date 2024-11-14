@@ -5,7 +5,6 @@ import com.wongislandd.infinityindex.entities.characters.models.Character
 import com.wongislandd.infinityindex.entities.comics.details.models.ComicDetailsScreenState
 import com.wongislandd.infinityindex.entities.creators.models.Creator
 import com.wongislandd.infinityindex.entities.events.models.ComicEvent
-import com.wongislandd.infinityindex.entities.series.models.Series
 import com.wongislandd.infinityindex.entities.stories.models.Story
 import com.wongislandd.infinityindex.infra.util.ViewModelSlice
 import com.wongislandd.infinityindex.infra.util.events.BackChannelEvent
@@ -22,9 +21,6 @@ class ComicDetailsScreenStateSlice : ViewModelSlice() {
     private val _creatorsPagingData: MutableStateFlow<PagingData<Creator>> =
         MutableStateFlow(PagingData.empty())
 
-    private val _seriesPagingData: MutableStateFlow<PagingData<Series>> =
-        MutableStateFlow(PagingData.empty())
-
     private val _eventsPagingData: MutableStateFlow<PagingData<ComicEvent>> =
         MutableStateFlow(PagingData.empty())
 
@@ -32,13 +28,14 @@ class ComicDetailsScreenStateSlice : ViewModelSlice() {
         MutableStateFlow(PagingData.empty())
 
     private val _screenState: MutableStateFlow<ComicDetailsScreenState> =
-        MutableStateFlow(ComicDetailsScreenState(
-            characterData = _characterPagingData,
-            creatorsData = _creatorsPagingData,
-            seriesData = _seriesPagingData,
-            eventsData = _eventsPagingData,
-            storiesData = _storiesPagingData
-        ))
+        MutableStateFlow(
+            ComicDetailsScreenState(
+                characterData = _characterPagingData,
+                creatorsData = _creatorsPagingData,
+                eventsData = _eventsPagingData,
+                storiesData = _storiesPagingData
+            )
+        )
 
     val screenState: StateFlow<ComicDetailsScreenState> = _screenState
 
@@ -51,8 +48,17 @@ class ComicDetailsScreenStateSlice : ViewModelSlice() {
             is ComicDetailsBackChannelEvent.CharacterResUpdate -> {
                 _characterPagingData.value = event.update
             }
+
             is ComicDetailsBackChannelEvent.CreatorResUpdate -> {
                 _creatorsPagingData.value = event.update
+            }
+
+            is ComicDetailsBackChannelEvent.EventsResUpdate -> {
+                _eventsPagingData.value = event.update
+            }
+
+            is ComicDetailsBackChannelEvent.StoriesResUpdate -> {
+                _storiesPagingData.value = event.update
             }
         }
     }

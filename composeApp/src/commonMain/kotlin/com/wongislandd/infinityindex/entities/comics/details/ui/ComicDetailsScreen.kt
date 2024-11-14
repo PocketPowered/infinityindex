@@ -73,7 +73,6 @@ private fun ComicDetailsScreenContents(
     val pagedCreators = screenState.creatorsData.collectAsLazyPagingItems()
     val pagedEvents = screenState.eventsData.collectAsLazyPagingItems()
     val pagedStories = screenState.storiesData.collectAsLazyPagingItems()
-    val pagedSeries = screenState.seriesData.collectAsLazyPagingItems()
     LazyColumn(
         modifier = modifier.fillMaxSize(),
         contentPadding = PaddingValues(vertical = 8.dp)
@@ -106,12 +105,6 @@ private fun ComicDetailsScreenContents(
             SectionedList(
                 title = "Stories",
                 pagedItems = pagedStories,
-            )
-        }
-        item {
-            SectionedList(
-                title = "Series",
-                pagedItems = pagedSeries,
             )
         }
     }

@@ -17,8 +17,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.wongislandd.infinityindex.infra.composables.MarvelImage
-import com.wongislandd.infinityindex.navigation.LocalNavHostController
-import com.wongislandd.infinityindex.navigation.RouteHelper
+import com.wongislandd.infinityindex.infra.navigation.LocalNavHostController
+import com.wongislandd.infinityindex.infra.navigation.RouteHelper
 import com.wongislandd.infinityindex.entities.comics.details.models.Comic
 
 @Composable

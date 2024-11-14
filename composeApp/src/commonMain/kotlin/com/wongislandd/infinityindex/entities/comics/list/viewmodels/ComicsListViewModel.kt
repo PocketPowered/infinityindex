@@ -15,7 +15,7 @@ import com.wongislandd.infinityindex.entities.comics.list.models.NetworkComic
 import com.wongislandd.infinityindex.entities.comics.list.models.SearchIntention
 import com.wongislandd.infinityindex.entities.comics.list.models.SearchQuery
 import com.wongislandd.infinityindex.entities.comics.list.models.SearchState
-import com.wongislandd.infinityindex.entities.comics.util.ComicConstants
+import com.wongislandd.infinityindex.ComicConstants
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

@@ -1,4 +1,4 @@
-package com.wongislandd.infinityindex.navigation
+package com.wongislandd.infinityindex.infra.navigation
 
 enum class Screen {
     HOME,

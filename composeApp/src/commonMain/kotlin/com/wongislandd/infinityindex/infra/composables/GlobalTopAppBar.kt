@@ -10,7 +10,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.wongislandd.infinityindex.navigation.LocalNavHostController
+import com.wongislandd.infinityindex.infra.navigation.LocalNavHostController
 
 @Composable
 fun GlobalTopAppBar(

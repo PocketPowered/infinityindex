@@ -48,7 +48,7 @@ import com.wongislandd.infinityindex.infra.composables.GlobalTopAppBar
 import com.wongislandd.infinityindex.entities.comics.details.models.Comic
 import com.wongislandd.infinityindex.entities.comics.list.models.ComicsSortOption
 import com.wongislandd.infinityindex.entities.comics.list.viewmodels.ComicsListViewModel
-import com.wongislandd.infinityindex.entities.comics.util.ComicConstants
+import com.wongislandd.infinityindex.ComicConstants
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 
