@@ -6,7 +6,7 @@ import com.wongislandd.infinityindex.entities.comics.details.models.BaseDetailsS
 import com.wongislandd.infinityindex.entities.comics.details.models.Comic
 import com.wongislandd.infinityindex.infra.DetailsBackChannelEvent
 import com.wongislandd.infinityindex.entities.creators.models.Creator
-import com.wongislandd.infinityindex.entities.events.models.ComicEvent
+import com.wongislandd.infinityindex.entities.events.models.Event
 import com.wongislandd.infinityindex.entities.series.models.Series
 import com.wongislandd.infinityindex.entities.stories.models.Story
 import com.wongislandd.infinityindex.infra.util.EntityType
@@ -25,7 +25,7 @@ abstract class BaseScreenStateSlice<model: PillarModel> : ViewModelSlice<model>(
     private val _creatorsPagingData: MutableStateFlow<PagingData<Creator>> =
         MutableStateFlow(PagingData.empty())
 
-    private val _eventsPagingData: MutableStateFlow<PagingData<ComicEvent>> =
+    private val _eventsPagingData: MutableStateFlow<PagingData<Event>> =
         MutableStateFlow(PagingData.empty())
 
     private val _storiesPagingData: MutableStateFlow<PagingData<Story>> =
@@ -79,8 +79,8 @@ abstract class BaseScreenStateSlice<model: PillarModel> : ViewModelSlice<model>(
                 }
             }
 
-            EntityType.COMIC_EVENTS -> {
-                (event.update as? PagingData<ComicEvent>)?.let {
+            EntityType.EVENTS -> {
+                (event.update as? PagingData<Event>)?.let {
                     _eventsPagingData.value = it
                 }
             }

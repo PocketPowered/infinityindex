@@ -1,6 +1,7 @@
 package com.wongislandd.infinityindex.entities.comics.details.models
 
 import com.wongislandd.infinityindex.infra.models.LoadableImage
+import com.wongislandd.infinityindex.infra.models.NavigationContext
 import com.wongislandd.infinityindex.infra.util.DisplayableEntity
 import com.wongislandd.infinityindex.infra.util.PillarModel
 
@@ -8,6 +9,7 @@ data class Comic(
     override val id: Int,
     override val displayName: String,
     override val image: LoadableImage,
+    override val navContext: NavigationContext,
     val pageCount: Int?,
     val issueNumber: Double?,
     val lastModified: String?,

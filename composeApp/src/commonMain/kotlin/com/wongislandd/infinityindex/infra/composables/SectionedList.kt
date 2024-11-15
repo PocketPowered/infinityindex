@@ -43,7 +43,8 @@ fun <T : DisplayableEntity> SectionedList(
                 pagedItems[index]?.let { item ->
                     EntityCard(
                         image = item.image,
-                        title = item.displayName
+                        title = item.displayName,
+                        navContext = item.navContext
                     )
                 }
             }

@@ -1,6 +1,6 @@
-package com.wongislandd.infinityindex.entities.comics.details
+package com.wongislandd.infinityindex.entities.series
 
-import com.wongislandd.infinityindex.entities.comics.details.models.Comic
+import com.wongislandd.infinityindex.entities.series.models.Series
 import com.wongislandd.infinityindex.infra.util.BaseDetailsViewModel
 import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.util.events.BackChannelEvent
@@ -14,8 +14,8 @@ import com.wongislandd.infinityindex.viewmodels.EventsResolutionSlice
 import com.wongislandd.infinityindex.viewmodels.SeriesResolutionSlice
 import com.wongislandd.infinityindex.viewmodels.StoriesResolutionSlice
 
-class ComicDetailsViewModel(
-    screenStateSlice: BaseScreenStateSlice<Comic>,
+class SeriesDetailsViewModel(
+    screenStateSlice: BaseScreenStateSlice<Series>,
     comicResolutionSlice: ComicResolutionSlice,
     storiesResolutionSlice: StoriesResolutionSlice,
     eventsResolutionSlice: EventsResolutionSlice,
@@ -24,8 +24,8 @@ class ComicDetailsViewModel(
     seriesResolutionSlice: SeriesResolutionSlice,
     uiEventBus: EventBus<UiEvent>,
     backChannelEventBus: EventBus<BackChannelEvent>
-) : BaseDetailsViewModel<Comic>(
-    EntityType.COMICS,
+) : BaseDetailsViewModel<Series>(
+    EntityType.SERIES,
     screenStateSlice,
     comicResolutionSlice,
     storiesResolutionSlice,

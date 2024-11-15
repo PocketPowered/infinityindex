@@ -1,6 +1,7 @@
 package com.wongislandd.infinityindex.infra.composables
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,16 +19,24 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.wongislandd.infinityindex.infra.models.LoadableImage
+import com.wongislandd.infinityindex.infra.models.NavigationContext
+import com.wongislandd.infinityindex.infra.navigation.LocalNavHostController
+import com.wongislandd.infinityindex.infra.util.conditionallyChain
 
 @Composable
 fun EntityCard(
     image: LoadableImage,
     title: String,
+    navContext: NavigationContext,
     modifier: Modifier = Modifier
 ) {
+    val navController = LocalNavHostController.current
     Card(
         modifier = modifier
-            .wrapContentHeight(),
+            .wrapContentHeight()
+            .conditionallyChain(navContext.allowNavigation, Modifier.clickable {
+                navController.navigate(navContext.navRoute)
+            }),
         backgroundColor = MaterialTheme.colors.primary,
         shape = RoundedCornerShape(16.dp)
     ) {

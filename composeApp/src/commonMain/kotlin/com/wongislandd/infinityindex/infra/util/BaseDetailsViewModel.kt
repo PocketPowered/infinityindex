@@ -1,8 +1,5 @@
-package com.wongislandd.infinityindex.entities.comics.details
+package com.wongislandd.infinityindex.infra.util
 
-import com.wongislandd.infinityindex.entities.comics.details.models.Comic
-import com.wongislandd.infinityindex.infra.util.BaseDetailsViewModel
-import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.util.events.BackChannelEvent
 import com.wongislandd.infinityindex.infra.util.events.EventBus
 import com.wongislandd.infinityindex.infra.util.events.UiEvent
@@ -14,24 +11,31 @@ import com.wongislandd.infinityindex.viewmodels.EventsResolutionSlice
 import com.wongislandd.infinityindex.viewmodels.SeriesResolutionSlice
 import com.wongislandd.infinityindex.viewmodels.StoriesResolutionSlice
 
-class ComicDetailsViewModel(
-    screenStateSlice: BaseScreenStateSlice<Comic>,
+abstract class BaseDetailsViewModel<T : PillarModel>(
+    entityType: EntityType,
+    screenStateSlice: BaseScreenStateSlice<T>,
     comicResolutionSlice: ComicResolutionSlice,
     storiesResolutionSlice: StoriesResolutionSlice,
     eventsResolutionSlice: EventsResolutionSlice,
     creatorsResolutionSlice: CreatorsResolutionSlice,
     charactersResolutionSlice: CharactersResolutionSlice,
-    seriesResolutionSlice: SeriesResolutionSlice,
+    seriesDetailsResolutionSlice: SeriesResolutionSlice,
     uiEventBus: EventBus<UiEvent>,
     backChannelEventBus: EventBus<BackChannelEvent>
-) : BaseDetailsViewModel<Comic>(
-    EntityType.COMICS,
+) : SliceableViewModel<T>(
+    entityType,
     screenStateSlice,
-    comicResolutionSlice,
-    storiesResolutionSlice,
-    eventsResolutionSlice,
-    creatorsResolutionSlice,
-    charactersResolutionSlice,
-    seriesResolutionSlice,
-    uiEventBus, backChannelEventBus
-)
+    uiEventBus,
+    backChannelEventBus
+) {
+
+    init {
+        registerSlice(screenStateSlice)
+        registerSlice(comicResolutionSlice)
+        registerSlice(storiesResolutionSlice)
+        registerSlice(eventsResolutionSlice)
+        registerSlice(creatorsResolutionSlice)
+        registerSlice(charactersResolutionSlice)
+        registerSlice(seriesDetailsResolutionSlice)
+    }
+}

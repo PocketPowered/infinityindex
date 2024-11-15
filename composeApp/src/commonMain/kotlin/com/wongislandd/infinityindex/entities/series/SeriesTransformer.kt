@@ -4,6 +4,8 @@ import com.wongislandd.infinityindex.infra.transformers.LoadableImageTransformer
 import com.wongislandd.infinityindex.entities.series.models.NetworkSeries
 import com.wongislandd.infinityindex.entities.series.models.Series
 import com.wongislandd.infinityindex.infra.models.DefaultImageType
+import com.wongislandd.infinityindex.infra.models.NavigationContext
+import com.wongislandd.infinityindex.infra.navigation.RouteHelper
 import com.wongislandd.infinityindex.infra.transformers.DataWrapperTransformer
 import com.wongislandd.infinityindex.infra.transformers.LoadableImageTransformerInput
 import com.wongislandd.infinityindex.infra.util.safeLet
@@ -19,6 +21,9 @@ class SeriesTransformer(
             Series(
                 id = id,
                 displayName = title,
+                navContext = NavigationContext(
+                    RouteHelper.getSeriesDetailsRouteForId(id)
+                ),
                 image = loadableImageTransformer.transform(
                     LoadableImageTransformerInput(
                         networkImage = input.thumbnail,
