@@ -86,12 +86,12 @@ fun AdditionalDetailsContents(
     val pagedComics = screenState.comicData.collectAsLazyPagingItems()
 
     val sections = listOf(
+        "Comics" to pagedComics,
         "Characters" to pagedCharacters,
-        "Creators" to pagedCreators,
         "Events" to pagedEvents,
         "Stories" to pagedStories,
         "Series" to pagedSeries,
-        "Comics" to pagedComics
+        "Creators" to pagedCreators,
     )
 
     AdditionalDetailsLazyColumn(modifier = modifier) {
