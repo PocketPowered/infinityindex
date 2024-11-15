@@ -17,7 +17,7 @@ class LoadableImageTransformer : Transformer<LoadableImageTransformerInput, Load
 
     // Consider these as empty images
     private val blacklistedPatterns = setOf(
-        "image_not_available",
+        "http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available",
         "http://i.annihil.us/u/prod/marvel/i/mg/f/60/4c002e0305708"
     )
 

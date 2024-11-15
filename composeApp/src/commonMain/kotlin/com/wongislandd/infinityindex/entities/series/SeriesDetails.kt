@@ -18,7 +18,7 @@ fun SeriesDetails(series: Series, modifier: Modifier = Modifier) {
                 InformationSnippet("Rating", rating)
             }
             safeLet(series.startYear, series.endYear) { startYear, endYear ->
-                InformationSnippet("Active:", "$startYear - $endYear")
+                InformationSnippet("Active", "$startYear - $endYear")
             }
         }
     }

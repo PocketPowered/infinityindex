@@ -15,7 +15,7 @@ fun EventDetails(event: Event, modifier: Modifier = Modifier) {
         SimpleDetailsSection("Description", event.description)
         DetailsSection("Additional Information") {
             safeLet(event.start, event.end) { start, end ->
-                InformationSnippet("Active: ", "$start - $end")
+                InformationSnippet("Active", "$start - $end")
             }
         }
     }

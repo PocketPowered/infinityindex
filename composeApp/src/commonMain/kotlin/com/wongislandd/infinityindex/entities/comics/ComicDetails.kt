@@ -27,7 +27,7 @@ fun ComicDetails(comic: Comic, modifier: Modifier = Modifier) {
                     InformationSnippet("Format", format)
                 }
                 comic.relatedPrices.forEach { relatedPrice ->
-                    InformationSnippet(relatedPrice.type.displayName, relatedPrice.price.toString())
+                    InformationSnippet(relatedPrice.type.displayName, "$${relatedPrice.price}")
                 }
                 comic.relatedDates.forEach { relatedDates ->
                     InformationSnippet(relatedDates.type.displayName, relatedDates.date)
