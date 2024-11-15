@@ -16,7 +16,7 @@ class NetworkFieldTypeMapper {
 
     private val textTypeMap = mapOf(
         // Issue solicit seems to always be the description. Take that in favor of this.
-        "issue_solicit_text" to null,
+        "issue_solicit_text" to TextType.ISSUE_SOLICIT_TEXT,
         "preview_text" to TextType.PREVIEW_TEXT
     )
 

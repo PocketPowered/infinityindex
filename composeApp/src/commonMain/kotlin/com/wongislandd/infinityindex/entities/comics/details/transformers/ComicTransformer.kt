@@ -1,6 +1,7 @@
 package com.wongislandd.infinityindex.entities.comics.details.transformers
 
 import com.wongislandd.infinityindex.entities.comics.details.models.Comic
+import com.wongislandd.infinityindex.entities.comics.details.models.TextType
 import com.wongislandd.infinityindex.entities.comics.list.models.NetworkComic
 import com.wongislandd.infinityindex.entities.comics.list.transformers.DateTransformer
 import com.wongislandd.infinityindex.infra.models.DefaultImageType
@@ -36,6 +37,13 @@ class ComicTransformer(
             relatedPricesTransformer.transform(it)
         } ?: emptyList()
 
+        // Sometimes description comes as empty but ISSUE_SOLICIT_TEXT is basically a description.
+        // Pick one of these two, then drop ISSUE_SOLICIT_TEXT.
+        val description =
+            input.description.dropIfEmpty()
+                ?: relatedTexts.find { it.type == TextType.ISSUE_SOLICIT_TEXT }?.text
+        val filteredRelatedTexts = relatedTexts.filter { it.type != TextType.ISSUE_SOLICIT_TEXT }
+
         return safeLet(
             input.id,
             input.title,
@@ -57,11 +65,11 @@ class ComicTransformer(
                 issueNumber = input.issueNumber,
                 lastModified = datesTransformer.transform(modified),
                 relatedDates = relatedDates,
-                relatedTexts = relatedTexts,
+                relatedTexts = filteredRelatedTexts,
                 relatedPrices = relatedPrices,
                 relatedLinks = relatedLinks,
                 variantDescription = input.variantDescription.dropIfEmpty(),
-                description = input.description.dropIfEmpty(),
+                description = description,
                 upc = input.upc.dropIfEmpty(),
                 diamondCode = input.diamondCode.dropIfEmpty(),
                 ean = input.ean.dropIfEmpty(),
