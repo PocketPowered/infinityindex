@@ -2,6 +2,7 @@ package com.wongislandd.infinityindex.entities.comics
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,7 +20,7 @@ import com.wongislandd.infinityindex.infra.composables.TopLevelEntityDetails
 
 @Composable
 fun ComicDetails(comic: Comic, modifier: Modifier = Modifier) {
-    Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(16.dp)) {
+    EntityDetails(modifier = modifier) {
         TopLevelEntityDetails(comic)
         SimpleDetailsSection("Description", comic.description)
         DetailsSection("Additional Information") {
@@ -59,4 +60,9 @@ fun InformationSnippet(name: String, value: String, modifier: Modifier = Modifie
             modifier = Modifier.widthIn(max=200.dp)
         )
     }
+}
+
+@Composable
+fun EntityDetails(modifier: Modifier = Modifier, content: @Composable ColumnScope.() -> Unit) {
+    Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(16.dp), content = content)
 }
