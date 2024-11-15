@@ -28,14 +28,15 @@ abstract class BasePagingSource<Value : Any> : PagingSource<Int, Value>() {
             when (val page = paginateResponse(response)) {
                 is Resource.Success -> {
                     val nextOffset = page.data.start + page.data.count
+                    val nextKey = if (nextOffset + params.loadSize <= page.data.total) {
+                        nextOffset
+                    } else {
+                        null
+                    }
                     PagingSourceLoadResultPage(
                         data = page.data.items,
                         prevKey = null,
-                        nextKey = if (nextOffset + params.loadSize <= page.data.total) {
-                            nextOffset + params.loadSize
-                        } else {
-                            null
-                        }
+                        nextKey = nextKey
                     )
                 }
                 is Resource.Error -> {

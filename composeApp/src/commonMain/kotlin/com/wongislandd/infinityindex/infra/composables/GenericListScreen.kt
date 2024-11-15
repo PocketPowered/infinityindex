@@ -65,7 +65,7 @@ import org.koin.core.annotation.KoinExperimentalAPI
 inline fun <NETWORK_TYPE, reified T : BaseListViewModel<NETWORK_TYPE, out EntityModel>> GenericListScreen() {
     val viewModel = koinViewModel<T>()
     val screenState by viewModel.screenStateSlice.screenState.collectAsState()
-    val lazyPagingEntities = screenState.pagingData.collectAsLazyPagingItems()
+    val lazyPagingEntities = viewModel.screenStateSlice.listPagingData.collectAsLazyPagingItems()
     val coroutineScope = rememberCoroutineScope()
     Scaffold(topBar = {
         GlobalTopAppBar(
@@ -241,11 +241,8 @@ fun EntityList(
         verticalArrangement = Arrangement.spacedBy(16.dp),
         modifier = modifier
             .background(MaterialTheme.colors.surface)
-            .fillMaxSize()
     ) {
-        items(pagedEntities.itemCount, key = { index ->
-            pagedEntities[index]?.id ?: index
-        }) { index ->
+        items(pagedEntities.itemCount) { index ->
             pagedEntities[index]?.let { entity ->
                 GenericListEntityCard(entity)
             }

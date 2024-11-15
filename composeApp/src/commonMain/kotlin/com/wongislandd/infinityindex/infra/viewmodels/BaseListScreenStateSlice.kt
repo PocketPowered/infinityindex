@@ -20,7 +20,7 @@ abstract class BaseListScreenStateSlice<T : EntityModel>(
 ) :
     BaseScreenStateSlice<T>, ViewModelSlice() {
 
-    private val listPagingData: MutableStateFlow<PagingData<EntityModel>> =
+    private val _listPagingData: MutableStateFlow<PagingData<EntityModel>> =
         MutableStateFlow(PagingData.empty())
 
     private val _screenState: MutableStateFlow<BaseListScreenState> =
@@ -32,10 +32,11 @@ abstract class BaseListScreenStateSlice<T : EntityModel>(
                 searchState = SearchState(
                     searchQuery = SearchQuery("", SearchIntention.PENDING),
                     isSearchBoxVisible = false
-                ),
-                pagingData = listPagingData
+                )
             )
         )
+
+    val listPagingData: StateFlow<PagingData<EntityModel>> = _listPagingData
 
     val screenState: StateFlow<BaseListScreenState> = _screenState
 
@@ -43,7 +44,7 @@ abstract class BaseListScreenStateSlice<T : EntityModel>(
     override fun handleBackChannelEvent(event: BackChannelEvent) {
         when (event) {
             is ListBackChannelEvent.PagingDataResUpdate<*> -> {
-                listPagingData.value = event.update as PagingData<EntityModel>
+                _listPagingData.value = event.update as PagingData<EntityModel>
             }
 
             is ListBackChannelEvent.PagingRefreshingUpdate -> {
@@ -83,9 +84,5 @@ abstract class BaseListScreenStateSlice<T : EntityModel>(
                 }
             }
         }
-    }
-
-    private fun getSortOptions() {
-
     }
 }

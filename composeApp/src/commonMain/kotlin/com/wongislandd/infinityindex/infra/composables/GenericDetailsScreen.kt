@@ -1,7 +1,6 @@
 package com.wongislandd.infinityindex.infra.composables
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.CircularProgressIndicator
@@ -14,7 +13,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import app.cash.paging.compose.collectAsLazyPagingItems
 import com.wongislandd.infinityindex.entities.characters.CharacterDetails
 import com.wongislandd.infinityindex.entities.characters.models.Character
 import com.wongislandd.infinityindex.entities.comics.ComicDetails
@@ -30,7 +28,6 @@ import com.wongislandd.infinityindex.entities.stories.models.Story
 import com.wongislandd.infinityindex.infra.DetailsUiEvent
 import com.wongislandd.infinityindex.infra.util.EntityModel
 import com.wongislandd.infinityindex.infra.util.Resource
-import com.wongislandd.infinityindex.infra.viewmodels.BaseDetailsScreenState
 import com.wongislandd.infinityindex.infra.viewmodels.BaseDetailsViewModel
 import com.wongislandd.infinityindex.infra.viewmodels.PagingDataConsumerScreenState
 import org.koin.compose.viewmodel.koinViewModel

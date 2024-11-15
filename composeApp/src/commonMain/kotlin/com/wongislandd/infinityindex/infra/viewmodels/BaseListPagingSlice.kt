@@ -29,7 +29,7 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
     private var currentSortOption: SortOption = entityType.getDefaultSortOption()
 
     private var pagingConfig = PagingConfig(
-        initialLoadSize = 20,
+        initialLoadSize = 40,
         pageSize = 20,
         enablePlaceholders = false,
         prefetchDistance = 10

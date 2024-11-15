@@ -73,7 +73,7 @@ abstract class BaseDetailsResolutionSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel
                     initialLoadSize = 5,
                     pageSize = 5,
                     enablePlaceholders = false,
-                    prefetchDistance = 5
+                    prefetchDistance = 2
                 )
             ) {
                 RelatedEntityPagingSource(repository, relatedEntityType, primaryEntityId)

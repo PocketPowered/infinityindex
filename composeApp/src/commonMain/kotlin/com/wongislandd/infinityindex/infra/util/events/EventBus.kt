@@ -1,5 +1,6 @@
 package com.wongislandd.infinityindex.infra.util.events
 
+import co.touchlab.kermit.Logger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -20,6 +21,9 @@ class EventBus<T: Event> {
 fun <T: Event> CoroutineScope.collectEvents(eventBus: EventBus<T>, onEvent: (T) -> Unit) {
     this.launch {
         eventBus.events.collect { event ->
+            Logger.i(tag = "EventBus", null) {
+                event.toString()
+            }
             onEvent(event)
         }
     }
