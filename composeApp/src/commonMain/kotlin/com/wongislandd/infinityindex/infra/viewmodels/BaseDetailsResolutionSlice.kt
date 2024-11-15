@@ -16,10 +16,16 @@ import com.wongislandd.infinityindex.infra.util.events.UiEvent
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-abstract class BaseResolutionSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
+abstract class BaseListResolutionSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
+    private val repository: BaseRepository<NETWORK_TYPE, LOCAL_TYPE>,
+): ViewModelSlice() {
+
+}
+
+abstract class BaseDetailsResolutionSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
     private val repository: BaseRepository<NETWORK_TYPE, LOCAL_TYPE>,
     private val entityType: EntityType,
-) : ViewModelSlice<LOCAL_TYPE>() {
+) : ViewModelSlice() {
 
     override fun handleUiEvent(event: UiEvent) {
         when (event) {

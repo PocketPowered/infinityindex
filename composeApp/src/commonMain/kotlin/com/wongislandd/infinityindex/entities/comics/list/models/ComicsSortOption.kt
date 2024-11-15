@@ -16,5 +16,5 @@ enum class ComicsSortOption(
     ONSALE_DATE_DESC(displayName = "On Sale Date (dec)", sortKey = "-onsaleDate"),
     ONSALE_DATE_ASC(displayName = "On Sale Date (asc)", sortKey = "onsaleDate"),
     ISSUE_NUMBER_DESC(displayName = "Issue Number (dec)", sortKey = "-issueNumber"),
-    ISSUE_NUMBER_ASC(displayName = "Issue Number (asc)", sortKey = "issueNumber", isDefault = true) // Example default
+    ISSUE_NUMBER_ASC(displayName = "Issue Number (asc)", sortKey = "issueNumber")
 }

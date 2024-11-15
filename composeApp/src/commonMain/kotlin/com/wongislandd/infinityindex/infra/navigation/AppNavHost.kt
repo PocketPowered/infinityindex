@@ -10,13 +10,15 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.wongislandd.infinityindex.entities.characters.CharacterDetailsViewModel
-import com.wongislandd.infinityindex.entities.comics.details.ComicDetailsViewModel
-import com.wongislandd.infinityindex.entities.comics.list.ui.ComicsListScreen
+import com.wongislandd.infinityindex.entities.comics.ComicDetailsViewModel
+import com.wongislandd.infinityindex.entities.comics.ComicsListViewModel
+import com.wongislandd.infinityindex.entities.comics.list.models.NetworkComic
 import com.wongislandd.infinityindex.entities.creators.CreatorDetailsViewModel
 import com.wongislandd.infinityindex.entities.events.EventDetailsViewModel
 import com.wongislandd.infinityindex.entities.series.SeriesDetailsViewModel
 import com.wongislandd.infinityindex.entities.stories.StoryDetailsViewModel
 import com.wongislandd.infinityindex.infra.composables.GenericDetailsScreen
+import com.wongislandd.infinityindex.infra.composables.GenericListScreen
 
 
 @Composable
@@ -102,9 +104,8 @@ fun AppNavHost(
                 composable(route = navItem.route) {
                     when (navItem) {
                         NavigationItem.ComicListScreen -> {
-                            ComicsListScreen()
+                            GenericListScreen<NetworkComic, ComicsListViewModel>()
                         }
-
                         else -> Unit
                     }
                 }

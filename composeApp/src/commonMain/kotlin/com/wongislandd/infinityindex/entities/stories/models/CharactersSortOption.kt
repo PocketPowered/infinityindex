@@ -9,6 +9,6 @@ enum class StoriesSortOption(
 ) : SortOption {
     NAME_DESC(displayName = "Name (dec)", sortKey = "-name"),
     NAME_ASC(displayName = "Name (asc)", sortKey = "name"),
-    MODIFIED_DESC(displayName = "Last Modified (dec)", sortKey = "-modified"),
+    MODIFIED_DESC(displayName = "Last Modified (dec)", sortKey = "-modified", isDefault = true),
     MODIFIED_ASC(displayName = "Last Modified (asc)", sortKey = "modified"),
 }

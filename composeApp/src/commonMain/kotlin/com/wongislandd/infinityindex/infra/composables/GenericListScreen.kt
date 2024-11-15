@@ -1,4 +1,4 @@
-package com.wongislandd.infinityindex.entities.comics.list.ui
+package com.wongislandd.infinityindex.infra.composables
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -35,6 +35,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,21 +45,26 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import app.cash.paging.compose.LazyPagingItems
 import app.cash.paging.compose.collectAsLazyPagingItems
-import com.wongislandd.infinityindex.infra.composables.GlobalTopAppBar
-import com.wongislandd.infinityindex.entities.comics.details.models.Comic
 import com.wongislandd.infinityindex.entities.comics.list.models.ComicsSortOption
-import com.wongislandd.infinityindex.entities.comics.list.viewmodels.ComicsListViewModel
-import com.wongislandd.infinityindex.ComicConstants
+import com.wongislandd.infinityindex.infra.ListUiEvent
+import com.wongislandd.infinityindex.infra.util.EntityModel
+import com.wongislandd.infinityindex.infra.util.SortOption
+import com.wongislandd.infinityindex.infra.util.events.EventBus
+import com.wongislandd.infinityindex.infra.util.events.UiEvent
+import com.wongislandd.infinityindex.infra.viewmodels.BaseListViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable
-fun ComicsListScreen() {
-    val viewModel = koinViewModel<ComicsListViewModel>()
-    val screenState by viewModel.screenState.collectAsState()
-    val lazyPagingComics = screenState.pagingData.collectAsLazyPagingItems()
+inline fun <NETWORK_TYPE, reified T : BaseListViewModel<NETWORK_TYPE, out EntityModel>> GenericListScreen() {
+    val viewModel = koinViewModel<T>()
+    val screenState by viewModel.screenStateSlice.screenState.collectAsState()
+    val lazyPagingEntities = screenState.pagingData.collectAsLazyPagingItems()
+    val coroutineScope = rememberCoroutineScope()
     Scaffold(topBar = {
         GlobalTopAppBar(
             isTitleShown = !screenState.searchState.isSearchBoxVisible,
@@ -67,11 +73,25 @@ fun ComicsListScreen() {
                 ExpandingSearch(
                     isExpanded = screenState.searchState.isSearchBoxVisible,
                     currentSearchParam = screenState.searchState.searchQuery.text,
-                    onSearchParamChanged = viewModel::setPendingSearchQuery,
-                    onSearchParamSubmitted = viewModel::submitSearchQuery,
-                    onSearchIconClicked = { viewModel.setSearchBoxVisibility(true) },
+                    onSearchParamChanged = { newQuery ->
+                        coroutineScope.sendEvent(
+                            viewModel.uiEventBus,
+                            ListUiEvent.SetPendingSearchQuery(newQuery)
+                        )
+                    },
+                    onSearchParamSubmitted = {
+                        coroutineScope.sendEvent(
+                            viewModel.uiEventBus,
+                            ListUiEvent.SubmitSearchQuery(it)
+                        )
+                    },
+                    onSearchIconClicked = {
+                        coroutineScope.sendEvent(viewModel.uiEventBus, ListUiEvent.SearchClicked)
+                    },
                 )
-                ComicsSortSelection(screenState.sortOption, viewModel::setSortOption)
+                SortSelection(screenState.sortOption, onSortSelected = {
+                    coroutineScope.sendEvent(viewModel.uiEventBus, ListUiEvent.SortSelected(it))
+                })
             }
         )
     }) {
@@ -79,14 +99,20 @@ fun ComicsListScreen() {
             if (screenState.isLoading) {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
             } else {
-                ComicsList(lazyPagingComics)
+                EntityList(lazyPagingEntities)
             }
         }
     }
 }
 
+fun CoroutineScope.sendEvent(eventBus: EventBus<UiEvent>, event: ListUiEvent) {
+    launch {
+        eventBus.sendEvent(event)
+    }
+}
+
 @Composable
-private fun ExpandingSearch(
+fun ExpandingSearch(
     currentSearchParam: String,
     onSearchParamChanged: (String) -> Unit,
     onSearchParamSubmitted: (String) -> Unit,
@@ -153,9 +179,9 @@ private fun ExpandingSearch(
 }
 
 @Composable
-private fun ComicsSortSelection(
-    currentSortSelection: ComicsSortOption,
-    onSortSelected: (ComicsSortOption) -> Unit,
+fun SortSelection(
+    currentSortSelection: SortOption,
+    onSortSelected: (SortOption) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var expanded by remember { mutableStateOf(false) }
@@ -165,7 +191,7 @@ private fun ComicsSortSelection(
         ) {
             Icon(
                 imageVector = Icons.Default.Menu,
-                tint = if (currentSortSelection == ComicConstants.DEFAULT_SORT_OPTION) {
+                tint = if (currentSortSelection.isDefault) {
                     MaterialTheme.colors.onPrimary
                 } else {
                     MaterialTheme.colors.secondary
@@ -197,8 +223,8 @@ private fun ComicsSortSelection(
 }
 
 @Composable
-private fun ComicsList(
-    pagedComics: LazyPagingItems<Comic>,
+fun EntityList(
+    pagedEntities: LazyPagingItems<out EntityModel>,
     modifier: Modifier = Modifier
 ) {
     LazyVerticalGrid(
@@ -209,15 +235,14 @@ private fun ComicsList(
             .background(MaterialTheme.colors.surface)
             .fillMaxSize()
     ) {
-
-        items(pagedComics.itemCount, key= { index ->
-            pagedComics[index]?.id ?: index
+        items(pagedEntities.itemCount, key = { index ->
+            pagedEntities[index]?.id ?: index
         }) { index ->
-            pagedComics[index]?.let { comic ->
-                ComicCard(comic)
+            pagedEntities[index]?.let { entity ->
+                GenericEntityCard(entity)
             }
         }
-        pagedComics.apply {
+        pagedEntities.apply {
             item(span = {
                 GridItemSpan(maxLineSpan)
             }) {

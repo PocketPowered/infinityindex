@@ -7,7 +7,7 @@ import com.wongislandd.infinityindex.infra.util.events.UiEvent
 import com.wongislandd.infinityindex.infra.util.events.collectEvents
 import kotlinx.coroutines.CoroutineScope
 
-abstract class ViewModelSlice<model: EntityModel> {
+abstract class ViewModelSlice {
     // For managing coroutine scope
     lateinit var sliceScope: CoroutineScope
     // For accessing UI events

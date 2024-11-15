@@ -3,7 +3,6 @@ package com.wongislandd.infinityindex.entities.characters.models
 import com.wongislandd.infinityindex.entities.comics.details.models.RelatedLink
 import com.wongislandd.infinityindex.infra.models.LoadableImage
 import com.wongislandd.infinityindex.infra.models.NavigationContext
-import com.wongislandd.infinityindex.infra.util.DisplayableEntity
 import com.wongislandd.infinityindex.infra.util.EntityModel
 
 data class Character(
@@ -20,4 +19,4 @@ data class Character(
     override val hasCreators: Boolean,
     override val hasSeries: Boolean,
     override val hasEvents: Boolean,
-) : DisplayableEntity, EntityModel
+) : EntityModel

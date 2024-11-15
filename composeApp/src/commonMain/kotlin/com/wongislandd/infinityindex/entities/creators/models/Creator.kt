@@ -2,7 +2,6 @@ package com.wongislandd.infinityindex.entities.creators.models
 
 import com.wongislandd.infinityindex.infra.models.LoadableImage
 import com.wongislandd.infinityindex.infra.models.NavigationContext
-import com.wongislandd.infinityindex.infra.util.DisplayableEntity
 import com.wongislandd.infinityindex.infra.util.EntityModel
 
 data class Creator(
@@ -16,4 +15,4 @@ data class Creator(
     override val hasCreators: Boolean,
     override val hasSeries: Boolean,
     override val hasEvents: Boolean
-): DisplayableEntity, EntityModel
+): EntityModel

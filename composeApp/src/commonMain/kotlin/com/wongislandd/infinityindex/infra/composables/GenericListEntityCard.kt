@@ -1,4 +1,4 @@
-package com.wongislandd.infinityindex.entities.comics.list.ui
+package com.wongislandd.infinityindex.infra.composables
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -16,13 +16,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.wongislandd.infinityindex.infra.composables.MarvelImage
 import com.wongislandd.infinityindex.infra.navigation.LocalNavHostController
-import com.wongislandd.infinityindex.infra.navigation.RouteHelper
-import com.wongislandd.infinityindex.entities.comics.details.models.Comic
+import com.wongislandd.infinityindex.infra.util.EntityModel
 
 @Composable
-fun ComicCard(comic: Comic, modifier: Modifier = Modifier) {
+fun GenericEntityCard(entity: EntityModel, modifier: Modifier = Modifier) {
     val navController = LocalNavHostController.current
     Card(
         modifier = modifier
@@ -30,27 +28,23 @@ fun ComicCard(comic: Comic, modifier: Modifier = Modifier) {
             .fillMaxWidth()
             .height(460.dp)
             .clickable {
-                navController.navigate(
-                    RouteHelper.getComicDetailsRouteForId(
-                        comic.id
-                    )
-                )
+                navController.navigate(entity.navContext.navRoute)
             },
         elevation = 8.dp
     ) {
         Column {
             MarvelImage(
-                image = comic.image,
+                image = entity.image,
                 tint = MaterialTheme.colors.onSurface,
                 modifier = Modifier.height(300.dp).background(Color.Black)
             )
-            ComicTitlePlate(comic.displayName)
+            EntityCardTitlePlate(entity.displayName)
         }
     }
 }
 
 @Composable
-private fun ComicTitlePlate(
+private fun EntityCardTitlePlate(
     title: String,
     subtitle: String? = null,
     modifier: Modifier = Modifier

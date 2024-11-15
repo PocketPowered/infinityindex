@@ -2,7 +2,6 @@ package com.wongislandd.infinityindex.entities.series.models
 
 import com.wongislandd.infinityindex.infra.models.LoadableImage
 import com.wongislandd.infinityindex.infra.models.NavigationContext
-import com.wongislandd.infinityindex.infra.util.DisplayableEntity
 import com.wongislandd.infinityindex.infra.util.EntityModel
 
 data class Series(
@@ -20,4 +19,4 @@ data class Series(
     override val hasCreators: Boolean,
     override val hasSeries: Boolean,
     override val hasEvents: Boolean
-) : DisplayableEntity, EntityModel
+) : EntityModel

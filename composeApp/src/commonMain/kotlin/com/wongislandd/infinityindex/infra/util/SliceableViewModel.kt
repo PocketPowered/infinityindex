@@ -6,14 +6,14 @@ import com.wongislandd.infinityindex.infra.util.events.EventBus
 import com.wongislandd.infinityindex.infra.util.events.UiEvent
 import com.wongislandd.infinityindex.infra.viewmodels.BaseScreenStateSlice
 
-abstract class SliceableViewModel<model : EntityModel>(
+abstract class SliceableViewModel<T : EntityModel>(
     val entityType: EntityType,
-    val screenStateSlice: BaseScreenStateSlice<model>,
+    open val screenStateSlice: BaseScreenStateSlice<T>,
     val uiEventBus: EventBus<UiEvent>,
     val backChannelEventBus: EventBus<BackChannelEvent>
 ) : ViewModel() {
 
-    fun registerSlice(viewModelSlice: ViewModelSlice<*>) {
+    fun registerSlice(viewModelSlice: ViewModelSlice) {
         viewModelSlice.register(this)
     }
 

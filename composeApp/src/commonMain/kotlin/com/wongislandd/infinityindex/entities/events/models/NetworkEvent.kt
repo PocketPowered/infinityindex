@@ -8,7 +8,7 @@ import com.wongislandd.infinityindex.infra.networking.models.NetworkUrl
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class NetworkComicEvent(
+data class NetworkEvent(
     val id: Int?,
     val title: String?,
     val description: String?,

@@ -4,11 +4,11 @@ import com.wongislandd.infinityindex.entities.characters.models.Character
 import com.wongislandd.infinityindex.entities.characters.models.NetworkCharacter
 import com.wongislandd.infinityindex.repositories.CharactersEntityRepository
 import com.wongislandd.infinityindex.infra.util.EntityType
-import com.wongislandd.infinityindex.infra.viewmodels.BaseResolutionSlice
+import com.wongislandd.infinityindex.infra.viewmodels.BaseDetailsResolutionSlice
 
-class CharactersResolutionSlice(
+class CharactersDetailsResolutionSlice(
     charactersRepository: CharactersEntityRepository
-) : BaseResolutionSlice<NetworkCharacter, Character>(
+) : BaseDetailsResolutionSlice<NetworkCharacter, Character>(
     charactersRepository,
     EntityType.CHARACTERS
 )

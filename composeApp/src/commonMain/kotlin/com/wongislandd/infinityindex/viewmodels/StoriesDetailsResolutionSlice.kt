@@ -4,11 +4,11 @@ import com.wongislandd.infinityindex.repositories.StoriesEntityRepository
 import com.wongislandd.infinityindex.entities.stories.models.NetworkStory
 import com.wongislandd.infinityindex.entities.stories.models.Story
 import com.wongislandd.infinityindex.infra.util.EntityType
-import com.wongislandd.infinityindex.infra.viewmodels.BaseResolutionSlice
+import com.wongislandd.infinityindex.infra.viewmodels.BaseDetailsResolutionSlice
 
-class StoriesResolutionSlice(
+class StoriesDetailsResolutionSlice(
     storiesRepository: StoriesEntityRepository
-) : BaseResolutionSlice<NetworkStory, Story>(
+) : BaseDetailsResolutionSlice<NetworkStory, Story>(
     storiesRepository,
     EntityType.STORIES
 )

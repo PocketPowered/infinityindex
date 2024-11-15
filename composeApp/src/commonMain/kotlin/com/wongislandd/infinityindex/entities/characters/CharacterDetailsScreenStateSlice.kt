@@ -1,6 +1,6 @@
 package com.wongislandd.infinityindex.entities.characters
 
 import com.wongislandd.infinityindex.entities.characters.models.Character
-import com.wongislandd.infinityindex.infra.viewmodels.BaseScreenStateSlice
+import com.wongislandd.infinityindex.infra.viewmodels.BaseDetailsScreenStateSlice
 
-class CharacterDetailsScreenStateSlice : BaseScreenStateSlice<Character>()
+class CharacterDetailsScreenStateSlice : BaseDetailsScreenStateSlice<Character>()

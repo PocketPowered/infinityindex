@@ -14,9 +14,8 @@ import androidx.compose.ui.Modifier
 import app.cash.paging.compose.collectAsLazyPagingItems
 import com.wongislandd.infinityindex.entities.characters.CharacterDetails
 import com.wongislandd.infinityindex.entities.characters.models.Character
-import com.wongislandd.infinityindex.entities.comics.details.models.BaseDetailsScreenState
+import com.wongislandd.infinityindex.entities.comics.ComicDetails
 import com.wongislandd.infinityindex.entities.comics.details.models.Comic
-import com.wongislandd.infinityindex.entities.comics.details.ComicDetails
 import com.wongislandd.infinityindex.entities.creators.CreatorDetails
 import com.wongislandd.infinityindex.entities.creators.models.Creator
 import com.wongislandd.infinityindex.entities.events.EventDetails
@@ -28,13 +27,14 @@ import com.wongislandd.infinityindex.entities.stories.models.Story
 import com.wongislandd.infinityindex.infra.DetailsUiEvent
 import com.wongislandd.infinityindex.infra.util.EntityModel
 import com.wongislandd.infinityindex.infra.util.Resource
-import com.wongislandd.infinityindex.infra.util.SliceableViewModel
+import com.wongislandd.infinityindex.infra.viewmodels.BaseDetailsScreenState
+import com.wongislandd.infinityindex.infra.viewmodels.BaseDetailsViewModel
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable
-inline fun <reified T : SliceableViewModel<out EntityModel>> GenericDetailsScreen(
+inline fun <reified T : BaseDetailsViewModel<out EntityModel>> GenericDetailsScreen(
     primaryId: Int,
     modifier: Modifier = Modifier,
 ) {
@@ -75,7 +75,7 @@ inline fun <reified T : SliceableViewModel<out EntityModel>> GenericDetailsScree
 @Composable
 fun AdditionalDetailsContents(
     primaryModel: EntityModel,
-    screenState: BaseDetailsScreenState<EntityModel>,
+    screenState: BaseDetailsScreenState<out EntityModel>,
     modifier: Modifier = Modifier
 ) {
     val pagedCharacters = screenState.characterData.collectAsLazyPagingItems()

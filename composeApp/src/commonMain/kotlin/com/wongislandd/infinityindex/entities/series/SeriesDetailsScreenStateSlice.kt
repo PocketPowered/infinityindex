@@ -1,6 +1,6 @@
 package com.wongislandd.infinityindex.entities.series
 
 import com.wongislandd.infinityindex.entities.series.models.Series
-import com.wongislandd.infinityindex.infra.viewmodels.BaseScreenStateSlice
+import com.wongislandd.infinityindex.infra.viewmodels.BaseDetailsScreenStateSlice
 
-class SeriesDetailsScreenStateSlice: BaseScreenStateSlice<Series>()
+class SeriesDetailsScreenStateSlice: BaseDetailsScreenStateSlice<Series>()

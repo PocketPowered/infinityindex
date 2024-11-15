@@ -1,6 +1,6 @@
 package com.wongislandd.infinityindex.entities.stories
 
 import com.wongislandd.infinityindex.entities.stories.models.Story
-import com.wongislandd.infinityindex.infra.viewmodels.BaseScreenStateSlice
+import com.wongislandd.infinityindex.infra.viewmodels.BaseDetailsScreenStateSlice
 
-class StoryDetailsScreenStateSlice: BaseScreenStateSlice<Story>()
+class StoryDetailsScreenStateSlice: BaseDetailsScreenStateSlice<Story>()
