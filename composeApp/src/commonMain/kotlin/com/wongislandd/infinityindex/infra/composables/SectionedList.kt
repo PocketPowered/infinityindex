@@ -52,10 +52,7 @@ fun <T : DisplayableEntity> SectionedList(
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             items(
-                count = pagedItems.itemCount,
-                key = { index ->
-                    pagedItems[index]?.let(itemKey) ?: index
-                }
+                count = pagedItems.itemCount
             ) { index ->
                 pagedItems[index]?.let { item ->
                     EntityCard(

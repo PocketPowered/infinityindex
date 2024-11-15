@@ -15,6 +15,12 @@ data class LoadableImageTransformerInput(
  */
 class LoadableImageTransformer : Transformer<LoadableImageTransformerInput, LoadableImage> {
 
+    // Consider these as empty images
+    private val blacklistedPatterns = setOf(
+        "image_not_available",
+        "http://i.annihil.us/u/prod/marvel/i/mg/f/60/4c002e0305708"
+    )
+
     override fun transform(input: LoadableImageTransformerInput): LoadableImage {
         val imageUrl = input.networkImage?.let {
             extractImageUrl(it)
@@ -26,7 +32,7 @@ class LoadableImageTransformer : Transformer<LoadableImageTransformerInput, Load
     }
 
     private fun extractImageUrl(networkImage: NetworkImage): String? {
-        if (networkImage.path?.contains("image_not_available") == true) {
+        if (blacklistedPatterns.contains(networkImage.path)) {
             return null
         }
         return "${networkImage.path}.${networkImage.extension}".replace("http://", "https://")

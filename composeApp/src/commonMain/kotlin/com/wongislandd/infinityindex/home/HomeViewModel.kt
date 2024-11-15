@@ -28,6 +28,25 @@ class HomeViewModel(
 ) {
 
     init {
+        listOf(
+            comicsListPagingSlice,
+            creatorsListPagingSlice,
+            charactersListPagingSlice,
+            seriesListPagingSlice,
+            storiesListPagingSlice,
+            eventsListPagingSlice
+        ).forEach {
+            apply {
+                it.setPagingConfig(
+                    PagingConfig(
+                        initialLoadSize = 8,
+                        pageSize = 3,
+                        enablePlaceholders = false,
+                        prefetchDistance = 2
+                    )
+                )
+            }
+        }
         registerSlice(screenStateSlice)
         registerSlice(comicsListPagingSlice)
         registerSlice(creatorsListPagingSlice)
@@ -35,22 +54,5 @@ class HomeViewModel(
         registerSlice(seriesListPagingSlice)
         registerSlice(storiesListPagingSlice)
         registerSlice(eventsListPagingSlice)
-        listOf(comicsListPagingSlice,
-            creatorsListPagingSlice,
-            charactersListPagingSlice,
-            seriesListPagingSlice,
-            storiesListPagingSlice,
-            eventsListPagingSlice).forEach {
-                apply {
-                    it.setPagingConfig(
-                        PagingConfig(
-                            initialLoadSize = 8,
-                            pageSize = 3,
-                            enablePlaceholders = false,
-                            prefetchDistance = 2
-                        )
-                    )
-                }
-        }
     }
 }
