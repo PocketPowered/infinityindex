@@ -31,6 +31,7 @@ import com.wongislandd.infinityindex.infra.util.EntityType
 @Composable
 fun <T : DisplayableEntity> SectionedList(
     entityType: EntityType,
+    totalItemCount: Long?,
     pagedItems: LazyPagingItems<T>,
     itemKey: (T) -> Any? = { it.id },
     showAllNavRoute: String? = null,
@@ -41,6 +42,7 @@ fun <T : DisplayableEntity> SectionedList(
     Column(modifier = Modifier.fillMaxWidth()) {
         EntitySectionHeader(
             entityType = entityType,
+            totalEntityCount = totalItemCount,
             showAllNavRoute = showAllNavRoute,
             modifier = Modifier.padding(horizontal = 8.dp)
         )
@@ -69,6 +71,7 @@ fun <T : DisplayableEntity> SectionedList(
 @Composable
 private fun EntitySectionHeader(
     entityType: EntityType,
+    totalEntityCount: Long?,
     showAllNavRoute: String?,
     modifier: Modifier = Modifier
 ) {
@@ -80,8 +83,9 @@ private fun EntitySectionHeader(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
+        val text = totalEntityCount?.let { "${entityType.displayName} ($it)" } ?: entityType.displayName
         Text(
-            text = entityType.displayName,
+            text = text,
             style = MaterialTheme.typography.h6,
             fontWeight = FontWeight.SemiBold,
             textAlign = TextAlign.Start,

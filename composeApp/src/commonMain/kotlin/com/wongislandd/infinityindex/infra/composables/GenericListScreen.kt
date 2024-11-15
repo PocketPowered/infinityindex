@@ -45,7 +45,6 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import app.cash.paging.compose.LazyPagingItems
 import app.cash.paging.compose.collectAsLazyPagingItems
-import com.wongislandd.infinityindex.entities.comics.list.models.ComicsSortOption
 import com.wongislandd.infinityindex.infra.ListUiEvent
 import com.wongislandd.infinityindex.infra.util.EntityModel
 import com.wongislandd.infinityindex.infra.util.SelectableSortOption

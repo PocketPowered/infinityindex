@@ -3,6 +3,8 @@ package com.wongislandd.infinityindex.infra.composables
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import app.cash.paging.compose.collectAsLazyPagingItems
@@ -15,6 +17,7 @@ fun ListOfEntities(
     showAllEnabled: Boolean = false,
     modifier: Modifier = Modifier
 ) {
+    val entityCounts by screenState.entityCountsData.collectAsState()
     val pagedCharacters = screenState.characterData.collectAsLazyPagingItems()
     val pagedCreators = screenState.creatorsData.collectAsLazyPagingItems()
     val pagedEvents = screenState.eventsData.collectAsLazyPagingItems()
@@ -23,20 +26,21 @@ fun ListOfEntities(
     val pagedComics = screenState.comicData.collectAsLazyPagingItems()
 
     val sections = listOf(
-        EntityType.COMICS to pagedComics,
-        EntityType.CHARACTERS to pagedCharacters,
-        EntityType.EVENTS to pagedEvents,
-        EntityType.STORIES to pagedStories,
-        EntityType.SERIES to pagedSeries,
-        EntityType.CREATORS to pagedCreators,
+        Pair(EntityType.COMICS, entityCounts.comicCount) to pagedComics,
+        Pair(EntityType.CHARACTERS, entityCounts.charactersCount) to pagedCharacters,
+        Pair(EntityType.EVENTS, entityCounts.eventsCount) to pagedEvents,
+        Pair(EntityType.STORIES, entityCounts.storiesCount) to pagedStories,
+        Pair(EntityType.SERIES, entityCounts.seriesCount) to pagedSeries,
+        Pair(EntityType.CREATORS, entityCounts.creatorsCount) to pagedCreators,
     )
 
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(16.dp)) {
-        sections.forEach { (type, pagedItems) ->
+        sections.forEach { (entityTypeAndCountPair, pagedItems) ->
             SectionedList(
-                entityType = type,
+                entityType = entityTypeAndCountPair.first,
+                totalItemCount = entityTypeAndCountPair.second,
                 pagedItems = pagedItems,
-                showAllNavRoute = type.relatedNavigationLink.takeIf { showAllEnabled }
+                showAllNavRoute = entityTypeAndCountPair.first.relatedNavigationLink.takeIf { showAllEnabled }
             )
         }
     }
