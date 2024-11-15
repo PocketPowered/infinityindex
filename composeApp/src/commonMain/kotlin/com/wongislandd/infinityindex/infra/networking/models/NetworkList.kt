@@ -10,4 +10,4 @@ data class NetworkList<T>(
     val items: List<T>?
 )
 
-fun <T> NetworkList<T>?.hasItems(): Boolean = this?.items?.isNotEmpty() ?: false
+fun <T> NetworkList<T>?.getAvailableItems(): Int = this?.available ?: 0

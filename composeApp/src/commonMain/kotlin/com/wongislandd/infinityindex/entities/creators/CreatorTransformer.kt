@@ -7,7 +7,7 @@ import com.wongislandd.infinityindex.entities.creators.models.NetworkCreator
 import com.wongislandd.infinityindex.infra.models.DefaultImageType
 import com.wongislandd.infinityindex.infra.models.NavigationContext
 import com.wongislandd.infinityindex.infra.navigation.RouteHelper
-import com.wongislandd.infinityindex.infra.networking.models.hasItems
+import com.wongislandd.infinityindex.infra.networking.models.getAvailableItems
 import com.wongislandd.infinityindex.infra.transformers.DataWrapperTransformer
 import com.wongislandd.infinityindex.infra.transformers.LoadableImageTransformerInput
 import com.wongislandd.infinityindex.infra.util.safeLet
@@ -34,12 +34,12 @@ class CreatorTransformer(
                         defaultImageType = DefaultImageType.PERSON
                     ),
                 ),
-                hasEvents = input.events.hasItems(),
-                hasStories = input.stories.hasItems(),
-                hasCharacters = false,
-                hasCreators = false,
-                hasSeries = input.series.hasItems(),
-                hasComics = input.comics.hasItems(),
+                relatedEventsCount = input.events.getAvailableItems(),
+                relatedStoriesCount = input.stories.getAvailableItems(),
+                relatedCharactersCount = 0,
+                relatedCreatorsCount = 0,
+                relatedSeriesCount = input.series.getAvailableItems(),
+                relatedComicsCount = input.comics.getAvailableItems(),
                 lastModified = dateTransformer.transform(modified)
             )
         }

@@ -40,7 +40,7 @@ fun TopLevelEntityDetails(entity: EntityModel, modifier: Modifier = Modifier) {
         )
         Text(
             text = entity.displayName,
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier.padding(8.dp),
             style = MaterialTheme.typography.h4,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center
@@ -56,14 +56,8 @@ fun BottomLevelEntityDetails(entity: EntityModel, modifier: Modifier = Modifier)
     Column(
         modifier = modifier,
     ) {
-        Spacer(modifier = Modifier.height(8.dp))
         DetailsSection("Developer Details") {
-            Text("ID: ${entity.id}", style = MaterialTheme.typography.h5)
-            Text(
-                text = entity.toString(),
-                style = MaterialTheme.typography.body2,
-                color = MaterialTheme.colors.onSurface,
-            )
+            Text("ID: ${entity.id}", style = MaterialTheme.typography.body2)
         }
     }
 }

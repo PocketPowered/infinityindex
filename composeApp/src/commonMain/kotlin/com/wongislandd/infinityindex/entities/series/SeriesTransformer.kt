@@ -7,7 +7,7 @@ import com.wongislandd.infinityindex.entities.series.models.Series
 import com.wongislandd.infinityindex.infra.models.DefaultImageType
 import com.wongislandd.infinityindex.infra.models.NavigationContext
 import com.wongislandd.infinityindex.infra.navigation.RouteHelper
-import com.wongislandd.infinityindex.infra.networking.models.hasItems
+import com.wongislandd.infinityindex.infra.networking.models.getAvailableItems
 import com.wongislandd.infinityindex.infra.transformers.DataWrapperTransformer
 import com.wongislandd.infinityindex.infra.transformers.LoadableImageTransformerInput
 import com.wongislandd.infinityindex.infra.util.dropIfEmpty
@@ -39,12 +39,12 @@ class SeriesTransformer(
                 rating = input.rating.dropIfEmpty(),
                 startYear = input.startYear,
                 endYear = input.endYear,
-                hasEvents = input.events.hasItems(),
-                hasStories = input.stories.hasItems(),
-                hasCharacters = input.characters.hasItems(),
-                hasCreators = input.creators.hasItems(),
-                hasSeries = false,
-                hasComics = input.comics.hasItems(),
+                relatedEventsCount = input.events.getAvailableItems(),
+                relatedStoriesCount = input.stories.getAvailableItems(),
+                relatedCharactersCount = input.characters.getAvailableItems(),
+                relatedCreatorsCount = input.creators.getAvailableItems(),
+                relatedSeriesCount = 0,
+                relatedComicsCount = input.comics.getAvailableItems(),
                 lastModified = datesTransformer.transform(modified)
             )
         }

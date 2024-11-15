@@ -89,7 +89,7 @@ abstract class BaseDetailsResolutionSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel
         primaryResourceId: Int,
         entity: LOCAL_TYPE
     ) {
-        if (entity.hasComics) {
+        if (entity.relatedComicsCount > 0) {
             backChannelEvents.sendEvent(
                 DetailsBackChannelEvent.RequestForPagination(
                     primaryEntityId = primaryResourceId,
@@ -98,7 +98,7 @@ abstract class BaseDetailsResolutionSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel
                 )
             )
         }
-        if (entity.hasCharacters) {
+        if (entity.relatedCharactersCount > 0) {
             backChannelEvents.sendEvent(
                 DetailsBackChannelEvent.RequestForPagination(
                     primaryEntityId = primaryResourceId,
@@ -107,7 +107,7 @@ abstract class BaseDetailsResolutionSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel
                 )
             )
         }
-        if (entity.hasCreators) {
+        if (entity.relatedCreatorsCount > 0) {
             backChannelEvents.sendEvent(
                 DetailsBackChannelEvent.RequestForPagination(
                     primaryEntityId = primaryResourceId,
@@ -116,7 +116,7 @@ abstract class BaseDetailsResolutionSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel
                 )
             )
         }
-        if (entity.hasEvents) {
+        if (entity.relatedEventsCount > 0) {
             backChannelEvents.sendEvent(
                 DetailsBackChannelEvent.RequestForPagination(
                     primaryEntityId = primaryResourceId,
@@ -125,7 +125,7 @@ abstract class BaseDetailsResolutionSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel
                 )
             )
         }
-        if (entity.hasSeries) {
+        if (entity.relatedSeriesCount > 0) {
             backChannelEvents.sendEvent(
                 DetailsBackChannelEvent.RequestForPagination(
                     primaryEntityId = primaryResourceId,
@@ -134,7 +134,7 @@ abstract class BaseDetailsResolutionSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel
                 )
             )
         }
-        if (entity.hasStories) {
+        if (entity.relatedStoriesCount > 0) {
             backChannelEvents.sendEvent(
                 DetailsBackChannelEvent.RequestForPagination(
                     primaryEntityId = primaryResourceId,

@@ -12,10 +12,10 @@ data class Story(
     override val lastModified: String,
     val type: String?,
     val description: String?,
-    override val hasComics: Boolean,
-    override val hasStories: Boolean,
-    override val hasCharacters: Boolean,
-    override val hasCreators: Boolean,
-    override val hasSeries: Boolean,
-    override val hasEvents: Boolean
+    override val relatedComicsCount: Int,
+    override val relatedStoriesCount: Int,
+    override val relatedCharactersCount: Int,
+    override val relatedCreatorsCount: Int,
+    override val relatedSeriesCount: Int,
+    override val relatedEventsCount: Int
 ) : EntityModel
