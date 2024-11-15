@@ -16,4 +16,7 @@ sealed class DetailsBackChannelEvent : BackChannelEvent {
     data class SingleDataResUpdate<T : EntityModel>(val update: Resource<T>, val type: EntityType) :
         BackChannelEvent
 
+    data class RequestForPagination(val primaryEntityId: Int,
+                                    val primaryEntityType: EntityType,
+                                    val relatedEntityTypeToPageFor: EntityType) : BackChannelEvent
 }

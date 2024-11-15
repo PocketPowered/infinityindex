@@ -1,10 +1,11 @@
 package com.wongislandd.infinityindex.infra.paging
 
 import com.wongislandd.infinityindex.infra.networking.models.DataWrapper
+import com.wongislandd.infinityindex.infra.util.EntityModel
 import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.util.Resource
 
-class RelatedEntityPagingSource<NETWORK_MODEL, LOCAL_MODEL: Any>(
+class RelatedEntityPagingSource<NETWORK_MODEL, LOCAL_MODEL: EntityModel>(
     private val primaryEntityRepository: BaseRepository<NETWORK_MODEL, LOCAL_MODEL>,
     private val relatedEntityType: EntityType,
     private val relatedEntityId: Int

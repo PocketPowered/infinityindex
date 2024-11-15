@@ -6,6 +6,7 @@ import com.wongislandd.infinityindex.entities.events.models.NetworkComicEvent
 import com.wongislandd.infinityindex.infra.models.DefaultImageType
 import com.wongislandd.infinityindex.infra.models.NavigationContext
 import com.wongislandd.infinityindex.infra.navigation.RouteHelper
+import com.wongislandd.infinityindex.infra.networking.models.hasItems
 import com.wongislandd.infinityindex.infra.transformers.DataWrapperTransformer
 import com.wongislandd.infinityindex.infra.transformers.LoadableImageTransformerInput
 import com.wongislandd.infinityindex.infra.util.safeLet
@@ -32,7 +33,13 @@ class EventTransformer(
                 ),
                 description = input.description,
                 start = input.start,
-                end = input.end
+                end = input.end,
+                hasEvents = false,
+                hasStories = input.stories.hasItems(),
+                hasCharacters = input.characters.hasItems(),
+                hasCreators = input.creators.hasItems(),
+                hasSeries = input.series.hasItems(),
+                hasComics = input.comics.hasItems()
             )
         }
     }

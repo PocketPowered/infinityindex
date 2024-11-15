@@ -13,5 +13,11 @@ data class Series(
     val description: String?,
     val rating: String?,
     val startYear: Int?,
-    val endYear: Int?
-): DisplayableEntity, EntityModel
+    val endYear: Int?,
+    override val hasComics: Boolean,
+    override val hasStories: Boolean,
+    override val hasCharacters: Boolean,
+    override val hasCreators: Boolean,
+    override val hasSeries: Boolean,
+    override val hasEvents: Boolean
+) : DisplayableEntity, EntityModel

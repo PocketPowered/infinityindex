@@ -11,5 +11,11 @@ data class Story(
     override val image: LoadableImage,
     override val navContext: NavigationContext,
     val type: String?,
-    val description: String?
+    val description: String?,
+    override val hasComics: Boolean,
+    override val hasStories: Boolean,
+    override val hasCharacters: Boolean,
+    override val hasCreators: Boolean,
+    override val hasSeries: Boolean,
+    override val hasEvents: Boolean
 ) : DisplayableEntity, EntityModel

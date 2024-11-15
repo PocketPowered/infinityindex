@@ -12,5 +12,11 @@ data class Event(
     override val navContext: NavigationContext,
     val description: String?,
     val start: String?,
-    val end: String?
+    val end: String?,
+    override val hasComics: Boolean,
+    override val hasStories: Boolean,
+    override val hasCharacters: Boolean,
+    override val hasCreators: Boolean,
+    override val hasSeries: Boolean,
+    override val hasEvents: Boolean
 ): DisplayableEntity, EntityModel

@@ -66,7 +66,9 @@ class ComicTransformer(
                 hasEvents = input.events.hasItems(),
                 hasStories = input.stories.hasItems(),
                 hasCharacters = input.characters.hasItems(),
-                hasCreators = input.creators.hasItems()
+                hasCreators = input.creators.hasItems(),
+                hasSeries = false,
+                hasComics = false
             )
         }
     }

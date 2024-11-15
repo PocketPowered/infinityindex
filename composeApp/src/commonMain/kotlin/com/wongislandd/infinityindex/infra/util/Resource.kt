@@ -20,4 +20,11 @@ sealed class Resource<out T> {
             is Loading -> this
         }
     }
+
+     fun <T> Resource<T>.onSuccess(block: (T) -> Unit): Resource<T> {
+        if (this is Success) {
+            block(data)
+        }
+        return this
+    }
 }

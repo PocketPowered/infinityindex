@@ -14,4 +14,10 @@ data class Character(
     val description: String?,
     val modified: String?,
     val relatedLinks: List<RelatedLink>,
+    override val hasComics: Boolean,
+    override val hasStories: Boolean,
+    override val hasCharacters: Boolean,
+    override val hasCreators: Boolean,
+    override val hasSeries: Boolean,
+    override val hasEvents: Boolean,
 ) : DisplayableEntity, EntityModel

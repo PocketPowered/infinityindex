@@ -4,6 +4,7 @@ import com.wongislandd.infinityindex.infra.networking.NetworkClient
 import com.wongislandd.infinityindex.infra.networking.models.DataWrapper
 import com.wongislandd.infinityindex.infra.networking.models.NetworkDataWrapper
 import com.wongislandd.infinityindex.infra.transformers.DataWrapperTransformer
+import com.wongislandd.infinityindex.infra.util.EntityModel
 import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.util.Resource
 import com.wongislandd.infinityindex.infra.util.safeLet
@@ -11,7 +12,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.request.parameter
 import io.ktor.util.reflect.TypeInfo
 
-abstract class BaseRepository<NETWORK_MODEL, LOCAL_MODEL>(
+abstract class BaseRepository<NETWORK_MODEL, LOCAL_MODEL: EntityModel>(
     private val transformer: DataWrapperTransformer<NETWORK_MODEL, LOCAL_MODEL>,
     okHttpClient: HttpClient, private val primaryEntityType: EntityType,
     private val typeInfo: TypeInfo

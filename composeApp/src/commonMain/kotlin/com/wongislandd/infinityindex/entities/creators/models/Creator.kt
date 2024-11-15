@@ -9,5 +9,11 @@ data class Creator(
     override val id: Int,
     override val displayName: String,
     override val image: LoadableImage,
-    override val navContext: NavigationContext
+    override val navContext: NavigationContext,
+    override val hasComics: Boolean,
+    override val hasStories: Boolean,
+    override val hasCharacters: Boolean,
+    override val hasCreators: Boolean,
+    override val hasSeries: Boolean,
+    override val hasEvents: Boolean
 ): DisplayableEntity, EntityModel

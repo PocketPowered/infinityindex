@@ -2,10 +2,11 @@ package com.wongislandd.infinityindex.infra.paging
 
 import com.wongislandd.infinityindex.entities.comics.list.models.SearchQuery
 import com.wongislandd.infinityindex.infra.networking.models.DataWrapper
+import com.wongislandd.infinityindex.infra.util.EntityModel
 import com.wongislandd.infinityindex.infra.util.Resource
 import com.wongislandd.infinityindex.infra.util.SortOption
 
-class EntityPagingSource<NETWORK_MODEL, LOCAL_MODEL: Any>(
+class EntityPagingSource<NETWORK_MODEL, LOCAL_MODEL: EntityModel>(
     private val repository: BaseRepository<NETWORK_MODEL, LOCAL_MODEL>,
     private val query: SearchQuery? = null,
     private val sortOption: SortOption? = null

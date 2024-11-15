@@ -24,8 +24,10 @@ data class Comic(
     val ean: String?,
     val issn: String?,
     val format: String?,
-    val hasEvents: Boolean,
-    val hasStories: Boolean,
-    val hasCharacters: Boolean,
-    val hasCreators: Boolean
+    override val hasEvents: Boolean,
+    override val hasStories: Boolean,
+    override val hasCharacters: Boolean,
+    override val hasCreators: Boolean,
+    override val hasComics: Boolean,
+    override val hasSeries: Boolean
 ): DisplayableEntity, EntityModel
