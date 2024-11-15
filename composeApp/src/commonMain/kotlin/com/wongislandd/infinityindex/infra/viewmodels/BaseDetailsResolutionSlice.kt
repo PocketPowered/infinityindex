@@ -7,6 +7,8 @@ import com.wongislandd.infinityindex.infra.DetailsBackChannelEvent
 import com.wongislandd.infinityindex.infra.DetailsUiEvent
 import com.wongislandd.infinityindex.infra.ListBackChannelEvent
 import com.wongislandd.infinityindex.infra.paging.BaseRepository
+import com.wongislandd.infinityindex.infra.paging.PaginationContextWrapper
+import com.wongislandd.infinityindex.infra.paging.PagingSourceCallbacks
 import com.wongislandd.infinityindex.infra.paging.RelatedEntityPagingSource
 import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.util.EntityModel
@@ -16,12 +18,6 @@ import com.wongislandd.infinityindex.infra.util.events.BackChannelEvent
 import com.wongislandd.infinityindex.infra.util.events.UiEvent
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-
-abstract class BaseListResolutionSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
-    private val repository: BaseRepository<NETWORK_TYPE, LOCAL_TYPE>,
-) : ViewModelSlice() {
-
-}
 
 abstract class BaseDetailsResolutionSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
     private val repository: BaseRepository<NETWORK_TYPE, LOCAL_TYPE>,
@@ -76,7 +72,21 @@ abstract class BaseDetailsResolutionSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel
                     prefetchDistance = 2
                 )
             ) {
-                RelatedEntityPagingSource(repository, relatedEntityType, primaryEntityId)
+                val pagingSource = RelatedEntityPagingSource(repository, relatedEntityType, primaryEntityId)
+                // This is likely a memory leak when the source gets invalidated, look to clean up
+                pagingSource.registerOnSuccessListener(object : PagingSourceCallbacks<LOCAL_TYPE> {
+                    override fun onSuccess(paginationContextWrapper: PaginationContextWrapper<LOCAL_TYPE>) {
+                        sliceScope.launch {
+                            backChannelEvents.sendEvent(
+                                ListBackChannelEvent.EntityCountsUpdate(
+                                    totalCount = paginationContextWrapper.total,
+                                    entityType = relatedEntityType
+                                )
+                            )
+                        }
+                    }
+                })
+                pagingSource
             }.flow.cachedIn(sliceScope).collectLatest {
                 backChannelEvents.sendEvent(
                     ListBackChannelEvent.PagingDataResUpdate(it, entityType)

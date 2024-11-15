@@ -13,8 +13,13 @@ import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.util.ViewModelSlice
 import com.wongislandd.infinityindex.infra.util.events.BackChannelEvent
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 
 abstract class BaseEntityPagingDataConsumerSlice : ViewModelSlice() {
+
+    protected val entityCountsData: MutableStateFlow<EntityCountsData> =
+        MutableStateFlow(EntityCountsData())
+
     protected val characterPagingData: MutableStateFlow<PagingData<Character>> =
         MutableStateFlow(PagingData.empty())
 
@@ -42,6 +47,9 @@ abstract class BaseEntityPagingDataConsumerSlice : ViewModelSlice() {
         when (event) {
             is ListBackChannelEvent.PagingDataResUpdate<*> -> {
                 handlePagingUpdate(event)
+            }
+            is ListBackChannelEvent.EntityCountsUpdate -> {
+                handleEntityCountsUpdate(event)
             }
         }
     }
@@ -75,6 +83,53 @@ abstract class BaseEntityPagingDataConsumerSlice : ViewModelSlice() {
 
             EntityType.SERIES -> {
                 seriesPagingData.value = event.update as PagingData<Series>
+            }
+        }
+    }
+
+    private fun handleEntityCountsUpdate(event: ListBackChannelEvent.EntityCountsUpdate) {
+        when (event.entityType) {
+            EntityType.CHARACTERS -> {
+                entityCountsData.update {
+                    it.copy(
+                        charactersCount = event.totalCount
+                    )
+                }
+            }
+            EntityType.EVENTS -> {
+                entityCountsData.update {
+                    it.copy(
+                        eventsCount = event.totalCount
+                    )
+                }
+            }
+            EntityType.CREATORS -> {
+                entityCountsData.update {
+                    it.copy(
+                        creatorsCount = event.totalCount
+                    )
+                }
+            }
+            EntityType.STORIES -> {
+                entityCountsData.update {
+                    it.copy(
+                        storiesCount = event.totalCount
+                    )
+                }
+            }
+            EntityType.COMICS -> {
+                entityCountsData.update {
+                    it.copy(
+                        comicCount = event.totalCount
+                    )
+                }
+            }
+            EntityType.SERIES -> {
+                entityCountsData.update {
+                    it.copy(
+                        seriesCount = event.totalCount
+                    )
+                }
             }
         }
     }

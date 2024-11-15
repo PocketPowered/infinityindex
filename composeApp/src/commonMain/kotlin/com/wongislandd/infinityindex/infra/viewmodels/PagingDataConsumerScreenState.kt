@@ -10,6 +10,7 @@ import com.wongislandd.infinityindex.entities.stories.models.Story
 import kotlinx.coroutines.flow.StateFlow
 
 interface PagingDataConsumerScreenState {
+    val entityCountsData: StateFlow<EntityCountsData>
     val characterData: StateFlow<PagingData<Character>>
     val creatorsData: StateFlow<PagingData<Creator>>
     val eventsData: StateFlow<PagingData<Event>>
@@ -17,3 +18,12 @@ interface PagingDataConsumerScreenState {
     val seriesData: StateFlow<PagingData<Series>>
     val comicData: StateFlow<PagingData<Comic>>
 }
+
+data class EntityCountsData(
+    val charactersCount: Long? = null,
+    val creatorsCount: Long? = null,
+    val eventsCount: Long? = null,
+    val storiesCount: Long? = null,
+    val seriesCount: Long? = null,
+    val comicCount: Long? = null
+)

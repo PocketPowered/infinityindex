@@ -6,6 +6,8 @@ import app.cash.paging.Pager
 import com.wongislandd.infinityindex.infra.ListBackChannelEvent
 import com.wongislandd.infinityindex.infra.paging.BaseRepository
 import com.wongislandd.infinityindex.infra.paging.EntityPagingSource
+import com.wongislandd.infinityindex.infra.paging.PaginationContextWrapper
+import com.wongislandd.infinityindex.infra.paging.PagingSourceCallbacks
 import com.wongislandd.infinityindex.infra.util.EntityModel
 import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.util.SortOption
@@ -73,6 +75,18 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
                         )
                     }
                 }
+                newPagingSource.registerOnSuccessListener(object : PagingSourceCallbacks<LOCAL_TYPE> {
+                    override fun onSuccess(paginationContextWrapper: PaginationContextWrapper<LOCAL_TYPE>) {
+                        sliceScope.launch {
+                            backChannelEvents.sendEvent(
+                                ListBackChannelEvent.EntityCountsUpdate(
+                                    totalCount = paginationContextWrapper.total,
+                                    entityType = entityType
+                                )
+                            )
+                        }
+                    }
+                })
                 newPagingSource
             }.flow.cachedIn(sliceScope).collectLatest {
                 backChannelEvents.sendEvent(

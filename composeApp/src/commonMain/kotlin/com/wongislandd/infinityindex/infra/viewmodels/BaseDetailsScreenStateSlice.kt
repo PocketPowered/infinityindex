@@ -18,7 +18,8 @@ abstract class BaseDetailsScreenStateSlice<T : EntityModel> : BaseScreenStateSli
                 eventsData = eventsPagingData,
                 storiesData = storiesPagingData,
                 seriesData = seriesPagingData,
-                comicData = comicPagingData
+                comicData = comicPagingData,
+                entityCountsData = entityCountsData
             )
         )
 
