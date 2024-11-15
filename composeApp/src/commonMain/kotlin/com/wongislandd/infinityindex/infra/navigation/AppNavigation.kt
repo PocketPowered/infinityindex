@@ -1,20 +1,23 @@
 package com.wongislandd.infinityindex.infra.navigation
 
 enum class NavigationItem(
+    val displayName: String,
     private val baseRoute: String,
-    val idArg: String? = null, ) {
-    ComicListScreen("comics"),
-    CreatorListScreen("creators"),
-    CharacterListScreen("characters"),
-    SeriesListScreen("series"),
-    EventListScreen("events"),
-    StoryListScreen("stories"),
-    ComicDetailsScreen("comics/details", "comicId"),
-    CreatorDetailsScreen("creators/details", "creatorId"),
-    CharacterDetailsScreen("character/details", "characterId"),
-    SeriesDetailsScreen("series/details", "seriesId"),
-    EventDetailsScreen("event/details", "eventId"),
-    StoryDetailsScreen("story/details", "storyId");
+    val idArg: String? = null,
+) {
+    Home("Home", "home"),
+    ComicListScreen("Comics", "comics"),
+    CreatorListScreen("Creators", "creators"),
+    CharacterListScreen("Characters", "characters"),
+    SeriesListScreen("Series", "series"),
+    EventListScreen("Events", "events"),
+    StoryListScreen("Stories", "stories"),
+    ComicDetailsScreen("Comic Details", "comics/details", "comicId"),
+    CreatorDetailsScreen("Creator Details", "creators/details", "creatorId"),
+    CharacterDetailsScreen("Character Details", "character/details", "characterId"),
+    SeriesDetailsScreen("Series Details", "series/details", "seriesId"),
+    EventDetailsScreen("Event Details", "event/details", "eventId"),
+    StoryDetailsScreen("Story Details", "story/details", "storyId");
 
     val route: String
         get() = if (idArg != null) "$baseRoute/{$idArg}" else baseRoute

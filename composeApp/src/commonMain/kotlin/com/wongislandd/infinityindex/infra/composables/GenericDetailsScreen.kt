@@ -63,7 +63,7 @@ inline fun <reified T : BaseDetailsViewModel<out EntityModel>> GenericDetailsScr
 
                 is Resource.Error -> {
                     Text(
-                        text = "Error loading comic details",
+                        text = "Error loading details",
                         modifier = Modifier.align(Alignment.Center)
                     )
                 }

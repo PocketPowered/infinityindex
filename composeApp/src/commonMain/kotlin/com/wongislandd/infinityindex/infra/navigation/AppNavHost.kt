@@ -29,12 +29,13 @@ import com.wongislandd.infinityindex.entities.stories.StoryDetailsViewModel
 import com.wongislandd.infinityindex.entities.stories.models.NetworkStory
 import com.wongislandd.infinityindex.infra.composables.GenericDetailsScreen
 import com.wongislandd.infinityindex.infra.composables.GenericListScreen
+import com.wongislandd.infinityindex.infra.composables.HomeScreen
 
 
 @Composable
 fun AppNavHost(
     modifier: Modifier = Modifier,
-    startDestination: String = NavigationItem.ComicListScreen.route,
+    startDestination: String = NavigationItem.Home.route,
 ) {
     val navController = LocalNavHostController.current
     val pageTurnEnterTransition = slideInHorizontally(
@@ -135,6 +136,9 @@ fun AppNavHost(
 
                         NavigationItem.StoryListScreen -> {
                             GenericListScreen<NetworkStory, StoriesListViewModel>()
+                        }
+                        NavigationItem.Home -> {
+                            HomeScreen()
                         }
                         else -> Unit
                     }

@@ -33,7 +33,7 @@ fun GlobalTopAppBar(
     TopAppBar(
         title = {
             if (isTitleShown) {
-                Text("Marvel Comics", color = MaterialTheme.colors.onPrimary)
+                Text("Infinity Index", color = MaterialTheme.colors.onPrimary)
             }
         },
         navigationIcon = backButton,
