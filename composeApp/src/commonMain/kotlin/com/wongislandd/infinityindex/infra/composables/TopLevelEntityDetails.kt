@@ -46,14 +46,14 @@ fun TopLevelEntityDetails(entity: EntityModel, modifier: Modifier = Modifier) {
         )
         EntityTypePlate(entity)
         Spacer(modifier = Modifier.height(8.dp))
-        EntityMetadata(entity.id, entity.lastModified)
+        EntityMetadata(entity.lastModified)
     }
 }
 
 @Composable
-private fun EntityMetadata(id: Int, lastModified: String, modifier: Modifier = Modifier) {
+private fun EntityMetadata(lastModified: String, modifier: Modifier = Modifier) {
     Text(
-        text = "ID: $id, Last Modified: $lastModified",
+        text = "Last Modified: $lastModified",
         style = MaterialTheme.typography.body2,
         color = MaterialTheme.colors.onSurface,
         modifier = modifier
