@@ -34,7 +34,7 @@ import com.wongislandd.infinityindex.entities.events.models.Event
 import com.wongislandd.infinityindex.entities.events.transformers.EventTransformer
 import com.wongislandd.infinityindex.entities.series.SeriesDetailsScreenStateSlice
 import com.wongislandd.infinityindex.entities.series.SeriesDetailsViewModel
-import com.wongislandd.infinityindex.entities.series.SeriesListListPagingSlice
+import com.wongislandd.infinityindex.entities.series.SeriesListPagingSlice
 import com.wongislandd.infinityindex.entities.series.SeriesListScreenStateSlice
 import com.wongislandd.infinityindex.entities.series.SeriesListViewModel
 import com.wongislandd.infinityindex.entities.series.SeriesTransformer
@@ -116,7 +116,7 @@ val entitiesModule = module {
     factoryOf<BaseDetailsScreenStateSlice<Series>>(::SeriesDetailsScreenStateSlice)
     factoryOf<BaseListScreenStateSlice<Series>>(::SeriesListScreenStateSlice)
     factoryOf(::SeriesDetailsResolutionSlice)
-    factoryOf(::SeriesListListPagingSlice)
+    factoryOf(::SeriesListPagingSlice)
     singleOf(::SeriesTransformer)
     singleOf(::SeriesEntityRepository)
     viewModelOf(::SeriesDetailsViewModel)

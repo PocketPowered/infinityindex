@@ -15,7 +15,7 @@ abstract class ViewModelSlice {
     // For accessing backchannel events
     lateinit var backChannelEvents: EventBus<BackChannelEvent>
 
-    fun register(viewModel: SliceableViewModel<*>) {
+    fun register(viewModel: SliceableViewModel) {
         sliceScope = viewModel.viewModelScope
         uiEvents = viewModel.uiEventBus
         backChannelEvents = viewModel.backChannelEventBus

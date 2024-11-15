@@ -20,13 +20,20 @@ import kotlinx.coroutines.launch
 
 abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
     private val repository: BaseRepository<NETWORK_TYPE, LOCAL_TYPE>,
-    entityType: EntityType
+    private val entityType: EntityType
 ) : ViewModelSlice() {
 
     private var currentPagingSource: EntityPagingSource<NETWORK_TYPE, LOCAL_TYPE>? = null
     private var currentRefreshWatcherJob: Job? = null
     private var currentSearchQuery: String? = null
     private var currentSortOption: SortOption = entityType.getDefaultSortOption()
+
+    private var pagingConfig = PagingConfig(
+        initialLoadSize = 20,
+        pageSize = 20,
+        enablePlaceholders = false,
+        prefetchDistance = 10
+    )
 
     override fun handleBackChannelEvent(event: BackChannelEvent) {
         when (event) {
@@ -40,6 +47,10 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
         }
     }
 
+    fun setPagingConfig(newPagingConfig: PagingConfig) {
+        pagingConfig = newPagingConfig
+    }
+
     override fun afterInit() {
         initializePaging()
     }
@@ -47,12 +58,7 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
     private fun initializePaging() {
         sliceScope.launch {
             Pager(
-                config = PagingConfig(
-                    initialLoadSize = 20,
-                    pageSize = 20,
-                    enablePlaceholders = false,
-                    prefetchDistance = 10
-                )
+                config = pagingConfig
             ) {
                 val newPagingSource = EntityPagingSource(
                     repository = repository,
@@ -70,7 +76,7 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
                 newPagingSource
             }.flow.cachedIn(sliceScope).collectLatest {
                 backChannelEvents.sendEvent(
-                    ListBackChannelEvent.PagingDataResUpdate(it)
+                    ListBackChannelEvent.PagingDataResUpdate(it, entityType)
                 )
             }
         }

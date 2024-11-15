@@ -14,8 +14,8 @@ import com.wongislandd.infinityindex.viewmodels.SeriesDetailsResolutionSlice
 import com.wongislandd.infinityindex.viewmodels.StoriesDetailsResolutionSlice
 
 abstract class BaseDetailsViewModel<T : EntityModel>(
-    entityType: EntityType,
-    final override val screenStateSlice: BaseDetailsScreenStateSlice<T>,
+    val entityType: EntityType,
+    val screenStateSlice: BaseDetailsScreenStateSlice<T>,
     comicResolutionSlice: ComicDetailsResolutionSlice,
     storiesResolutionSlice: StoriesDetailsResolutionSlice,
     eventsResolutionSlice: EventsDetailsResolutionSlice,
@@ -24,9 +24,7 @@ abstract class BaseDetailsViewModel<T : EntityModel>(
     seriesDetailsResolutionSlice: SeriesDetailsResolutionSlice,
     uiEventBus: EventBus<UiEvent>,
     backChannelEventBus: EventBus<BackChannelEvent>
-) : SliceableViewModel<T>(
-    entityType,
-    screenStateSlice,
+) : SliceableViewModel(
     uiEventBus,
     backChannelEventBus
 ) {

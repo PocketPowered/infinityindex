@@ -13,7 +13,7 @@ import com.wongislandd.infinityindex.infra.viewmodels.SortSlice
 class SeriesListViewModel(
     screenStateSlice: BaseListScreenStateSlice<Series>,
     sortSlice: SortSlice,
-    pagingSlice: SeriesListListPagingSlice,
+    pagingSlice: SeriesListPagingSlice,
     uiEventBus: EventBus<UiEvent>,
     backChannelEventBus: EventBus<BackChannelEvent>
 ) : BaseListViewModel<NetworkSeries, Series>(

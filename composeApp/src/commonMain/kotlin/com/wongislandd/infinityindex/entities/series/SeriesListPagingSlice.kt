@@ -6,7 +6,7 @@ import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.viewmodels.BaseListPagingSlice
 import com.wongislandd.infinityindex.repositories.SeriesEntityRepository
 
-class SeriesListListPagingSlice(
+class SeriesListPagingSlice(
     repository: SeriesEntityRepository
 ) : BaseListPagingSlice<NetworkSeries, Series>(
     repository,

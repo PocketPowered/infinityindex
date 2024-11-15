@@ -29,7 +29,7 @@ import com.wongislandd.infinityindex.entities.stories.StoryDetailsViewModel
 import com.wongislandd.infinityindex.entities.stories.models.NetworkStory
 import com.wongislandd.infinityindex.infra.composables.GenericDetailsScreen
 import com.wongislandd.infinityindex.infra.composables.GenericListScreen
-import com.wongislandd.infinityindex.infra.composables.HomeScreen
+import com.wongislandd.infinityindex.home.HomeScreen
 
 
 @Composable

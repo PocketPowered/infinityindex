@@ -8,15 +8,13 @@ import com.wongislandd.infinityindex.infra.util.events.EventBus
 import com.wongislandd.infinityindex.infra.util.events.UiEvent
 
 abstract class BaseListViewModel<NETWORK_TYPE, T : EntityModel>(
-    entityType: EntityType,
-    final override val screenStateSlice: BaseListScreenStateSlice<T>,
+    val entityType: EntityType,
+    val screenStateSlice: BaseListScreenStateSlice<T>,
     sortSlice: SortSlice,
     pagingSlice: BaseListPagingSlice<NETWORK_TYPE, T>,
     uiEventBus: EventBus<UiEvent>,
     backChannelEventBus: EventBus<BackChannelEvent>
-) : SliceableViewModel<T>(
-    entityType,
-    screenStateSlice,
+) : SliceableViewModel(
     uiEventBus,
     backChannelEventBus
 ) {

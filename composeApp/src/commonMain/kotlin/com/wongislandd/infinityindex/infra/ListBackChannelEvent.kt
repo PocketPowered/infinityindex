@@ -2,6 +2,7 @@ package com.wongislandd.infinityindex.infra
 
 import androidx.paging.PagingData
 import com.wongislandd.infinityindex.infra.util.EntityModel
+import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.util.SortOption
 import com.wongislandd.infinityindex.infra.util.events.BackChannelEvent
 
@@ -9,6 +10,7 @@ sealed class ListBackChannelEvent : BackChannelEvent {
 
     data class PagingDataResUpdate<T : EntityModel>(
         val update: PagingData<T>,
+        val entityType: EntityType
     ) : ListBackChannelEvent()
 
     data class PagingRefreshingUpdate(val refreshing: Boolean) : ListBackChannelEvent()
