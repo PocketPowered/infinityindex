@@ -12,9 +12,19 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import app.cash.paging.compose.collectAsLazyPagingItems
+import com.wongislandd.infinityindex.entities.characters.CharacterDetails
+import com.wongislandd.infinityindex.entities.characters.models.Character
 import com.wongislandd.infinityindex.entities.comics.details.models.BaseDetailsScreenState
 import com.wongislandd.infinityindex.entities.comics.details.models.Comic
 import com.wongislandd.infinityindex.entities.comics.details.ComicDetails
+import com.wongislandd.infinityindex.entities.creators.CreatorDetails
+import com.wongislandd.infinityindex.entities.creators.models.Creator
+import com.wongislandd.infinityindex.entities.events.EventDetails
+import com.wongislandd.infinityindex.entities.events.models.Event
+import com.wongislandd.infinityindex.entities.series.SeriesDetails
+import com.wongislandd.infinityindex.entities.series.models.Series
+import com.wongislandd.infinityindex.entities.stories.StoryDetails
+import com.wongislandd.infinityindex.entities.stories.models.Story
 import com.wongislandd.infinityindex.infra.DetailsUiEvent
 import com.wongislandd.infinityindex.infra.util.PillarModel
 import com.wongislandd.infinityindex.infra.util.Resource
@@ -123,6 +133,26 @@ private fun PrimaryDetailContents(primaryModel: PillarModel, modifier: Modifier 
     when (primaryModel) {
         is Comic -> {
             ComicDetails(primaryModel, modifier)
+        }
+
+        is Creator -> {
+            CreatorDetails(primaryModel, modifier)
+        }
+
+        is Character -> {
+            CharacterDetails(primaryModel, modifier)
+        }
+
+        is Story -> {
+            StoryDetails(primaryModel, modifier)
+        }
+
+        is Series -> {
+            SeriesDetails(primaryModel, modifier)
+        }
+
+        is Event -> {
+            EventDetails(primaryModel, modifier)
         }
     }
 }

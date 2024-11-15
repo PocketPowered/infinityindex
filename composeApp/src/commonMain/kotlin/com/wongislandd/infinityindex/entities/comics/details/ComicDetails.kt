@@ -13,20 +13,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.wongislandd.infinityindex.entities.comics.details.models.Comic
 import com.wongislandd.infinityindex.infra.composables.MarvelImage
+import com.wongislandd.infinityindex.infra.composables.TopLevelEntityDetails
 
 @Composable
 fun ComicDetails(comic: Comic, modifier: Modifier = Modifier) {
-    Column(
-        modifier = modifier.padding(horizontal = 16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        MarvelImage(image = comic.image, modifier = Modifier.fillMaxWidth())
-        Text(
-            text = comic.displayName,
-            modifier = Modifier.padding(16.dp),
-            style = MaterialTheme.typography.h4,
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center
-        )
+    Column(modifier = modifier) {
+        TopLevelEntityDetails(comic)
     }
 }
