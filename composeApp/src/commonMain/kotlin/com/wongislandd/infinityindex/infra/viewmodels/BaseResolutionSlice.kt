@@ -8,13 +8,13 @@ import com.wongislandd.infinityindex.infra.DetailsUiEvent
 import com.wongislandd.infinityindex.infra.paging.BaseRepository
 import com.wongislandd.infinityindex.infra.paging.RelatedEntityPagingSource
 import com.wongislandd.infinityindex.infra.util.EntityType
-import com.wongislandd.infinityindex.infra.util.PillarModel
+import com.wongislandd.infinityindex.infra.util.EntityModel
 import com.wongislandd.infinityindex.infra.util.ViewModelSlice
 import com.wongislandd.infinityindex.infra.util.events.UiEvent
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-abstract class BaseResolutionSlice<NETWORK_TYPE, LOCAL_TYPE : PillarModel>(
+abstract class BaseResolutionSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
     private val repository: BaseRepository<NETWORK_TYPE, LOCAL_TYPE>,
     private val primaryEntityType: EntityType,
 ) : ViewModelSlice<LOCAL_TYPE>() {

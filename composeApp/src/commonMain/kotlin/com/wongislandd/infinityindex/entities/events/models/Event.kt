@@ -3,7 +3,7 @@ package com.wongislandd.infinityindex.entities.events.models
 import com.wongislandd.infinityindex.infra.models.LoadableImage
 import com.wongislandd.infinityindex.infra.models.NavigationContext
 import com.wongislandd.infinityindex.infra.util.DisplayableEntity
-import com.wongislandd.infinityindex.infra.util.PillarModel
+import com.wongislandd.infinityindex.infra.util.EntityModel
 
 data class Event(
     override val id: Int,
@@ -13,4 +13,4 @@ data class Event(
     val description: String?,
     val start: String?,
     val end: String?
-): DisplayableEntity, PillarModel
+): DisplayableEntity, EntityModel

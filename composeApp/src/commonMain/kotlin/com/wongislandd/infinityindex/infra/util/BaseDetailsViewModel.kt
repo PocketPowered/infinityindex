@@ -11,7 +11,7 @@ import com.wongislandd.infinityindex.viewmodels.EventsResolutionSlice
 import com.wongislandd.infinityindex.viewmodels.SeriesResolutionSlice
 import com.wongislandd.infinityindex.viewmodels.StoriesResolutionSlice
 
-abstract class BaseDetailsViewModel<T : PillarModel>(
+abstract class BaseDetailsViewModel<T : EntityModel>(
     entityType: EntityType,
     screenStateSlice: BaseScreenStateSlice<T>,
     comicResolutionSlice: ComicResolutionSlice,

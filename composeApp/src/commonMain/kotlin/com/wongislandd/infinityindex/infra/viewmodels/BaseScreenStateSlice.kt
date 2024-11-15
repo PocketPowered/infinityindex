@@ -10,14 +10,14 @@ import com.wongislandd.infinityindex.entities.events.models.Event
 import com.wongislandd.infinityindex.entities.series.models.Series
 import com.wongislandd.infinityindex.entities.stories.models.Story
 import com.wongislandd.infinityindex.infra.util.EntityType
-import com.wongislandd.infinityindex.infra.util.PillarModel
+import com.wongislandd.infinityindex.infra.util.EntityModel
 import com.wongislandd.infinityindex.infra.util.Resource
 import com.wongislandd.infinityindex.infra.util.ViewModelSlice
 import com.wongislandd.infinityindex.infra.util.events.BackChannelEvent
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-abstract class BaseScreenStateSlice<model: PillarModel> : ViewModelSlice<model>() {
+abstract class BaseScreenStateSlice<model: EntityModel> : ViewModelSlice<model>() {
 
     private val _characterPagingData: MutableStateFlow<PagingData<Character>> =
         MutableStateFlow(PagingData.empty())
@@ -37,7 +37,7 @@ abstract class BaseScreenStateSlice<model: PillarModel> : ViewModelSlice<model>(
     private val _comicPagingData: MutableStateFlow<PagingData<Comic>> =
         MutableStateFlow(PagingData.empty())
 
-    private val _screenState: MutableStateFlow<BaseDetailsScreenState<PillarModel>> =
+    private val _screenState: MutableStateFlow<BaseDetailsScreenState<EntityModel>> =
         MutableStateFlow(
             BaseDetailsScreenState(
                 characterData = _characterPagingData,
@@ -49,7 +49,7 @@ abstract class BaseScreenStateSlice<model: PillarModel> : ViewModelSlice<model>(
             )
         )
 
-    val screenState: StateFlow<BaseDetailsScreenState<PillarModel>> = _screenState
+    val screenState: StateFlow<BaseDetailsScreenState<EntityModel>> = _screenState
 
     @Suppress("UNCHECKED_CAST")
     override fun handleBackChannelEvent(event: BackChannelEvent) {

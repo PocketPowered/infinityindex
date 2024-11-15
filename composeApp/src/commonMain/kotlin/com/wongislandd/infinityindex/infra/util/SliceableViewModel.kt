@@ -6,7 +6,7 @@ import com.wongislandd.infinityindex.infra.util.events.EventBus
 import com.wongislandd.infinityindex.infra.util.events.UiEvent
 import com.wongislandd.infinityindex.infra.viewmodels.BaseScreenStateSlice
 
-abstract class SliceableViewModel<model : PillarModel>(
+abstract class SliceableViewModel<model : EntityModel>(
     val entityType: EntityType,
     val screenStateSlice: BaseScreenStateSlice<model>,
     val uiEventBus: EventBus<UiEvent>,

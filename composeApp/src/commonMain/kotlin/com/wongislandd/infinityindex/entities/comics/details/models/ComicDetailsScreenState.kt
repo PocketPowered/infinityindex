@@ -6,13 +6,13 @@ import com.wongislandd.infinityindex.entities.creators.models.Creator
 import com.wongislandd.infinityindex.entities.events.models.Event
 import com.wongislandd.infinityindex.entities.series.models.Series
 import com.wongislandd.infinityindex.entities.stories.models.Story
-import com.wongislandd.infinityindex.infra.util.PillarModel
+import com.wongislandd.infinityindex.infra.util.EntityModel
 import com.wongislandd.infinityindex.infra.util.Resource
 import kotlinx.coroutines.flow.StateFlow
 
 // nothing will flow through the non-primary res data, wondering if we can
 // make the types of other paging data variable
-data class BaseDetailsScreenState<T: PillarModel>(
+data class BaseDetailsScreenState<T: EntityModel>(
     val primaryId: Int? = null,
     val primaryRes: Resource<T> = Resource.Loading,
     val characterData: StateFlow<PagingData<Character>>,

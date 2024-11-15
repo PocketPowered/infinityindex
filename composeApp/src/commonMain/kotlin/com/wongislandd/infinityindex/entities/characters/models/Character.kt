@@ -4,7 +4,7 @@ import com.wongislandd.infinityindex.entities.comics.details.models.RelatedLink
 import com.wongislandd.infinityindex.infra.models.LoadableImage
 import com.wongislandd.infinityindex.infra.models.NavigationContext
 import com.wongislandd.infinityindex.infra.util.DisplayableEntity
-import com.wongislandd.infinityindex.infra.util.PillarModel
+import com.wongislandd.infinityindex.infra.util.EntityModel
 
 data class Character(
     override val id: Int,
@@ -14,4 +14,4 @@ data class Character(
     val description: String?,
     val modified: String?,
     val relatedLinks: List<RelatedLink>,
-) : DisplayableEntity, PillarModel
+) : DisplayableEntity, EntityModel

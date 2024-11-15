@@ -26,7 +26,7 @@ import com.wongislandd.infinityindex.entities.series.models.Series
 import com.wongislandd.infinityindex.entities.stories.StoryDetails
 import com.wongislandd.infinityindex.entities.stories.models.Story
 import com.wongislandd.infinityindex.infra.DetailsUiEvent
-import com.wongislandd.infinityindex.infra.util.PillarModel
+import com.wongislandd.infinityindex.infra.util.EntityModel
 import com.wongislandd.infinityindex.infra.util.Resource
 import com.wongislandd.infinityindex.infra.util.SliceableViewModel
 import org.koin.compose.viewmodel.koinViewModel
@@ -34,7 +34,7 @@ import org.koin.core.annotation.KoinExperimentalAPI
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable
-inline fun <reified T : SliceableViewModel<out PillarModel>> GenericDetailsScreen(
+inline fun <reified T : SliceableViewModel<out EntityModel>> GenericDetailsScreen(
     primaryId: Int,
     modifier: Modifier = Modifier,
 ) {
@@ -74,8 +74,8 @@ inline fun <reified T : SliceableViewModel<out PillarModel>> GenericDetailsScree
 
 @Composable
 fun AdditionalDetailsContents(
-    primaryModel: PillarModel,
-    screenState: BaseDetailsScreenState<PillarModel>,
+    primaryModel: EntityModel,
+    screenState: BaseDetailsScreenState<EntityModel>,
     modifier: Modifier = Modifier
 ) {
     val pagedCharacters = screenState.characterData.collectAsLazyPagingItems()
@@ -129,7 +129,7 @@ fun AdditionalDetailsContents(
 }
 
 @Composable
-private fun PrimaryDetailContents(primaryModel: PillarModel, modifier: Modifier = Modifier) {
+private fun PrimaryDetailContents(primaryModel: EntityModel, modifier: Modifier = Modifier) {
     when (primaryModel) {
         is Comic -> {
             ComicDetails(primaryModel, modifier)

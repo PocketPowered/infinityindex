@@ -3,7 +3,7 @@ package com.wongislandd.infinityindex.entities.comics.details.models
 import com.wongislandd.infinityindex.infra.models.LoadableImage
 import com.wongislandd.infinityindex.infra.models.NavigationContext
 import com.wongislandd.infinityindex.infra.util.DisplayableEntity
-import com.wongislandd.infinityindex.infra.util.PillarModel
+import com.wongislandd.infinityindex.infra.util.EntityModel
 
 data class Comic(
     override val id: Int,
@@ -28,4 +28,4 @@ data class Comic(
     val hasStories: Boolean,
     val hasCharacters: Boolean,
     val hasCreators: Boolean
-): DisplayableEntity, PillarModel
+): DisplayableEntity, EntityModel
