@@ -12,10 +12,20 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 
+interface PagingSourceCallbacks<T> {
+    fun onSuccess(paginationContextWrapper: PaginationContextWrapper<T>)
+}
+
 abstract class BasePagingSource<Value : Any> : PagingSource<Int, Value>() {
 
     private val _isFetchingFirstPage: MutableStateFlow<Boolean> = MutableStateFlow(true)
     val isFetchingFirstPage: StateFlow<Boolean> = _isFetchingFirstPage
+
+    private var pagingSourceCallbacks: PagingSourceCallbacks<Value>? = null
+
+    fun registerOnSuccessListener(callbacks: PagingSourceCallbacks<Value>) {
+        this.pagingSourceCallbacks = callbacks
+    }
 
     protected abstract suspend fun fetchData(start: Int, count: Int): Resource<DataWrapper<Value>>
 
@@ -27,6 +37,7 @@ abstract class BasePagingSource<Value : Any> : PagingSource<Int, Value>() {
             _isFetchingFirstPage.update { false }
             when (val page = paginateResponse(response)) {
                 is Resource.Success -> {
+                    pagingSourceCallbacks?.onSuccess(page.data)
                     val nextOffset = page.data.start + page.data.count
                     val nextKey = if (nextOffset + params.loadSize <= page.data.total) {
                         nextOffset
@@ -39,9 +50,11 @@ abstract class BasePagingSource<Value : Any> : PagingSource<Int, Value>() {
                         nextKey = nextKey
                     )
                 }
+
                 is Resource.Error -> {
                     return PagingSourceLoadResultError(Exception(page.error.toString()))
                 }
+
                 else -> {
                     return PagingSourceLoadResultError(Exception("Unknown error"))
                 }
