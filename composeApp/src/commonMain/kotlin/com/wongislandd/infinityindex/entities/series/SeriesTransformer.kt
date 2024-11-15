@@ -10,6 +10,7 @@ import com.wongislandd.infinityindex.infra.navigation.RouteHelper
 import com.wongislandd.infinityindex.infra.networking.models.hasItems
 import com.wongislandd.infinityindex.infra.transformers.DataWrapperTransformer
 import com.wongislandd.infinityindex.infra.transformers.LoadableImageTransformerInput
+import com.wongislandd.infinityindex.infra.util.dropIfEmpty
 import com.wongislandd.infinityindex.infra.util.safeLet
 
 class SeriesTransformer(
@@ -34,8 +35,8 @@ class SeriesTransformer(
                         defaultImageType = DefaultImageType.BOOK
                     )
                 ),
-                description = input.description,
-                rating = input.rating,
+                description = input.description.dropIfEmpty(),
+                rating = input.rating.dropIfEmpty(),
                 startYear = input.startYear,
                 endYear = input.endYear,
                 hasEvents = input.events.hasItems(),

@@ -34,7 +34,6 @@ fun ComicDetails(comic: Comic, modifier: Modifier = Modifier) {
                 comic.format?.let { format ->
                     InformationSnippet("Format", format)
                 }
-                InformationSnippet("Id", comic.id.toString())
                 comic.relatedPrices.forEach { relatedPrice ->
                     InformationSnippet(relatedPrice.type.displayName, relatedPrice.price.toString())
                 }

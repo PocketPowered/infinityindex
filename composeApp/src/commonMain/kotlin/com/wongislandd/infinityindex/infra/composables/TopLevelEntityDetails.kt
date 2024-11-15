@@ -1,6 +1,7 @@
 package com.wongislandd.infinityindex.infra.composables
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -46,18 +47,26 @@ fun TopLevelEntityDetails(entity: EntityModel, modifier: Modifier = Modifier) {
         )
         EntityTypePlate(entity)
         Spacer(modifier = Modifier.height(8.dp))
-        EntityMetadata(entity.lastModified)
+        EntityMetadata(entity)
     }
 }
 
 @Composable
-private fun EntityMetadata(lastModified: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Last Modified: $lastModified",
-        style = MaterialTheme.typography.body2,
-        color = MaterialTheme.colors.onSurface,
-        modifier = modifier
-    )
+private fun EntityMetadata(entity: EntityModel, modifier: Modifier = Modifier) {
+    Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(4.dp)) {
+        Text(
+            text = entity.id.toString(),
+            style = MaterialTheme.typography.body2,
+            color = MaterialTheme.colors.onSurface,
+            modifier = modifier
+        )
+        Text(
+            text = "Last Modified: $entity.lastModified",
+            style = MaterialTheme.typography.body2,
+            color = MaterialTheme.colors.onSurface,
+            modifier = modifier
+        )
+    }
 }
 
 
