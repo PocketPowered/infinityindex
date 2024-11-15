@@ -40,7 +40,7 @@ fun TopLevelEntityDetails(entity: EntityModel, modifier: Modifier = Modifier) {
         )
         Text(
             text = entity.displayName,
-            modifier = Modifier.padding(8.dp),
+            modifier = Modifier.padding(16.dp),
             style = MaterialTheme.typography.h4,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center

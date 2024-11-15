@@ -80,7 +80,7 @@ abstract class BaseDetailsResolutionSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel
                             backChannelEvents.sendEvent(
                                 ListBackChannelEvent.EntityCountsUpdate(
                                     totalCount = paginationContextWrapper.total,
-                                    entityType = relatedEntityType
+                                    entityType = entityType
                                 )
                             )
                         }
