@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 abstract class BaseListScreenStateSlice<T : EntityModel>(
-    private val entityType: EntityType
+    entityType: EntityType
 ) :
     BaseScreenStateSlice<T>, ViewModelSlice() {
 

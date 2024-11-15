@@ -48,9 +48,10 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
         sliceScope.launch {
             Pager(
                 config = PagingConfig(
+                    initialLoadSize = 20,
                     pageSize = 20,
                     enablePlaceholders = false,
-                    prefetchDistance = 20
+                    prefetchDistance = 10
                 )
             ) {
                 val newPagingSource = EntityPagingSource(

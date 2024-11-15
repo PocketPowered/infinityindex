@@ -28,7 +28,7 @@ import com.wongislandd.infinityindex.entities.creators.models.Creator
 import com.wongislandd.infinityindex.entities.events.EventDetailsScreenStateSlice
 import com.wongislandd.infinityindex.entities.events.EventDetailsViewModel
 import com.wongislandd.infinityindex.entities.events.EventsListScreenStateSlice
-import com.wongislandd.infinityindex.entities.events.EventListViewModel
+import com.wongislandd.infinityindex.entities.events.EventsListViewModel
 import com.wongislandd.infinityindex.entities.events.EventsListPagingSlice
 import com.wongislandd.infinityindex.entities.events.models.Event
 import com.wongislandd.infinityindex.entities.events.transformers.EventTransformer
@@ -80,7 +80,7 @@ val entitiesModule = module {
     singleOf(::EventTransformer)
     singleOf(::EventsEntityRepository)
     viewModelOf(::EventDetailsViewModel)
-    viewModelOf(::EventListViewModel)
+    viewModelOf(::EventsListViewModel)
 
     // Comic-related
     factoryOf<BaseDetailsScreenStateSlice<Comic>>(::ComicDetailsScreenStateSlice)

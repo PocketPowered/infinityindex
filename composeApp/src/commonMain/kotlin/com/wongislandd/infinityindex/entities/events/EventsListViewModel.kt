@@ -10,7 +10,7 @@ import com.wongislandd.infinityindex.infra.viewmodels.BaseListScreenStateSlice
 import com.wongislandd.infinityindex.infra.viewmodels.BaseListViewModel
 import com.wongislandd.infinityindex.infra.viewmodels.SortSlice
 
-class EventListViewModel(
+class EventsListViewModel(
     screenStateSlice: BaseListScreenStateSlice<Event>,
     sortSlice: SortSlice,
     pagingSlice: EventsListPagingSlice,

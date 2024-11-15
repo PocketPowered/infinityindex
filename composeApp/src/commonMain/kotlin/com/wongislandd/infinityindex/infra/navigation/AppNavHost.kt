@@ -10,13 +10,23 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.wongislandd.infinityindex.entities.characters.CharacterDetailsViewModel
+import com.wongislandd.infinityindex.entities.characters.CharactersListViewModel
+import com.wongislandd.infinityindex.entities.characters.models.NetworkCharacter
 import com.wongislandd.infinityindex.entities.comics.ComicDetailsViewModel
 import com.wongislandd.infinityindex.entities.comics.ComicsListViewModel
 import com.wongislandd.infinityindex.entities.comics.list.models.NetworkComic
 import com.wongislandd.infinityindex.entities.creators.CreatorDetailsViewModel
+import com.wongislandd.infinityindex.entities.creators.CreatorsListViewModel
+import com.wongislandd.infinityindex.entities.creators.models.NetworkCreator
 import com.wongislandd.infinityindex.entities.events.EventDetailsViewModel
+import com.wongislandd.infinityindex.entities.events.EventsListViewModel
+import com.wongislandd.infinityindex.entities.events.models.NetworkEvent
 import com.wongislandd.infinityindex.entities.series.SeriesDetailsViewModel
+import com.wongislandd.infinityindex.entities.series.SeriesListViewModel
+import com.wongislandd.infinityindex.entities.series.models.NetworkSeries
+import com.wongislandd.infinityindex.entities.stories.StoriesListViewModel
 import com.wongislandd.infinityindex.entities.stories.StoryDetailsViewModel
+import com.wongislandd.infinityindex.entities.stories.models.NetworkStory
 import com.wongislandd.infinityindex.infra.composables.GenericDetailsScreen
 import com.wongislandd.infinityindex.infra.composables.GenericListScreen
 
@@ -24,7 +34,7 @@ import com.wongislandd.infinityindex.infra.composables.GenericListScreen
 @Composable
 fun AppNavHost(
     modifier: Modifier = Modifier,
-    startDestination: String = NavigationItem.ComicListScreen.route,
+    startDestination: String = NavigationItem.CreatorListScreen.route,
 ) {
     val navController = LocalNavHostController.current
     val pageTurnEnterTransition = slideInHorizontally(
@@ -105,6 +115,26 @@ fun AppNavHost(
                     when (navItem) {
                         NavigationItem.ComicListScreen -> {
                             GenericListScreen<NetworkComic, ComicsListViewModel>()
+                        }
+
+                        NavigationItem.CreatorListScreen -> {
+                            GenericListScreen<NetworkCreator, CreatorsListViewModel>()
+                        }
+
+                        NavigationItem.CharacterListScreen -> {
+                            GenericListScreen<NetworkCharacter, CharactersListViewModel>()
+                        }
+
+                        NavigationItem.SeriesListScreen -> {
+                            GenericListScreen<NetworkSeries, SeriesListViewModel>()
+                        }
+
+                        NavigationItem.EventListScreen -> {
+                            GenericListScreen<NetworkEvent, EventsListViewModel>()
+                        }
+
+                        NavigationItem.StoryListScreen -> {
+                            GenericListScreen<NetworkStory, StoriesListViewModel>()
                         }
                         else -> Unit
                     }
