@@ -11,8 +11,6 @@ import com.wongislandd.infinityindex.infra.composables.TopLevelEntityDetails
 fun StoryDetails(story: Story, modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
         TopLevelEntityDetails(story)
-        story.description?.also {
-            DetailsSection(header = "Description", text = it)
-        }
+        DetailsSection(header = "Description", text = story.description)
     }
 }

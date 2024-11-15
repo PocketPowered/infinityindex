@@ -73,6 +73,12 @@ inline fun <NETWORK_TYPE, reified T : BaseListViewModel<NETWORK_TYPE, out Entity
                 ExpandingSearch(
                     isExpanded = screenState.searchState.isSearchBoxVisible,
                     currentSearchParam = screenState.searchState.searchQuery.text,
+                    onSearchCleared = {
+                        coroutineScope.sendEvent(
+                            viewModel.uiEventBus,
+                            ListUiEvent.ClearSearchQuery
+                        )
+                    },
                     onSearchParamChanged = { newQuery ->
                         coroutineScope.sendEvent(
                             viewModel.uiEventBus,
@@ -114,6 +120,7 @@ fun CoroutineScope.sendEvent(eventBus: EventBus<UiEvent>, event: ListUiEvent) {
 @Composable
 fun ExpandingSearch(
     currentSearchParam: String,
+    onSearchCleared: () -> Unit,
     onSearchParamChanged: (String) -> Unit,
     onSearchParamSubmitted: (String) -> Unit,
     onSearchIconClicked: () -> Unit,
@@ -132,7 +139,7 @@ fun ExpandingSearch(
                 placeholder = { Text("Search...") },
                 singleLine = true,
                 leadingIcon = {
-                    IconButton(onClick = { onSearchParamSubmitted("") }) {
+                    IconButton(onClick = onSearchCleared) {
                         Icon(
                             imageVector = Icons.Default.Close,
                             contentDescription = "Clear Search",

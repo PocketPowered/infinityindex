@@ -23,6 +23,13 @@ class SearchSlice : ViewModelSlice() {
             is ListUiEvent.SubmitSearchQuery -> {
                 sliceScope.launch {
                     backChannelEvents.sendEvent(ListBackChannelEvent.SubmitSearchQuery(event.query))
+                    backChannelEvents.sendEvent(ListBackChannelEvent.UpdateSearchBoxVisibility(false))
+                }
+            }
+            is ListUiEvent.ClearSearchQuery -> {
+                sliceScope.launch {
+                    backChannelEvents.sendEvent(ListBackChannelEvent.UpdatePendingSearchQuery(""))
+                    backChannelEvents.sendEvent(ListBackChannelEvent.UpdateSearchBoxVisibility(false))
                 }
             }
         }

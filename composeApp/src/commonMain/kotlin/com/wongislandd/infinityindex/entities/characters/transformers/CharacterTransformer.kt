@@ -10,6 +10,7 @@ import com.wongislandd.infinityindex.infra.navigation.RouteHelper
 import com.wongislandd.infinityindex.infra.networking.models.hasItems
 import com.wongislandd.infinityindex.infra.transformers.DataWrapperTransformer
 import com.wongislandd.infinityindex.infra.transformers.LoadableImageTransformerInput
+import com.wongislandd.infinityindex.infra.util.dropIfEmpty
 import com.wongislandd.infinityindex.infra.util.safeLet
 
 class CharacterTransformer(
@@ -36,8 +37,8 @@ class CharacterTransformer(
                 navContext = NavigationContext(
                     RouteHelper.getCharacterDetailsRouteForId(id)
                 ),
-                description = input.description,
-                modified = input.modified,
+                description = input.description.dropIfEmpty(),
+                modified = input.modified.dropIfEmpty(),
                 relatedLinks = relatedLinks,
                 hasEvents = input.events.hasItems(),
                 hasStories = input.stories.hasItems(),

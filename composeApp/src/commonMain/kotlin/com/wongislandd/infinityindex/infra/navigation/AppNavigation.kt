@@ -11,7 +11,7 @@ enum class NavigationItem(
     CharacterListScreen("Characters", "characters"),
     SeriesListScreen("Series", "series"),
     EventListScreen("Events", "events"),
-    StoryListScreen("Stories", "stories"),
+    StoriesListScreen("Stories", "stories"),
     ComicDetailsScreen("Comic Details", "comics/details", "comicId"),
     CreatorDetailsScreen("Creator Details", "creators/details", "creatorId"),
     CharacterDetailsScreen("Character Details", "character/details", "characterId"),

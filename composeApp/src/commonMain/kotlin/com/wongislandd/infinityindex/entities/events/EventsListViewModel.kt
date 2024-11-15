@@ -8,11 +8,13 @@ import com.wongislandd.infinityindex.infra.util.events.EventBus
 import com.wongislandd.infinityindex.infra.util.events.UiEvent
 import com.wongislandd.infinityindex.infra.viewmodels.BaseListScreenStateSlice
 import com.wongislandd.infinityindex.infra.viewmodels.BaseListViewModel
+import com.wongislandd.infinityindex.infra.viewmodels.SearchSlice
 import com.wongislandd.infinityindex.infra.viewmodels.SortSlice
 
 class EventsListViewModel(
     screenStateSlice: BaseListScreenStateSlice<Event>,
     sortSlice: SortSlice,
+    searchSlice: SearchSlice,
     pagingSlice: EventsListPagingSlice,
     uiEventBus: EventBus<UiEvent>,
     backChannelEventBus: EventBus<BackChannelEvent>
@@ -20,6 +22,7 @@ class EventsListViewModel(
     entityType = EntityType.EVENTS,
     screenStateSlice = screenStateSlice,
     sortSlice = sortSlice,
+    searchSlice = searchSlice,
     pagingSlice = pagingSlice,
     uiEventBus = uiEventBus,
     backChannelEventBus = backChannelEventBus

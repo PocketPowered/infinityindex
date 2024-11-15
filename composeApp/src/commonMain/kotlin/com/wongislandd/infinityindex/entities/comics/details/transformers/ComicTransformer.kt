@@ -9,6 +9,7 @@ import com.wongislandd.infinityindex.infra.navigation.RouteHelper
 import com.wongislandd.infinityindex.infra.transformers.LoadableImageTransformer
 import com.wongislandd.infinityindex.infra.networking.models.hasItems
 import com.wongislandd.infinityindex.infra.transformers.LoadableImageTransformerInput
+import com.wongislandd.infinityindex.infra.util.dropIfEmpty
 import com.wongislandd.infinityindex.infra.util.safeLet
 
 class ComicTransformer(
@@ -73,5 +74,3 @@ class ComicTransformer(
         }
     }
 }
-
-private fun String?.dropIfEmpty() = this?.takeIf { it.isNotBlank() }

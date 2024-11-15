@@ -134,7 +134,7 @@ fun AppNavHost(
                             GenericListScreen<NetworkEvent, EventsListViewModel>()
                         }
 
-                        NavigationItem.StoryListScreen -> {
+                        NavigationItem.StoriesListScreen -> {
                             GenericListScreen<NetworkStory, StoriesListViewModel>()
                         }
                         NavigationItem.Home -> {

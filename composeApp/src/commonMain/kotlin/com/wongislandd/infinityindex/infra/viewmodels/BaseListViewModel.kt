@@ -11,6 +11,7 @@ abstract class BaseListViewModel<NETWORK_TYPE, T : EntityModel>(
     val entityType: EntityType,
     val screenStateSlice: BaseListScreenStateSlice<T>,
     sortSlice: SortSlice,
+    searchSlice: SearchSlice,
     pagingSlice: BaseListPagingSlice<NETWORK_TYPE, T>,
     uiEventBus: EventBus<UiEvent>,
     backChannelEventBus: EventBus<BackChannelEvent>
@@ -22,6 +23,7 @@ abstract class BaseListViewModel<NETWORK_TYPE, T : EntityModel>(
     init {
         registerSlice(screenStateSlice)
         registerSlice(sortSlice)
+        registerSlice(searchSlice)
         registerSlice(pagingSlice)
     }
 }

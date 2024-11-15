@@ -12,4 +12,6 @@ sealed class ListUiEvent : UiEvent {
     data class SubmitSearchQuery(val query: String): ListUiEvent()
 
     data class SetPendingSearchQuery(val query: String): ListUiEvent()
+
+    object ClearSearchQuery: ListUiEvent()
 }
