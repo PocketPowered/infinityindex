@@ -56,12 +56,12 @@ private fun EntityTypePlate(displayableEntity: DisplayableEntity, modifier: Modi
         contentAlignment = Alignment.Center,
         modifier = modifier
             .clip(RoundedCornerShape(50)) // Makes the edges rounded
-            .background(MaterialTheme.colors.primary) // Background color of the pill
+            .background(MaterialTheme.colors.secondary) // Background color of the pill
             .padding(horizontal = 16.dp, vertical = 8.dp) // Padding for the text
     ) {
         Text(
             text = text,
-            color = MaterialTheme.colors.onPrimary,
+            color = MaterialTheme.colors.onSecondary,
             style = MaterialTheme.typography.caption
         )
     }
