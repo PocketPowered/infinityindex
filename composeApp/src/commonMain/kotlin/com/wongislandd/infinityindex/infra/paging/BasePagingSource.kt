@@ -8,8 +8,6 @@ import app.cash.paging.PagingSourceLoadResultError
 import app.cash.paging.PagingSourceLoadResultPage
 import com.wongislandd.infinityindex.infra.networking.models.DataWrapper
 import com.wongislandd.infinityindex.infra.util.Resource
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 
 interface PagingSourceCallbacks<T> {
     fun onResponse(response: Resource<DataWrapper<T>>)
@@ -20,9 +18,6 @@ interface PagingSourceCallbacks<T> {
 }
 
 abstract class BasePagingSource<Value : Any> : PagingSource<Int, Value>() {
-
-    private val _isFetchingFirstPage: MutableStateFlow<Boolean> = MutableStateFlow(true)
-    val isFetchingFirstPage: StateFlow<Boolean> = _isFetchingFirstPage
 
     private var pagingSourceCallbacks: PagingSourceCallbacks<Value>? = null
 
@@ -58,6 +53,7 @@ abstract class BasePagingSource<Value : Any> : PagingSource<Int, Value>() {
                     pagingSourceCallbacks?.onFailure(page.throwable)
                     return PagingSourceLoadResultError(Exception(page.error.toString()))
                 }
+
                 else -> {
                     pagingSourceCallbacks?.onFailure()
                     return PagingSourceLoadResultError(Exception("Unknown error"))

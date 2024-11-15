@@ -18,10 +18,3 @@ data class SearchState(
     val searchQuery: SearchQuery,
     val isSearchBoxVisible: Boolean
 )
-
-data class ComicsListScreenState(
-    val isLoading: Boolean,
-    val sortOption: ComicsSortOption,
-    val searchState: SearchState,
-    val pagingData: StateFlow<PagingData<Comic>>
-)

@@ -26,7 +26,8 @@ abstract class BaseListScreenStateSlice<T : EntityModel>(
     private val _screenState: MutableStateFlow<BaseListScreenState> =
         MutableStateFlow(
             BaseListScreenState(
-                isLoading = true,
+                // can add logic here to determine when it's not loading
+                isLoading = false,
                 availableSortOptions = entityType.getSortOptions()
                     .map { SelectableSortOption(it, it.isDefault) },
                 searchState = SearchState(
