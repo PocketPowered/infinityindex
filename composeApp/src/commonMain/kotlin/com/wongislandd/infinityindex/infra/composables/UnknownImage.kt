@@ -32,7 +32,7 @@ fun UnknownImage(imageType: DefaultImageType, modifier: Modifier = Modifier) {
         Icon(
             imageVector = placeholderIcon,
             contentDescription = "Unknown image",
-            tint = MaterialTheme.colors.onPrimary,
+            tint = MaterialTheme.colors.onSurface,
             modifier = Modifier.size(100.dp).align(Alignment.Center)
         )
     }

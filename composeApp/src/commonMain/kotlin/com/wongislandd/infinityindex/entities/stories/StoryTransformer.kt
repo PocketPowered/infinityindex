@@ -30,8 +30,8 @@ class StoryTransformer(
                 navContext = NavigationContext(
                     RouteHelper.getStoryDetailsRouteForId(id)
                 ),
-                type = input.type,
-                description = input.description,
+                type = input.type?.takeIf { it.isNotBlank() },
+                description = input.description?.takeIf { it.isNotBlank() },
             )
         }
     }

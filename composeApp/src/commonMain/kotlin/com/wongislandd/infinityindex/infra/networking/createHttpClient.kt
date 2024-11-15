@@ -1,17 +1,17 @@
 package com.wongislandd.infinityindex.infra.networking
 
+import com.wongislandd.infinityindex.BuildKonfig
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.datetime.Clock
 import kotlinx.serialization.json.Json
 import okio.ByteString.Companion.encodeUtf8
-import com.wongislandd.infinityindex.BuildKonfig
-import io.ktor.client.plugins.logging.Logger
 
 
 private const val BASE_URL = "https://gateway.marvel.com/v1/public/"
