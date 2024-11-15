@@ -1,5 +1,8 @@
 package com.wongislandd.infinityindex.infra.navigation
 
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavType
@@ -15,16 +18,49 @@ import com.wongislandd.infinityindex.entities.series.SeriesDetailsViewModel
 import com.wongislandd.infinityindex.entities.stories.StoryDetailsViewModel
 import com.wongislandd.infinityindex.infra.composables.GenericDetailsScreen
 
+
 @Composable
 fun AppNavHost(
     modifier: Modifier = Modifier,
     startDestination: String = NavigationItem.ComicListScreen.route,
 ) {
     val navController = LocalNavHostController.current
+    val pageTurnEnterTransition = slideInHorizontally(
+        initialOffsetX = { it },
+        animationSpec = tween(700)
+    )
+
+    val pageTurnExitTransition = slideOutHorizontally(
+        targetOffsetX = { -it },
+        animationSpec = tween(700)
+    )
+
+    val pageReturnEnterTransition = slideInHorizontally(
+        initialOffsetX = { -it },
+        animationSpec = tween(700)
+    )
+
+    val pageReturnExitTransition = slideOutHorizontally(
+        targetOffsetX = { it },
+        animationSpec = tween(700)
+    )
+
     NavHost(
-        modifier = modifier,
         navController = navController,
-        startDestination = startDestination
+        startDestination = startDestination,
+        enterTransition = {
+            pageTurnEnterTransition // Page turn forward transition
+        },
+        exitTransition = {
+            pageTurnExitTransition // Page turn forward exit transition
+        },
+        popEnterTransition = {
+            pageReturnEnterTransition // Page return transition (backward)
+        },
+        popExitTransition = {
+            pageReturnExitTransition // Page return exit transition (backward)
+        },
+        modifier = modifier
     ) {
         composable(NavigationItem.ComicListScreen.route) {
             ComicsListScreen()
