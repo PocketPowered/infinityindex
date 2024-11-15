@@ -3,6 +3,7 @@ package com.wongislandd.infinityindex.infra.composables
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -12,6 +13,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import app.cash.paging.compose.collectAsLazyPagingItems
 import com.wongislandd.infinityindex.entities.characters.CharacterDetails
 import com.wongislandd.infinityindex.entities.characters.models.Character
@@ -83,7 +85,7 @@ fun AdditionalDetailsContents(
 
     AdditionalDetailsLazyColumn(modifier = modifier) {
         item {
-            PrimaryDetailContents(primaryModel)
+            PrimaryDetailContents(primaryModel, modifier = Modifier.padding(horizontal = 16.dp))
         }
         item {
             ListOfEntities(screenState)

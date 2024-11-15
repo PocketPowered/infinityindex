@@ -42,7 +42,7 @@ fun <T : DisplayableEntity> SectionedList(
         EntitySectionHeader(
             entityType = entityType,
             showAllNavRoute = showAllNavRoute,
-            modifier = Modifier.padding(horizontal = 16.dp)
+            modifier = Modifier.padding(horizontal = 8.dp)
         )
         LazyRow(
             modifier = Modifier.fillMaxWidth(),

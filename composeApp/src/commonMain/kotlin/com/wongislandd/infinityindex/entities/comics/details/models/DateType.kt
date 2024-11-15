@@ -7,4 +7,5 @@ enum class DateType(
     FOC_DATE("FOC"),
     UNLIMITED_DATE("Unlimited Release"),
     DIGITAL_PURCHASE_DATE("Digital Purchase"),
+    UNKNOWN("Unknown")
 }

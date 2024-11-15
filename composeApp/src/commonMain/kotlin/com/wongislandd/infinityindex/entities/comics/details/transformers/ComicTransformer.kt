@@ -1,13 +1,14 @@
 package com.wongislandd.infinityindex.entities.comics.details.transformers
 
-import com.wongislandd.infinityindex.infra.transformers.DataWrapperTransformer
 import com.wongislandd.infinityindex.entities.comics.details.models.Comic
 import com.wongislandd.infinityindex.entities.comics.list.models.NetworkComic
+import com.wongislandd.infinityindex.entities.comics.list.transformers.DateTransformer
 import com.wongislandd.infinityindex.infra.models.DefaultImageType
 import com.wongislandd.infinityindex.infra.models.NavigationContext
 import com.wongislandd.infinityindex.infra.navigation.RouteHelper
-import com.wongislandd.infinityindex.infra.transformers.LoadableImageTransformer
 import com.wongislandd.infinityindex.infra.networking.models.hasItems
+import com.wongislandd.infinityindex.infra.transformers.DataWrapperTransformer
+import com.wongislandd.infinityindex.infra.transformers.LoadableImageTransformer
 import com.wongislandd.infinityindex.infra.transformers.LoadableImageTransformerInput
 import com.wongislandd.infinityindex.infra.util.dropIfEmpty
 import com.wongislandd.infinityindex.infra.util.safeLet
@@ -17,7 +18,8 @@ class ComicTransformer(
     private val relatedDatesTransformer: RelatedDatesTransformer,
     private val relatedTextsTransformer: RelatedTextsTransformer,
     private val relatedLinksTransformer: RelatedLinksTransformer,
-    private val relatedPricesTransformer: RelatedPricesTransformer
+    private val relatedPricesTransformer: RelatedPricesTransformer,
+    private val datesTransformer: DateTransformer
 ) : DataWrapperTransformer<NetworkComic, Comic>() {
 
     override fun itemTransformer(input: NetworkComic): Comic? {
@@ -37,7 +39,8 @@ class ComicTransformer(
         return safeLet(
             input.id,
             input.title,
-        ) { id, title ->
+            input.modified
+        ) { id, title, modified ->
             Comic(
                 id = id,
                 displayName = title,
@@ -52,7 +55,7 @@ class ComicTransformer(
                 ),
                 pageCount = input.pageCount,
                 issueNumber = input.issueNumber,
-                lastModified = input.modified.dropIfEmpty(),
+                lastModified = datesTransformer.transform(modified),
                 relatedDates = relatedDates,
                 relatedTexts = relatedTexts,
                 relatedPrices = relatedPrices,
@@ -69,7 +72,7 @@ class ComicTransformer(
                 hasCharacters = input.characters.hasItems(),
                 hasCreators = input.creators.hasItems(),
                 hasSeries = false,
-                hasComics = false
+                hasComics = false,
             )
         }
     }

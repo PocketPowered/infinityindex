@@ -1,5 +1,6 @@
 package com.wongislandd.infinityindex.entities.events.transformers
 
+import com.wongislandd.infinityindex.entities.comics.list.transformers.DateTransformer
 import com.wongislandd.infinityindex.infra.transformers.LoadableImageTransformer
 import com.wongislandd.infinityindex.entities.events.models.Event
 import com.wongislandd.infinityindex.entities.events.models.NetworkEvent
@@ -13,12 +14,14 @@ import com.wongislandd.infinityindex.infra.util.safeLet
 
 class EventTransformer(
     private val loadableImageTransformer: LoadableImageTransformer,
+    private val dateTransformer: DateTransformer
 ) : DataWrapperTransformer<NetworkEvent, Event>() {
     override fun itemTransformer(input: NetworkEvent): Event? {
         return safeLet(
             input.id,
             input.title,
-        ) { id, title ->
+            input.modified
+        ) { id, title, modified ->
             Event(
                 id = id,
                 displayName = title,
@@ -39,7 +42,8 @@ class EventTransformer(
                 hasCharacters = input.characters.hasItems(),
                 hasCreators = input.creators.hasItems(),
                 hasSeries = input.series.hasItems(),
-                hasComics = input.comics.hasItems()
+                hasComics = input.comics.hasItems(),
+                lastModified = dateTransformer.transform(modified)
             )
         }
     }

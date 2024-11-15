@@ -1,5 +1,6 @@
 package com.wongislandd.infinityindex.entities.creators
 
+import com.wongislandd.infinityindex.entities.comics.list.transformers.DateTransformer
 import com.wongislandd.infinityindex.infra.transformers.LoadableImageTransformer
 import com.wongislandd.infinityindex.entities.creators.models.Creator
 import com.wongislandd.infinityindex.entities.creators.models.NetworkCreator
@@ -13,12 +14,14 @@ import com.wongislandd.infinityindex.infra.util.safeLet
 
 class CreatorTransformer(
     private val loadableImageTransformer: LoadableImageTransformer,
+    private val dateTransformer: DateTransformer
 ) : DataWrapperTransformer<NetworkCreator, Creator>() {
     override fun itemTransformer(input: NetworkCreator): Creator? {
         return safeLet(
             input.id,
             input.fullName,
-        ) { id, name ->
+            input.modified
+        ) { id, name, modified ->
             Creator(
                 id = id,
                 displayName = name,
@@ -36,7 +39,8 @@ class CreatorTransformer(
                 hasCharacters = false,
                 hasCreators = false,
                 hasSeries = input.series.hasItems(),
-                hasComics = input.comics.hasItems()
+                hasComics = input.comics.hasItems(),
+                lastModified = dateTransformer.transform(modified)
             )
         }
     }

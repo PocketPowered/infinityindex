@@ -7,11 +7,13 @@ import com.wongislandd.infinityindex.entities.comics.list.models.SearchState
 import com.wongislandd.infinityindex.infra.ListBackChannelEvent
 import com.wongislandd.infinityindex.infra.util.EntityModel
 import com.wongislandd.infinityindex.infra.util.EntityType
+import com.wongislandd.infinityindex.infra.util.SelectableSortOption
 import com.wongislandd.infinityindex.infra.util.ViewModelSlice
 import com.wongislandd.infinityindex.infra.util.events.BackChannelEvent
-import com.wongislandd.infinityindex.infra.util.getDefaultSortOption
+import com.wongislandd.infinityindex.infra.util.getSortOptions
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 
 abstract class BaseListScreenStateSlice<T : EntityModel>(
     entityType: EntityType
@@ -25,7 +27,8 @@ abstract class BaseListScreenStateSlice<T : EntityModel>(
         MutableStateFlow(
             BaseListScreenState(
                 isLoading = true,
-                sortOption = entityType.getDefaultSortOption(),
+                availableSortOptions = entityType.getSortOptions()
+                    .map { SelectableSortOption(it, it.isDefault) },
                 searchState = SearchState(
                     searchQuery = SearchQuery("", SearchIntention.PENDING),
                     isSearchBoxVisible = false
@@ -44,28 +47,45 @@ abstract class BaseListScreenStateSlice<T : EntityModel>(
             }
 
             is ListBackChannelEvent.PagingRefreshingUpdate -> {
-                _screenState.value = _screenState.value.copy(isLoading = event.refreshing)
+                _screenState.update {
+                    it.copy(isLoading = event.refreshing)
+                }
             }
 
             is ListBackChannelEvent.UpdateSearchBoxVisibility -> {
-                _screenState.value = _screenState.value.copy(
-                    searchState = _screenState.value.searchState.copy(
-                        isSearchBoxVisible = event.isVisible
+                _screenState.update {
+                    it.copy(
+                        searchState = it.searchState.copy(
+                            isSearchBoxVisible = event.isVisible
+                        )
                     )
-                )
+                }
             }
 
             is ListBackChannelEvent.UpdatePendingSearchQuery -> {
-                _screenState.value = _screenState.value.copy(
-                    searchState = _screenState.value.searchState.copy(
-                        searchQuery = SearchQuery(event.query, SearchIntention.PENDING)
+                _screenState.update {
+                    it.copy(
+                        searchState = it.searchState.copy(
+                            searchQuery = SearchQuery(event.query, SearchIntention.PENDING)
+                        )
                     )
-                )
+                }
             }
 
             is ListBackChannelEvent.SubmitSortSelection -> {
-                _screenState.value = _screenState.value.copy(sortOption = event.sortOption)
+                _screenState.update {
+                    val newSortOptions = it.availableSortOptions.map { selectableSortOption ->
+                        selectableSortOption.copy(
+                            isSelected = selectableSortOption.sortOption == event.sortOption
+                        )
+                    }
+                    it.copy(availableSortOptions = newSortOptions)
+                }
             }
         }
+    }
+
+    private fun getSortOptions() {
+
     }
 }

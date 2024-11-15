@@ -1,8 +1,10 @@
 package com.wongislandd.infinityindex.infra.composables
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import app.cash.paging.compose.collectAsLazyPagingItems
 import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.viewmodels.PagingDataConsumerScreenState
@@ -29,7 +31,7 @@ fun ListOfEntities(
         EntityType.CREATORS to pagedCreators,
     )
 
-    Column(modifier = modifier) {
+    Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(16.dp)) {
         sections.forEach { (type, pagedItems) ->
             SectionedList(
                 entityType = type,

@@ -15,7 +15,9 @@ class NetworkFieldTypeMapper {
     )
 
     private val textTypeMap = mapOf(
-        "issue_solicit_text" to TextType.ISSUE_SOLICIT_TEXT
+        // Issue solicit seems to always be the description. Take that in favor of this.
+        "issue_solicit_text" to null,
+        "preview_text" to TextType.PREVIEW_TEXT
     )
 
     private val priceTypeMap = mapOf(
@@ -31,18 +33,18 @@ class NetworkFieldTypeMapper {
     )
 
     fun mapDateType(dateType: String): DateType? {
-        return dateTypeMap.getOrElse(dateType) { null }
+        return dateTypeMap.getOrElse(dateType) { DateType.UNKNOWN }
     }
 
     fun mapTextType(textType: String): TextType? {
-        return textTypeMap.getOrElse(textType) { null }
+        return textTypeMap.getOrElse(textType) { TextType.UNKNOWN }
     }
 
     fun mapPriceType(priceType: String): PriceType? {
-        return priceTypeMap.getOrElse(priceType) { null }
+        return priceTypeMap.getOrElse(priceType) { PriceType.UNKNOWN }
     }
 
     fun mapLinkType(linkType: String): LinkType? {
-        return linkTypeMap.getOrElse(linkType) { null }
+        return linkTypeMap.getOrElse(linkType) { LinkType.UNKNOWN }
     }
 }

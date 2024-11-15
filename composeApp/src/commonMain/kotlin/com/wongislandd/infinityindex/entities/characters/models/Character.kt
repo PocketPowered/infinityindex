@@ -19,4 +19,5 @@ data class Character(
     override val hasCreators: Boolean,
     override val hasSeries: Boolean,
     override val hasEvents: Boolean,
+    override val lastModified: String,
 ) : EntityModel

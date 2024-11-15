@@ -11,7 +11,7 @@ data class Comic(
     override val navContext: NavigationContext,
     val pageCount: Int?,
     val issueNumber: Double?,
-    val lastModified: String?,
+    override val lastModified: String,
     val relatedDates: List<RelatedDate>,
     val relatedTexts: List<RelatedText>,
     val relatedPrices: List<RelatedPrice>,

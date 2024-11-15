@@ -12,6 +12,7 @@ interface EntityModel: DisplayableEntity {
     override val displayName: String
     override val image: LoadableImage
     override val navContext: NavigationContext
+    val lastModified: String
     val hasComics: Boolean
     val hasStories: Boolean
     val hasCharacters: Boolean

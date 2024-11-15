@@ -7,4 +7,5 @@ enum class LinkType(
     PURCHASE("Purchase"),
     IN_APP_LINK("App Link"),
     READER("Read"),
+    UNKNOWN("Unknown")
 }

@@ -9,6 +9,7 @@ data class Story(
     override val displayName: String,
     override val image: LoadableImage,
     override val navContext: NavigationContext,
+    override val lastModified: String,
     val type: String?,
     val description: String?,
     override val hasComics: Boolean,

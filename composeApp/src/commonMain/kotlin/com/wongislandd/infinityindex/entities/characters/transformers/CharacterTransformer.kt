@@ -4,6 +4,7 @@ import com.wongislandd.infinityindex.infra.transformers.LoadableImageTransformer
 import com.wongislandd.infinityindex.entities.characters.models.Character
 import com.wongislandd.infinityindex.entities.characters.models.NetworkCharacter
 import com.wongislandd.infinityindex.entities.comics.details.transformers.RelatedLinksTransformer
+import com.wongislandd.infinityindex.entities.comics.list.transformers.DateTransformer
 import com.wongislandd.infinityindex.infra.models.DefaultImageType
 import com.wongislandd.infinityindex.infra.models.NavigationContext
 import com.wongislandd.infinityindex.infra.navigation.RouteHelper
@@ -16,6 +17,7 @@ import com.wongislandd.infinityindex.infra.util.safeLet
 class CharacterTransformer(
     private val loadableImageTransformer: LoadableImageTransformer,
     private val relatedLinksTransformer: RelatedLinksTransformer,
+    private val dateTransformer: DateTransformer
 ) : DataWrapperTransformer<NetworkCharacter, Character>() {
     override fun itemTransformer(input: NetworkCharacter): Character? {
         val relatedLinks = input.urls?.let {
@@ -24,7 +26,8 @@ class CharacterTransformer(
         return safeLet(
             input.id,
             input.name,
-        ) { id, name ->
+            input.modified
+        ) { id, name, modified ->
             Character(
                 id = id,
                 displayName = name,
@@ -45,7 +48,8 @@ class CharacterTransformer(
                 hasCharacters = false,
                 hasCreators = false,
                 hasSeries = input.series.hasItems(),
-                hasComics = input.comics.hasItems()
+                hasComics = input.comics.hasItems(),
+                lastModified = dateTransformer.transform(modified)
             )
         }
     }

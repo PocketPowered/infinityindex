@@ -1,6 +1,5 @@
 package com.wongislandd.infinityindex.home
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Scaffold
@@ -20,11 +19,10 @@ fun HomeScreen(modifier: Modifier = Modifier) {
     val viewModel = koinViewModel<HomeViewModel>()
     val screenState by viewModel.screenStateSlice.screenState.collectAsState()
     Scaffold(modifier = modifier, topBar = {
-        GlobalTopAppBar()
+        GlobalTopAppBar(showBackButton = false)
     }) {
         LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(24.dp),
-            contentPadding = PaddingValues(vertical = 16.dp)
+            contentPadding = PaddingValues(bottom = 16.dp)
         ) {
             item {
                 ListOfEntities(screenState, showAllEnabled = true)

@@ -17,5 +17,6 @@ data class Event(
     override val hasCharacters: Boolean,
     override val hasCreators: Boolean,
     override val hasSeries: Boolean,
-    override val hasEvents: Boolean
+    override val hasEvents: Boolean,
+    override val lastModified: String
 ): EntityModel

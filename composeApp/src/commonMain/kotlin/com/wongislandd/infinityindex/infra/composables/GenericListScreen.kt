@@ -48,9 +48,11 @@ import app.cash.paging.compose.collectAsLazyPagingItems
 import com.wongislandd.infinityindex.entities.comics.list.models.ComicsSortOption
 import com.wongislandd.infinityindex.infra.ListUiEvent
 import com.wongislandd.infinityindex.infra.util.EntityModel
+import com.wongislandd.infinityindex.infra.util.SelectableSortOption
 import com.wongislandd.infinityindex.infra.util.SortOption
 import com.wongislandd.infinityindex.infra.util.events.EventBus
 import com.wongislandd.infinityindex.infra.util.events.UiEvent
+import com.wongislandd.infinityindex.infra.util.isDefaultSelectionSorted
 import com.wongislandd.infinityindex.infra.viewmodels.BaseListViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -68,7 +70,6 @@ inline fun <NETWORK_TYPE, reified T : BaseListViewModel<NETWORK_TYPE, out Entity
     Scaffold(topBar = {
         GlobalTopAppBar(
             isTitleShown = !screenState.searchState.isSearchBoxVisible,
-            showBackButton = false,
             actions = {
                 ExpandingSearch(
                     isExpanded = screenState.searchState.isSearchBoxVisible,
@@ -95,7 +96,7 @@ inline fun <NETWORK_TYPE, reified T : BaseListViewModel<NETWORK_TYPE, out Entity
                         coroutineScope.sendEvent(viewModel.uiEventBus, ListUiEvent.SearchClicked)
                     },
                 )
-                SortSelection(screenState.sortOption, onSortSelected = {
+                SortSelection(screenState.availableSortOptions, onSortSelected = {
                     coroutineScope.sendEvent(viewModel.uiEventBus, ListUiEvent.SortSelected(it))
                 })
             }
@@ -187,7 +188,7 @@ fun ExpandingSearch(
 
 @Composable
 fun SortSelection(
-    currentSortSelection: SortOption,
+    sortOptions: List<SelectableSortOption>,
     onSortSelected: (SortOption) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -198,7 +199,7 @@ fun SortSelection(
         ) {
             Icon(
                 imageVector = Icons.Default.Menu,
-                tint = if (currentSortSelection.isDefault) {
+                tint = if (sortOptions.isDefaultSelectionSorted()) {
                     MaterialTheme.colors.onPrimary
                 } else {
                     MaterialTheme.colors.secondary
@@ -211,17 +212,16 @@ fun SortSelection(
             expanded = expanded,
             onDismissRequest = { expanded = false }
         ) {
-            ComicsSortOption.entries.forEach { sortOption ->
+            sortOptions.forEach { selectableSortOption ->
                 DropdownMenuItem(
                     onClick = {
                         expanded = false
-                        onSortSelected(sortOption)
+                        onSortSelected(selectableSortOption.sortOption)
                     }
                 ) {
                     Text(
-                        text = sortOption.displayName, color = if (currentSortSelection
-                            == sortOption
-                        ) MaterialTheme.colors.primary else Color.Unspecified
+                        text = selectableSortOption.sortOption.displayName,
+                        color = if (selectableSortOption.isSelected) MaterialTheme.colors.primary else Color.Unspecified
                     )
                 }
             }

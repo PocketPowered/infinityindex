@@ -9,8 +9,11 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.wongislandd.infinityindex.infra.navigation.LocalNavHostController
+import kotlinx.coroutines.flow.map
 
 @Composable
 fun GlobalTopAppBar(
@@ -20,8 +23,12 @@ fun GlobalTopAppBar(
     modifier: Modifier = Modifier
 ) {
     val navController = LocalNavHostController.current
-    val shouldShowBackButton = showBackButton && navController.previousBackStackEntry != null
-    val backButton: (@Composable () -> Unit)? = if (shouldShowBackButton) {
+    val previousBackStackEntry by navController.currentBackStackEntryFlow
+        .map { navController.previousBackStackEntry }
+        .collectAsState(initial = null)
+    val canNavigateBack = previousBackStackEntry != null && showBackButton
+
+    val backButton: (@Composable () -> Unit)? = if (canNavigateBack) {
         {
             IconButton(onClick = { navController.popBackStack() }) {
                 Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")

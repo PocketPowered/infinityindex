@@ -1,5 +1,6 @@
 package com.wongislandd.infinityindex.entities.stories
 
+import com.wongislandd.infinityindex.entities.comics.list.transformers.DateTransformer
 import com.wongislandd.infinityindex.entities.stories.models.NetworkStory
 import com.wongislandd.infinityindex.entities.stories.models.Story
 import com.wongislandd.infinityindex.infra.models.DefaultImageType
@@ -13,12 +14,14 @@ import com.wongislandd.infinityindex.infra.util.safeLet
 
 class StoryTransformer(
     private val loadableImageTransformer: LoadableImageTransformer,
+    private val dateTransformer: DateTransformer
 ) : DataWrapperTransformer<NetworkStory, Story>() {
     override fun itemTransformer(input: NetworkStory): Story? {
         return safeLet(
             input.id,
             input.title,
-        ) { id, title ->
+            input.modified
+        ) { id, title, modified ->
             Story(
                 id = id,
                 displayName = title,
@@ -38,7 +41,8 @@ class StoryTransformer(
                 hasCharacters = input.characters.hasItems(),
                 hasCreators = input.creators.hasItems(),
                 hasSeries = input.series.hasItems(),
-                hasComics = input.comics.hasItems()
+                hasComics = input.comics.hasItems(),
+                lastModified = dateTransformer.transform(modified)
             )
         }
     }

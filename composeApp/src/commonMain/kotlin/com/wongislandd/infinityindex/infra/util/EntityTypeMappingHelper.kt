@@ -21,3 +21,14 @@ fun EntityType.getDefaultSortOption(): SortOption {
     }
     return discoveredEntityType
 }
+
+fun EntityType.getSortOptions(): List<SortOption> {
+    return when (this) {
+        EntityType.COMICS -> ComicsSortOption.entries.toList()
+        EntityType.CHARACTERS -> CharactersSortOption.entries.toList()
+        EntityType.CREATORS -> CreatorsSortOption.entries.toList()
+        EntityType.EVENTS -> EventsSortOption.entries.toList()
+        EntityType.SERIES -> SeriesSortOption.entries.toList()
+        EntityType.STORIES -> StoriesSortOption.entries.toList()
+    }
+}

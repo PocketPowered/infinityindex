@@ -9,6 +9,7 @@ data class Series(
     override val displayName: String,
     override val image: LoadableImage,
     override val navContext: NavigationContext,
+    override val lastModified: String,
     val description: String?,
     val rating: String?,
     val startYear: Int?,

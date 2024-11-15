@@ -3,7 +3,9 @@ package com.wongislandd.infinityindex.infra.composables
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
@@ -22,28 +24,42 @@ import com.wongislandd.infinityindex.entities.events.models.Event
 import com.wongislandd.infinityindex.entities.series.models.Series
 import com.wongislandd.infinityindex.entities.stories.models.Story
 import com.wongislandd.infinityindex.infra.util.DisplayableEntity
+import com.wongislandd.infinityindex.infra.util.EntityModel
 
 @Composable
-fun TopLevelEntityDetails(displayableEntity: DisplayableEntity, modifier: Modifier = Modifier) {
+fun TopLevelEntityDetails(entity: EntityModel, modifier: Modifier = Modifier) {
     Column(
-        modifier = modifier.padding(horizontal = 16.dp),
+        modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         MarvelImage(
-            image = displayableEntity.image,
+            image = entity.image,
             tint = MaterialTheme.colors.onSurface,
             modifier = Modifier.fillMaxWidth()
         )
         Text(
-            text = displayableEntity.displayName,
+            text = entity.displayName,
             modifier = Modifier.padding(16.dp),
             style = MaterialTheme.typography.h4,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center
         )
-        EntityTypePlate(displayableEntity)
+        EntityTypePlate(entity)
+        Spacer(modifier = Modifier.height(8.dp))
+        LastModified(entity.lastModified)
     }
 }
+
+@Composable
+private fun LastModified(lastModified: String, modifier: Modifier = Modifier) {
+    Text(
+        text = "Last Modified: $lastModified",
+        style = MaterialTheme.typography.body2,
+        color = MaterialTheme.colors.onSurface,
+        modifier = modifier
+    )
+}
+
 
 @Composable
 private fun EntityTypePlate(displayableEntity: DisplayableEntity, modifier: Modifier = Modifier) {
