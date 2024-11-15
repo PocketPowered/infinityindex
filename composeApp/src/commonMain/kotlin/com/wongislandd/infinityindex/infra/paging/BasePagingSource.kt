@@ -10,10 +10,13 @@ import com.wongislandd.infinityindex.infra.networking.models.DataWrapper
 import com.wongislandd.infinityindex.infra.util.Resource
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.update
 
 interface PagingSourceCallbacks<T> {
+    fun onResponse(response: Resource<DataWrapper<T>>)
+
     fun onSuccess(paginationContextWrapper: PaginationContextWrapper<T>)
+
+    fun onFailure(error: Throwable? = null)
 }
 
 abstract class BasePagingSource<Value : Any> : PagingSource<Int, Value>() {
@@ -23,7 +26,7 @@ abstract class BasePagingSource<Value : Any> : PagingSource<Int, Value>() {
 
     private var pagingSourceCallbacks: PagingSourceCallbacks<Value>? = null
 
-    fun registerOnSuccessListener(callbacks: PagingSourceCallbacks<Value>) {
+    fun registerCallbacks(callbacks: PagingSourceCallbacks<Value>) {
         this.pagingSourceCallbacks = callbacks
     }
 
@@ -34,7 +37,7 @@ abstract class BasePagingSource<Value : Any> : PagingSource<Int, Value>() {
         val limit = params.loadSize
         return try {
             val response = fetchData(start, limit)
-            _isFetchingFirstPage.update { false }
+            pagingSourceCallbacks?.onResponse(response)
             when (val page = paginateResponse(response)) {
                 is Resource.Success -> {
                     pagingSourceCallbacks?.onSuccess(page.data)
@@ -52,14 +55,16 @@ abstract class BasePagingSource<Value : Any> : PagingSource<Int, Value>() {
                 }
 
                 is Resource.Error -> {
+                    pagingSourceCallbacks?.onFailure(page.throwable)
                     return PagingSourceLoadResultError(Exception(page.error.toString()))
                 }
-
                 else -> {
+                    pagingSourceCallbacks?.onFailure()
                     return PagingSourceLoadResultError(Exception("Unknown error"))
                 }
             }
         } catch (e: Exception) {
+            pagingSourceCallbacks?.onFailure()
             PagingSourceLoadResultError(e)
         }
     }

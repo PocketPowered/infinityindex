@@ -22,5 +22,6 @@ data class BaseDetailsScreenState<T : EntityModel>(
     override val eventsData: StateFlow<PagingData<Event>>,
     override val storiesData: StateFlow<PagingData<Story>>,
     override val seriesData: StateFlow<PagingData<Series>>,
-    override val comicData: StateFlow<PagingData<Comic>>
+    override val comicData: StateFlow<PagingData<Comic>>,
+    override val hasLoaded: StateFlow<Boolean>
 ) : PagingDataConsumerScreenState

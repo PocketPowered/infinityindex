@@ -7,7 +7,6 @@ import com.wongislandd.infinityindex.entities.creators.models.Creator
 import com.wongislandd.infinityindex.entities.events.models.Event
 import com.wongislandd.infinityindex.entities.series.models.Series
 import com.wongislandd.infinityindex.entities.stories.models.Story
-import com.wongislandd.infinityindex.infra.DetailsBackChannelEvent
 import com.wongislandd.infinityindex.infra.ListBackChannelEvent
 import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.util.ViewModelSlice
@@ -15,7 +14,12 @@ import com.wongislandd.infinityindex.infra.util.events.BackChannelEvent
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 
+/**
+ * Pairs well with [PagingDataConsumerScreenState]
+ */
 abstract class BaseEntityPagingDataConsumerSlice : ViewModelSlice() {
+
+    protected val hasFullyLoaded: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
     protected val entityCountsData: MutableStateFlow<EntityCountsData> =
         MutableStateFlow(EntityCountsData())
@@ -38,9 +42,17 @@ abstract class BaseEntityPagingDataConsumerSlice : ViewModelSlice() {
     protected val seriesPagingData: MutableStateFlow<PagingData<Series>> =
         MutableStateFlow(PagingData.empty())
 
-
     protected val comicPagingData: MutableStateFlow<PagingData<Comic>> =
         MutableStateFlow(PagingData.empty())
+
+    private val mapOfLoadStates = mutableMapOf(
+        EntityType.CHARACTERS to false,
+        EntityType.EVENTS to false,
+        EntityType.CREATORS to false,
+        EntityType.STORIES to false,
+        EntityType.COMICS to false,
+        EntityType.SERIES to false,
+    )
 
 
     override fun handleBackChannelEvent(event: BackChannelEvent) {
@@ -51,6 +63,20 @@ abstract class BaseEntityPagingDataConsumerSlice : ViewModelSlice() {
             is ListBackChannelEvent.EntityCountsUpdate -> {
                 handleEntityCountsUpdate(event)
             }
+            is ListBackChannelEvent.ResponseReceived -> {
+                handlePagingResponseSignal(event.entityType)
+            }
+        }
+    }
+
+    /**
+     * The entity type that received a response. We will use this to determine
+     * if all the entities have been loaded.
+     */
+    private fun handlePagingResponseSignal(entityType: EntityType) {
+        mapOfLoadStates[entityType] = true
+        if (mapOfLoadStates.values.all { it }) {
+            hasFullyLoaded.value = true
         }
     }
 
@@ -63,26 +89,32 @@ abstract class BaseEntityPagingDataConsumerSlice : ViewModelSlice() {
         when (event.entityType) {
             EntityType.CHARACTERS -> {
                 characterPagingData.value = event.update as PagingData<Character>
+                mapOfLoadStates[EntityType.CHARACTERS] = true
             }
 
             EntityType.EVENTS -> {
                 eventsPagingData.value = event.update as PagingData<Event>
+                mapOfLoadStates[EntityType.EVENTS] = true
             }
 
             EntityType.CREATORS -> {
                 creatorsPagingData.value = event.update as PagingData<Creator>
+                mapOfLoadStates[EntityType.CREATORS] = true
             }
 
             EntityType.STORIES -> {
                 storiesPagingData.value = event.update as PagingData<Story>
+                mapOfLoadStates[EntityType.STORIES] = true
             }
 
             EntityType.COMICS -> {
                 comicPagingData.value = event.update as PagingData<Comic>
+                mapOfLoadStates[EntityType.COMICS] = true
             }
 
             EntityType.SERIES -> {
                 seriesPagingData.value = event.update as PagingData<Series>
+                mapOfLoadStates[EntityType.SERIES] = true
             }
         }
     }

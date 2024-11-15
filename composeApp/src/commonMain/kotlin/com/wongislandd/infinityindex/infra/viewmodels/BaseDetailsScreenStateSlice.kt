@@ -13,6 +13,7 @@ abstract class BaseDetailsScreenStateSlice<T : EntityModel> : BaseScreenStateSli
     private val _screenState: MutableStateFlow<BaseDetailsScreenState<T>> =
         MutableStateFlow(
             BaseDetailsScreenState(
+                hasLoaded = hasFullyLoaded,
                 characterData = characterPagingData,
                 creatorsData = creatorsPagingData,
                 eventsData = eventsPagingData,

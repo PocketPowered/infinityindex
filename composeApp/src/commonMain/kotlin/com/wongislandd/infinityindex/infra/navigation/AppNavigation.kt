@@ -5,6 +5,7 @@ enum class NavigationItem(
     private val baseRoute: String,
     val idArg: String? = null,
 ) {
+    StartUp("Start Up", "startUp"),
     Home("Home", "home"),
     ComicListScreen("Comics", "comics"),
     CreatorListScreen("Creators", "creators"),

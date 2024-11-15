@@ -6,12 +6,14 @@ import app.cash.paging.PagingConfig
 import com.wongislandd.infinityindex.infra.DetailsBackChannelEvent
 import com.wongislandd.infinityindex.infra.DetailsUiEvent
 import com.wongislandd.infinityindex.infra.ListBackChannelEvent
+import com.wongislandd.infinityindex.infra.networking.models.DataWrapper
 import com.wongislandd.infinityindex.infra.paging.BaseRepository
 import com.wongislandd.infinityindex.infra.paging.PaginationContextWrapper
 import com.wongislandd.infinityindex.infra.paging.PagingSourceCallbacks
 import com.wongislandd.infinityindex.infra.paging.RelatedEntityPagingSource
 import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.util.EntityModel
+import com.wongislandd.infinityindex.infra.util.Resource
 import com.wongislandd.infinityindex.infra.util.Resource.Loading.onSuccess
 import com.wongislandd.infinityindex.infra.util.ViewModelSlice
 import com.wongislandd.infinityindex.infra.util.events.BackChannelEvent
@@ -19,6 +21,7 @@ import com.wongislandd.infinityindex.infra.util.events.UiEvent
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+// look into combining this with [BaseListPagingSlice]
 abstract class BaseDetailsResolutionSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
     private val repository: BaseRepository<NETWORK_TYPE, LOCAL_TYPE>,
     private val entityType: EntityType,
@@ -74,7 +77,7 @@ abstract class BaseDetailsResolutionSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel
             ) {
                 val pagingSource = RelatedEntityPagingSource(repository, relatedEntityType, primaryEntityId)
                 // This is likely a memory leak when the source gets invalidated, look to clean up
-                pagingSource.registerOnSuccessListener(object : PagingSourceCallbacks<LOCAL_TYPE> {
+                pagingSource.registerCallbacks(object : PagingSourceCallbacks<LOCAL_TYPE> {
                     override fun onSuccess(paginationContextWrapper: PaginationContextWrapper<LOCAL_TYPE>) {
                         sliceScope.launch {
                             backChannelEvents.sendEvent(
@@ -84,6 +87,16 @@ abstract class BaseDetailsResolutionSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel
                                 )
                             )
                         }
+                    }
+
+                    override fun onResponse(response: Resource<DataWrapper<LOCAL_TYPE>>) {
+                        sliceScope.launch {
+                            backChannelEvents.sendEvent(ListBackChannelEvent.ResponseReceived(entityType))
+                        }
+                    }
+
+                    override fun onFailure(error: Throwable?) {
+                        // do nothing
                     }
                 })
                 pagingSource
