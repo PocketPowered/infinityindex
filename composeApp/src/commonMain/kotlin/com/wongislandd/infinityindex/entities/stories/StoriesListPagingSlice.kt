@@ -6,7 +6,7 @@ import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.viewmodels.BaseListPagingSlice
 import com.wongislandd.infinityindex.repositories.StoriesEntityRepository
 
-class StoriesListListPagingSlice(
+class StoriesListPagingSlice(
     repository: StoriesEntityRepository
 ) : BaseListPagingSlice<NetworkStory, Story>(
     repository,

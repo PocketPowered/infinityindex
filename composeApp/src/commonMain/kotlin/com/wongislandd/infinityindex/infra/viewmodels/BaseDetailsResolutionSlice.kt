@@ -5,6 +5,7 @@ import app.cash.paging.Pager
 import app.cash.paging.PagingConfig
 import com.wongislandd.infinityindex.infra.DetailsBackChannelEvent
 import com.wongislandd.infinityindex.infra.DetailsUiEvent
+import com.wongislandd.infinityindex.infra.ListBackChannelEvent
 import com.wongislandd.infinityindex.infra.paging.BaseRepository
 import com.wongislandd.infinityindex.infra.paging.RelatedEntityPagingSource
 import com.wongislandd.infinityindex.infra.util.EntityType
@@ -18,7 +19,7 @@ import kotlinx.coroutines.launch
 
 abstract class BaseListResolutionSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
     private val repository: BaseRepository<NETWORK_TYPE, LOCAL_TYPE>,
-): ViewModelSlice() {
+) : ViewModelSlice() {
 
 }
 
@@ -78,7 +79,7 @@ abstract class BaseDetailsResolutionSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel
                 RelatedEntityPagingSource(repository, relatedEntityType, primaryEntityId)
             }.flow.cachedIn(sliceScope).collectLatest {
                 backChannelEvents.sendEvent(
-                    DetailsBackChannelEvent.PagingDataResUpdate(it, entityType)
+                    ListBackChannelEvent.PagingDataResUpdate(it, entityType)
                 )
             }
         }

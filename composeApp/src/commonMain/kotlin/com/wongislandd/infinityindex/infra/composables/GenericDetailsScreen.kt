@@ -1,6 +1,7 @@
 package com.wongislandd.infinityindex.infra.composables
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Scaffold
@@ -29,6 +30,7 @@ import com.wongislandd.infinityindex.infra.util.EntityModel
 import com.wongislandd.infinityindex.infra.util.Resource
 import com.wongislandd.infinityindex.infra.viewmodels.BaseDetailsScreenState
 import com.wongislandd.infinityindex.infra.viewmodels.BaseDetailsViewModel
+import com.wongislandd.infinityindex.infra.viewmodels.PagingDataConsumerScreenState
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 
@@ -75,38 +77,16 @@ inline fun <reified T : BaseDetailsViewModel<out EntityModel>> GenericDetailsScr
 @Composable
 fun AdditionalDetailsContents(
     primaryModel: EntityModel,
-    screenState: BaseDetailsScreenState<out EntityModel>,
+    screenState: PagingDataConsumerScreenState,
     modifier: Modifier = Modifier
 ) {
-    val pagedCharacters = screenState.characterData.collectAsLazyPagingItems()
-    val pagedCreators = screenState.creatorsData.collectAsLazyPagingItems()
-    val pagedEvents = screenState.eventsData.collectAsLazyPagingItems()
-    val pagedStories = screenState.storiesData.collectAsLazyPagingItems()
-    val pagedSeries = screenState.seriesData.collectAsLazyPagingItems()
-    val pagedComics = screenState.comicData.collectAsLazyPagingItems()
-
-    val sections = listOf(
-        "Comics" to pagedComics,
-        "Characters" to pagedCharacters,
-        "Events" to pagedEvents,
-        "Stories" to pagedStories,
-        "Series" to pagedSeries,
-        "Creators" to pagedCreators,
-    )
 
     AdditionalDetailsLazyColumn(modifier = modifier) {
         item {
             PrimaryDetailContents(primaryModel)
         }
-        sections.forEach { (title, pagedItems) ->
-            if (pagedItems.itemCount > 0) {
-                item {
-                    SectionedList(
-                        title = title,
-                        pagedItems = pagedItems,
-                    )
-                }
-            }
+        item {
+            ListOfEntities(screenState)
         }
     }
 }

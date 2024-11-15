@@ -8,6 +8,7 @@ import com.wongislandd.infinityindex.entities.events.models.Event
 import com.wongislandd.infinityindex.entities.series.models.Series
 import com.wongislandd.infinityindex.entities.stories.models.Story
 import com.wongislandd.infinityindex.infra.DetailsBackChannelEvent
+import com.wongislandd.infinityindex.infra.ListBackChannelEvent
 import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.util.ViewModelSlice
 import com.wongislandd.infinityindex.infra.util.events.BackChannelEvent
@@ -39,7 +40,7 @@ abstract class BaseEntityPagingDataConsumerSlice : ViewModelSlice() {
 
     override fun handleBackChannelEvent(event: BackChannelEvent) {
         when (event) {
-            is DetailsBackChannelEvent.PagingDataResUpdate<*> -> {
+            is ListBackChannelEvent.PagingDataResUpdate<*> -> {
                 handlePagingUpdate(event)
             }
         }
@@ -50,8 +51,8 @@ abstract class BaseEntityPagingDataConsumerSlice : ViewModelSlice() {
      * Although this is kind of safe, as long as the right entity type is passed!
      */
     @Suppress("UNCHECKED_CAST")
-    private fun handlePagingUpdate(event: DetailsBackChannelEvent.PagingDataResUpdate<*>) {
-        when (event.type) {
+    private fun handlePagingUpdate(event: ListBackChannelEvent.PagingDataResUpdate<*>) {
+        when (event.entityType) {
             EntityType.CHARACTERS -> {
                 characterPagingData.value = event.update as PagingData<Character>
             }

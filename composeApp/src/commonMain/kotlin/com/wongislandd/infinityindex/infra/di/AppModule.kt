@@ -2,6 +2,7 @@ package com.wongislandd.infinityindex.infra.di
 
 import com.wongislandd.infinityindex.entities.comics.list.transformers.DateTransformer
 import com.wongislandd.infinityindex.entities.entitiesModule
+import com.wongislandd.infinityindex.home.homeModule
 import com.wongislandd.infinityindex.infra.DetailsBackChannelEvent
 import com.wongislandd.infinityindex.infra.DetailsUiEvent
 import com.wongislandd.infinityindex.infra.transformers.LoadableImageTransformer
@@ -25,7 +26,7 @@ fun initializeKoin() {
     startKoin {
         modules(
             appModule, platformModule,
-            infraModule, entitiesModule
+            infraModule, entitiesModule, homeModule
         )
     }
 }

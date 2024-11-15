@@ -17,4 +17,5 @@ class HomeScreenStateSlice: BaseEntityPagingDataConsumerSlice() {
                 comicData = comicPagingData
             )
         )
+    val screenState = _screenState
 }
