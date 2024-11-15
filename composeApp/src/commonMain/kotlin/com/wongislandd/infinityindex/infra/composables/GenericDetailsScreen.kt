@@ -85,45 +85,28 @@ fun AdditionalDetailsContents(
     val pagedSeries = screenState.seriesData.collectAsLazyPagingItems()
     val pagedComics = screenState.comicData.collectAsLazyPagingItems()
 
+    val sections = listOf(
+        "Characters" to pagedCharacters,
+        "Creators" to pagedCreators,
+        "Events" to pagedEvents,
+        "Stories" to pagedStories,
+        "Series" to pagedSeries,
+        "Comics" to pagedComics
+    )
+
     AdditionalDetailsLazyColumn(modifier = modifier) {
         item {
             PrimaryDetailContents(primaryModel)
         }
-        item {
-            SectionedList(
-                title = "Characters",
-                pagedItems = pagedCharacters,
-            )
-        }
-        item {
-            SectionedList(
-                title = "Creators",
-                pagedItems = pagedCreators,
-            )
-        }
-        item {
-            SectionedList(
-                title = "Events",
-                pagedItems = pagedEvents,
-            )
-        }
-        item {
-            SectionedList(
-                title = "Stories",
-                pagedItems = pagedStories,
-            )
-        }
-        item {
-            SectionedList(
-                title = "Series",
-                pagedItems = pagedSeries,
-            )
-        }
-        item {
-            SectionedList(
-                title = "Comics",
-                pagedItems = pagedComics,
-            )
+        sections.forEach { (title, pagedItems) ->
+            if (pagedItems.itemCount > 0) {
+                item {
+                    SectionedList(
+                        title = title,
+                        pagedItems = pagedItems,
+                    )
+                }
+            }
         }
     }
 }
