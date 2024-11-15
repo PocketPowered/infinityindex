@@ -52,16 +52,27 @@ fun TopLevelEntityDetails(entity: EntityModel, modifier: Modifier = Modifier) {
 }
 
 @Composable
+fun BottomLevelEntityDetails(entity: EntityModel, modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier,
+    ) {
+        Spacer(modifier = Modifier.height(8.dp))
+        DetailsSection("Developer Details") {
+            Text("ID: ${entity.id}", style = MaterialTheme.typography.h5)
+            Text(
+                text = entity.toString(),
+                style = MaterialTheme.typography.body2,
+                color = MaterialTheme.colors.onSurface,
+            )
+        }
+    }
+}
+
+@Composable
 private fun EntityMetadata(entity: EntityModel, modifier: Modifier = Modifier) {
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(4.dp)) {
         Text(
-            text = entity.id.toString(),
-            style = MaterialTheme.typography.body2,
-            color = MaterialTheme.colors.onSurface,
-            modifier = modifier
-        )
-        Text(
-            text = "Last Modified: $entity.lastModified",
+            text = "Last Modified: ${entity.lastModified}",
             style = MaterialTheme.typography.body2,
             color = MaterialTheme.colors.onSurface,
             modifier = modifier

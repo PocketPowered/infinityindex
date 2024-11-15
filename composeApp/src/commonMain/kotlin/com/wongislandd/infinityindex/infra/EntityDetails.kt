@@ -1,0 +1,20 @@
+package com.wongislandd.infinityindex.infra
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.wongislandd.infinityindex.infra.composables.BottomLevelEntityDetails
+import com.wongislandd.infinityindex.infra.composables.TopLevelEntityDetails
+import com.wongislandd.infinityindex.infra.util.EntityModel
+
+@Composable
+fun EntityDetails(entity: EntityModel, modifier: Modifier = Modifier, mainContent: @Composable ColumnScope.() -> Unit) {
+    Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(16.dp)) {
+        TopLevelEntityDetails(entity, modifier)
+        mainContent()
+        BottomLevelEntityDetails(entity)
+    }
+}
