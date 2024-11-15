@@ -34,7 +34,7 @@ import com.wongislandd.infinityindex.infra.composables.GenericListScreen
 @Composable
 fun AppNavHost(
     modifier: Modifier = Modifier,
-    startDestination: String = NavigationItem.CreatorListScreen.route,
+    startDestination: String = NavigationItem.ComicListScreen.route,
 ) {
     val navController = LocalNavHostController.current
     val pageTurnEnterTransition = slideInHorizontally(

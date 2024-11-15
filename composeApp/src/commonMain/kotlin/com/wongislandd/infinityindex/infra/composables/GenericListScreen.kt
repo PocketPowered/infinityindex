@@ -231,6 +231,7 @@ fun EntityList(
         columns = GridCells.Adaptive(180.dp),
         contentPadding = PaddingValues(8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
         modifier = modifier
             .background(MaterialTheme.colors.surface)
             .fillMaxSize()
@@ -239,7 +240,7 @@ fun EntityList(
             pagedEntities[index]?.id ?: index
         }) { index ->
             pagedEntities[index]?.let { entity ->
-                GenericEntityCard(entity)
+                GenericListEntityCard(entity)
             }
         }
         pagedEntities.apply {
