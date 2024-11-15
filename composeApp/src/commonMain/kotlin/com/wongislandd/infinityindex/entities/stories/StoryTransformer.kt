@@ -25,7 +25,7 @@ class StoryTransformer(
                 image = loadableImageTransformer.transform(
                     LoadableImageTransformerInput(
                         networkImage = input.thumbnail,
-                        defaultImageType = DefaultImageType.THING
+                        defaultImageType = DefaultImageType.BOOK
                     )
                 ),
                 navContext = NavigationContext(

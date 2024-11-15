@@ -29,7 +29,11 @@ fun TopLevelEntityDetails(displayableEntity: DisplayableEntity, modifier: Modifi
         modifier = modifier.padding(horizontal = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        MarvelImage(image = displayableEntity.image, modifier = Modifier.fillMaxWidth())
+        MarvelImage(
+            image = displayableEntity.image,
+            tint = MaterialTheme.colors.onSurface,
+            modifier = Modifier.fillMaxWidth()
+        )
         Text(
             text = displayableEntity.displayName,
             modifier = Modifier.padding(16.dp),

@@ -52,6 +52,7 @@ fun EntityCard(
             MarvelImage(
                 image = image,
                 contentScale = ContentScale.Crop,
+                tint = MaterialTheme.colors.onPrimary,
                 modifier = Modifier.size(width)
             )
             Box(

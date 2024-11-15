@@ -41,6 +41,7 @@ fun ComicCard(comic: Comic, modifier: Modifier = Modifier) {
         Column {
             MarvelImage(
                 image = comic.image,
+                tint = MaterialTheme.colors.onSurface,
                 modifier = Modifier.height(300.dp).background(Color.Black)
             )
             ComicTitlePlate(comic.displayName)

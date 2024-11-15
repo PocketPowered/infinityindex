@@ -6,24 +6,22 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.wongislandd.infinityindex.infra.models.DefaultImageType
 
-
 @Composable
-fun UnknownImage(imageType: DefaultImageType, modifier: Modifier = Modifier) {
+fun UnknownImage(imageType: DefaultImageType, tint: Color = MaterialTheme.colors.onPrimary, modifier: Modifier = Modifier) {
     val placeholderIcon = when (imageType) {
         DefaultImageType.PERSON -> Icons.Default.Person
         DefaultImageType.PLACE -> Icons.Default.Place
-        DefaultImageType.BOOK -> Icons.Default.Menu
-        DefaultImageType.THING -> Icons.Default.Favorite
+        DefaultImageType.BOOK -> MenuBook
+        DefaultImageType.THING -> QuestionMark
     }
     Box(
         modifier = modifier
@@ -32,7 +30,7 @@ fun UnknownImage(imageType: DefaultImageType, modifier: Modifier = Modifier) {
         Icon(
             imageVector = placeholderIcon,
             contentDescription = "Unknown image",
-            tint = MaterialTheme.colors.onSurface,
+            tint = tint,
             modifier = Modifier.size(100.dp).align(Alignment.Center)
         )
     }

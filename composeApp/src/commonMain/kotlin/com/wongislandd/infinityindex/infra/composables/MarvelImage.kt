@@ -4,6 +4,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil3.CoilImage
@@ -15,6 +16,7 @@ import com.wongislandd.infinityindex.infra.models.LoadableImage
 fun MarvelImage(
     image: LoadableImage,
     contentScale: ContentScale = ContentScale.Inside,
+    tint: Color,
     modifier: Modifier
 ) {
     image.imageUrl?.let { imageUrl ->
@@ -32,5 +34,5 @@ fun MarvelImage(
                 Text("Could not load image.")
             }
         )
-    } ?: UnknownImage(imageType = image.defaultEntity, modifier = modifier)
+    } ?: UnknownImage(imageType = image.defaultEntity, tint = tint, modifier = modifier)
 }

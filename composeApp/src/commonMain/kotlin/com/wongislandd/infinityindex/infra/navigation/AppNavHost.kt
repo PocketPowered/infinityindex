@@ -49,63 +49,66 @@ fun AppNavHost(
         navController = navController,
         startDestination = startDestination,
         enterTransition = {
-            pageTurnEnterTransition // Page turn forward transition
+            pageTurnEnterTransition
         },
         exitTransition = {
-            pageTurnExitTransition // Page turn forward exit transition
+            pageTurnExitTransition
         },
         popEnterTransition = {
-            pageReturnEnterTransition // Page return transition (backward)
+            pageReturnEnterTransition
         },
         popExitTransition = {
-            pageReturnExitTransition // Page return exit transition (backward)
+            pageReturnExitTransition
         },
         modifier = modifier
     ) {
-        composable(NavigationItem.ComicListScreen.route) {
-            ComicsListScreen()
-        }
-        composable(
-            route = NavigationItem.ComicDetailsScreen.route,
-            arguments = listOf(navArgument("comicId") { type = NavType.IntType })
-        ) { backStackEntry ->
-            val comicId = backStackEntry.arguments?.getInt("comicId") ?: 0
-            GenericDetailsScreen<ComicDetailsViewModel>(primaryId = comicId)
-        }
-        composable(
-            route = NavigationItem.CreatorDetailsScreen.route,
-            arguments = listOf(navArgument("creatorId") { type = NavType.IntType })
-        ) { backStackEntry ->
-            val creatorId = backStackEntry.arguments?.getInt("comicId") ?: 0
-            GenericDetailsScreen<CreatorDetailsViewModel>(primaryId = creatorId)
-        }
-        composable(
-            route = NavigationItem.CharacterDetailsScreen.route,
-            arguments = listOf(navArgument("characterId") { type = NavType.IntType })
-        ) { backStackEntry ->
-            val characterId = backStackEntry.arguments?.getInt("characterId") ?: 0
-            GenericDetailsScreen<CharacterDetailsViewModel>(primaryId = characterId)
-        }
-        composable(
-            route = NavigationItem.SeriesDetailsScreen.route,
-            arguments = listOf(navArgument("seriesId") { type = NavType.IntType })
-        ) { backStackEntry ->
-            val seriesId = backStackEntry.arguments?.getInt("seriesId") ?: 0
-            GenericDetailsScreen<SeriesDetailsViewModel>(primaryId = seriesId)
-        }
-        composable(
-            route = NavigationItem.EventDetailsScreen.route,
-            arguments = listOf(navArgument("eventId") { type = NavType.IntType })
-        ) { backStackEntry ->
-            val eventId = backStackEntry.arguments?.getInt("eventId") ?: 0
-            GenericDetailsScreen<EventDetailsViewModel>(primaryId = eventId)
-        }
-        composable(
-            route = NavigationItem.StoryDetailsScreen.route,
-            arguments = listOf(navArgument("storyId") { type = NavType.IntType })
-        ) { backStackEntry ->
-            val storyId = backStackEntry.arguments?.getInt("storyId") ?: 0
-            GenericDetailsScreen<StoryDetailsViewModel>(primaryId = storyId)
+        NavigationItem.entries.forEach { navItem ->
+            if (navItem.idArg != null) {
+                composable(
+                    route = navItem.route,
+                    arguments = listOf(navArgument(navItem.idArg) { type = NavType.IntType })
+                ) { backStackEntry ->
+                    val primaryId = backStackEntry.arguments?.getInt(navItem.idArg)
+                        ?: throw IllegalArgumentException("Missing ID argument")
+                    when (navItem) {
+                        NavigationItem.ComicDetailsScreen -> {
+                            GenericDetailsScreen<ComicDetailsViewModel>(primaryId)
+                        }
+
+                        NavigationItem.CreatorDetailsScreen -> {
+                            GenericDetailsScreen<CreatorDetailsViewModel>(primaryId)
+                        }
+
+                        NavigationItem.CharacterDetailsScreen -> {
+                            GenericDetailsScreen<CharacterDetailsViewModel>(primaryId)
+                        }
+
+                        NavigationItem.SeriesDetailsScreen -> {
+                            GenericDetailsScreen<SeriesDetailsViewModel>(primaryId)
+                        }
+
+                        NavigationItem.EventDetailsScreen -> {
+                            GenericDetailsScreen<EventDetailsViewModel>(primaryId)
+                        }
+
+                        NavigationItem.StoryDetailsScreen -> {
+                            GenericDetailsScreen<StoryDetailsViewModel>(primaryId)
+                        }
+
+                        else -> Unit
+                    }
+                }
+            } else {
+                composable(route = navItem.route) {
+                    when (navItem) {
+                        NavigationItem.ComicListScreen -> {
+                            ComicsListScreen()
+                        }
+
+                        else -> Unit
+                    }
+                }
+            }
         }
     }
 }

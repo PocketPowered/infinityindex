@@ -25,7 +25,10 @@ class LoadableImageTransformer : Transformer<LoadableImageTransformerInput, Load
         )
     }
 
-    private fun extractImageUrl(networkImage: NetworkImage): String {
+    private fun extractImageUrl(networkImage: NetworkImage): String? {
+        if (networkImage.path?.contains("image_not_available") == true) {
+            return null
+        }
         return "${networkImage.path}.${networkImage.extension}".replace("http://", "https://")
     }
 }
