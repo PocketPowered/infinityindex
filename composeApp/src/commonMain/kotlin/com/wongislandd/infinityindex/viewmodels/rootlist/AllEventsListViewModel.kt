@@ -1,7 +1,5 @@
 package com.wongislandd.infinityindex.viewmodels.rootlist
 
-import com.wongislandd.infinityindex.models.network.NetworkSeries
-import com.wongislandd.infinityindex.models.local.Series
 import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.util.events.BackChannelEvent
 import com.wongislandd.infinityindex.infra.util.events.EventBus
@@ -9,16 +7,19 @@ import com.wongislandd.infinityindex.infra.util.events.UiEvent
 import com.wongislandd.infinityindex.infra.viewmodels.BaseListViewModel
 import com.wongislandd.infinityindex.infra.viewmodels.SearchSlice
 import com.wongislandd.infinityindex.infra.viewmodels.SortSlice
+import com.wongislandd.infinityindex.models.local.Event
+import com.wongislandd.infinityindex.models.network.NetworkEvent
+import com.wongislandd.infinityindex.viewmodels.shared.EventsListScreenStateSlice
 
-class SeriesListViewModel(
-    screenStateSlice: SeriesListScreenStateSlice,
+class AllEventsListViewModel(
+    screenStateSlice: EventsListScreenStateSlice,
     sortSlice: SortSlice,
     searchSlice: SearchSlice,
-    pagingSlice: AllSeriesPagingSlice,
+    pagingSlice: AllEventsPagingSlice,
     uiEventBus: EventBus<UiEvent>,
     backChannelEventBus: EventBus<BackChannelEvent>
-) : BaseListViewModel<NetworkSeries, Series>(
-    entityType = EntityType.SERIES,
+) : BaseListViewModel<NetworkEvent, Event>(
+    entityType = EntityType.EVENTS,
     screenStateSlice = screenStateSlice,
     sortSlice = sortSlice,
     searchSlice = searchSlice,

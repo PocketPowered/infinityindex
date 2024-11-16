@@ -9,8 +9,9 @@ import com.wongislandd.infinityindex.infra.viewmodels.SearchSlice
 import com.wongislandd.infinityindex.infra.viewmodels.SortSlice
 import com.wongislandd.infinityindex.models.local.Character
 import com.wongislandd.infinityindex.models.network.NetworkCharacter
+import com.wongislandd.infinityindex.viewmodels.shared.CharactersListScreenStateSlice
 
-class CharactersListViewModel(
+class AllCharactersListViewModel(
     screenStateSlice: CharactersListScreenStateSlice,
     sortSlice: SortSlice,
     searchSlice: SearchSlice,

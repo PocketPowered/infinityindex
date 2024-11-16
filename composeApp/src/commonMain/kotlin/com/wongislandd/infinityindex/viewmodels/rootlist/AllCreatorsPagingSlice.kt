@@ -8,7 +8,7 @@ import com.wongislandd.infinityindex.infra.viewmodels.PagedListUseCase
 import com.wongislandd.infinityindex.repositories.CreatorsEntityRepository
 
 class AllCreatorsPagingSlice(
-    private val repository: CreatorsEntityRepository
+    repository: CreatorsEntityRepository
 ): BaseListPagingSlice<NetworkCreator, Creator>(
     repository,
     EntityType.CREATORS,

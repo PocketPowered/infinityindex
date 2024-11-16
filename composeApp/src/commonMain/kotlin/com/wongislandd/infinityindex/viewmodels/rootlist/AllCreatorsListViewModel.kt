@@ -9,8 +9,9 @@ import com.wongislandd.infinityindex.infra.viewmodels.SearchSlice
 import com.wongislandd.infinityindex.infra.viewmodels.SortSlice
 import com.wongislandd.infinityindex.models.local.Creator
 import com.wongislandd.infinityindex.models.network.NetworkCreator
+import com.wongislandd.infinityindex.viewmodels.shared.CreatorsListScreenStateSlice
 
-class CreatorsListViewModel(
+class AllCreatorsListViewModel(
     screenStateSlice: CreatorsListScreenStateSlice,
     sortSlice: SortSlice,
     searchSlice: SearchSlice,

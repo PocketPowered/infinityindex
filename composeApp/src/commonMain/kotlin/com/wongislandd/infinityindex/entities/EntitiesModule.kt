@@ -3,15 +3,15 @@ package com.wongislandd.infinityindex.entities
 import com.wongislandd.infinityindex.entities.characters.CharacterDetailsScreenStateSlice
 import com.wongislandd.infinityindex.entities.characters.CharacterDetailsViewModel
 import com.wongislandd.infinityindex.viewmodels.rootlist.AllCharactersPagingSlice
-import com.wongislandd.infinityindex.viewmodels.rootlist.CharactersListViewModel
-import com.wongislandd.infinityindex.viewmodels.rootlist.CharactersListScreenStateSlice
+import com.wongislandd.infinityindex.viewmodels.rootlist.AllCharactersListViewModel
+import com.wongislandd.infinityindex.viewmodels.shared.CharactersListScreenStateSlice
 import com.wongislandd.infinityindex.models.local.Character
 import com.wongislandd.infinityindex.transformers.CharacterTransformer
-import com.wongislandd.infinityindex.viewmodels.rootlist.ComicsListScreenStateSlice
+import com.wongislandd.infinityindex.viewmodels.shared.ComicsListScreenStateSlice
 import com.wongislandd.infinityindex.entities.comics.ComicDetailsScreenStateSlice
 import com.wongislandd.infinityindex.entities.comics.ComicDetailsViewModel
 import com.wongislandd.infinityindex.viewmodels.rootlist.AllComicsPagingSlice
-import com.wongislandd.infinityindex.viewmodels.rootlist.ComicsListViewModel
+import com.wongislandd.infinityindex.viewmodels.rootlist.AllComicsListViewModel
 import com.wongislandd.infinityindex.models.local.Comic
 import com.wongislandd.infinityindex.transformers.ComicTransformer
 import com.wongislandd.infinityindex.entities.comics.transformers.RelatedDatesTransformer
@@ -20,30 +20,30 @@ import com.wongislandd.infinityindex.entities.comics.transformers.RelatedPricesT
 import com.wongislandd.infinityindex.entities.comics.transformers.RelatedTextsTransformer
 import com.wongislandd.infinityindex.entities.creators.CreatorDetailsScreenStateSlice
 import com.wongislandd.infinityindex.entities.creators.CreatorDetailsViewModel
-import com.wongislandd.infinityindex.viewmodels.rootlist.CreatorsListViewModel
+import com.wongislandd.infinityindex.viewmodels.rootlist.AllCreatorsListViewModel
 import com.wongislandd.infinityindex.transformers.CreatorTransformer
 import com.wongislandd.infinityindex.viewmodels.rootlist.AllCreatorsPagingSlice
-import com.wongislandd.infinityindex.viewmodels.rootlist.CreatorsListScreenStateSlice
+import com.wongislandd.infinityindex.viewmodels.shared.CreatorsListScreenStateSlice
 import com.wongislandd.infinityindex.models.local.Creator
 import com.wongislandd.infinityindex.entities.events.EventDetailsScreenStateSlice
 import com.wongislandd.infinityindex.entities.events.EventDetailsViewModel
-import com.wongislandd.infinityindex.viewmodels.rootlist.EventsListScreenStateSlice
-import com.wongislandd.infinityindex.viewmodels.rootlist.EventsListViewModel
+import com.wongislandd.infinityindex.viewmodels.shared.EventsListScreenStateSlice
+import com.wongislandd.infinityindex.viewmodels.rootlist.AllEventsListViewModel
 import com.wongislandd.infinityindex.viewmodels.rootlist.AllEventsPagingSlice
 import com.wongislandd.infinityindex.models.local.Event
 import com.wongislandd.infinityindex.transformers.EventTransformer
 import com.wongislandd.infinityindex.entities.series.SeriesDetailsScreenStateSlice
 import com.wongislandd.infinityindex.entities.series.SeriesDetailsViewModel
 import com.wongislandd.infinityindex.viewmodels.rootlist.AllSeriesPagingSlice
-import com.wongislandd.infinityindex.viewmodels.rootlist.SeriesListScreenStateSlice
-import com.wongislandd.infinityindex.viewmodels.rootlist.SeriesListViewModel
+import com.wongislandd.infinityindex.viewmodels.shared.SeriesListScreenStateSlice
+import com.wongislandd.infinityindex.viewmodels.rootlist.AllSeriesListViewModel
 import com.wongislandd.infinityindex.transformers.SeriesTransformer
 import com.wongislandd.infinityindex.models.local.Series
 import com.wongislandd.infinityindex.viewmodels.rootlist.AllStoriesPagingSlice
 import com.wongislandd.infinityindex.entities.stories.StoriesListScreenStateSlice
-import com.wongislandd.infinityindex.viewmodels.rootlist.StoriesListViewModel
+import com.wongislandd.infinityindex.viewmodels.rootlist.AllStoriesListViewModel
 import com.wongislandd.infinityindex.entities.stories.StoryDetailsViewModel
-import com.wongislandd.infinityindex.viewmodels.rootlist.StoryDetailsScreenStateSlice
+import com.wongislandd.infinityindex.viewmodels.shared.StoryDetailsScreenStateSlice
 import com.wongislandd.infinityindex.transformers.StoryTransformer
 import com.wongislandd.infinityindex.models.local.Story
 import com.wongislandd.infinityindex.infra.viewmodels.BaseDetailsScreenStateSlice
@@ -58,6 +58,7 @@ import com.wongislandd.infinityindex.repositories.StoriesEntityRepository
 import com.wongislandd.infinityindex.viewmodels.relatedlist.RelatedCharactersSlice
 import com.wongislandd.infinityindex.viewmodels.relatedlist.RelatedComicsSlice
 import com.wongislandd.infinityindex.viewmodels.relatedlist.RelatedCreatorsSlice
+import com.wongislandd.infinityindex.viewmodels.relatedlist.*
 import com.wongislandd.infinityindex.viewmodels.relatedlist.RelatedEventsSlice
 import com.wongislandd.infinityindex.viewmodels.relatedlist.RelatedSeriesSlice
 import com.wongislandd.infinityindex.viewmodels.relatedlist.RelatedStoriesSlice
@@ -81,7 +82,9 @@ val entitiesModule = module {
     singleOf(::EventTransformer)
     singleOf(::EventsEntityRepository)
     viewModelOf(::EventDetailsViewModel)
-    viewModelOf(::EventsListViewModel)
+    viewModelOf(::AllEventsListViewModel)
+    viewModelOf(::RelatedEventsListViewModel)
+
 
     // Comic-related
     factoryOf<BaseDetailsScreenStateSlice<Comic>>(::ComicDetailsScreenStateSlice)
@@ -92,7 +95,9 @@ val entitiesModule = module {
     singleOf(::ComicTransformer)
     singleOf(::ComicsEntityRepository)
     viewModelOf(::ComicDetailsViewModel)
-    viewModelOf(::ComicsListViewModel)
+    viewModelOf(::AllComicsListViewModel)
+    viewModelOf(::RelatedComicsListViewModel)
+
 
     // Creator-related
     factoryOf<BaseDetailsScreenStateSlice<Creator>>(::CreatorDetailsScreenStateSlice)
@@ -103,7 +108,8 @@ val entitiesModule = module {
     singleOf(::CreatorTransformer)
     singleOf(::CreatorsEntityRepository)
     viewModelOf(::CreatorDetailsViewModel)
-    viewModelOf(::CreatorsListViewModel)
+    viewModelOf(::AllCreatorsListViewModel)
+    viewModelOf(::RelatedCreatorsListViewModel)
 
     // Story-related
     factoryOf<BaseDetailsScreenStateSlice<Story>>(::StoryDetailsScreenStateSlice)
@@ -114,7 +120,8 @@ val entitiesModule = module {
     singleOf(::StoryTransformer)
     singleOf(::StoriesEntityRepository)
     viewModelOf(::StoryDetailsViewModel)
-    viewModelOf(::StoriesListViewModel)
+    viewModelOf(::AllStoriesListViewModel)
+    viewModelOf(::RelatedStoriesListViewModel)
 
     // Series-related
     factoryOf<BaseDetailsScreenStateSlice<Series>>(::SeriesDetailsScreenStateSlice)
@@ -125,7 +132,8 @@ val entitiesModule = module {
     singleOf(::SeriesTransformer)
     singleOf(::SeriesEntityRepository)
     viewModelOf(::SeriesDetailsViewModel)
-    viewModelOf(::SeriesListViewModel)
+    viewModelOf(::AllSeriesListViewModel)
+    viewModelOf(::RelatedSeriesListViewModel)
 
     // Character-related
     factoryOf<BaseDetailsScreenStateSlice<Character>>(::CharacterDetailsScreenStateSlice)
@@ -136,7 +144,8 @@ val entitiesModule = module {
     singleOf(::CharacterTransformer)
     singleOf(::CharactersEntityRepository)
     viewModelOf(::CharacterDetailsViewModel)
-    viewModelOf(::CharactersListViewModel)
+    viewModelOf(::AllCharactersListViewModel)
+    viewModelOf(::RelatedCharactersListViewModel)
 
     // Other transformers and singletons
     singleOf(::RelatedDatesTransformer)

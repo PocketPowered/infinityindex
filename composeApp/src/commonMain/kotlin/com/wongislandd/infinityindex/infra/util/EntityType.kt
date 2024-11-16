@@ -10,37 +10,37 @@ enum class EntityType(
 ) {
     COMICS(
         "Comics",
-        NavigationItem.ComicListScreen.route,
+        NavigationItem.AllComicListScreen.route,
         "comics",
         SearchParamType.TITLE_STARTS_WITH
     ),
     CHARACTERS(
         "Characters",
-        NavigationItem.CharacterListScreen.route,
+        NavigationItem.AllCharacterListScreen.route,
         "characters",
         SearchParamType.NAME_STARTS_WITH
     ),
     CREATORS(
         "Creators",
-        NavigationItem.CreatorListScreen.route,
+        NavigationItem.AllCreatorListScreen.route,
         "creators",
         SearchParamType.NAME_STARTS_WITH
     ),
     EVENTS(
         "Events",
-        NavigationItem.EventListScreen.route,
+        NavigationItem.AllEventListScreen.route,
         "events",
         SearchParamType.NAME_STARTS_WITH
     ),
     SERIES(
         "Series",
-        NavigationItem.SeriesListScreen.route,
+        NavigationItem.AllSeriesListScreen.route,
         "series",
         SearchParamType.TITLE_STARTS_WITH
     ),
     STORIES(
         "Stories",
-        NavigationItem.StoriesListScreen.route,
+        NavigationItem.AllStoriesListScreen.route,
         "stories",
         null
     ),

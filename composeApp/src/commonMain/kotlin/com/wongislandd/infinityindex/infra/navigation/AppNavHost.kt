@@ -10,21 +10,21 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.wongislandd.infinityindex.entities.characters.CharacterDetailsViewModel
-import com.wongislandd.infinityindex.viewmodels.rootlist.CharactersListViewModel
+import com.wongislandd.infinityindex.viewmodels.rootlist.AllCharactersListViewModel
 import com.wongislandd.infinityindex.models.network.NetworkCharacter
 import com.wongislandd.infinityindex.entities.comics.ComicDetailsViewModel
-import com.wongislandd.infinityindex.viewmodels.rootlist.ComicsListViewModel
+import com.wongislandd.infinityindex.viewmodels.rootlist.AllComicsListViewModel
 import com.wongislandd.infinityindex.models.network.NetworkComic
 import com.wongislandd.infinityindex.entities.creators.CreatorDetailsViewModel
-import com.wongislandd.infinityindex.viewmodels.rootlist.CreatorsListViewModel
+import com.wongislandd.infinityindex.viewmodels.rootlist.AllCreatorsListViewModel
 import com.wongislandd.infinityindex.models.network.NetworkCreator
 import com.wongislandd.infinityindex.entities.events.EventDetailsViewModel
-import com.wongislandd.infinityindex.viewmodels.rootlist.EventsListViewModel
+import com.wongislandd.infinityindex.viewmodels.rootlist.AllEventsListViewModel
 import com.wongislandd.infinityindex.models.network.NetworkEvent
 import com.wongislandd.infinityindex.entities.series.SeriesDetailsViewModel
-import com.wongislandd.infinityindex.viewmodels.rootlist.SeriesListViewModel
+import com.wongislandd.infinityindex.viewmodels.rootlist.AllSeriesListViewModel
 import com.wongislandd.infinityindex.models.network.NetworkSeries
-import com.wongislandd.infinityindex.viewmodels.rootlist.StoriesListViewModel
+import com.wongislandd.infinityindex.viewmodels.rootlist.AllStoriesListViewModel
 import com.wongislandd.infinityindex.entities.stories.StoryDetailsViewModel
 import com.wongislandd.infinityindex.models.network.NetworkStory
 import com.wongislandd.infinityindex.home.HomeScreen
@@ -114,28 +114,28 @@ fun AppNavHost(
             } else {
                 composable(route = navItem.route) {
                     when (navItem) {
-                        NavigationItem.ComicListScreen -> {
-                            GenericListScreen<NetworkComic, ComicsListViewModel>()
+                        NavigationItem.AllComicListScreen -> {
+                            GenericListScreen<NetworkComic, AllComicsListViewModel>()
                         }
 
-                        NavigationItem.CreatorListScreen -> {
-                            GenericListScreen<NetworkCreator, CreatorsListViewModel>()
+                        NavigationItem.AllCreatorListScreen -> {
+                            GenericListScreen<NetworkCreator, AllCreatorsListViewModel>()
                         }
 
-                        NavigationItem.CharacterListScreen -> {
-                            GenericListScreen<NetworkCharacter, CharactersListViewModel>()
+                        NavigationItem.AllCharacterListScreen -> {
+                            GenericListScreen<NetworkCharacter, AllCharactersListViewModel>()
                         }
 
-                        NavigationItem.SeriesListScreen -> {
-                            GenericListScreen<NetworkSeries, SeriesListViewModel>()
+                        NavigationItem.AllSeriesListScreen -> {
+                            GenericListScreen<NetworkSeries, AllSeriesListViewModel>()
                         }
 
-                        NavigationItem.EventListScreen -> {
-                            GenericListScreen<NetworkEvent, EventsListViewModel>()
+                        NavigationItem.AllEventListScreen -> {
+                            GenericListScreen<NetworkEvent, AllEventsListViewModel>()
                         }
 
-                        NavigationItem.StoriesListScreen -> {
-                            GenericListScreen<NetworkStory, StoriesListViewModel>()
+                        NavigationItem.AllStoriesListScreen -> {
+                            GenericListScreen<NetworkStory, AllStoriesListViewModel>()
                         }
                         NavigationItem.Home -> {
                             HomeScreen()
