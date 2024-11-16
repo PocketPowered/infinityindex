@@ -21,16 +21,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.wongislandd.infinityindex.infra.models.LoadableImage
-import com.wongislandd.infinityindex.infra.models.NavigationContext
 import com.wongislandd.infinityindex.infra.navigation.LocalNavHostController
+import com.wongislandd.infinityindex.infra.util.EntityModel
 import com.wongislandd.infinityindex.infra.util.conditionallyChain
 
 @Composable
 fun EntityCard(
-    image: LoadableImage,
-    title: String,
-    navContext: NavigationContext,
+    entity: EntityModel,
     modifier: Modifier = Modifier
 ) {
     val navController = LocalNavHostController.current
@@ -39,8 +36,8 @@ fun EntityCard(
     Card(
         modifier = modifier
             .wrapContentHeight()
-            .conditionallyChain(navContext.allowNavigation, Modifier.clickable {
-                navController.navigate(navContext.navRoute)
+            .conditionallyChain(entity.navContext.allowNavigation, Modifier.clickable {
+                navController.navigate(entity.navContext.navRoute)
             }),
         backgroundColor = MaterialTheme.colors.primary,
         shape = RoundedCornerShape(16.dp)
@@ -50,7 +47,7 @@ fun EntityCard(
             modifier = Modifier.height(totalHeight)
         ) {
             MarvelImage(
-                image = image,
+                image = entity.image,
                 contentScale = ContentScale.Crop,
                 tint = MaterialTheme.colors.onPrimary,
                 modifier = Modifier.size(width)
@@ -61,7 +58,7 @@ fun EntityCard(
                     .widthIn(max = width)
             ) {
                 Text(
-                    text = title,
+                    text = entity.displayName,
                     style = MaterialTheme.typography.body1,
                     color = MaterialTheme.colors.onPrimary,
                     modifier = Modifier.fillMaxWidth()

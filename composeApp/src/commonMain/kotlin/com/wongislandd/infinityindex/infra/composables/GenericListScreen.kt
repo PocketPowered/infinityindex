@@ -68,6 +68,7 @@ inline fun <NETWORK_TYPE, reified T : BaseListViewModel<NETWORK_TYPE, out Entity
     val coroutineScope = rememberCoroutineScope()
     Scaffold(topBar = {
         GlobalTopAppBar(
+            title = viewModel.screenStateSlice.entityType.displayName,
             isTitleShown = !screenState.searchState.isSearchBoxVisible,
             actions = {
                 ExpandingSearch(
@@ -243,7 +244,7 @@ fun EntityList(
     ) {
         items(pagedEntities.itemCount) { index ->
             pagedEntities[index]?.let { entity ->
-                GenericListEntityCard(entity)
+                EntityCard(entity)
             }
         }
         pagedEntities.apply {

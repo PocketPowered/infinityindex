@@ -4,9 +4,11 @@ enum class NavigationItem(
     val displayName: String,
     private val baseRoute: String,
     val idArg: String? = null,
+    val idArg2: String? = null
 ) {
     StartUp("Start Up", "startUp"),
     Home("Home", "home"),
+    RelatedListScreen("Related","related", "rootEntity", "relatedEntity"),
     ComicListScreen("Comics", "comics"),
     CreatorListScreen("Creators", "creators"),
     CharacterListScreen("Characters", "characters"),

@@ -3,6 +3,7 @@ package com.wongislandd.infinityindex.infra.composables
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -55,7 +56,11 @@ inline fun <reified T : BaseDetailsViewModel<out EntityModel>> GenericDetailsScr
         Box(modifier = Modifier.fillMaxSize()) {
             when (val primaryRes = screenState.primaryRes) {
                 is Resource.Success -> {
-                    AdditionalDetailsContents(primaryRes.data, screenState)
+                    AdditionalDetailsContents(
+                        primaryRes.data,
+                        screenState,
+                        modifier = Modifier.align(Alignment.Center)
+                    )
                 }
 
                 is Resource.Loading -> {
@@ -79,13 +84,12 @@ fun AdditionalDetailsContents(
     screenState: PagingDataConsumerScreenState,
     modifier: Modifier = Modifier
 ) {
-
-    AdditionalDetailsLazyColumn(modifier = modifier) {
+    AdditionalDetailsLazyColumn(modifier = modifier.widthIn(max = 800.dp)) {
         item {
             PrimaryDetailContents(primaryModel, modifier = Modifier.padding(horizontal = 16.dp))
         }
         item {
-            ListOfEntities(screenState)
+            ListOfEntities(screenState, showAllEnabled = true)
         }
     }
 }

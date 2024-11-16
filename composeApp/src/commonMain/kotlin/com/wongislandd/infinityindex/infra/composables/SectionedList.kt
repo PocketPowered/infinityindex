@@ -10,9 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.material.Button
 import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -25,11 +23,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import app.cash.paging.compose.LazyPagingItems
 import com.wongislandd.infinityindex.infra.navigation.LocalNavHostController
-import com.wongislandd.infinityindex.infra.util.DisplayableEntity
+import com.wongislandd.infinityindex.infra.util.EntityModel
 import com.wongislandd.infinityindex.infra.util.EntityType
 
 @Composable
-fun <T : DisplayableEntity> SectionedList(
+fun <T : EntityModel> SectionedList(
     entityType: EntityType,
     totalItemCount: Long?,
     pagedItems: LazyPagingItems<T>,
@@ -56,12 +54,8 @@ fun <T : DisplayableEntity> SectionedList(
             items(
                 count = pagedItems.itemCount
             ) { index ->
-                pagedItems[index]?.let { item ->
-                    EntityCard(
-                        image = item.image,
-                        title = item.displayName,
-                        navContext = item.navContext
-                    )
+                pagedItems[index]?.let { entity ->
+                    EntityCard(entity)
                 }
             }
         }
@@ -83,7 +77,7 @@ private fun EntitySectionHeader(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        val text = totalEntityCount?.let { "${entityType.displayName} ($it)" } ?: entityType.displayName
+        val text = totalEntityCount?.let { "${entityType.displayName}($it)" } ?: entityType.displayName
         Text(
             text = text,
             style = MaterialTheme.typography.h6,
