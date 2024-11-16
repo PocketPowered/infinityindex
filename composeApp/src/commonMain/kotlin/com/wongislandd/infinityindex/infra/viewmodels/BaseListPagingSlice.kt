@@ -79,7 +79,8 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
 
                     override fun onResponse(response: Resource<DataWrapper<LOCAL_TYPE>>) {
                         sliceScope.launch {
-                            backChannelEvents.sendEvent(ListBackChannelEvent.ResponseReceived(entityType))
+                            backChannelEvents.sendEvent(ListBackChannelEvent.UpdateLoadingState(false))
+                            backChannelEvents.sendEvent(ListBackChannelEvent.EntityResponseReceived(entityType))
                         }
                     }
 
@@ -108,7 +109,11 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
         sortOption?.also {
             currentSortOption = sortOption
         }
+        sliceScope.launch {
+            backChannelEvents.sendEvent(ListBackChannelEvent.UpdateLoadingState(true))
+        }
         currentPagingSource?.invalidate()
+
     }
 
 }

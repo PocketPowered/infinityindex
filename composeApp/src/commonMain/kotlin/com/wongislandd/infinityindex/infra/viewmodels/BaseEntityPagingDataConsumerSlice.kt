@@ -63,7 +63,7 @@ abstract class BaseEntityPagingDataConsumerSlice : ViewModelSlice() {
             is ListBackChannelEvent.EntityCountsUpdate -> {
                 handleEntityCountsUpdate(event)
             }
-            is ListBackChannelEvent.ResponseReceived -> {
+            is ListBackChannelEvent.EntityResponseReceived -> {
                 handlePagingResponseSignal(event.entityType)
             }
         }

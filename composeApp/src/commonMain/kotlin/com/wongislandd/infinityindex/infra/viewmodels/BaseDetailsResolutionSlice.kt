@@ -91,7 +91,7 @@ abstract class BaseDetailsResolutionSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel
 
                     override fun onResponse(response: Resource<DataWrapper<LOCAL_TYPE>>) {
                         sliceScope.launch {
-                            backChannelEvents.sendEvent(ListBackChannelEvent.ResponseReceived(entityType))
+                            backChannelEvents.sendEvent(ListBackChannelEvent.EntityResponseReceived(entityType))
                         }
                     }
 

@@ -26,8 +26,7 @@ abstract class BaseListScreenStateSlice<T : EntityModel>(
     private val _screenState: MutableStateFlow<BaseListScreenState> =
         MutableStateFlow(
             BaseListScreenState(
-                // can add logic here to determine when it's not loading
-                isLoading = false,
+                isLoading = true,
                 availableSortOptions = entityType.getSortOptions()
                     .map { SelectableSortOption(it, it.isDefault) },
                 searchState = SearchState(
@@ -48,9 +47,9 @@ abstract class BaseListScreenStateSlice<T : EntityModel>(
                 _listPagingData.value = event.update as PagingData<EntityModel>
             }
 
-            is ListBackChannelEvent.PagingRefreshingUpdate -> {
+            is ListBackChannelEvent.UpdateLoadingState -> {
                 _screenState.update {
-                    it.copy(isLoading = event.refreshing)
+                    it.copy(isLoading = event.isLoading)
                 }
             }
 
