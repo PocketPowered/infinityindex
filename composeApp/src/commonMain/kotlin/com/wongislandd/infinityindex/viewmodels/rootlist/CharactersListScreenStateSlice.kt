@@ -1,4 +1,4 @@
-package com.wongislandd.infinityindex.entities.characters
+package com.wongislandd.infinityindex.viewmodels.rootlist
 
 import com.wongislandd.infinityindex.models.local.Character
 import com.wongislandd.infinityindex.infra.util.EntityType

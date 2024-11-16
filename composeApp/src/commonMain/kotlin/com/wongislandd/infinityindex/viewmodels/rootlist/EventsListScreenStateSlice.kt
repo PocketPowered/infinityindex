@@ -1,4 +1,4 @@
-package com.wongislandd.infinityindex.entities.events
+package com.wongislandd.infinityindex.viewmodels.rootlist
 
 import com.wongislandd.infinityindex.models.local.Event
 import com.wongislandd.infinityindex.infra.util.EntityType

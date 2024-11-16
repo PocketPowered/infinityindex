@@ -1,26 +1,24 @@
-package com.wongislandd.infinityindex.entities.stories
+package com.wongislandd.infinityindex.viewmodels.rootlist
 
-import com.wongislandd.infinityindex.models.network.NetworkStory
-import com.wongislandd.infinityindex.models.local.Story
 import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.util.events.BackChannelEvent
 import com.wongislandd.infinityindex.infra.util.events.EventBus
 import com.wongislandd.infinityindex.infra.util.events.UiEvent
-import com.wongislandd.infinityindex.infra.viewmodels.BaseListScreenStateSlice
 import com.wongislandd.infinityindex.infra.viewmodels.BaseListViewModel
 import com.wongislandd.infinityindex.infra.viewmodels.SearchSlice
 import com.wongislandd.infinityindex.infra.viewmodels.SortSlice
-import com.wongislandd.infinityindex.viewmodels.rootlist.AllStoriesPagingSlice
+import com.wongislandd.infinityindex.models.local.Creator
+import com.wongislandd.infinityindex.models.network.NetworkCreator
 
-class StoriesListViewModel(
-    screenStateSlice: BaseListScreenStateSlice<Story>,
+class CreatorsListViewModel(
+    screenStateSlice: CreatorsListScreenStateSlice,
     sortSlice: SortSlice,
     searchSlice: SearchSlice,
-    pagingSlice: AllStoriesPagingSlice,
+    pagingSlice: AllCreatorsPagingSlice,
     uiEventBus: EventBus<UiEvent>,
     backChannelEventBus: EventBus<BackChannelEvent>
-) : BaseListViewModel<NetworkStory, Story>(
-    entityType = EntityType.STORIES,
+) : BaseListViewModel<NetworkCreator, Creator>(
+    entityType = EntityType.CREATORS,
     screenStateSlice = screenStateSlice,
     sortSlice = sortSlice,
     searchSlice = searchSlice,

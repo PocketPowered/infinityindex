@@ -24,7 +24,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 /**
- * General paging list slice. See about fusing some functionlality of this with [BaseRelatedEntitiesSlice]
+ * General paging list slice
  */
 enum class PagedListUseCase {
     // I'm looking for comics

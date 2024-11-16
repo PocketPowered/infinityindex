@@ -1,4 +1,4 @@
-package com.wongislandd.infinityindex.entities.creators
+package com.wongislandd.infinityindex.viewmodels.rootlist
 
 import com.wongislandd.infinityindex.models.local.Creator
 import com.wongislandd.infinityindex.infra.util.EntityType

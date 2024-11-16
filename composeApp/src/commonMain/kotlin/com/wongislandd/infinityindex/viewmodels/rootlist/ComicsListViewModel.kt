@@ -1,26 +1,24 @@
-package com.wongislandd.infinityindex.entities.series
+package com.wongislandd.infinityindex.viewmodels.rootlist
 
-import com.wongislandd.infinityindex.models.network.NetworkSeries
-import com.wongislandd.infinityindex.models.local.Series
+import com.wongislandd.infinityindex.models.local.Comic
+import com.wongislandd.infinityindex.models.network.NetworkComic
 import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.util.events.BackChannelEvent
 import com.wongislandd.infinityindex.infra.util.events.EventBus
 import com.wongislandd.infinityindex.infra.util.events.UiEvent
-import com.wongislandd.infinityindex.infra.viewmodels.BaseListScreenStateSlice
 import com.wongislandd.infinityindex.infra.viewmodels.BaseListViewModel
 import com.wongislandd.infinityindex.infra.viewmodels.SearchSlice
 import com.wongislandd.infinityindex.infra.viewmodels.SortSlice
-import com.wongislandd.infinityindex.viewmodels.rootlist.AllSeriesPagingSlice
 
-class SeriesListViewModel(
-    screenStateSlice: BaseListScreenStateSlice<Series>,
+class ComicsListViewModel(
+    screenStateSlice: ComicsListScreenStateSlice,
     sortSlice: SortSlice,
     searchSlice: SearchSlice,
-    pagingSlice: AllSeriesPagingSlice,
+    pagingSlice: AllComicsPagingSlice,
     uiEventBus: EventBus<UiEvent>,
     backChannelEventBus: EventBus<BackChannelEvent>
-) : BaseListViewModel<NetworkSeries, Series>(
-    entityType = EntityType.SERIES,
+) : BaseListViewModel<NetworkComic, Comic>(
+    entityType = EntityType.COMICS,
     screenStateSlice = screenStateSlice,
     sortSlice = sortSlice,
     searchSlice = searchSlice,

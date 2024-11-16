@@ -1,4 +1,4 @@
-package com.wongislandd.infinityindex.entities.comics
+package com.wongislandd.infinityindex.viewmodels.rootlist
 
 import com.wongislandd.infinityindex.models.local.Comic
 import com.wongislandd.infinityindex.infra.util.EntityType

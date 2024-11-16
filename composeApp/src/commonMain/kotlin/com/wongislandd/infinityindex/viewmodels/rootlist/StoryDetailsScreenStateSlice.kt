@@ -1,4 +1,4 @@
-package com.wongislandd.infinityindex.entities.stories
+package com.wongislandd.infinityindex.viewmodels.rootlist
 
 import com.wongislandd.infinityindex.models.local.Story
 import com.wongislandd.infinityindex.infra.viewmodels.BaseDetailsScreenStateSlice

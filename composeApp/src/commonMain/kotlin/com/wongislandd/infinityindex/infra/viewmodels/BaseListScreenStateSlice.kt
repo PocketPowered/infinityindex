@@ -17,8 +17,7 @@ import kotlinx.coroutines.flow.update
 
 abstract class BaseListScreenStateSlice<T : EntityModel>(
     val entityType: EntityType
-) :
-    BaseScreenStateSlice<T>, ViewModelSlice() {
+) : BaseScreenStateSlice<T>, ViewModelSlice() {
 
     private val _listPagingData: MutableStateFlow<PagingData<EntityModel>> =
         MutableStateFlow(PagingData.empty())
