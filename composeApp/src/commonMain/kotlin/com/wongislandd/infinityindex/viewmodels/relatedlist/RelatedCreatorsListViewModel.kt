@@ -1,20 +1,23 @@
 package com.wongislandd.infinityindex.viewmodels.relatedlist
 
-import com.wongislandd.infinityindex.infra.util.SliceableViewModel
 import com.wongislandd.infinityindex.infra.util.events.BackChannelEvent
 import com.wongislandd.infinityindex.infra.util.events.EventBus
 import com.wongislandd.infinityindex.infra.util.events.UiEvent
+import com.wongislandd.infinityindex.infra.viewmodels.BaseListViewModel
+import com.wongislandd.infinityindex.models.local.Creator
+import com.wongislandd.infinityindex.models.network.NetworkCreator
 import com.wongislandd.infinityindex.viewmodels.shared.CreatorsListScreenStateSlice
 
 class RelatedCreatorsListViewModel(
     uiEventBus: EventBus<UiEvent>,
-    creatorsListScreenStateSlice: CreatorsListScreenStateSlice,
     relatedCreatorsSlice: RelatedCreatorsSlice,
+    creatorsListScreenStateSlice: CreatorsListScreenStateSlice,
     backChannelEventBus: EventBus<BackChannelEvent>
-) : SliceableViewModel(uiEventBus, backChannelEventBus) {
-
-    init {
-        registerSlice(creatorsListScreenStateSlice)
-        registerSlice(relatedCreatorsSlice)
-    }
-}
+) : BaseListViewModel<NetworkCreator, Creator>(
+    creatorsListScreenStateSlice,
+    null,
+    null,
+    relatedCreatorsSlice,
+    uiEventBus,
+    backChannelEventBus
+)

@@ -1,6 +1,5 @@
 package com.wongislandd.infinityindex.viewmodels.rootlist
 
-import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.util.events.BackChannelEvent
 import com.wongislandd.infinityindex.infra.util.events.EventBus
 import com.wongislandd.infinityindex.infra.util.events.UiEvent
@@ -19,7 +18,6 @@ class AllCharactersListViewModel(
     uiEventBus: EventBus<UiEvent>,
     backChannelEventBus: EventBus<BackChannelEvent>
 ) : BaseListViewModel<NetworkCharacter, Character>(
-    entityType = EntityType.CHARACTERS,
     screenStateSlice = screenStateSlice,
     sortSlice = sortSlice,
     searchSlice = searchSlice,

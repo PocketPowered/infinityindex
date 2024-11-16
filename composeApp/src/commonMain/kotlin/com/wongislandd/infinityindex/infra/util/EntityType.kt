@@ -1,6 +1,6 @@
 package com.wongislandd.infinityindex.infra.util
 
-import com.wongislandd.infinityindex.infra.navigation.NavigationItem
+import NavigationItem
 
 enum class EntityType(
     val displayName: String,

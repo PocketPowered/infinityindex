@@ -31,6 +31,7 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -45,8 +46,10 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import app.cash.paging.compose.LazyPagingItems
 import app.cash.paging.compose.collectAsLazyPagingItems
+import com.wongislandd.infinityindex.infra.DetailsUiEvent
 import com.wongislandd.infinityindex.infra.ListUiEvent
 import com.wongislandd.infinityindex.infra.util.EntityModel
+import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.util.SelectableSortOption
 import com.wongislandd.infinityindex.infra.util.SortOption
 import com.wongislandd.infinityindex.infra.util.events.EventBus
@@ -58,11 +61,32 @@ import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 
+data class RelatedEntityListConfiguration(
+    val rootEntityType: EntityType,
+    val rootEntityId: Int,
+    val relatedEntityType: EntityType,
+    val title: String? = null,
+)
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable
-inline fun <NETWORK_TYPE, reified T : BaseListViewModel<NETWORK_TYPE, out EntityModel>> GenericListScreen() {
+inline fun <NETWORK_TYPE, reified T : BaseListViewModel<NETWORK_TYPE, out EntityModel>> GenericListScreen(
+    relatedListConfig: RelatedEntityListConfiguration? = null
+) {
     val viewModel = koinViewModel<T>()
+
+    // Signal to related plugins to look for these results
+    relatedListConfig?.let {
+        LaunchedEffect(relatedListConfig) {
+            viewModel.uiEventBus.sendEvent(
+                DetailsUiEvent.RelatedListInitialized(
+                    relatedListConfig.rootEntityId,
+                    relatedListConfig.rootEntityType
+                )
+            )
+        }
+    }
+
     val screenState by viewModel.screenStateSlice.screenState.collectAsState()
     val lazyPagingEntities = viewModel.screenStateSlice.listPagingData.collectAsLazyPagingItems()
     val coroutineScope = rememberCoroutineScope()

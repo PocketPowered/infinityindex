@@ -1,9 +1,11 @@
 package com.wongislandd.infinityindex.viewmodels.relatedlist
 
-import com.wongislandd.infinityindex.infra.util.SliceableViewModel
 import com.wongislandd.infinityindex.infra.util.events.BackChannelEvent
 import com.wongislandd.infinityindex.infra.util.events.EventBus
 import com.wongislandd.infinityindex.infra.util.events.UiEvent
+import com.wongislandd.infinityindex.infra.viewmodels.BaseListViewModel
+import com.wongislandd.infinityindex.models.local.Series
+import com.wongislandd.infinityindex.models.network.NetworkSeries
 import com.wongislandd.infinityindex.viewmodels.shared.SeriesListScreenStateSlice
 
 class RelatedSeriesListViewModel(
@@ -11,10 +13,11 @@ class RelatedSeriesListViewModel(
     relatedSeriesSlice: RelatedSeriesSlice,
     seriesListScreenStateSlice: SeriesListScreenStateSlice,
     backChannelEventBus: EventBus<BackChannelEvent>
-) : SliceableViewModel(uiEventBus, backChannelEventBus) {
-
-    init {
-        registerSlice(seriesListScreenStateSlice)
-        registerSlice(relatedSeriesSlice)
-    }
-}
+) : BaseListViewModel<NetworkSeries, Series>(
+    seriesListScreenStateSlice,
+    null,
+    null,
+    relatedSeriesSlice,
+    uiEventBus,
+    backChannelEventBus
+)

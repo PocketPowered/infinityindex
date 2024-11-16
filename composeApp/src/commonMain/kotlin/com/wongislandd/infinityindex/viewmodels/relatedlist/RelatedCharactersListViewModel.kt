@@ -1,20 +1,23 @@
 package com.wongislandd.infinityindex.viewmodels.relatedlist
 
-import com.wongislandd.infinityindex.infra.util.SliceableViewModel
 import com.wongislandd.infinityindex.infra.util.events.BackChannelEvent
 import com.wongislandd.infinityindex.infra.util.events.EventBus
 import com.wongislandd.infinityindex.infra.util.events.UiEvent
+import com.wongislandd.infinityindex.infra.viewmodels.BaseListViewModel
+import com.wongislandd.infinityindex.models.local.Character
+import com.wongislandd.infinityindex.models.network.NetworkCharacter
 import com.wongislandd.infinityindex.viewmodels.shared.CharactersListScreenStateSlice
 
 class RelatedCharactersListViewModel(
     uiEventBus: EventBus<UiEvent>,
-    screenStateSlice: CharactersListScreenStateSlice,
     relatedCharactersSlice: RelatedCharactersSlice,
+    charactersListScreenStateSlice: CharactersListScreenStateSlice,
     backChannelEventBus: EventBus<BackChannelEvent>
-) : SliceableViewModel(uiEventBus, backChannelEventBus) {
-
-    init {
-        registerSlice(screenStateSlice)
-        registerSlice(relatedCharactersSlice)
-    }
-}
+) : BaseListViewModel<NetworkCharacter, Character>(
+    charactersListScreenStateSlice,
+    null,
+    null,
+    relatedCharactersSlice,
+    uiEventBus,
+    backChannelEventBus
+)

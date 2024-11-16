@@ -1,5 +1,3 @@
-package com.wongislandd.infinityindex.infra.navigation
-
 enum class NavigationItem(
     val displayName: String,
     private val baseRoute: String,
@@ -12,7 +10,7 @@ enum class NavigationItem(
     RelatedListScreen("Related", "related", "rootEntity", "rootEntityId", "relatedEntity"),
     AllComicListScreen("All Comics", "comics"),
     AllCreatorListScreen("All Creators", "creators"),
-    AllCharacterListScreen("ALl Characters", "characters"),
+    AllCharacterListScreen("All Characters", "characters"),
     AllSeriesListScreen("All Series", "series"),
     AllEventListScreen("All Events", "events"),
     AllStoriesListScreen("All Stories", "stories"),
@@ -24,5 +22,8 @@ enum class NavigationItem(
     StoryDetailsScreen("Story Details", "story/details", "storyId");
 
     val route: String
-        get() = if (idArg != null) "$baseRoute/{$idArg}" else baseRoute
+        get() {
+            val args = listOfNotNull(idArg, idArg2, idArg3).joinToString("/") { "{$it}" }
+            return if (args.isNotEmpty()) "$baseRoute/$args" else baseRoute
+        }
 }

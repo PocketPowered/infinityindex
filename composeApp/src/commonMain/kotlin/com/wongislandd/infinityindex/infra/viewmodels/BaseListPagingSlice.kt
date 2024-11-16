@@ -4,6 +4,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import app.cash.paging.Pager
 import com.wongislandd.infinityindex.infra.DetailsBackChannelEvent
+import com.wongislandd.infinityindex.infra.DetailsUiEvent
 import com.wongislandd.infinityindex.infra.ListBackChannelEvent
 import com.wongislandd.infinityindex.infra.networking.models.DataWrapper
 import com.wongislandd.infinityindex.infra.paging.BasePagingSource
@@ -18,6 +19,7 @@ import com.wongislandd.infinityindex.infra.util.Resource
 import com.wongislandd.infinityindex.infra.util.SortOption
 import com.wongislandd.infinityindex.infra.util.ViewModelSlice
 import com.wongislandd.infinityindex.infra.util.events.BackChannelEvent
+import com.wongislandd.infinityindex.infra.util.events.UiEvent
 import com.wongislandd.infinityindex.infra.util.getDefaultSortOption
 import com.wongislandd.infinityindex.infra.util.safeLet
 import kotlinx.coroutines.flow.collectLatest
@@ -122,6 +124,15 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
                 backChannelEvents.sendEvent(
                     ListBackChannelEvent.PagingDataResUpdate(it, entityType)
                 )
+            }
+        }
+    }
+
+    override fun handleUiEvent(event: UiEvent) {
+        when (event) {
+            // For related lists
+            is DetailsUiEvent.RelatedListInitialized -> {
+                initializePaging(event.primaryEntityType, event.primaryId)
             }
         }
     }
