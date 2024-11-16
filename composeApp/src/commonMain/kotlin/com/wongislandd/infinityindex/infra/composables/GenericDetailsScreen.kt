@@ -15,22 +15,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.wongislandd.infinityindex.entities.characters.CharacterDetails
-import com.wongislandd.infinityindex.models.local.Character
 import com.wongislandd.infinityindex.entities.comics.ComicDetails
-import com.wongislandd.infinityindex.models.local.Comic
 import com.wongislandd.infinityindex.entities.creators.CreatorDetails
-import com.wongislandd.infinityindex.models.local.Creator
 import com.wongislandd.infinityindex.entities.events.EventDetails
-import com.wongislandd.infinityindex.models.local.Event
 import com.wongislandd.infinityindex.entities.series.SeriesDetails
-import com.wongislandd.infinityindex.models.local.Series
 import com.wongislandd.infinityindex.entities.stories.StoryDetails
-import com.wongislandd.infinityindex.models.local.Story
 import com.wongislandd.infinityindex.infra.DetailsUiEvent
 import com.wongislandd.infinityindex.infra.util.EntityModel
 import com.wongislandd.infinityindex.infra.util.Resource
+import com.wongislandd.infinityindex.infra.util.getEntityType
 import com.wongislandd.infinityindex.infra.viewmodels.BaseDetailsViewModel
 import com.wongislandd.infinityindex.infra.viewmodels.PagingDataConsumerScreenState
+import com.wongislandd.infinityindex.models.local.Character
+import com.wongislandd.infinityindex.models.local.Comic
+import com.wongislandd.infinityindex.models.local.Creator
+import com.wongislandd.infinityindex.models.local.Event
+import com.wongislandd.infinityindex.models.local.Series
+import com.wongislandd.infinityindex.models.local.Story
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 
@@ -89,7 +90,17 @@ fun AdditionalDetailsContents(
             PrimaryDetailContents(primaryModel, modifier = Modifier.padding(horizontal = 16.dp))
         }
         item {
-            ListOfEntities(screenState, showAllEnabled = true)
+            ListOfEntities(
+                screenState,
+                buildShowMoreRoute = { entityType ->
+                    entityType.viewRelatedNavigationLink(
+                        primaryModel.id,
+                        primaryModel.getEntityType(),
+                        entityType.displayName + " related to " + primaryModel.displayName
+                    )
+                },
+                showAllEnabled = true
+            )
         }
     }
 }

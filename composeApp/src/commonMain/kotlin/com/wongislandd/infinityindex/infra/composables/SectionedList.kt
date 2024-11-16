@@ -27,11 +27,10 @@ import com.wongislandd.infinityindex.infra.util.EntityModel
 import com.wongislandd.infinityindex.infra.util.EntityType
 
 @Composable
-fun <T : EntityModel> SectionedList(
+fun <T : EntityModel> SectionedEntityList(
     entityType: EntityType,
     totalItemCount: Long?,
     pagedItems: LazyPagingItems<T>,
-    itemKey: (T) -> Any? = { it.id },
     showAllNavRoute: String? = null,
 ) {
     if (pagedItems.itemCount == 0) {

@@ -1,5 +1,11 @@
 package com.wongislandd.infinityindex.infra.util
 
+import com.wongislandd.infinityindex.models.local.Character
+import com.wongislandd.infinityindex.models.local.Comic
+import com.wongislandd.infinityindex.models.local.Creator
+import com.wongislandd.infinityindex.models.local.Event
+import com.wongislandd.infinityindex.models.local.Series
+import com.wongislandd.infinityindex.models.local.Story
 import com.wongislandd.infinityindex.sortoptions.CharactersSortOption
 import com.wongislandd.infinityindex.sortoptions.ComicsSortOption
 import com.wongislandd.infinityindex.sortoptions.CreatorsSortOption
@@ -30,5 +36,17 @@ fun EntityType.getSortOptions(): List<SortOption> {
         EntityType.EVENTS -> EventsSortOption.entries.toList()
         EntityType.SERIES -> SeriesSortOption.entries.toList()
         EntityType.STORIES -> StoriesSortOption.entries.toList()
+    }
+}
+
+fun EntityModel.getEntityType(): EntityType {
+    return when (this) {
+        is Comic -> EntityType.COMICS
+        is Character -> EntityType.CHARACTERS
+        is Creator -> EntityType.CREATORS
+        is Event -> EntityType.EVENTS
+        is Series -> EntityType.SERIES
+        is Story -> EntityType.STORIES
+        else -> throw IllegalStateException("Unknown entity type for $this")
     }
 }

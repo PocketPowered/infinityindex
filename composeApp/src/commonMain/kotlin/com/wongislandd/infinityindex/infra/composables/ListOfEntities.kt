@@ -15,6 +15,7 @@ import com.wongislandd.infinityindex.infra.viewmodels.PagingDataConsumerScreenSt
 fun ListOfEntities(
     screenState: PagingDataConsumerScreenState,
     showAllEnabled: Boolean = false,
+    buildShowMoreRoute: (EntityType) -> String = { it.viewAllNavigationLink },
     modifier: Modifier = Modifier
 ) {
     val entityCounts by screenState.entityCountsData.collectAsState()
@@ -36,11 +37,11 @@ fun ListOfEntities(
 
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(16.dp)) {
         sections.forEach { (entityTypeAndCountPair, pagedItems) ->
-            SectionedList(
+            SectionedEntityList(
                 entityType = entityTypeAndCountPair.first,
                 totalItemCount = entityTypeAndCountPair.second,
                 pagedItems = pagedItems,
-                showAllNavRoute = entityTypeAndCountPair.first.relatedNavigationLink.takeIf { showAllEnabled }
+                showAllNavRoute = buildShowMoreRoute(entityTypeAndCountPair.first).takeIf { showAllEnabled }
             )
         }
     }

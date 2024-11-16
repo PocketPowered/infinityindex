@@ -65,7 +65,7 @@ data class RelatedEntityListConfiguration(
     val rootEntityType: EntityType,
     val rootEntityId: Int,
     val relatedEntityType: EntityType,
-    val title: String? = null,
+    val topBarTitle: String? = null,
 )
 
 @OptIn(KoinExperimentalAPI::class)
@@ -92,7 +92,7 @@ inline fun <NETWORK_TYPE, reified T : BaseListViewModel<NETWORK_TYPE, out Entity
     val coroutineScope = rememberCoroutineScope()
     Scaffold(topBar = {
         GlobalTopAppBar(
-            title = viewModel.screenStateSlice.entityType.displayName,
+            title = relatedListConfig?.topBarTitle ?: viewModel.screenStateSlice.entityType.displayName,
             isTitleShown = !screenState.searchState.isSearchBoxVisible,
             actions = {
                 ExpandingSearch(

@@ -21,14 +21,18 @@ import com.wongislandd.infinityindex.infra.composables.GenericDetailsScreen
 import com.wongislandd.infinityindex.infra.composables.GenericListScreen
 import com.wongislandd.infinityindex.infra.composables.RelatedEntityListConfiguration
 import com.wongislandd.infinityindex.infra.util.EntityType
-import com.wongislandd.infinityindex.infra.util.safeLet
 import com.wongislandd.infinityindex.models.network.NetworkCharacter
 import com.wongislandd.infinityindex.models.network.NetworkComic
 import com.wongislandd.infinityindex.models.network.NetworkCreator
 import com.wongislandd.infinityindex.models.network.NetworkEvent
 import com.wongislandd.infinityindex.models.network.NetworkSeries
 import com.wongislandd.infinityindex.models.network.NetworkStory
+import com.wongislandd.infinityindex.viewmodels.relatedlist.RelatedCharactersListViewModel
 import com.wongislandd.infinityindex.viewmodels.relatedlist.RelatedComicsListViewModel
+import com.wongislandd.infinityindex.viewmodels.relatedlist.RelatedCreatorsListViewModel
+import com.wongislandd.infinityindex.viewmodels.relatedlist.RelatedEventsListViewModel
+import com.wongislandd.infinityindex.viewmodels.relatedlist.RelatedSeriesListViewModel
+import com.wongislandd.infinityindex.viewmodels.relatedlist.RelatedStoriesListViewModel
 import com.wongislandd.infinityindex.viewmodels.rootlist.AllCharactersListViewModel
 import com.wongislandd.infinityindex.viewmodels.rootlist.AllComicsListViewModel
 import com.wongislandd.infinityindex.viewmodels.rootlist.AllCreatorsListViewModel
@@ -81,35 +85,52 @@ fun AppNavHost(
         modifier = modifier
     ) {
         NavigationItem.entries.forEach { navItem ->
-            if (navItem == NavigationItem.RelatedListScreen) {
-                safeLet(navItem.idArg, navItem.idArg2, navItem.idArg3) { idArg, idArg2, idArg3 ->
-                    composable(
-                        route = navItem.route,
-                        arguments = listOf(
-                            navArgument(idArg) { type = NavType.StringType },
-                            navArgument(idArg2) { type = NavType.IntType },
-                            navArgument(idArg3) { type = NavType.StringType }
-                        )
-                    ) { backStackEntry ->
-                        val primaryEntityType = backStackEntry.arguments?.getString(navItem.idArg)
-                            ?: throw IllegalArgumentException("Missing ID argument")
-                        val primaryEntityId = backStackEntry.arguments?.getInt(navItem.idArg2)
-                            ?: throw IllegalArgumentException("Missing ID argument")
-                        val relatedEntityType = backStackEntry.arguments?.getString(navItem.idArg3)
-                            ?: throw IllegalArgumentException("Missing ID argument")
+            if (navItem.idArg != null && navItem.idArg2 != null && navItem.idArg3 != null && navItem.idArg4 != null) {
+                composable(
+                    route = navItem.route,
+                    arguments = listOf(
+                        navArgument(navItem.idArg) { type = NavType.StringType },
+                        navArgument(navItem.idArg2) { type = NavType.IntType },
+                        navArgument(navItem.idArg3) { type = NavType.StringType },
+                        navArgument(navItem.idArg4) { type = NavType.StringType }
+                    )
+                ) { backStackEntry ->
+                    val primaryEntityType = backStackEntry.arguments?.getString(navItem.idArg)
+                        ?: throw IllegalArgumentException("Missing ID argument")
+                    val primaryEntityId = backStackEntry.arguments?.getInt(navItem.idArg2)
+                        ?: throw IllegalArgumentException("Missing ID argument")
+                    val relatedEntityType = backStackEntry.arguments?.getString(navItem.idArg3)
+                        ?: throw IllegalArgumentException("Missing ID argument")
+                    val topBarTitle = backStackEntry.arguments?.getString(navItem.idArg4)
+                        ?: throw IllegalArgumentException("Missing ID argument")
 
-                        // TODO find a better way to parse this
-                        val config = RelatedEntityListConfiguration(
-                            EntityType.valueOf(primaryEntityType),
-                            primaryEntityId,
-                            EntityType.valueOf(relatedEntityType)
-                        )
-                        when (navItem) {
-                            NavigationItem.RelatedListScreen -> {
-                                GenericListScreen<NetworkComic, RelatedComicsListViewModel>(config)
-                            }
-                            else -> Unit
+                    // TODO find a better way to parse this
+                    val config = RelatedEntityListConfiguration(
+                        EntityType.valueOf(primaryEntityType),
+                        primaryEntityId,
+                        EntityType.valueOf(relatedEntityType),
+                        topBarTitle
+                    )
+                    when (navItem) {
+                        NavigationItem.RelatedComicListScreen -> {
+                            GenericListScreen<NetworkComic, RelatedComicsListViewModel>(config)
                         }
+                        NavigationItem.RelatedCreatorsListScreen -> {
+                            GenericListScreen<NetworkCreator, RelatedCreatorsListViewModel>(config)
+                        }
+                        NavigationItem.RelatedCharactersListScreen -> {
+                            GenericListScreen<NetworkCharacter, RelatedCharactersListViewModel>(config)
+                        }
+                        NavigationItem.RelatedSeriesListScreen -> {
+                            GenericListScreen<NetworkSeries, RelatedSeriesListViewModel>(config)
+                        }
+                        NavigationItem.RelatedEventsListScreen -> {
+                            GenericListScreen<NetworkEvent, RelatedEventsListViewModel>(config)
+                        }
+                        NavigationItem.RelatedStoriesListScreen -> {
+                            GenericListScreen<NetworkStory, RelatedStoriesListViewModel>(config)
+                        }
+                        else -> Unit
                     }
                 }
             } else if (navItem.idArg != null) {
@@ -173,9 +194,11 @@ fun AppNavHost(
                         NavigationItem.AllStoriesListScreen -> {
                             GenericListScreen<NetworkStory, AllStoriesListViewModel>()
                         }
+
                         NavigationItem.Home -> {
                             HomeScreen()
                         }
+
                         else -> Unit
                     }
                 }
