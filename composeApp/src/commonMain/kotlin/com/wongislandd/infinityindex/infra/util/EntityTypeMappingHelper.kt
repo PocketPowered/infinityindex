@@ -1,11 +1,11 @@
 package com.wongislandd.infinityindex.infra.util
 
-import com.wongislandd.infinityindex.entities.characters.models.CharactersSortOption
-import com.wongislandd.infinityindex.entities.comics.list.models.ComicsSortOption
-import com.wongislandd.infinityindex.entities.creators.models.CreatorsSortOption
-import com.wongislandd.infinityindex.entities.events.models.EventsSortOption
-import com.wongislandd.infinityindex.entities.series.models.SeriesSortOption
-import com.wongislandd.infinityindex.entities.stories.models.StoriesSortOption
+import com.wongislandd.infinityindex.sortoptions.CharactersSortOption
+import com.wongislandd.infinityindex.sortoptions.ComicsSortOption
+import com.wongislandd.infinityindex.sortoptions.CreatorsSortOption
+import com.wongislandd.infinityindex.sortoptions.EventsSortOption
+import com.wongislandd.infinityindex.sortoptions.SeriesSortOption
+import com.wongislandd.infinityindex.sortoptions.StoriesSortOption
 
 fun EntityType.getDefaultSortOption(): SortOption {
     val discoveredEntityType = when (this) {

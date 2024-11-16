@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.wongislandd.infinityindex.entities.comics.details.models.Comic
+import com.wongislandd.infinityindex.models.local.Comic
 import com.wongislandd.infinityindex.infra.EntityDetails
 import com.wongislandd.infinityindex.infra.composables.SimpleDetailsSection
 import com.wongislandd.infinityindex.infra.composables.DetailsSection

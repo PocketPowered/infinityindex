@@ -1,7 +1,7 @@
 package com.wongislandd.infinityindex.viewmodels.single
 
-import com.wongislandd.infinityindex.entities.creators.models.Creator
-import com.wongislandd.infinityindex.entities.creators.models.NetworkCreator
+import com.wongislandd.infinityindex.models.local.Creator
+import com.wongislandd.infinityindex.models.network.NetworkCreator
 import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.repositories.CreatorsEntityRepository
 

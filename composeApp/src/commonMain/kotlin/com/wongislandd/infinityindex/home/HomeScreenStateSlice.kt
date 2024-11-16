@@ -1,11 +1,11 @@
 package com.wongislandd.infinityindex.home
 
-import com.wongislandd.infinityindex.infra.viewmodels.BaseEntityPagingDataConsumerSlice
+import com.wongislandd.infinityindex.infra.viewmodels.BaseAllEntitiesPagingDataConsumerSlice
 import com.wongislandd.infinityindex.infra.viewmodels.HomeScreenState
 import com.wongislandd.infinityindex.infra.viewmodels.PagingDataConsumerScreenState
 import kotlinx.coroutines.flow.MutableStateFlow
 
-class HomeScreenStateSlice: BaseEntityPagingDataConsumerSlice() {
+class HomeScreenStateSlice: BaseAllEntitiesPagingDataConsumerSlice() {
     private val _screenState: MutableStateFlow<PagingDataConsumerScreenState> =
         MutableStateFlow(
             HomeScreenState(

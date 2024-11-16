@@ -1,8 +1,8 @@
 package com.wongislandd.infinityindex.repositories
 
-import com.wongislandd.infinityindex.entities.events.models.Event
-import com.wongislandd.infinityindex.entities.events.models.NetworkEvent
-import com.wongislandd.infinityindex.entities.events.transformers.EventTransformer
+import com.wongislandd.infinityindex.models.local.Event
+import com.wongislandd.infinityindex.models.network.NetworkEvent
+import com.wongislandd.infinityindex.transformers.EventTransformer
 import com.wongislandd.infinityindex.infra.networking.models.NetworkDataWrapper
 import com.wongislandd.infinityindex.infra.paging.BaseRepository
 import com.wongislandd.infinityindex.infra.util.EntityType

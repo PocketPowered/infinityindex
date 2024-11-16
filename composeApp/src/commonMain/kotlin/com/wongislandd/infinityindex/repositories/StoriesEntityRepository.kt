@@ -1,8 +1,8 @@
 package com.wongislandd.infinityindex.repositories
 
-import com.wongislandd.infinityindex.entities.stories.models.NetworkStory
-import com.wongislandd.infinityindex.entities.stories.models.Story
-import com.wongislandd.infinityindex.entities.stories.StoryTransformer
+import com.wongislandd.infinityindex.models.network.NetworkStory
+import com.wongislandd.infinityindex.models.local.Story
+import com.wongislandd.infinityindex.transformers.StoryTransformer
 import com.wongislandd.infinityindex.infra.networking.models.NetworkDataWrapper
 import com.wongislandd.infinityindex.infra.paging.BaseRepository
 import com.wongislandd.infinityindex.infra.util.EntityType

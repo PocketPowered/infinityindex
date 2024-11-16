@@ -3,7 +3,7 @@ package com.wongislandd.infinityindex.entities.stories
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.wongislandd.infinityindex.infra.EntityDetails
-import com.wongislandd.infinityindex.entities.stories.models.Story
+import com.wongislandd.infinityindex.models.local.Story
 import com.wongislandd.infinityindex.infra.composables.SimpleDetailsSection
 
 @Composable

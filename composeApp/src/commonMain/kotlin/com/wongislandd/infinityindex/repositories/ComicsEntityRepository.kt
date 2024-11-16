@@ -1,8 +1,8 @@
 package com.wongislandd.infinityindex.repositories
 
-import com.wongislandd.infinityindex.entities.comics.details.models.Comic
-import com.wongislandd.infinityindex.entities.comics.details.transformers.ComicTransformer
-import com.wongislandd.infinityindex.entities.comics.list.models.NetworkComic
+import com.wongislandd.infinityindex.models.local.Comic
+import com.wongislandd.infinityindex.transformers.ComicTransformer
+import com.wongislandd.infinityindex.models.network.NetworkComic
 import com.wongislandd.infinityindex.infra.networking.models.NetworkDataWrapper
 import com.wongislandd.infinityindex.infra.paging.BaseRepository
 import com.wongislandd.infinityindex.infra.util.EntityType

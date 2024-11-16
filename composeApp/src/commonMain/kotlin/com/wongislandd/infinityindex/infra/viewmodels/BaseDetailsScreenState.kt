@@ -1,12 +1,12 @@
 package com.wongislandd.infinityindex.infra.viewmodels
 
 import app.cash.paging.PagingData
-import com.wongislandd.infinityindex.entities.characters.models.Character
-import com.wongislandd.infinityindex.entities.comics.details.models.Comic
-import com.wongislandd.infinityindex.entities.creators.models.Creator
-import com.wongislandd.infinityindex.entities.events.models.Event
-import com.wongislandd.infinityindex.entities.series.models.Series
-import com.wongislandd.infinityindex.entities.stories.models.Story
+import com.wongislandd.infinityindex.models.local.Character
+import com.wongislandd.infinityindex.models.local.Comic
+import com.wongislandd.infinityindex.models.local.Creator
+import com.wongislandd.infinityindex.models.local.Event
+import com.wongislandd.infinityindex.models.local.Series
+import com.wongislandd.infinityindex.models.local.Story
 import com.wongislandd.infinityindex.infra.util.EntityModel
 import com.wongislandd.infinityindex.infra.util.Resource
 import kotlinx.coroutines.flow.StateFlow

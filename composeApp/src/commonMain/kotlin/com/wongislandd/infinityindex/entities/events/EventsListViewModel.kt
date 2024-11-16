@@ -1,7 +1,7 @@
 package com.wongislandd.infinityindex.entities.events
 
-import com.wongislandd.infinityindex.entities.events.models.Event
-import com.wongislandd.infinityindex.entities.events.models.NetworkEvent
+import com.wongislandd.infinityindex.models.local.Event
+import com.wongislandd.infinityindex.models.network.NetworkEvent
 import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.util.events.BackChannelEvent
 import com.wongislandd.infinityindex.infra.util.events.EventBus
@@ -10,12 +10,13 @@ import com.wongislandd.infinityindex.infra.viewmodels.BaseListScreenStateSlice
 import com.wongislandd.infinityindex.infra.viewmodels.BaseListViewModel
 import com.wongislandd.infinityindex.infra.viewmodels.SearchSlice
 import com.wongislandd.infinityindex.infra.viewmodels.SortSlice
+import com.wongislandd.infinityindex.viewmodels.rootlist.AllEventsPagingSlice
 
 class EventsListViewModel(
     screenStateSlice: BaseListScreenStateSlice<Event>,
     sortSlice: SortSlice,
     searchSlice: SearchSlice,
-    pagingSlice: EventsListPagingSlice,
+    pagingSlice: AllEventsPagingSlice,
     uiEventBus: EventBus<UiEvent>,
     backChannelEventBus: EventBus<BackChannelEvent>
 ) : BaseListViewModel<NetworkEvent, Event>(

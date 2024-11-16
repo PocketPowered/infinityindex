@@ -1,6 +1,6 @@
 package com.wongislandd.infinityindex
 
-import com.wongislandd.infinityindex.entities.comics.list.models.ComicsSortOption
+import com.wongislandd.infinityindex.sortoptions.ComicsSortOption
 
 object ComicConstants {
     val DEFAULT_SORT_OPTION = ComicsSortOption.MODIFIED_DESC

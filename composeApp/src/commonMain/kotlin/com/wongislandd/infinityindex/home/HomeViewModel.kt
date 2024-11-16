@@ -1,12 +1,12 @@
 package com.wongislandd.infinityindex.home
 
 import app.cash.paging.PagingConfig
-import com.wongislandd.infinityindex.entities.characters.CharactersListPagingSlice
-import com.wongislandd.infinityindex.entities.comics.ComicsListPagingSlice
-import com.wongislandd.infinityindex.entities.creators.CreatorsListPagingSlice
-import com.wongislandd.infinityindex.entities.events.EventsListPagingSlice
-import com.wongislandd.infinityindex.entities.series.SeriesListPagingSlice
-import com.wongislandd.infinityindex.entities.stories.StoriesListPagingSlice
+import com.wongislandd.infinityindex.viewmodels.rootlist.AllCharactersPagingSlice
+import com.wongislandd.infinityindex.viewmodels.rootlist.AllComicsPagingSlice
+import com.wongislandd.infinityindex.viewmodels.rootlist.AllCreatorsPagingSlice
+import com.wongislandd.infinityindex.viewmodels.rootlist.AllEventsPagingSlice
+import com.wongislandd.infinityindex.viewmodels.rootlist.AllSeriesPagingSlice
+import com.wongislandd.infinityindex.viewmodels.rootlist.AllStoriesPagingSlice
 import com.wongislandd.infinityindex.infra.util.SliceableViewModel
 import com.wongislandd.infinityindex.infra.util.events.BackChannelEvent
 import com.wongislandd.infinityindex.infra.util.events.EventBus
@@ -14,12 +14,12 @@ import com.wongislandd.infinityindex.infra.util.events.UiEvent
 
 class HomeViewModel(
     val screenStateSlice: HomeScreenStateSlice,
-    comicsListPagingSlice: ComicsListPagingSlice,
-    creatorsListPagingSlice: CreatorsListPagingSlice,
-    charactersListPagingSlice: CharactersListPagingSlice,
-    seriesListPagingSlice: SeriesListPagingSlice,
-    storiesListPagingSlice: StoriesListPagingSlice,
-    eventsListPagingSlice: EventsListPagingSlice,
+    allComicsPagingSlice: AllComicsPagingSlice,
+    allCreatorsPagingSlice: AllCreatorsPagingSlice,
+    allCharactersPagingSlice: AllCharactersPagingSlice,
+    allSeriesPagingSlice: AllSeriesPagingSlice,
+    allStoriesPagingSlice: AllStoriesPagingSlice,
+    allEventsPagingSlice: AllEventsPagingSlice,
     uiEventBus: EventBus<UiEvent>,
     backChannelEventBus: EventBus<BackChannelEvent>
 ) : SliceableViewModel(
@@ -29,12 +29,12 @@ class HomeViewModel(
 
     init {
         listOf(
-            comicsListPagingSlice,
-            creatorsListPagingSlice,
-            charactersListPagingSlice,
-            seriesListPagingSlice,
-            storiesListPagingSlice,
-            eventsListPagingSlice
+            allComicsPagingSlice,
+            allCreatorsPagingSlice,
+            allCharactersPagingSlice,
+            allSeriesPagingSlice,
+            allStoriesPagingSlice,
+            allEventsPagingSlice
         ).forEach {
             apply {
                 it.setPagingConfig(
@@ -48,11 +48,11 @@ class HomeViewModel(
             }
         }
         registerSlice(screenStateSlice)
-        registerSlice(comicsListPagingSlice)
-        registerSlice(creatorsListPagingSlice)
-        registerSlice(charactersListPagingSlice)
-        registerSlice(seriesListPagingSlice)
-        registerSlice(storiesListPagingSlice)
-        registerSlice(eventsListPagingSlice)
+        registerSlice(allComicsPagingSlice)
+        registerSlice(allCreatorsPagingSlice)
+        registerSlice(allCharactersPagingSlice)
+        registerSlice(allSeriesPagingSlice)
+        registerSlice(allStoriesPagingSlice)
+        registerSlice(allEventsPagingSlice)
     }
 }

@@ -1,8 +1,8 @@
 package com.wongislandd.infinityindex.repositories
 
-import com.wongislandd.infinityindex.entities.creators.models.Creator
-import com.wongislandd.infinityindex.entities.creators.models.NetworkCreator
-import com.wongislandd.infinityindex.entities.creators.CreatorTransformer
+import com.wongislandd.infinityindex.models.local.Creator
+import com.wongislandd.infinityindex.models.network.NetworkCreator
+import com.wongislandd.infinityindex.transformers.CreatorTransformer
 import com.wongislandd.infinityindex.infra.networking.models.NetworkDataWrapper
 import com.wongislandd.infinityindex.infra.paging.BaseRepository
 import com.wongislandd.infinityindex.infra.util.EntityType

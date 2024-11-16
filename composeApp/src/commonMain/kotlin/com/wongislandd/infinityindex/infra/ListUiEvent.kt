@@ -5,7 +5,7 @@ import com.wongislandd.infinityindex.infra.util.events.UiEvent
 
 sealed class ListUiEvent : UiEvent {
 
-    object SearchClicked: ListUiEvent()
+    data object SearchClicked: ListUiEvent()
 
     data class SortSelected(val sortOption: SortOption): ListUiEvent()
 
@@ -13,5 +13,5 @@ sealed class ListUiEvent : UiEvent {
 
     data class SetPendingSearchQuery(val query: String): ListUiEvent()
 
-    object ClearSearchQuery: ListUiEvent()
+    data object ClearSearchQuery: ListUiEvent()
 }

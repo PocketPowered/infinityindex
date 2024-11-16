@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 abstract class BaseDetailsScreenStateSlice<T : EntityModel> : BaseScreenStateSlice<T>,
-    BaseEntityPagingDataConsumerSlice() {
+    BaseAllEntitiesPagingDataConsumerSlice() {
 
     private val _screenState: MutableStateFlow<BaseDetailsScreenState<T>> =
         MutableStateFlow(

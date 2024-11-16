@@ -1,7 +1,7 @@
 package com.wongislandd.infinityindex.entities.stories
 
-import com.wongislandd.infinityindex.entities.stories.models.NetworkStory
-import com.wongislandd.infinityindex.entities.stories.models.Story
+import com.wongislandd.infinityindex.models.network.NetworkStory
+import com.wongislandd.infinityindex.models.local.Story
 import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.util.events.BackChannelEvent
 import com.wongislandd.infinityindex.infra.util.events.EventBus
@@ -10,12 +10,13 @@ import com.wongislandd.infinityindex.infra.viewmodels.BaseListScreenStateSlice
 import com.wongislandd.infinityindex.infra.viewmodels.BaseListViewModel
 import com.wongislandd.infinityindex.infra.viewmodels.SearchSlice
 import com.wongislandd.infinityindex.infra.viewmodels.SortSlice
+import com.wongislandd.infinityindex.viewmodels.rootlist.AllStoriesPagingSlice
 
 class StoriesListViewModel(
     screenStateSlice: BaseListScreenStateSlice<Story>,
     sortSlice: SortSlice,
     searchSlice: SearchSlice,
-    pagingSlice: StoriesListPagingSlice,
+    pagingSlice: AllStoriesPagingSlice,
     uiEventBus: EventBus<UiEvent>,
     backChannelEventBus: EventBus<BackChannelEvent>
 ) : BaseListViewModel<NetworkStory, Story>(

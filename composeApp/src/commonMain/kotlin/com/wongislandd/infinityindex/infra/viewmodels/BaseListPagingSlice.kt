@@ -3,12 +3,15 @@ package com.wongislandd.infinityindex.infra.viewmodels
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import app.cash.paging.Pager
+import com.wongislandd.infinityindex.infra.DetailsBackChannelEvent
 import com.wongislandd.infinityindex.infra.ListBackChannelEvent
 import com.wongislandd.infinityindex.infra.networking.models.DataWrapper
+import com.wongislandd.infinityindex.infra.paging.BasePagingSource
 import com.wongislandd.infinityindex.infra.paging.BaseRepository
 import com.wongislandd.infinityindex.infra.paging.EntityPagingSource
 import com.wongislandd.infinityindex.infra.paging.PaginationContextWrapper
 import com.wongislandd.infinityindex.infra.paging.PagingSourceCallbacks
+import com.wongislandd.infinityindex.infra.paging.RelatedEntityPagingSource
 import com.wongislandd.infinityindex.infra.util.EntityModel
 import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.util.Resource
@@ -16,57 +19,72 @@ import com.wongislandd.infinityindex.infra.util.SortOption
 import com.wongislandd.infinityindex.infra.util.ViewModelSlice
 import com.wongislandd.infinityindex.infra.util.events.BackChannelEvent
 import com.wongislandd.infinityindex.infra.util.getDefaultSortOption
+import com.wongislandd.infinityindex.infra.util.safeLet
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 /**
  * General paging list slice. See about fusing some functionlality of this with [BaseRelatedEntitiesSlice]
  */
+enum class PagedListUseCase {
+    // I'm looking for comics
+    ALL_AVAILABLE,
+
+    // I'm looking for comics that are related to characters
+    RELATED_ENTITIES
+}
+
 abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
     private val repository: BaseRepository<NETWORK_TYPE, LOCAL_TYPE>,
-    private val entityType: EntityType
+    private val entityType: EntityType,
+    private val useCase: PagedListUseCase
 ) : ViewModelSlice() {
 
-    private var currentPagingSource: EntityPagingSource<NETWORK_TYPE, LOCAL_TYPE>? = null
+    private var currentPagingSource: BasePagingSource<LOCAL_TYPE>? = null
     private var currentSearchQuery: String? = null
     private var currentSortOption: SortOption = entityType.getDefaultSortOption()
+    private var pagingConfig: PagingConfig = getDefaultPagingConfig()
 
-    private var pagingConfig = PagingConfig(
-        initialLoadSize = 40,
-        pageSize = 20,
-        enablePlaceholders = false,
-        prefetchDistance = 10
-    )
-
-    override fun handleBackChannelEvent(event: BackChannelEvent) {
-        when (event) {
-            is ListBackChannelEvent.SubmitSearchQuery -> updatePagingParameters(
-                searchQuery = event.query,
-            )
-
-            is ListBackChannelEvent.SubmitSortSelection -> updatePagingParameters(
-                sortOption = event.sortOption
-            )
+    override fun afterInit() {
+        // If this is a list for a root entity, we don't need to wait on anything
+        if (useCase == PagedListUseCase.ALL_AVAILABLE) {
+            initializePaging()
         }
     }
 
-    fun setPagingConfig(newPagingConfig: PagingConfig) {
-        pagingConfig = newPagingConfig
+    private fun getPagingSource(
+        relatedEntityType: EntityType?,
+        relatedEntityId: Int?
+    ): BasePagingSource<LOCAL_TYPE> {
+        return when (useCase) {
+            PagedListUseCase.ALL_AVAILABLE -> {
+                EntityPagingSource(
+                    repository = repository,
+                    searchQuery = currentSearchQuery,
+                    sortOption = currentSortOption
+                )
+            }
+
+            PagedListUseCase.RELATED_ENTITIES -> {
+                safeLet(relatedEntityType, relatedEntityId) { relatedType, relatedId ->
+                    RelatedEntityPagingSource(repository, relatedType, relatedId)
+                }
+                    ?: throw IllegalArgumentException("Attempted to page related entities before providing a related entity type and id")
+            }
+        }
     }
 
-    override fun afterInit() {
-        initializePaging()
-    }
-
-    private fun initializePaging() {
+    private fun initializePaging(
+        relatedEntityType: EntityType? = null,
+        relatedEntityId: Int? = null
+    ) {
         sliceScope.launch {
             Pager(
                 config = pagingConfig
             ) {
-                val newPagingSource = EntityPagingSource(
-                    repository = repository,
-                    searchQuery = currentSearchQuery,
-                    sortOption = currentSortOption
+                val newPagingSource = getPagingSource(
+                    relatedEntityType,
+                    relatedEntityId
                 ).also { currentPagingSource = it }
                 newPagingSource.registerCallbacks(object : PagingSourceCallbacks {
                     override fun onResponse(response: Resource<DataWrapper<*>>) {
@@ -108,6 +126,23 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
         }
     }
 
+    override fun handleBackChannelEvent(event: BackChannelEvent) {
+        when (event) {
+            is ListBackChannelEvent.SubmitSearchQuery -> updatePagingParameters(
+                searchQuery = event.query,
+            )
+
+            is ListBackChannelEvent.SubmitSortSelection -> updatePagingParameters(
+                sortOption = event.sortOption
+            )
+
+            is DetailsBackChannelEvent.RequestForPagination -> {
+                if (event.relatedEntityTypeToPageFor == entityType) {
+                    initializePaging(event.rootEntityType, event.rootEntityId)
+                }
+            }
+        }
+    }
 
     private fun updatePagingParameters(
         searchQuery: String? = null,
@@ -124,7 +159,35 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
             backChannelEvents.sendEvent(ListBackChannelEvent.UpdateLoadingState(true))
         }
         currentPagingSource?.invalidate()
-
     }
 
+    /**
+     * If the user case is ROOT_ENTITY, should probably call this before registering the slice or else
+     * it may not take effect.
+     */
+    fun setPagingConfig(pagingConfig: PagingConfig) {
+        this.pagingConfig = pagingConfig
+    }
+
+    private fun getDefaultPagingConfig(): PagingConfig {
+        return when (useCase) {
+            PagedListUseCase.ALL_AVAILABLE -> {
+                PagingConfig(
+                    initialLoadSize = 40,
+                    pageSize = 20,
+                    enablePlaceholders = false,
+                    prefetchDistance = 10
+                )
+            }
+
+            PagedListUseCase.RELATED_ENTITIES -> {
+                PagingConfig(
+                    initialLoadSize = 40,
+                    pageSize = 20,
+                    enablePlaceholders = false,
+                    prefetchDistance = 10
+                )
+            }
+        }
+    }
 }

@@ -18,12 +18,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.wongislandd.infinityindex.entities.characters.models.Character
-import com.wongislandd.infinityindex.entities.comics.details.models.Comic
-import com.wongislandd.infinityindex.entities.creators.models.Creator
-import com.wongislandd.infinityindex.entities.events.models.Event
-import com.wongislandd.infinityindex.entities.series.models.Series
-import com.wongislandd.infinityindex.entities.stories.models.Story
+import com.wongislandd.infinityindex.models.local.Character
+import com.wongislandd.infinityindex.models.local.Comic
+import com.wongislandd.infinityindex.models.local.Creator
+import com.wongislandd.infinityindex.models.local.Event
+import com.wongislandd.infinityindex.models.local.Series
+import com.wongislandd.infinityindex.models.local.Story
 import com.wongislandd.infinityindex.infra.util.DisplayableEntity
 import com.wongislandd.infinityindex.infra.util.EntityModel
 

@@ -1,6 +1,6 @@
 package com.wongislandd.infinityindex.infra.di
 
-import com.wongislandd.infinityindex.entities.comics.list.transformers.DateTransformer
+import com.wongislandd.infinityindex.entities.comics.transformers.DateTransformer
 import com.wongislandd.infinityindex.entities.entitiesModule
 import com.wongislandd.infinityindex.home.homeModule
 import com.wongislandd.infinityindex.infra.DetailsBackChannelEvent

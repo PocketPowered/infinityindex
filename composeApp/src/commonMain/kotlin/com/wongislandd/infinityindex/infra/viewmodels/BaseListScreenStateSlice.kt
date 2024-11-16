@@ -1,9 +1,9 @@
 package com.wongislandd.infinityindex.infra.viewmodels
 
 import app.cash.paging.PagingData
-import com.wongislandd.infinityindex.entities.comics.list.models.SearchIntention
-import com.wongislandd.infinityindex.entities.comics.list.models.SearchQuery
-import com.wongislandd.infinityindex.entities.comics.list.models.SearchState
+import com.wongislandd.infinityindex.entities.comics.models.SearchIntention
+import com.wongislandd.infinityindex.entities.comics.models.SearchQuery
+import com.wongislandd.infinityindex.entities.comics.models.SearchState
 import com.wongislandd.infinityindex.infra.ListBackChannelEvent
 import com.wongislandd.infinityindex.infra.util.EntityModel
 import com.wongislandd.infinityindex.infra.util.EntityType
