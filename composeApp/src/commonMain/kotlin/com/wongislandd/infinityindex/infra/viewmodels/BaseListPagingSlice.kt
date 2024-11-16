@@ -19,6 +19,9 @@ import com.wongislandd.infinityindex.infra.util.getDefaultSortOption
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+/**
+ * General paging list slice. See about fusing some functionlality of this with [BaseRelatedEntitiesSlice]
+ */
 abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
     private val repository: BaseRepository<NETWORK_TYPE, LOCAL_TYPE>,
     private val entityType: EntityType
@@ -65,8 +68,23 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
                     searchQuery = currentSearchQuery,
                     sortOption = currentSortOption
                 ).also { currentPagingSource = it }
-                newPagingSource.registerCallbacks(object : PagingSourceCallbacks<LOCAL_TYPE> {
-                    override fun onSuccess(paginationContextWrapper: PaginationContextWrapper<LOCAL_TYPE>) {
+                newPagingSource.registerCallbacks(object : PagingSourceCallbacks {
+                    override fun onResponse(response: Resource<DataWrapper<*>>) {
+                        sliceScope.launch {
+                            backChannelEvents.sendEvent(
+                                ListBackChannelEvent.UpdateLoadingState(
+                                    false
+                                )
+                            )
+                            backChannelEvents.sendEvent(
+                                ListBackChannelEvent.EntityResponseReceived(
+                                    entityType
+                                )
+                            )
+                        }
+                    }
+
+                    override fun onSuccess(paginationContextWrapper: PaginationContextWrapper<*>) {
                         sliceScope.launch {
                             backChannelEvents.sendEvent(
                                 ListBackChannelEvent.EntityCountsUpdate(
@@ -74,13 +92,6 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
                                     entityType = entityType
                                 )
                             )
-                        }
-                    }
-
-                    override fun onResponse(response: Resource<DataWrapper<LOCAL_TYPE>>) {
-                        sliceScope.launch {
-                            backChannelEvents.sendEvent(ListBackChannelEvent.UpdateLoadingState(false))
-                            backChannelEvents.sendEvent(ListBackChannelEvent.EntityResponseReceived(entityType))
                         }
                     }
 

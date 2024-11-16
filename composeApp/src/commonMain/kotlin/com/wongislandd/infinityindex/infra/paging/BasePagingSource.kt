@@ -9,19 +9,19 @@ import app.cash.paging.PagingSourceLoadResultPage
 import com.wongislandd.infinityindex.infra.networking.models.DataWrapper
 import com.wongislandd.infinityindex.infra.util.Resource
 
-interface PagingSourceCallbacks<T> {
-    fun onResponse(response: Resource<DataWrapper<T>>)
+interface PagingSourceCallbacks {
+    fun onResponse(response: Resource<DataWrapper<*>>)
 
-    fun onSuccess(paginationContextWrapper: PaginationContextWrapper<T>)
+    fun onSuccess(paginationContextWrapper: PaginationContextWrapper<*>)
 
     fun onFailure(error: Throwable? = null)
 }
 
 abstract class BasePagingSource<Value : Any> : PagingSource<Int, Value>() {
 
-    private var pagingSourceCallbacks: PagingSourceCallbacks<Value>? = null
+    private var pagingSourceCallbacks: PagingSourceCallbacks? = null
 
-    fun registerCallbacks(callbacks: PagingSourceCallbacks<Value>) {
+    fun registerCallbacks(callbacks: PagingSourceCallbacks) {
         this.pagingSourceCallbacks = callbacks
     }
 

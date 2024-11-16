@@ -1,14 +1,13 @@
-package com.wongislandd.infinityindex.viewmodels
+package com.wongislandd.infinityindex.viewmodels.related
 
 import com.wongislandd.infinityindex.entities.creators.models.Creator
 import com.wongislandd.infinityindex.entities.creators.models.NetworkCreator
 import com.wongislandd.infinityindex.repositories.CreatorsEntityRepository
 import com.wongislandd.infinityindex.infra.util.EntityType
-import com.wongislandd.infinityindex.infra.viewmodels.BaseDetailsResolutionSlice
 
-class CreatorsDetailsResolutionSlice(
+class RelatedCreatorsSlice(
     creatorsRepository: CreatorsEntityRepository
-) : BaseDetailsResolutionSlice<NetworkCreator, Creator>(
+) : BaseRelatedEntitiesSlice<NetworkCreator, Creator>(
     creatorsRepository,
     EntityType.CREATORS
 )

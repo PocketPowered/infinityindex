@@ -1,14 +1,13 @@
-package com.wongislandd.infinityindex.viewmodels
+package com.wongislandd.infinityindex.viewmodels.related
 
 import com.wongislandd.infinityindex.entities.comics.details.models.Comic
 import com.wongislandd.infinityindex.entities.comics.list.models.NetworkComic
 import com.wongislandd.infinityindex.repositories.ComicsEntityRepository
 import com.wongislandd.infinityindex.infra.util.EntityType
-import com.wongislandd.infinityindex.infra.viewmodels.BaseDetailsResolutionSlice
 
-class ComicDetailsResolutionSlice(
+class RelatedComicsSlice(
     comicsRepository: ComicsEntityRepository
-) : BaseDetailsResolutionSlice<NetworkComic, Comic>(
+) : BaseRelatedEntitiesSlice<NetworkComic, Comic>(
     comicsRepository,
     EntityType.COMICS
 )

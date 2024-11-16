@@ -12,9 +12,10 @@ import io.ktor.client.HttpClient
 import io.ktor.client.request.parameter
 import io.ktor.util.reflect.TypeInfo
 
-abstract class BaseRepository<NETWORK_MODEL, LOCAL_MODEL: EntityModel>(
+abstract class BaseRepository<NETWORK_MODEL, LOCAL_MODEL : EntityModel>(
     private val transformer: DataWrapperTransformer<NETWORK_MODEL, LOCAL_MODEL>,
-    okHttpClient: HttpClient, private val primaryEntityType: EntityType,
+    okHttpClient: HttpClient,
+    private val rootEntityType: EntityType,
     private val typeInfo: TypeInfo
 ) : NetworkClient(okHttpClient) {
 
@@ -25,13 +26,13 @@ abstract class BaseRepository<NETWORK_MODEL, LOCAL_MODEL: EntityModel>(
         sortKey: String?,
     ): Resource<DataWrapper<LOCAL_MODEL>> {
         val response: Resource<NetworkDataWrapper<NETWORK_MODEL>> =
-            makeRequest(primaryEntityType.key, typeInfo) {
+            makeRequest(rootEntityType.key, typeInfo) {
                 parameter("offset", start)
                 parameter("limit", count)
                 parameter("orderBy", sortKey)
                 safeLet(
                     searchParam,
-                    primaryEntityType.searchParamType?.key
+                    rootEntityType.searchParamType?.key
                 ) { searchParam, searchParamType ->
                     parameter(searchParamType, searchParam)
                 }
@@ -43,20 +44,28 @@ abstract class BaseRepository<NETWORK_MODEL, LOCAL_MODEL: EntityModel>(
         id: Int
     ): Resource<LOCAL_MODEL> {
         val response: Resource<NetworkDataWrapper<NETWORK_MODEL>> =
-            makeRequest("${primaryEntityType.key}/$id", typeInfo)
+            makeRequest("${rootEntityType.key}/$id", typeInfo)
         return response.map { transformer.transform(it) }.map {
             it.data.results.firstOrNull()
         }
     }
 
+    /**
+     * If this is the Comics Repository, I can use this to find comics
+     * related to another entity. This is designed this way so that this repository
+     * only needs to know how to transform one type of entity.
+     */
     suspend fun getPagedPrimaryEntityRelatedToOtherEntity(
-        otherEntityType: EntityType,
-        otherEntityId: Int,
+        relatedEntityType: EntityType,
+        relatedEntityId: Int,
         start: Int,
         count: Int
     ): Resource<DataWrapper<LOCAL_MODEL>> {
         val response: Resource<NetworkDataWrapper<NETWORK_MODEL>> =
-            makeRequest("${otherEntityType.key}/$otherEntityId/${primaryEntityType.key}", typeInfo) {
+            makeRequest(
+                "${relatedEntityType.key}/$relatedEntityId/${rootEntityType.key}",
+                typeInfo
+            ) {
                 parameter("offset", start)
                 parameter("limit", count)
             }

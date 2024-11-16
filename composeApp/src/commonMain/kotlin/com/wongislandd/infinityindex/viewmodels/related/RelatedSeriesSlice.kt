@@ -1,14 +1,13 @@
-package com.wongislandd.infinityindex.viewmodels
+package com.wongislandd.infinityindex.viewmodels.related
 
 import com.wongislandd.infinityindex.repositories.SeriesEntityRepository
 import com.wongislandd.infinityindex.entities.series.models.NetworkSeries
 import com.wongislandd.infinityindex.entities.series.models.Series
 import com.wongislandd.infinityindex.infra.util.EntityType
-import com.wongislandd.infinityindex.infra.viewmodels.BaseDetailsResolutionSlice
 
-class SeriesDetailsResolutionSlice(
+class RelatedSeriesSlice(
     seriesRepository: SeriesEntityRepository
-) : BaseDetailsResolutionSlice<NetworkSeries, Series>(
+) : BaseRelatedEntitiesSlice<NetworkSeries, Series>(
     seriesRepository,
     EntityType.SERIES
 )

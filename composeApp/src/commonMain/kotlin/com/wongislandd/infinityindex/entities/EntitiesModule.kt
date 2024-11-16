@@ -56,12 +56,13 @@ import com.wongislandd.infinityindex.repositories.ComicsEntityRepository
 import com.wongislandd.infinityindex.repositories.CreatorsEntityRepository
 import com.wongislandd.infinityindex.repositories.SeriesEntityRepository
 import com.wongislandd.infinityindex.repositories.StoriesEntityRepository
-import com.wongislandd.infinityindex.viewmodels.CharactersDetailsResolutionSlice
-import com.wongislandd.infinityindex.viewmodels.ComicDetailsResolutionSlice
-import com.wongislandd.infinityindex.viewmodels.CreatorsDetailsResolutionSlice
-import com.wongislandd.infinityindex.viewmodels.EventsDetailsResolutionSlice
-import com.wongislandd.infinityindex.viewmodels.SeriesDetailsResolutionSlice
-import com.wongislandd.infinityindex.viewmodels.StoriesDetailsResolutionSlice
+import com.wongislandd.infinityindex.viewmodels.related.RelatedCharactersSlice
+import com.wongislandd.infinityindex.viewmodels.related.RelatedComicsSlice
+import com.wongislandd.infinityindex.viewmodels.related.RelatedCreatorsSlice
+import com.wongislandd.infinityindex.viewmodels.related.RelatedEventsSlice
+import com.wongislandd.infinityindex.viewmodels.related.RelatedSeriesSlice
+import com.wongislandd.infinityindex.viewmodels.related.RelatedStoriesSlice
+import com.wongislandd.infinityindex.viewmodels.single.*
 import org.koin.compose.viewmodel.dsl.viewModelOf
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
@@ -74,9 +75,10 @@ val entitiesModule = module {
 
     // Event-related
     factoryOf<BaseDetailsScreenStateSlice<Event>>(::EventDetailsScreenStateSlice)
-    factoryOf(::EventsDetailsResolutionSlice)
+    factoryOf(::RelatedEventsSlice)
     factoryOf<BaseListScreenStateSlice<Event>>(::EventsListScreenStateSlice)
     factoryOf(::EventsListPagingSlice)
+    factoryOf(::SingleEventSlice)
     singleOf(::EventTransformer)
     singleOf(::EventsEntityRepository)
     viewModelOf(::EventDetailsViewModel)
@@ -85,8 +87,9 @@ val entitiesModule = module {
     // Comic-related
     factoryOf<BaseDetailsScreenStateSlice<Comic>>(::ComicDetailsScreenStateSlice)
     factoryOf<BaseListScreenStateSlice<Comic>>(::ComicsListScreenStateSlice)
-    factoryOf(::ComicDetailsResolutionSlice)
+    factoryOf(::RelatedComicsSlice)
     factoryOf(::ComicsListPagingSlice)
+    factoryOf(::SingleComicSlice)
     singleOf(::ComicTransformer)
     singleOf(::ComicsEntityRepository)
     viewModelOf(::ComicDetailsViewModel)
@@ -95,8 +98,9 @@ val entitiesModule = module {
     // Creator-related
     factoryOf<BaseDetailsScreenStateSlice<Creator>>(::CreatorDetailsScreenStateSlice)
     factoryOf<BaseListScreenStateSlice<Creator>>(::CreatorsListScreenStateSlice)
-    factoryOf(::CreatorsDetailsResolutionSlice)
+    factoryOf(::RelatedCreatorsSlice)
     factoryOf(::CreatorsListPagingSlice)
+    factoryOf(::SingleCreatorSlice)
     singleOf(::CreatorTransformer)
     singleOf(::CreatorsEntityRepository)
     viewModelOf(::CreatorDetailsViewModel)
@@ -105,8 +109,9 @@ val entitiesModule = module {
     // Story-related
     factoryOf<BaseDetailsScreenStateSlice<Story>>(::StoryDetailsScreenStateSlice)
     factoryOf<BaseListScreenStateSlice<Story>>(::StoriesListScreenStateSlice)
-    factoryOf(::StoriesDetailsResolutionSlice)
+    factoryOf(::RelatedStoriesSlice)
     factoryOf(::StoriesListPagingSlice)
+    factoryOf(::SingleStorySlice)
     singleOf(::StoryTransformer)
     singleOf(::StoriesEntityRepository)
     viewModelOf(::StoryDetailsViewModel)
@@ -115,7 +120,8 @@ val entitiesModule = module {
     // Series-related
     factoryOf<BaseDetailsScreenStateSlice<Series>>(::SeriesDetailsScreenStateSlice)
     factoryOf<BaseListScreenStateSlice<Series>>(::SeriesListScreenStateSlice)
-    factoryOf(::SeriesDetailsResolutionSlice)
+    factoryOf(::RelatedSeriesSlice)
+    factoryOf(::SingleSeriesSlice)
     factoryOf(::SeriesListPagingSlice)
     singleOf(::SeriesTransformer)
     singleOf(::SeriesEntityRepository)
@@ -125,8 +131,9 @@ val entitiesModule = module {
     // Character-related
     factoryOf<BaseDetailsScreenStateSlice<Character>>(::CharacterDetailsScreenStateSlice)
     factoryOf<BaseListScreenStateSlice<Character>>(::CharactersListScreenStateSlice)
-    factoryOf(::CharactersDetailsResolutionSlice)
+    factoryOf(::RelatedCharactersSlice)
     factoryOf(::CharactersListPagingSlice)
+    factoryOf(::SingleCharacterSlice)
     singleOf(::CharacterTransformer)
     singleOf(::CharactersEntityRepository)
     viewModelOf(::CharacterDetailsViewModel)
