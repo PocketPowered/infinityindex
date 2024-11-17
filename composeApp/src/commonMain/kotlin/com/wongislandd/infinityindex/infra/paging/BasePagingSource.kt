@@ -20,9 +20,14 @@ interface PagingSourceCallbacks {
 abstract class BasePagingSource<Value : Any> : PagingSource<Int, Value>() {
 
     private var pagingSourceCallbacks: PagingSourceCallbacks? = null
+    private var maxNumberOfPages: Int = Int.MAX_VALUE
 
     fun registerCallbacks(callbacks: PagingSourceCallbacks) {
         this.pagingSourceCallbacks = callbacks
+    }
+
+    fun setMaxNumberOfPages(size: Int) {
+        this.maxNumberOfPages = size
     }
 
     protected abstract suspend fun fetchData(start: Int, count: Int): Resource<DataWrapper<Value>>
@@ -37,7 +42,10 @@ abstract class BasePagingSource<Value : Any> : PagingSource<Int, Value>() {
                 is Resource.Success -> {
                     pagingSourceCallbacks?.onSuccess(page.data)
                     val nextOffset = page.data.start + page.data.count
-                    val nextKey = if (nextOffset + params.loadSize <= page.data.total) {
+                    val nextKey = if (nextOffset + limit <= page.data.total && getPageNumber(
+                        nextOffset,
+                        limit
+                    ) < maxNumberOfPages) {
                         nextOffset
                     } else {
                         null
@@ -66,6 +74,10 @@ abstract class BasePagingSource<Value : Any> : PagingSource<Int, Value>() {
     }
 
     override fun getRefreshKey(state: PagingState<Int, Value>): Int? = null
+
+    private fun getPageNumber(itemIndex: Int, pageSize: Int): Int {
+        return itemIndex / pageSize
+    }
 
     private fun paginateResponse(response: Resource<DataWrapper<Value>>): Resource<PaginationContextWrapper<Value>> {
         return response.map { data ->

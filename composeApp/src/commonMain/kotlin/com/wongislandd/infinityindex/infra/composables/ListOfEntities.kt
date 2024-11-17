@@ -14,7 +14,7 @@ import com.wongislandd.infinityindex.infra.viewmodels.PagingDataConsumerScreenSt
 @Composable
 fun ListOfEntities(
     screenState: PagingDataConsumerScreenState,
-    showAllRoute: (EntityType) -> String,
+    showAllRouteGetter: (EntityType) -> String,
     modifier: Modifier = Modifier
 ) {
     val entityCounts by screenState.entityCountsData.collectAsState()
@@ -44,7 +44,7 @@ fun ListOfEntities(
                     entityType = entityType,
                     totalItemCount = totalEntityCount,
                     pagedItems = pagedItems,
-                    showAllRoute = showAllRoute,
+                    showAllRouteGetter = showAllRouteGetter,
                 )
             }
         }

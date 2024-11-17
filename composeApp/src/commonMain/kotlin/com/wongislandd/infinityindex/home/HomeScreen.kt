@@ -36,8 +36,8 @@ fun HomeScreen(modifier: Modifier = Modifier) {
             ) {
                 item {
                     ListOfEntities(screenState,
-                        showAllRoute = {
-                            NavigationHelper.getAllListRoute(it)
+                        showAllRouteGetter = { entityType ->
+                            NavigationHelper.getAllListRoute(entityType)
                         })
                 }
             }

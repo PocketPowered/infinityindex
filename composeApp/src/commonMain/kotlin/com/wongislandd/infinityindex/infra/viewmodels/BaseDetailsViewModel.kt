@@ -1,5 +1,6 @@
 package com.wongislandd.infinityindex.infra.viewmodels
 
+import app.cash.paging.PagingConfig
 import com.wongislandd.infinityindex.infra.util.EntityModel
 import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.util.SliceableViewModel
@@ -21,6 +22,18 @@ abstract class BaseDetailsViewModel<T : EntityModel>(
 
     init {
         registerSlice(screenStateSlice)
-        slices.forEach { registerSlice(it) }
+        slices.forEach {
+            if (it is BaseListPagingSlice<*, *>) {
+                it.setPagingConfig(
+                    PagingConfig(
+                        initialLoadSize = 5,
+                        pageSize = 5,
+                        enablePlaceholders = false
+                    ),
+                    1
+                )
+            }
+            registerSlice(it)
+        }
     }
 }

@@ -93,7 +93,7 @@ fun AdditionalDetailsContents(
         item {
             ListOfEntities(
                 screenState,
-                showAllRoute = { entityType ->
+                showAllRouteGetter = { entityType ->
                     NavigationHelper.getRelatedListRoute(
                         primaryModel.getEntityType(),
                         primaryModel.id,

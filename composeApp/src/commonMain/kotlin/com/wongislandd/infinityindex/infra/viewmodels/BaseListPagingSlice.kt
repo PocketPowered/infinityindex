@@ -46,6 +46,7 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
     private var currentSearchQuery: String? = null
     private var currentSortOption: SortOption = entityType.getDefaultSortOption()
     private var pagingConfig: PagingConfig = getDefaultPagingConfig()
+    private var maxPageLimit: Int? = null
 
     override fun afterInit() {
         // If this is a list for a root entity, we don't need to wait on anything
@@ -88,37 +89,42 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
                     relatedEntityType,
                     relatedEntityId
                 ).also { currentPagingSource = it }
-                newPagingSource.registerCallbacks(object : PagingSourceCallbacks {
-                    override fun onResponse(response: Resource<DataWrapper<*>>) {
-                        sliceScope.launch {
-                            backChannelEvents.sendEvent(
-                                ListBackChannelEvent.UpdateLoadingState(
-                                    false
+                newPagingSource.apply {
+                    maxPageLimit?.also {
+                        setMaxNumberOfPages(it)
+                    }
+                    registerCallbacks(object : PagingSourceCallbacks {
+                        override fun onResponse(response: Resource<DataWrapper<*>>) {
+                            sliceScope.launch {
+                                backChannelEvents.sendEvent(
+                                    ListBackChannelEvent.UpdateLoadingState(
+                                        false
+                                    )
                                 )
-                            )
-                            backChannelEvents.sendEvent(
-                                ListBackChannelEvent.EntityResponseReceived(
-                                    entityType
+                                backChannelEvents.sendEvent(
+                                    ListBackChannelEvent.EntityResponseReceived(
+                                        entityType
+                                    )
                                 )
-                            )
+                            }
                         }
-                    }
 
-                    override fun onSuccess(paginationContextWrapper: PaginationContextWrapper<*>) {
-                        sliceScope.launch {
-                            backChannelEvents.sendEvent(
-                                ListBackChannelEvent.EntityCountsUpdate(
-                                    totalCount = paginationContextWrapper.total,
-                                    entityType = entityType
+                        override fun onSuccess(paginationContextWrapper: PaginationContextWrapper<*>) {
+                            sliceScope.launch {
+                                backChannelEvents.sendEvent(
+                                    ListBackChannelEvent.EntityCountsUpdate(
+                                        totalCount = paginationContextWrapper.total,
+                                        entityType = entityType
+                                    )
                                 )
-                            )
+                            }
                         }
-                    }
 
-                    override fun onFailure(error: Throwable?) {
-                        // do nothing
-                    }
-                })
+                        override fun onFailure(error: Throwable?) {
+                            // do nothing
+                        }
+                    })
+                }
                 newPagingSource
             }.flow.cachedIn(sliceScope).collectLatest {
                 backChannelEvents.sendEvent(
@@ -175,9 +181,13 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
     /**
      * If the user case is ROOT_ENTITY, should probably call this before registering the slice or else
      * it may not take effect.
+     *
+     * Max requested total items is useful for limiting the total pagination separately
+     * from the total results.
      */
-    fun setPagingConfig(pagingConfig: PagingConfig) {
+    fun setPagingConfig(pagingConfig: PagingConfig, maxPageLimit: Int? = null) {
         this.pagingConfig = pagingConfig
+        this.maxPageLimit = maxPageLimit
     }
 
     private fun getDefaultPagingConfig(): PagingConfig {
