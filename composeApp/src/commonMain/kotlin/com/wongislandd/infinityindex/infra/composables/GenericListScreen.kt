@@ -66,6 +66,7 @@ data class RelatedEntityListConfiguration(
     val rootEntityId: Int,
     val relatedEntityType: EntityType,
     val topBarTitle: String? = null,
+    val enableSearchAndFilter: Boolean = false
 )
 
 @OptIn(KoinExperimentalAPI::class)
@@ -95,34 +96,39 @@ inline fun <NETWORK_TYPE, reified T : BaseListViewModel<NETWORK_TYPE, out Entity
             title = relatedListConfig?.topBarTitle ?: viewModel.screenStateSlice.entityType.displayName,
             isTitleShown = !screenState.searchState.isSearchBoxVisible,
             actions = {
-                ExpandingSearch(
-                    isExpanded = screenState.searchState.isSearchBoxVisible,
-                    currentSearchParam = screenState.searchState.searchQuery.text,
-                    onSearchCleared = {
-                        coroutineScope.sendEvent(
-                            viewModel.uiEventBus,
-                            ListUiEvent.ClearSearchQuery
-                        )
-                    },
-                    onSearchParamChanged = { newQuery ->
-                        coroutineScope.sendEvent(
-                            viewModel.uiEventBus,
-                            ListUiEvent.SetPendingSearchQuery(newQuery)
-                        )
-                    },
-                    onSearchParamSubmitted = {
-                        coroutineScope.sendEvent(
-                            viewModel.uiEventBus,
-                            ListUiEvent.SubmitSearchQuery(it)
-                        )
-                    },
-                    onSearchIconClicked = {
-                        coroutineScope.sendEvent(viewModel.uiEventBus, ListUiEvent.SearchClicked)
-                    },
-                )
-                SortSelection(screenState.availableSortOptions, onSortSelected = {
-                    coroutineScope.sendEvent(viewModel.uiEventBus, ListUiEvent.SortSelected(it))
-                })
+                if (relatedListConfig?.enableSearchAndFilter == true) {
+                    ExpandingSearch(
+                        isExpanded = screenState.searchState.isSearchBoxVisible,
+                        currentSearchParam = screenState.searchState.searchQuery.text,
+                        onSearchCleared = {
+                            coroutineScope.sendEvent(
+                                viewModel.uiEventBus,
+                                ListUiEvent.ClearSearchQuery
+                            )
+                        },
+                        onSearchParamChanged = { newQuery ->
+                            coroutineScope.sendEvent(
+                                viewModel.uiEventBus,
+                                ListUiEvent.SetPendingSearchQuery(newQuery)
+                            )
+                        },
+                        onSearchParamSubmitted = {
+                            coroutineScope.sendEvent(
+                                viewModel.uiEventBus,
+                                ListUiEvent.SubmitSearchQuery(it)
+                            )
+                        },
+                        onSearchIconClicked = {
+                            coroutineScope.sendEvent(
+                                viewModel.uiEventBus,
+                                ListUiEvent.SearchClicked
+                            )
+                        },
+                    )
+                    SortSelection(screenState.availableSortOptions, onSortSelected = {
+                        coroutineScope.sendEvent(viewModel.uiEventBus, ListUiEvent.SortSelected(it))
+                    })
+                }
             }
         )
     }) {

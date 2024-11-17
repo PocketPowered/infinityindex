@@ -44,7 +44,7 @@ fun ListOfEntities(
                     entityType = entityType,
                     totalItemCount = totalEntityCount,
                     pagedItems = pagedItems,
-                    showAllRouteGetter = showAllRouteGetter,
+                    showAllRoute = showAllRouteGetter(entityType),
                 )
             }
         }

@@ -34,7 +34,7 @@ fun <T : EntityModel> SectionedEntityList(
     entityType: EntityType,
     totalItemCount: Long,
     pagedItems: LazyPagingItems<T>,
-    showAllRouteGetter: (EntityType) -> String,
+    showAllRoute: String,
 ) {
     val navController = LocalNavHostController.current
     if (!pagedItems.loadState.isInitializing() && pagedItems.itemCount == 0) {
@@ -44,7 +44,7 @@ fun <T : EntityModel> SectionedEntityList(
         EntitySectionHeader(
             entityType = entityType,
             totalEntityCount = totalItemCount,
-            showAllRouteGetter = showAllRouteGetter,
+            showAllRoute = showAllRoute,
             modifier = Modifier.padding(horizontal = 8.dp)
         )
         LazyRow(
@@ -72,16 +72,18 @@ fun <T : EntityModel> SectionedEntityList(
                             }
                         }
                     }
+
                     loadState.isDoneLoading() -> {
                         item {
                             SeeMoreEntityCard(modifier = Modifier
                                 .clickable {
                                     navController.navigate(
-                                        showAllRouteGetter(entityType)
+                                        showAllRoute
                                     )
                                 })
                         }
                     }
+
                     loadState.append == LoadState.Loading -> {
                         item {
                             CircularProgressIndicator()
@@ -98,7 +100,7 @@ fun <T : EntityModel> SectionedEntityList(
 private fun EntitySectionHeader(
     entityType: EntityType,
     totalEntityCount: Long,
-    showAllRouteGetter: ((EntityType) -> String)?,
+    showAllRoute: String,
     modifier: Modifier = Modifier
 ) {
     val navController = LocalNavHostController.current
@@ -116,21 +118,22 @@ private fun EntitySectionHeader(
             textAlign = TextAlign.Start,
             modifier = modifier.padding(vertical = 8.dp)
         )
-        showAllRouteGetter?.also { showAllRouteGetter ->
-            Row(modifier = Modifier.clickable { navController.navigate(
-                showAllRouteGetter(entityType)
-            ) }) {
-                Text(text = "See all", fontWeight = FontWeight.Thin)
-                Spacer(modifier = Modifier.width(8.dp))
-                Icon(
-                    Icons.AutoMirrored.Filled.ArrowForward,
-                    contentDescription = "See all"
-                )
-            }
+        Row(modifier = Modifier.clickable {
+            navController.navigate(
+                showAllRoute
+            )
+        }) {
+            Text(text = "See all", fontWeight = FontWeight.Thin)
+            Spacer(modifier = Modifier.width(8.dp))
+            Icon(
+                Icons.AutoMirrored.Filled.ArrowForward,
+                contentDescription = "See all"
+            )
         }
     }
 }
 
 private fun CombinedLoadStates.isInitializing() = this.refresh == LoadState.Loading
 
-private fun CombinedLoadStates.isDoneLoading() = this.refresh is LoadState.NotLoading && this.append.endOfPaginationReached
+private fun CombinedLoadStates.isDoneLoading() =
+    this.refresh is LoadState.NotLoading && this.append.endOfPaginationReached

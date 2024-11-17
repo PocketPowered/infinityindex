@@ -17,11 +17,11 @@ object NavigationHelper {
     ): String {
         val navigationItem = when (relatedEntityType) {
             EntityType.CHARACTERS -> {
-                NavigationItem.RelatedComicListScreen
+                NavigationItem.RelatedCharactersListScreen
             }
 
             EntityType.COMICS -> {
-                NavigationItem.RelatedCharactersListScreen
+                NavigationItem.RelatedComicListScreen
             }
 
             EntityType.CREATORS -> {
