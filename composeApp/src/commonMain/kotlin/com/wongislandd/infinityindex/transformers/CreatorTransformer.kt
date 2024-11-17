@@ -29,7 +29,8 @@ class CreatorTransformer(
                 navContext = NavigationContext(
                     NavigationHelper.getDetailsRoute(
                         EntityType.CREATORS,
-                        id
+                        id,
+                        name
                     )
                 ),
                 image = loadableImageTransformer.transform(

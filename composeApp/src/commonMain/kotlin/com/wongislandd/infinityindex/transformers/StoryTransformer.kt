@@ -35,7 +35,8 @@ class StoryTransformer(
                 navContext = NavigationContext(
                     NavigationHelper.getDetailsRoute(
                         EntityType.STORIES,
-                        id
+                        id,
+                        title
                     )
                 ),
                 type = input.type?.takeIf { it.isNotBlank() },

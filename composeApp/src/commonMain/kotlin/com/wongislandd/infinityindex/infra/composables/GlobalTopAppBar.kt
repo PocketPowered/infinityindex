@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.map
 
 @Composable
 fun GlobalTopAppBar(
-    title: String = "Infinity Index",
+    title: String? = null,
     isTitleShown: Boolean = true,
     showBackButton: Boolean = true,
     actions: (@Composable RowScope.() -> Unit) = {},
@@ -41,7 +41,7 @@ fun GlobalTopAppBar(
     TopAppBar(
         title = {
             if (isTitleShown) {
-                Text(title, color = MaterialTheme.colors.onPrimary)
+                Text(title ?: "Infinity Index", color = MaterialTheme.colors.onPrimary)
             }
         },
         navigationIcon = backButton,

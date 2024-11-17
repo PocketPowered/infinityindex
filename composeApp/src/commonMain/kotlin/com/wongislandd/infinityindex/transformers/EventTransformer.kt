@@ -29,7 +29,8 @@ class EventTransformer(
                 navContext = NavigationContext(
                     NavigationHelper.getDetailsRoute(
                         EntityType.EVENTS,
-                        id
+                        id,
+                        title
                     )
                 ),
                 image = loadableImageTransformer.transform(

@@ -108,33 +108,43 @@ fun AppNavHost(
                 NavigationItemType.DETAILS -> {
                     composable(
                         route = navItem.route,
-                        arguments = listOf(navArgument(ID_ARG) { type = NavType.IntType })
+                        arguments = listOf(
+                            navArgument(ID_ARG) { type = NavType.IntType },
+                            navArgument(TITLE_ARG) { type = NavType.StringType; nullable = true }
+                        )
                     ) { backStackEntry ->
                         val primaryId = backStackEntry.arguments?.getInt(ID_ARG)
                             ?: throw IllegalArgumentException("Missing ID argument")
+                        val title = backStackEntry.arguments?.getString(TITLE_ARG)
                         when (navItem) {
                             NavigationItem.ComicDetailsScreen -> GenericDetailsScreen<ComicDetailsViewModel>(
-                                primaryId
+                                primaryId,
+                                title
                             )
 
                             NavigationItem.CreatorDetailsScreen -> GenericDetailsScreen<CreatorDetailsViewModel>(
-                                primaryId
+                                primaryId,
+                                title
                             )
 
                             NavigationItem.CharacterDetailsScreen -> GenericDetailsScreen<CharacterDetailsViewModel>(
-                                primaryId
+                                primaryId,
+                                title
                             )
 
                             NavigationItem.SeriesDetailsScreen -> GenericDetailsScreen<SeriesDetailsViewModel>(
-                                primaryId
+                                primaryId,
+                                title
                             )
 
                             NavigationItem.EventDetailsScreen -> GenericDetailsScreen<EventDetailsViewModel>(
-                                primaryId
+                                primaryId,
+                                title
                             )
 
                             NavigationItem.StoryDetailsScreen -> GenericDetailsScreen<StoryDetailsViewModel>(
-                                primaryId
+                                primaryId,
+                                title
                             )
 
                             else -> throw IllegalStateException()

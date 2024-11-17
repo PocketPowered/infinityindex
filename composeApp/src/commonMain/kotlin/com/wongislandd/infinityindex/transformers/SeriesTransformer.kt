@@ -30,7 +30,8 @@ class SeriesTransformer(
                 navContext = NavigationContext(
                     NavigationHelper.getDetailsRoute(
                         EntityType.SERIES,
-                        id
+                        id,
+                        title
                     )
                 ),
                 image = loadableImageTransformer.transform(

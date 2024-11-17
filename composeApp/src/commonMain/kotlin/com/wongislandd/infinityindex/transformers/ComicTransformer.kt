@@ -66,7 +66,8 @@ class ComicTransformer(
                 navContext = NavigationContext(
                     NavigationHelper.getDetailsRoute(
                         EntityType.COMICS,
-                        id
+                        id,
+                        title
                     )
                 ),
                 pageCount = input.pageCount,

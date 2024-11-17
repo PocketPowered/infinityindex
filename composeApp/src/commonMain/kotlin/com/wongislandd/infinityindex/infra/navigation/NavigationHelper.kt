@@ -79,7 +79,7 @@ object NavigationHelper {
         return navigationItem.route
     }
 
-    fun getDetailsRoute(entityType: EntityType, id: Int): String {
+    fun getDetailsRoute(entityType: EntityType, id: Int, title: String? = null): String {
         val navigationItem = when (entityType) {
             EntityType.CHARACTERS -> {
                 NavigationItem.CharacterDetailsScreen
@@ -107,7 +107,8 @@ object NavigationHelper {
         }
         val route = navigationItem.reconstructRoute(
             mapOf(
-                ID_ARG to id
+                ID_ARG to id,
+                TITLE_ARG to title
             )
         )
         return route

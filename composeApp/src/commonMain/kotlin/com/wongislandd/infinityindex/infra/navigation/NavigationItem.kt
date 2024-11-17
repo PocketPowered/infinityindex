@@ -69,32 +69,7 @@ enum class NavigationItem(
 
     val route: String
         get() {
-            val additionalArgs = when (this) {
-                RelatedComicListScreen,
-                RelatedCharactersListScreen,
-                RelatedCreatorsListScreen,
-                RelatedSeriesListScreen,
-                RelatedEventsListScreen,
-                RelatedStoriesListScreen -> listOf(
-                    ROOT_ENTITY_ARG,
-                    ROOT_ENTITY_ID_ARG,
-                    TITLE_ARG
-                )
-                ComicDetailsScreen,
-                CreatorDetailsScreen,
-                CharacterDetailsScreen,
-                SeriesDetailsScreen,
-                EventDetailsScreen,
-                StoryDetailsScreen -> listOf(ID_ARG)
-
-                AllComicListScreen,
-                AllCreatorListScreen,
-                AllCharacterListScreen,
-                AllSeriesListScreen,
-                AllEventListScreen,
-                Home,
-                AllStoriesListScreen -> null
-            }
+            val additionalArgs = getAdditionalArgs()
             val extras = additionalArgs?.let { args ->
                 "/" + args.joinToString("/") { "{$it}" }
             } ?: ""
@@ -105,7 +80,17 @@ enum class NavigationItem(
         args: Map<String, Any?> = emptyMap()
     ): String {
         val baseRoute = this.baseRoute
-        val additionalArgs = when (this) {
+        val additionalArgs = getAdditionalArgs()
+        return buildString {
+            append(baseRoute)
+            additionalArgs?.forEach { arg ->
+                append("/${args[arg]}")
+            }
+        }
+    }
+
+    private fun getAdditionalArgs(): List<String>? {
+        return when (this) {
             RelatedComicListScreen,
             RelatedCharactersListScreen,
             RelatedCreatorsListScreen,
@@ -121,8 +106,7 @@ enum class NavigationItem(
             CharacterDetailsScreen,
             SeriesDetailsScreen,
             EventDetailsScreen,
-            StoryDetailsScreen -> listOf(ID_ARG)
-
+            StoryDetailsScreen -> listOf(ID_ARG, TITLE_ARG)
             AllComicListScreen,
             AllCreatorListScreen,
             AllCharacterListScreen,
@@ -130,13 +114,6 @@ enum class NavigationItem(
             AllEventListScreen,
             Home,
             AllStoriesListScreen -> null
-        }
-
-        return buildString {
-            append(baseRoute)
-            additionalArgs?.forEach { arg ->
-                append("/${args[arg] ?: "missing"}")
-            }
         }
     }
 }

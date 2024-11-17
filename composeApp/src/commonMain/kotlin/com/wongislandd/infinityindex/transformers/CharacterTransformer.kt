@@ -41,7 +41,8 @@ class CharacterTransformer(
                 navContext = NavigationContext(
                     NavigationHelper.getDetailsRoute(
                         EntityType.CHARACTERS,
-                        id
+                        id,
+                        name
                     )
                 ),
                 description = input.description.dropIfEmpty(),

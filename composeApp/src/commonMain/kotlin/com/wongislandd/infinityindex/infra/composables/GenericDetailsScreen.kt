@@ -40,6 +40,7 @@ import org.koin.core.annotation.KoinExperimentalAPI
 @Composable
 inline fun <reified T : BaseDetailsViewModel<out EntityModel>> GenericDetailsScreen(
     primaryId: Int,
+    title: String?,
     modifier: Modifier = Modifier,
 ) {
     val viewModel = koinViewModel<T>()
@@ -53,7 +54,9 @@ inline fun <reified T : BaseDetailsViewModel<out EntityModel>> GenericDetailsScr
     }
     val screenState by viewModel.screenStateSlice.screenState.collectAsState()
     Scaffold(modifier = modifier, topBar = {
-        GlobalTopAppBar()
+        GlobalTopAppBar(
+            title = title
+        )
     }) {
         Box(modifier = Modifier.fillMaxSize()) {
             when (val primaryRes = screenState.primaryRes) {
