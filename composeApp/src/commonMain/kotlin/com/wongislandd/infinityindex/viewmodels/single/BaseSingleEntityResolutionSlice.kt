@@ -20,10 +20,13 @@ abstract class BaseSingleEntityResolutionSlice<NETWORK_TYPE, LOCAL_TYPE : Entity
     private val repository: BaseRepository<NETWORK_TYPE, LOCAL_TYPE>,
 ) : ViewModelSlice() {
 
+    private var primaryResourceId: Int? = null
+
     override fun handleUiEvent(event: UiEvent) {
         when (event) {
             is DetailsUiEvent.PageInitialized -> {
-                if (event.primaryEntityType == entityType) {
+                if (event.primaryEntityType == entityType && primaryResourceId != event.primaryId) {
+                    this.primaryResourceId = event.primaryId
                     loadSingleEntity(event.primaryId)
                 }
             }
