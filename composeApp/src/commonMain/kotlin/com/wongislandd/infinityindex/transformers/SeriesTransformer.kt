@@ -1,17 +1,18 @@
 package com.wongislandd.infinityindex.transformers
 
 import com.wongislandd.infinityindex.entities.comics.transformers.DateTransformer
-import com.wongislandd.infinityindex.infra.transformers.LoadableImageTransformer
-import com.wongislandd.infinityindex.models.network.NetworkSeries
-import com.wongislandd.infinityindex.models.local.Series
 import com.wongislandd.infinityindex.infra.models.DefaultImageType
 import com.wongislandd.infinityindex.infra.models.NavigationContext
-import com.wongislandd.infinityindex.infra.navigation.RouteHelper
+import com.wongislandd.infinityindex.infra.navigation.NavigationHelper
 import com.wongislandd.infinityindex.infra.networking.models.getAvailableItems
 import com.wongislandd.infinityindex.infra.transformers.DataWrapperTransformer
+import com.wongislandd.infinityindex.infra.transformers.LoadableImageTransformer
 import com.wongislandd.infinityindex.infra.transformers.LoadableImageTransformerInput
+import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.util.dropIfEmpty
 import com.wongislandd.infinityindex.infra.util.safeLet
+import com.wongislandd.infinityindex.models.local.Series
+import com.wongislandd.infinityindex.models.network.NetworkSeries
 
 class SeriesTransformer(
     private val loadableImageTransformer: LoadableImageTransformer,
@@ -27,7 +28,10 @@ class SeriesTransformer(
                 id = id,
                 displayName = title,
                 navContext = NavigationContext(
-                    RouteHelper.getSeriesDetailsRouteForId(id)
+                    NavigationHelper.getDetailsRoute(
+                        EntityType.SERIES,
+                        id
+                    )
                 ),
                 image = loadableImageTransformer.transform(
                     LoadableImageTransformerInput(

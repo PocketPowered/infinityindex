@@ -21,6 +21,7 @@ import com.wongislandd.infinityindex.entities.events.EventDetails
 import com.wongislandd.infinityindex.entities.series.SeriesDetails
 import com.wongislandd.infinityindex.entities.stories.StoryDetails
 import com.wongislandd.infinityindex.infra.DetailsUiEvent
+import com.wongislandd.infinityindex.infra.navigation.NavigationHelper
 import com.wongislandd.infinityindex.infra.util.EntityModel
 import com.wongislandd.infinityindex.infra.util.Resource
 import com.wongislandd.infinityindex.infra.util.getEntityType
@@ -92,14 +93,14 @@ fun AdditionalDetailsContents(
         item {
             ListOfEntities(
                 screenState,
-                buildShowMoreRoute = { entityType ->
-                    entityType.viewRelatedNavigationLink(
-                        primaryModel.id,
+                showAllRoute = { entityType ->
+                    NavigationHelper.getRelatedListRoute(
                         primaryModel.getEntityType(),
-                        entityType.displayName + " related to " + primaryModel.displayName
+                        primaryModel.id,
+                        entityType,
+                        "${entityType.displayName} related to ${primaryModel.displayName}"
                     )
                 },
-                showAllEnabled = true
             )
         }
     }

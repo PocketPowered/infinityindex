@@ -1,22 +1,23 @@
 package com.wongislandd.infinityindex.transformers
 
-import com.wongislandd.infinityindex.models.local.Comic
 import com.wongislandd.infinityindex.entities.comics.models.TextType
+import com.wongislandd.infinityindex.entities.comics.transformers.DateTransformer
 import com.wongislandd.infinityindex.entities.comics.transformers.RelatedDatesTransformer
 import com.wongislandd.infinityindex.entities.comics.transformers.RelatedLinksTransformer
 import com.wongislandd.infinityindex.entities.comics.transformers.RelatedPricesTransformer
 import com.wongislandd.infinityindex.entities.comics.transformers.RelatedTextsTransformer
-import com.wongislandd.infinityindex.models.network.NetworkComic
-import com.wongislandd.infinityindex.entities.comics.transformers.DateTransformer
 import com.wongislandd.infinityindex.infra.models.DefaultImageType
 import com.wongislandd.infinityindex.infra.models.NavigationContext
-import com.wongislandd.infinityindex.infra.navigation.RouteHelper
+import com.wongislandd.infinityindex.infra.navigation.NavigationHelper
 import com.wongislandd.infinityindex.infra.networking.models.getAvailableItems
 import com.wongislandd.infinityindex.infra.transformers.DataWrapperTransformer
 import com.wongislandd.infinityindex.infra.transformers.LoadableImageTransformer
 import com.wongislandd.infinityindex.infra.transformers.LoadableImageTransformerInput
+import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.util.dropIfEmpty
 import com.wongislandd.infinityindex.infra.util.safeLet
+import com.wongislandd.infinityindex.models.local.Comic
+import com.wongislandd.infinityindex.models.network.NetworkComic
 
 class ComicTransformer(
     private val loadableImageTransformer: LoadableImageTransformer,
@@ -63,7 +64,10 @@ class ComicTransformer(
                     )
                 ),
                 navContext = NavigationContext(
-                    RouteHelper.getComicDetailsRouteForId(id)
+                    NavigationHelper.getDetailsRoute(
+                        EntityType.COMICS,
+                        id
+                    )
                 ),
                 pageCount = input.pageCount,
                 issueNumber = input.issueNumber,

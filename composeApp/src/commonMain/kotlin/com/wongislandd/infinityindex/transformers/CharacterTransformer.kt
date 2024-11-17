@@ -7,10 +7,11 @@ import com.wongislandd.infinityindex.entities.comics.transformers.RelatedLinksTr
 import com.wongislandd.infinityindex.entities.comics.transformers.DateTransformer
 import com.wongislandd.infinityindex.infra.models.DefaultImageType
 import com.wongislandd.infinityindex.infra.models.NavigationContext
-import com.wongislandd.infinityindex.infra.navigation.RouteHelper
+import com.wongislandd.infinityindex.infra.navigation.NavigationHelper
 import com.wongislandd.infinityindex.infra.networking.models.getAvailableItems
 import com.wongislandd.infinityindex.infra.transformers.DataWrapperTransformer
 import com.wongislandd.infinityindex.infra.transformers.LoadableImageTransformerInput
+import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.util.dropIfEmpty
 import com.wongislandd.infinityindex.infra.util.safeLet
 
@@ -38,7 +39,10 @@ class CharacterTransformer(
                     )
                 ),
                 navContext = NavigationContext(
-                    RouteHelper.getCharacterDetailsRouteForId(id)
+                    NavigationHelper.getDetailsRoute(
+                        EntityType.CHARACTERS,
+                        id
+                    )
                 ),
                 description = input.description.dropIfEmpty(),
                 modified = input.modified.dropIfEmpty(),

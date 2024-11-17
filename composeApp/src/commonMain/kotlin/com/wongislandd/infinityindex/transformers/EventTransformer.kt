@@ -1,16 +1,17 @@
 package com.wongislandd.infinityindex.transformers
 
 import com.wongislandd.infinityindex.entities.comics.transformers.DateTransformer
-import com.wongislandd.infinityindex.infra.transformers.LoadableImageTransformer
-import com.wongislandd.infinityindex.models.local.Event
-import com.wongislandd.infinityindex.models.network.NetworkEvent
 import com.wongislandd.infinityindex.infra.models.DefaultImageType
 import com.wongislandd.infinityindex.infra.models.NavigationContext
-import com.wongislandd.infinityindex.infra.navigation.RouteHelper
+import com.wongislandd.infinityindex.infra.navigation.NavigationHelper
 import com.wongislandd.infinityindex.infra.networking.models.getAvailableItems
 import com.wongislandd.infinityindex.infra.transformers.DataWrapperTransformer
+import com.wongislandd.infinityindex.infra.transformers.LoadableImageTransformer
 import com.wongislandd.infinityindex.infra.transformers.LoadableImageTransformerInput
+import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.util.safeLet
+import com.wongislandd.infinityindex.models.local.Event
+import com.wongislandd.infinityindex.models.network.NetworkEvent
 
 class EventTransformer(
     private val loadableImageTransformer: LoadableImageTransformer,
@@ -26,7 +27,10 @@ class EventTransformer(
                 id = id,
                 displayName = title,
                 navContext = NavigationContext(
-                    RouteHelper.getEventDetailsRouteForId(id)
+                    NavigationHelper.getDetailsRoute(
+                        EntityType.EVENTS,
+                        id
+                    )
                 ),
                 image = loadableImageTransformer.transform(
                     LoadableImageTransformerInput(

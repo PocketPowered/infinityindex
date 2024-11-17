@@ -1,6 +1,11 @@
 package com.wongislandd.infinityindex.infra.navigation
 
+import ID_ARG
 import NavigationItem
+import NavigationItemType
+import ROOT_ENTITY_ARG
+import ROOT_ENTITY_ID_ARG
+import TITLE_ARG
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
@@ -85,124 +90,171 @@ fun AppNavHost(
         modifier = modifier
     ) {
         NavigationItem.entries.forEach { navItem ->
-            if (navItem.idArg != null && navItem.idArg2 != null && navItem.idArg3 != null && navItem.idArg4 != null) {
-                composable(
-                    route = navItem.route,
-                    arguments = listOf(
-                        navArgument(navItem.idArg) { type = NavType.StringType },
-                        navArgument(navItem.idArg2) { type = NavType.IntType },
-                        navArgument(navItem.idArg3) { type = NavType.StringType },
-                        navArgument(navItem.idArg4) { type = NavType.StringType }
-                    )
-                ) { backStackEntry ->
-                    val primaryEntityType = backStackEntry.arguments?.getString(navItem.idArg)
-                        ?: throw IllegalArgumentException("Missing ID argument")
-                    val primaryEntityId = backStackEntry.arguments?.getInt(navItem.idArg2)
-                        ?: throw IllegalArgumentException("Missing ID argument")
-                    val relatedEntityType = backStackEntry.arguments?.getString(navItem.idArg3)
-                        ?: throw IllegalArgumentException("Missing ID argument")
-                    val topBarTitle = backStackEntry.arguments?.getString(navItem.idArg4)
-                        ?: throw IllegalArgumentException("Missing ID argument")
-
-                    // TODO find a better way to parse this
-                    val config = RelatedEntityListConfiguration(
-                        EntityType.valueOf(primaryEntityType),
-                        primaryEntityId,
-                        EntityType.valueOf(relatedEntityType),
-                        topBarTitle
-                    )
-                    when (navItem) {
-                        NavigationItem.RelatedComicListScreen -> {
-                            GenericListScreen<NetworkComic, RelatedComicsListViewModel>(config)
+            when (navItem.type) {
+                NavigationItemType.ALL -> {
+                    composable(route = navItem.route) {
+                        when (navItem) {
+                            NavigationItem.AllComicListScreen -> GenericListScreen<NetworkComic, AllComicsListViewModel>()
+                            NavigationItem.AllCreatorListScreen -> GenericListScreen<NetworkCreator, AllCreatorsListViewModel>()
+                            NavigationItem.AllCharacterListScreen -> GenericListScreen<NetworkCharacter, AllCharactersListViewModel>()
+                            NavigationItem.AllSeriesListScreen -> GenericListScreen<NetworkSeries, AllSeriesListViewModel>()
+                            NavigationItem.AllEventListScreen -> GenericListScreen<NetworkEvent, AllEventsListViewModel>()
+                            NavigationItem.AllStoriesListScreen -> GenericListScreen<NetworkStory, AllStoriesListViewModel>()
+                            else -> throw IllegalStateException()
                         }
-                        NavigationItem.RelatedCreatorsListScreen -> {
-                            GenericListScreen<NetworkCreator, RelatedCreatorsListViewModel>(config)
-                        }
-                        NavigationItem.RelatedCharactersListScreen -> {
-                            GenericListScreen<NetworkCharacter, RelatedCharactersListViewModel>(config)
-                        }
-                        NavigationItem.RelatedSeriesListScreen -> {
-                            GenericListScreen<NetworkSeries, RelatedSeriesListViewModel>(config)
-                        }
-                        NavigationItem.RelatedEventsListScreen -> {
-                            GenericListScreen<NetworkEvent, RelatedEventsListViewModel>(config)
-                        }
-                        NavigationItem.RelatedStoriesListScreen -> {
-                            GenericListScreen<NetworkStory, RelatedStoriesListViewModel>(config)
-                        }
-                        else -> Unit
                     }
                 }
-            } else if (navItem.idArg != null) {
-                composable(
-                    route = navItem.route,
-                    arguments = listOf(navArgument(navItem.idArg) { type = NavType.IntType })
-                ) { backStackEntry ->
-                    val primaryId = backStackEntry.arguments?.getInt(navItem.idArg)
-                        ?: throw IllegalArgumentException("Missing ID argument")
-                    when (navItem) {
-                        NavigationItem.ComicDetailsScreen -> {
-                            GenericDetailsScreen<ComicDetailsViewModel>(primaryId)
-                        }
 
-                        NavigationItem.CreatorDetailsScreen -> {
-                            GenericDetailsScreen<CreatorDetailsViewModel>(primaryId)
-                        }
+                NavigationItemType.DETAILS -> {
+                    composable(
+                        route = navItem.route,
+                        arguments = listOf(navArgument(ID_ARG) { type = NavType.IntType })
+                    ) { backStackEntry ->
+                        val primaryId = backStackEntry.arguments?.getInt(ID_ARG)
+                            ?: throw IllegalArgumentException("Missing ID argument")
+                        when (navItem) {
+                            NavigationItem.ComicDetailsScreen -> GenericDetailsScreen<ComicDetailsViewModel>(
+                                primaryId
+                            )
 
-                        NavigationItem.CharacterDetailsScreen -> {
-                            GenericDetailsScreen<CharacterDetailsViewModel>(primaryId)
-                        }
+                            NavigationItem.CreatorDetailsScreen -> GenericDetailsScreen<CreatorDetailsViewModel>(
+                                primaryId
+                            )
 
-                        NavigationItem.SeriesDetailsScreen -> {
-                            GenericDetailsScreen<SeriesDetailsViewModel>(primaryId)
-                        }
+                            NavigationItem.CharacterDetailsScreen -> GenericDetailsScreen<CharacterDetailsViewModel>(
+                                primaryId
+                            )
 
-                        NavigationItem.EventDetailsScreen -> {
-                            GenericDetailsScreen<EventDetailsViewModel>(primaryId)
-                        }
+                            NavigationItem.SeriesDetailsScreen -> GenericDetailsScreen<SeriesDetailsViewModel>(
+                                primaryId
+                            )
 
-                        NavigationItem.StoryDetailsScreen -> {
-                            GenericDetailsScreen<StoryDetailsViewModel>(primaryId)
-                        }
+                            NavigationItem.EventDetailsScreen -> GenericDetailsScreen<EventDetailsViewModel>(
+                                primaryId
+                            )
 
-                        else -> Unit
+                            NavigationItem.StoryDetailsScreen -> GenericDetailsScreen<StoryDetailsViewModel>(
+                                primaryId
+                            )
+
+                            else -> throw IllegalStateException()
+                        }
                     }
                 }
-            } else {
-                composable(route = navItem.route) {
-                    when (navItem) {
-                        NavigationItem.AllComicListScreen -> {
-                            GenericListScreen<NetworkComic, AllComicsListViewModel>()
-                        }
 
-                        NavigationItem.AllCreatorListScreen -> {
-                            GenericListScreen<NetworkCreator, AllCreatorsListViewModel>()
-                        }
+                NavigationItemType.RELATED -> {
+                    composable(
+                        route = navItem.route,
+                        arguments = listOf(
+                            navArgument(ROOT_ENTITY_ARG) { type = NavType.StringType },
+                            navArgument(ROOT_ENTITY_ID_ARG) { type = NavType.IntType },
+                            navArgument(TITLE_ARG) { type = NavType.StringType }
+                        )
+                    ) { backStackEntry ->
+                        val rootEntity = backStackEntry.arguments?.getString(ROOT_ENTITY_ARG)
+                            ?: throw IllegalArgumentException("Missing root entity argument")
+                        val rootEntityId = backStackEntry.arguments?.getInt(ROOT_ENTITY_ID_ARG)
+                            ?: throw IllegalArgumentException("Missing root entity ID argument")
+                        val title = backStackEntry.arguments?.getString(TITLE_ARG)
 
-                        NavigationItem.AllCharacterListScreen -> {
-                            GenericListScreen<NetworkCharacter, AllCharactersListViewModel>()
-                        }
+                        when (navItem) {
+                            NavigationItem.RelatedComicListScreen -> {
+                                GenericListScreen<NetworkComic, RelatedComicsListViewModel>(
+                                    getConfig(
+                                        rootEntity,
+                                        rootEntityId,
+                                        EntityType.COMICS.name,
+                                        title
+                                    )
+                                )
+                            }
 
-                        NavigationItem.AllSeriesListScreen -> {
-                            GenericListScreen<NetworkSeries, AllSeriesListViewModel>()
-                        }
+                            NavigationItem.RelatedCharactersListScreen -> {
+                                GenericListScreen<NetworkCharacter, RelatedCharactersListViewModel>(
+                                    getConfig(
+                                        rootEntity,
+                                        rootEntityId,
+                                        EntityType.CHARACTERS.name,
+                                        title
+                                    )
+                                )
+                            }
 
-                        NavigationItem.AllEventListScreen -> {
-                            GenericListScreen<NetworkEvent, AllEventsListViewModel>()
-                        }
+                            NavigationItem.RelatedCreatorsListScreen -> {
+                                GenericListScreen<NetworkCreator, RelatedCreatorsListViewModel>(
+                                    getConfig(
+                                        rootEntity,
+                                        rootEntityId,
+                                        EntityType.CREATORS.name,
+                                        title
+                                    )
+                                )
+                            }
 
-                        NavigationItem.AllStoriesListScreen -> {
-                            GenericListScreen<NetworkStory, AllStoriesListViewModel>()
-                        }
+                            NavigationItem.RelatedSeriesListScreen -> {
+                                GenericListScreen<NetworkSeries, RelatedSeriesListViewModel>(
+                                    getConfig(
+                                        rootEntity,
+                                        rootEntityId,
+                                        EntityType.SERIES.name,
+                                        title
+                                    )
+                                )
+                            }
 
-                        NavigationItem.Home -> {
-                            HomeScreen()
-                        }
+                            NavigationItem.RelatedEventsListScreen -> {
+                                GenericListScreen<NetworkEvent, RelatedEventsListViewModel>(
+                                    getConfig(
+                                        rootEntity,
+                                        rootEntityId,
+                                        EntityType.EVENTS.name,
+                                        title
+                                    )
+                                )
+                            }
 
-                        else -> Unit
+                            NavigationItem.RelatedStoriesListScreen -> {
+                                GenericListScreen<NetworkStory, RelatedStoriesListViewModel>(
+                                    getConfig(
+                                        rootEntity,
+                                        rootEntityId,
+                                        EntityType.STORIES.name,
+                                        title
+                                    )
+                                )
+                            }
+
+                            else -> throw IllegalStateException()
+                        }
+                    }
+                }
+
+                NavigationItemType.OTHER -> {
+                    composable(route = navItem.route) {
+                        when (navItem) {
+                            NavigationItem.Home -> {
+                                HomeScreen()
+                            }
+
+                            else -> HomeScreen()
+                        }
                     }
                 }
             }
         }
     }
+}
+
+private fun getConfig(
+    rootEntityType: String,
+    rootEntityId: Int,
+    relatedEntityType: String,
+    title: String?
+): RelatedEntityListConfiguration {
+    return RelatedEntityListConfiguration(
+        EntityType.valueOf(rootEntityType),
+        rootEntityId,
+        EntityType.valueOf(relatedEntityType),
+        title
+    )
 }

@@ -31,7 +31,7 @@ fun <T : EntityModel> SectionedEntityList(
     entityType: EntityType,
     totalItemCount: Long?,
     pagedItems: LazyPagingItems<T>,
-    showAllNavRoute: String? = null,
+    showAllRoute: (EntityType) -> String,
 ) {
     if (pagedItems.itemCount == 0) {
         return
@@ -40,7 +40,7 @@ fun <T : EntityModel> SectionedEntityList(
         EntitySectionHeader(
             entityType = entityType,
             totalEntityCount = totalItemCount,
-            showAllNavRoute = showAllNavRoute,
+            showAllNavRoute = showAllRoute(entityType),
             modifier = Modifier.padding(horizontal = 8.dp)
         )
         LazyRow(
@@ -76,7 +76,7 @@ private fun EntitySectionHeader(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        val text = totalEntityCount?.let { "${entityType.displayName}($it)" } ?: entityType.displayName
+        val text = totalEntityCount?.let { "${entityType.displayName} ($it)" } ?: entityType.displayName
         Text(
             text = text,
             style = MaterialTheme.typography.h6,
