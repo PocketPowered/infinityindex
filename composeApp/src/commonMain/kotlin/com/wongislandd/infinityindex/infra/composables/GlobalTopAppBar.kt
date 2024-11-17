@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextOverflow
 import com.wongislandd.infinityindex.infra.navigation.LocalNavHostController
 import kotlinx.coroutines.flow.map
 
@@ -41,7 +42,8 @@ fun GlobalTopAppBar(
     TopAppBar(
         title = {
             if (isTitleShown) {
-                Text(title ?: "Infinity Index", color = MaterialTheme.colors.onPrimary)
+                Text(title ?: "Infinity Index", color = MaterialTheme.colors.onPrimary,
+                    maxLines = 1, overflow = TextOverflow.Ellipsis)
             }
         },
         navigationIcon = backButton,

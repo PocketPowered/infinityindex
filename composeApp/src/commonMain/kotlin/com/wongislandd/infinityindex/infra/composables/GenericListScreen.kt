@@ -15,7 +15,6 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
@@ -65,8 +64,7 @@ data class RelatedEntityListConfiguration(
     val rootEntityType: EntityType,
     val rootEntityId: Int,
     val relatedEntityType: EntityType,
-    val topBarTitle: String? = null,
-    val enableSearchAndFilter: Boolean = false
+    val topBarTitle: String? = null
 )
 
 @OptIn(KoinExperimentalAPI::class)
@@ -93,10 +91,11 @@ inline fun <NETWORK_TYPE, reified T : BaseListViewModel<NETWORK_TYPE, out Entity
     val coroutineScope = rememberCoroutineScope()
     Scaffold(topBar = {
         GlobalTopAppBar(
-            title = relatedListConfig?.topBarTitle ?: viewModel.screenStateSlice.entityType.displayName,
+            title = relatedListConfig?.topBarTitle
+                ?: viewModel.screenStateSlice.entityType.displayName,
             isTitleShown = !screenState.searchState.isSearchBoxVisible,
             actions = {
-                if (relatedListConfig?.enableSearchAndFilter == true) {
+                if (relatedListConfig == null) {
                     ExpandingSearch(
                         isExpanded = screenState.searchState.isSearchBoxVisible,
                         currentSearchParam = screenState.searchState.searchQuery.text,
@@ -133,11 +132,11 @@ inline fun <NETWORK_TYPE, reified T : BaseListViewModel<NETWORK_TYPE, out Entity
         )
     }) {
         Box(modifier = Modifier.fillMaxSize()) {
-            if (screenState.isLoading) {
-                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-            } else {
-                EntityList(lazyPagingEntities)
-            }
+//            if (screenState.isLoading) {
+//                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+//            } else {
+            EntityList(lazyPagingEntities)
+//            }
         }
     }
 }
@@ -278,6 +277,13 @@ fun EntityList(
             }
         }
         pagedEntities.apply {
+            if (loadState.refresh is LoadState.Loading || loadState.append is LoadState.Loading) {
+                repeat(times = 20) {
+                    item {
+                        GhostEntityCard()
+                    }
+                }
+            }
             item(span = {
                 GridItemSpan(maxLineSpan)
             }) {
@@ -286,12 +292,6 @@ fun EntityList(
                     contentAlignment = Alignment.Center
                 ) {
                     when {
-                        loadState.refresh is LoadState.Loading || loadState.append is LoadState.Loading -> {
-                            CircularProgressIndicator(
-                                modifier = Modifier.align(Alignment.Center)
-                            )
-                        }
-
                         loadState.refresh is LoadState.Error || loadState.append is LoadState.Error -> {
                             Text(text = "Error")
                         }

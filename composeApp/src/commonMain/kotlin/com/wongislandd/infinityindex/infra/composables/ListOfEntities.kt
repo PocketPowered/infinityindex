@@ -11,11 +11,17 @@ import app.cash.paging.compose.collectAsLazyPagingItems
 import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.viewmodels.PagingDataConsumerScreenState
 
+enum class EntitiesListUseCase {
+    GENERAL,
+    DETAILS
+}
+
 @Composable
 fun ListOfEntities(
     screenState: PagingDataConsumerScreenState,
     showAllRouteGetter: (EntityType) -> String,
-    modifier: Modifier = Modifier
+    useCase: EntitiesListUseCase,
+    modifier: Modifier = Modifier,
 ) {
     val entityCounts by screenState.entityCountsData.collectAsState()
     val pagedCharacters = screenState.characterData.collectAsLazyPagingItems()
@@ -45,6 +51,7 @@ fun ListOfEntities(
                     totalItemCount = totalEntityCount,
                     pagedItems = pagedItems,
                     showAllRoute = showAllRouteGetter(entityType),
+                    useCase = useCase
                 )
             }
         }

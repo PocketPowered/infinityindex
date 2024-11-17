@@ -37,6 +37,7 @@ fun <T : EntityModel> SectionedEntityList(
     totalItemCount: Long,
     pagedItems: LazyPagingItems<T>,
     showAllRoute: String,
+    useCase: EntitiesListUseCase
 ) {
     val navController = LocalNavHostController.current
     val isShowAllAvailable = totalItemCount > ComicConstants.RELATED_DETAILS_MAX_ENTITY_RESULTS
@@ -47,7 +48,7 @@ fun <T : EntityModel> SectionedEntityList(
         EntitySectionHeader(
             entityType = entityType,
             totalEntityCount = totalItemCount,
-            showAllRoute = showAllRoute.takeIf { isShowAllAvailable },
+            showAllRoute = showAllRoute.takeIf { isShowAllAvailable && useCase == EntitiesListUseCase.GENERAL },
             modifier = Modifier.padding(horizontal = 8.dp)
         )
         LazyRow(

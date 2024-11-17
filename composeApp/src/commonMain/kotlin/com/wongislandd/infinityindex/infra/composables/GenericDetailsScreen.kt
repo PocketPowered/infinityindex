@@ -104,6 +104,7 @@ fun AdditionalDetailsContents(
                         "${entityType.displayName} related to ${primaryModel.displayName}"
                     )
                 },
+                useCase = EntitiesListUseCase.DETAILS,
             )
         }
     }

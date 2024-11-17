@@ -15,6 +15,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.wongislandd.infinityindex.infra.composables.EntitiesListUseCase
 import com.wongislandd.infinityindex.infra.composables.GlobalTopAppBar
 import com.wongislandd.infinityindex.infra.composables.ListOfEntities
 import com.wongislandd.infinityindex.infra.navigation.NavigationHelper
@@ -38,7 +39,8 @@ fun HomeScreen(modifier: Modifier = Modifier) {
                     ListOfEntities(screenState,
                         showAllRouteGetter = { entityType ->
                             NavigationHelper.getAllListRoute(entityType)
-                        })
+                        },
+                        useCase = EntitiesListUseCase.GENERAL)
                 }
             }
         }
