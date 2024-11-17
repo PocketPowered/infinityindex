@@ -20,7 +20,7 @@ sealed class ListBackChannelEvent : BackChannelEvent {
 
     data class EntityResponseReceived(
         val entityType: EntityType
-    ): ListBackChannelEvent()
+    ) : ListBackChannelEvent()
 
     data class UpdateLoadingState(val isLoading: Boolean) : ListBackChannelEvent()
 

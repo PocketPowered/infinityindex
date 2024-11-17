@@ -2,6 +2,7 @@ package com.wongislandd.infinityindex.viewmodels.single
 
 import com.wongislandd.infinityindex.infra.DetailsBackChannelEvent
 import com.wongislandd.infinityindex.infra.DetailsUiEvent
+import com.wongislandd.infinityindex.infra.ListBackChannelEvent
 import com.wongislandd.infinityindex.infra.paging.BaseRepository
 import com.wongislandd.infinityindex.infra.util.EntityModel
 import com.wongislandd.infinityindex.infra.util.EntityType
@@ -41,10 +42,36 @@ abstract class BaseSingleEntityResolutionSlice<NETWORK_TYPE, LOCAL_TYPE : Entity
             // Send out the signals to start paging for related entities, see [BaseRelatedEntitiesSlice]
             singleEntityRes.onSuccess { entity ->
                 launch {
+                    sendEntityCountSignals(entity)
                     sendRelatedPagingRequestSignals(primaryResourceId, entity)
                 }
             }
         }
+    }
+
+    /**
+     * Because we know the related entity counts from the single detail response,
+     * we can update this early, instead of waiting for the pagination request metadata.
+     */
+    private suspend fun sendEntityCountSignals(entity: EntityModel) {
+        mapOf(
+            EntityType.CHARACTERS to entity.relatedCharactersCount,
+            EntityType.COMICS to entity.relatedComicsCount,
+            EntityType.CREATORS to entity.relatedCreatorsCount,
+            EntityType.EVENTS to entity.relatedEventsCount,
+            EntityType.SERIES to entity.relatedSeriesCount,
+            EntityType.STORIES to entity.relatedStoriesCount
+        ).forEach {
+            if (it.value > 0) {
+                backChannelEvents.sendEvent(
+                    ListBackChannelEvent.EntityCountsUpdate(
+                        totalCount = it.value.toLong(),
+                        entityType = it.key,
+                    )
+                )
+            }
+        }
+
     }
 
     private suspend fun sendRelatedPagingRequestSignals(

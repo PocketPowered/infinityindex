@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -21,6 +22,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.paging.CombinedLoadStates
+import androidx.paging.LoadState
 import app.cash.paging.compose.LazyPagingItems
 import com.wongislandd.infinityindex.infra.navigation.LocalNavHostController
 import com.wongislandd.infinityindex.infra.util.EntityModel
@@ -29,11 +32,11 @@ import com.wongislandd.infinityindex.infra.util.EntityType
 @Composable
 fun <T : EntityModel> SectionedEntityList(
     entityType: EntityType,
-    totalItemCount: Long?,
+    totalItemCount: Long,
     pagedItems: LazyPagingItems<T>,
     showAllRoute: (EntityType) -> String,
 ) {
-    if (pagedItems.itemCount == 0) {
+    if (!pagedItems.loadState.isInitializing() && pagedItems.itemCount == 0) {
         return
     }
     Column(modifier = Modifier.fillMaxWidth()) {
@@ -57,6 +60,24 @@ fun <T : EntityModel> SectionedEntityList(
                     EntityCard(entity)
                 }
             }
+            pagedItems.apply {
+                when {
+                    // Placeholder cards
+                    loadState.isInitializing() -> {
+                        repeat(3) {
+                            item {
+                                GhostEntityCard()
+                            }
+                        }
+                    }
+                    loadState.append == LoadState.Loading -> {
+                        item {
+                            CircularProgressIndicator()
+                        }
+                    }
+
+                }
+            }
         }
     }
 }
@@ -64,7 +85,7 @@ fun <T : EntityModel> SectionedEntityList(
 @Composable
 private fun EntitySectionHeader(
     entityType: EntityType,
-    totalEntityCount: Long?,
+    totalEntityCount: Long,
     showAllNavRoute: String?,
     modifier: Modifier = Modifier
 ) {
@@ -76,9 +97,8 @@ private fun EntitySectionHeader(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        val text = totalEntityCount?.let { "${entityType.displayName} ($it)" } ?: entityType.displayName
         Text(
-            text = text,
+            text = "${entityType.displayName} ($totalEntityCount)",
             style = MaterialTheme.typography.h6,
             fontWeight = FontWeight.SemiBold,
             textAlign = TextAlign.Start,
@@ -96,3 +116,5 @@ private fun EntitySectionHeader(
         }
     }
 }
+
+private fun CombinedLoadStates.isInitializing() = this.refresh == LoadState.Loading

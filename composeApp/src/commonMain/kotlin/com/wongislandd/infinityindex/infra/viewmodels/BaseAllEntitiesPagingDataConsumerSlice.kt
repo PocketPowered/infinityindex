@@ -30,14 +30,11 @@ abstract class BaseAllEntitiesPagingDataConsumerSlice : ViewModelSlice() {
     protected val creatorsPagingData: MutableStateFlow<PagingData<Creator>> =
         MutableStateFlow(PagingData.empty())
 
-
     protected val eventsPagingData: MutableStateFlow<PagingData<Event>> =
         MutableStateFlow(PagingData.empty())
 
-
     protected val storiesPagingData: MutableStateFlow<PagingData<Story>> =
         MutableStateFlow(PagingData.empty())
-
 
     protected val seriesPagingData: MutableStateFlow<PagingData<Series>> =
         MutableStateFlow(PagingData.empty())
@@ -60,9 +57,11 @@ abstract class BaseAllEntitiesPagingDataConsumerSlice : ViewModelSlice() {
             is ListBackChannelEvent.PagingDataResUpdate<*> -> {
                 handlePagingUpdate(event)
             }
+
             is ListBackChannelEvent.EntityCountsUpdate -> {
                 handleEntityCountsUpdate(event)
             }
+
             is ListBackChannelEvent.EntityResponseReceived -> {
                 handlePagingResponseSignal(event.entityType)
             }
@@ -128,6 +127,7 @@ abstract class BaseAllEntitiesPagingDataConsumerSlice : ViewModelSlice() {
                     )
                 }
             }
+
             EntityType.EVENTS -> {
                 entityCountsData.update {
                     it.copy(
@@ -135,6 +135,7 @@ abstract class BaseAllEntitiesPagingDataConsumerSlice : ViewModelSlice() {
                     )
                 }
             }
+
             EntityType.CREATORS -> {
                 entityCountsData.update {
                     it.copy(
@@ -142,6 +143,7 @@ abstract class BaseAllEntitiesPagingDataConsumerSlice : ViewModelSlice() {
                     )
                 }
             }
+
             EntityType.STORIES -> {
                 entityCountsData.update {
                     it.copy(
@@ -149,6 +151,7 @@ abstract class BaseAllEntitiesPagingDataConsumerSlice : ViewModelSlice() {
                     )
                 }
             }
+
             EntityType.COMICS -> {
                 entityCountsData.update {
                     it.copy(
@@ -156,6 +159,7 @@ abstract class BaseAllEntitiesPagingDataConsumerSlice : ViewModelSlice() {
                     )
                 }
             }
+
             EntityType.SERIES -> {
                 entityCountsData.update {
                     it.copy(

@@ -36,12 +36,17 @@ fun ListOfEntities(
 
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(16.dp)) {
         sections.forEach { (entityTypeAndCountPair, pagedItems) ->
-            SectionedEntityList(
-                entityType = entityTypeAndCountPair.first,
-                totalItemCount = entityTypeAndCountPair.second,
-                pagedItems = pagedItems,
-                showAllRoute = showAllRoute,
-            )
+            val entityType = entityTypeAndCountPair.first
+            val totalEntityCount = entityTypeAndCountPair.second
+            // Only show the section if there are items to show
+            totalEntityCount?.let {
+                SectionedEntityList(
+                    entityType = entityType,
+                    totalItemCount = totalEntityCount,
+                    pagedItems = pagedItems,
+                    showAllRoute = showAllRoute,
+                )
+            }
         }
     }
 }

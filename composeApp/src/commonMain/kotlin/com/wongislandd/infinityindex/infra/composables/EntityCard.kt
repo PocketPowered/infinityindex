@@ -3,12 +3,13 @@ package com.wongislandd.infinityindex.infra.composables
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -25,50 +26,66 @@ import com.wongislandd.infinityindex.infra.navigation.LocalNavHostController
 import com.wongislandd.infinityindex.infra.util.EntityModel
 import com.wongislandd.infinityindex.infra.util.conditionallyChain
 
+private val entityCardHeight = 275.dp
+private val entityCardWidth = 200.dp
+
 @Composable
 fun EntityCard(
     entity: EntityModel,
     modifier: Modifier = Modifier
 ) {
     val navController = LocalNavHostController.current
-    val totalHeight = 275.dp
-    val width = 200.dp
-    Card(
+    BaseEntityCard(
         modifier = modifier
-            .wrapContentHeight()
             .conditionallyChain(entity.navContext.allowNavigation, Modifier.clickable {
                 navController.navigate(entity.navContext.navRoute)
-            }),
+            })
+    ) {
+        MarvelImage(
+            image = entity.image,
+            contentScale = ContentScale.Crop,
+            tint = MaterialTheme.colors.onPrimary,
+            modifier = Modifier.size(
+                entityCardWidth
+            )
+        )
+        Box(
+            modifier = Modifier
+                .fillMaxHeight()
+        ) {
+            Text(
+                text = entity.displayName,
+                style = MaterialTheme.typography.body1,
+                color = MaterialTheme.colors.onPrimary,
+                modifier = Modifier.fillMaxWidth()
+                    .align(Alignment.Center)
+                    .padding(16.dp),
+                textAlign = TextAlign.Center,
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 2
+            )
+        }
+    }
+}
+
+@Composable
+fun GhostEntityCard(modifier: Modifier = Modifier) {
+    BaseEntityCard(modifier = modifier) { }
+}
+
+@Composable
+private fun BaseEntityCard(modifier: Modifier = Modifier, content: @Composable ColumnScope.() -> Unit) {
+    Card(
+        modifier = modifier
+            .wrapContentHeight(),
         backgroundColor = MaterialTheme.colors.primary,
         shape = RoundedCornerShape(16.dp)
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.height(totalHeight)
+            modifier = Modifier.height(entityCardHeight).width(entityCardWidth)
         ) {
-            MarvelImage(
-                image = entity.image,
-                contentScale = ContentScale.Crop,
-                tint = MaterialTheme.colors.onPrimary,
-                modifier = Modifier.size(width)
-            )
-            Box(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .widthIn(max = width)
-            ) {
-                Text(
-                    text = entity.displayName,
-                    style = MaterialTheme.typography.body1,
-                    color = MaterialTheme.colors.onPrimary,
-                    modifier = Modifier.fillMaxWidth()
-                        .align(Alignment.Center)
-                        .padding(16.dp),
-                    textAlign = TextAlign.Center,
-                    overflow = TextOverflow.Ellipsis,
-                    maxLines = 2
-                )
-            }
+            content()
         }
     }
 }
