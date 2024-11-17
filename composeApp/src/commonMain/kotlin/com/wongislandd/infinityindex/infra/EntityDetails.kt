@@ -5,10 +5,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.wongislandd.infinityindex.infra.composables.BottomLevelEntityDetails
 import com.wongislandd.infinityindex.infra.composables.TopLevelEntityDetails
 import com.wongislandd.infinityindex.infra.util.EntityModel
 
@@ -17,6 +15,5 @@ fun EntityDetails(entity: EntityModel, modifier: Modifier = Modifier, mainConten
     Column(modifier = modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(16.dp)) {
         TopLevelEntityDetails(entity, modifier)
         mainContent()
-        BottomLevelEntityDetails(entity)
     }
 }

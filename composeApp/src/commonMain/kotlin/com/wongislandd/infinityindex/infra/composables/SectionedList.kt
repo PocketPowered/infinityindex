@@ -39,6 +39,7 @@ fun <T : EntityModel> SectionedEntityList(
     showAllRoute: String,
 ) {
     val navController = LocalNavHostController.current
+    val isShowAllAvailable = totalItemCount > ComicConstants.RELATED_DETAILS_MAX_ENTITY_RESULTS
     if (!pagedItems.loadState.isInitializing() && pagedItems.itemCount == 0) {
         return
     }
@@ -46,7 +47,7 @@ fun <T : EntityModel> SectionedEntityList(
         EntitySectionHeader(
             entityType = entityType,
             totalEntityCount = totalItemCount,
-            showAllRoute = showAllRoute,
+            showAllRoute = showAllRoute.takeIf { isShowAllAvailable },
             modifier = Modifier.padding(horizontal = 8.dp)
         )
         LazyRow(
@@ -83,7 +84,7 @@ fun <T : EntityModel> SectionedEntityList(
 
                     loadState.isDoneLoading() -> {
                         // If there are more results to show
-                        if (totalItemCount > ComicConstants.RELATED_DETAILS_MAX_ENTITY_RESULTS)
+                        if (isShowAllAvailable)
                             item {
                                 SeeMoreEntityCard(modifier = Modifier
                                     .clickable {
@@ -110,7 +111,7 @@ fun <T : EntityModel> SectionedEntityList(
 private fun EntitySectionHeader(
     entityType: EntityType,
     totalEntityCount: Long,
-    showAllRoute: String,
+    showAllRoute: String?,
     modifier: Modifier = Modifier
 ) {
     val navController = LocalNavHostController.current
@@ -128,17 +129,19 @@ private fun EntitySectionHeader(
             textAlign = TextAlign.Start,
             modifier = modifier.padding(vertical = 8.dp)
         )
-        Row(modifier = Modifier.clickable {
-            navController.navigate(
-                showAllRoute
-            )
-        }) {
-            Text(text = "See all", fontWeight = FontWeight.Thin)
-            Spacer(modifier = Modifier.width(8.dp))
-            Icon(
-                Icons.AutoMirrored.Filled.ArrowForward,
-                contentDescription = "See all"
-            )
+        showAllRoute?.also {
+            Row(modifier = Modifier.clickable {
+                navController.navigate(
+                    showAllRoute
+                )
+            }) {
+                Text(text = "See all", fontWeight = FontWeight.Thin)
+                Spacer(modifier = Modifier.width(8.dp))
+                Icon(
+                    Icons.AutoMirrored.Filled.ArrowForward,
+                    contentDescription = "See all"
+                )
+            }
         }
     }
 }
