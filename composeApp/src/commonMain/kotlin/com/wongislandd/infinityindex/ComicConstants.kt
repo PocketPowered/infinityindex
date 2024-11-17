@@ -1,7 +1,5 @@
 package com.wongislandd.infinityindex
 
-import com.wongislandd.infinityindex.sortoptions.ComicsSortOption
-
 object ComicConstants {
-    val DEFAULT_SORT_OPTION = ComicsSortOption.MODIFIED_DESC
+    const val RELATED_DETAILS_MAX_ENTITY_RESULTS = 5
 }

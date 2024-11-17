@@ -1,6 +1,7 @@
 package com.wongislandd.infinityindex.infra.viewmodels
 
 import app.cash.paging.PagingConfig
+import com.wongislandd.infinityindex.ComicConstants
 import com.wongislandd.infinityindex.infra.util.EntityModel
 import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.util.SliceableViewModel
@@ -26,8 +27,8 @@ abstract class BaseDetailsViewModel<T : EntityModel>(
             if (it is BaseListPagingSlice<*, *>) {
                 it.setPagingConfig(
                     PagingConfig(
-                        initialLoadSize = 5,
-                        pageSize = 5,
+                        initialLoadSize = ComicConstants.RELATED_DETAILS_MAX_ENTITY_RESULTS,
+                        pageSize = ComicConstants.RELATED_DETAILS_MAX_ENTITY_RESULTS,
                         enablePlaceholders = false
                     ),
                     1

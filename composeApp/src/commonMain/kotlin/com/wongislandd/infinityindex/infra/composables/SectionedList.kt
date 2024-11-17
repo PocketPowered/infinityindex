@@ -25,9 +25,11 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import app.cash.paging.compose.LazyPagingItems
+import com.wongislandd.infinityindex.ComicConstants
 import com.wongislandd.infinityindex.infra.navigation.LocalNavHostController
 import com.wongislandd.infinityindex.infra.util.EntityModel
 import com.wongislandd.infinityindex.infra.util.EntityType
+import kotlin.math.min
 
 @Composable
 fun <T : EntityModel> SectionedEntityList(
@@ -66,7 +68,13 @@ fun <T : EntityModel> SectionedEntityList(
                 when {
                     // Placeholder cards
                     loadState.isInitializing() -> {
-                        repeat(3) {
+                        val numGhostCards = min(
+                            totalItemCount.toInt(),
+                            ComicConstants.RELATED_DETAILS_MAX_ENTITY_RESULTS
+                        )
+                        repeat(
+                            numGhostCards
+                        ) {
                             item {
                                 GhostEntityCard()
                             }
@@ -74,14 +82,16 @@ fun <T : EntityModel> SectionedEntityList(
                     }
 
                     loadState.isDoneLoading() -> {
-                        item {
-                            SeeMoreEntityCard(modifier = Modifier
-                                .clickable {
-                                    navController.navigate(
-                                        showAllRoute
-                                    )
-                                })
-                        }
+                        // If there are more results to show
+                        if (totalItemCount > ComicConstants.RELATED_DETAILS_MAX_ENTITY_RESULTS)
+                            item {
+                                SeeMoreEntityCard(modifier = Modifier
+                                    .clickable {
+                                        navController.navigate(
+                                            showAllRoute
+                                        )
+                                    })
+                            }
                     }
 
                     loadState.append == LoadState.Loading -> {
