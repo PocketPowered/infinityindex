@@ -21,6 +21,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -58,14 +59,19 @@ fun EntityCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .align(Alignment.BottomCenter)
-                    .height(180.dp)
+                    .height(100.dp)
+                    .blur(8.dp)
                     .background(
                         Brush.verticalGradient(
                             colors = listOf(
                                 Color.Transparent,
-                                MaterialTheme.colors.primary.copy(alpha = 0.5f),
+                                MaterialTheme.colors.primary.copy(alpha = 0.4f),
+                                MaterialTheme.colors.primary.copy(alpha = 0.6f),
+                                MaterialTheme.colors.primary.copy(alpha = 0.7f),
                                 MaterialTheme.colors.primary.copy(alpha = 0.9f)
-                            )
+                            ),
+                            startY = 0f,
+                            endY = 180f
                         )
                     )
             )
