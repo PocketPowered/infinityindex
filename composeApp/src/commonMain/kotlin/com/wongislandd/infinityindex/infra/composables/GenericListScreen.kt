@@ -133,11 +133,7 @@ inline fun <NETWORK_TYPE, reified T : BaseListViewModel<NETWORK_TYPE, out Entity
         )
     }) {
         Box(modifier = Modifier.fillMaxSize()) {
-//            if (screenState.isLoading) {
-//                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-//            } else {
             EntityList(lazyPagingEntities)
-//            }
         }
     }
 }
@@ -264,6 +260,30 @@ fun EntityList(
     pagedEntities: LazyPagingItems<out EntityModel>,
     modifier: Modifier = Modifier
 ) {
+    PagingWrapper(pagedEntities, modifier,
+        itemContent = { entity ->
+            EntityCard(entity)
+        },
+        placeholderContent = {
+            GhostEntityCard()
+        },
+        errorContent = {
+            Text("Error")
+        },
+        emptyContent = {
+            Text("No results found")
+        })
+}
+
+@Composable
+private fun PagingWrapper(
+    pagedEntities: LazyPagingItems<out EntityModel>,
+    modifier: Modifier = Modifier,
+    itemContent: @Composable (EntityModel) -> Unit,
+    placeholderContent: @Composable () -> Unit,
+    errorContent: @Composable () -> Unit,
+    emptyContent: @Composable () -> Unit
+) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(180.dp),
         contentPadding = PaddingValues(8.dp),
@@ -272,16 +292,19 @@ fun EntityList(
         modifier = modifier
             .background(MaterialTheme.colors.surface)
     ) {
-        items(pagedEntities.itemCount) { index ->
-            pagedEntities[index]?.let { entity ->
-                EntityCard(entity)
+        // Hide results if we are refreshing the whole source
+        if (pagedEntities.loadState.refresh != LoadState.Loading) {
+            items(pagedEntities.itemCount) { index ->
+                pagedEntities[index]?.let { entity ->
+                    itemContent(entity)
+                }
             }
         }
         pagedEntities.apply {
             if (loadState.refresh is LoadState.Loading || loadState.append is LoadState.Loading) {
                 repeat(ComicConstants.LIST_PAGE_SIZE * 2) {
                     item {
-                        GhostEntityCard()
+                        placeholderContent()
                     }
                 }
             }
@@ -294,11 +317,11 @@ fun EntityList(
                 ) {
                     when {
                         loadState.refresh is LoadState.Error || loadState.append is LoadState.Error -> {
-                            Text(text = "Error")
+                            errorContent()
                         }
 
                         loadState.refresh is LoadState.NotLoading && loadState.append.endOfPaginationReached && itemCount == 0 -> {
-                            Text(text = "No results found")
+                            emptyContent()
                         }
                     }
                 }

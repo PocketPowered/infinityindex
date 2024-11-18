@@ -33,7 +33,7 @@ val MarvelColors
             primary = primaryColor,
             onPrimary = Color.White, // White text on dark red
             secondary = secondaryColor, // Marvel Gold for secondary color
-            background = backgroundColor, // Dark background
+            background = surfaceColor, // Dark background
             surface = surfaceColor, // Dark surface
             onSurface = textColor, // Light text on surface
             onBackground = textColor // Light text on background
@@ -43,7 +43,7 @@ val MarvelColors
             primary = primaryColor,
             onPrimary = Color.White, // White text on dark red
             secondary = secondaryColor, // Marvel Gold for secondary color
-            background = backgroundColor, // Light background
+            background = surfaceColor, // Light background
             surface = surfaceColor, // Off-white surface
             onSurface = textColor, // Dark text on surface
             onBackground = textColor // Dark text on background

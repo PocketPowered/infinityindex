@@ -25,7 +25,6 @@ abstract class BaseListScreenStateSlice<T : EntityModel>(
     private val _screenState: MutableStateFlow<BaseListScreenState> =
         MutableStateFlow(
             BaseListScreenState(
-                isLoading = true,
                 availableSortOptions = entityType.getSortOptions()
                     .map { SelectableSortOption(it, it.isDefault) },
                 searchState = SearchState(
@@ -44,12 +43,6 @@ abstract class BaseListScreenStateSlice<T : EntityModel>(
         when (event) {
             is ListBackChannelEvent.PagingDataResUpdate<*> -> {
                 _listPagingData.value = event.update as PagingData<EntityModel>
-            }
-
-            is ListBackChannelEvent.UpdateLoadingState -> {
-                _screenState.update {
-                    it.copy(isLoading = event.isLoading)
-                }
             }
 
             is ListBackChannelEvent.UpdateSearchBoxVisibility -> {

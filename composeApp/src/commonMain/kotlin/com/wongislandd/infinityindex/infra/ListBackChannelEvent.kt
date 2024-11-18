@@ -18,8 +18,6 @@ sealed class ListBackChannelEvent : BackChannelEvent {
         val entityType: EntityType
     ) : ListBackChannelEvent()
 
-    data class UpdateLoadingState(val isLoading: Boolean) : ListBackChannelEvent()
-
     data class UpdateSearchBoxVisibility(val isVisible: Boolean) : ListBackChannelEvent()
 
     data class UpdatePendingSearchQuery(val query: String) : ListBackChannelEvent()

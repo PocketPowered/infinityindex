@@ -107,6 +107,9 @@ fun AdditionalDetailsContents(
                 useCase = EntitiesListUseCase.DETAILS,
             )
         }
+        item {
+            MarvelAttributionTextLabel()
+        }
     }
 }
 

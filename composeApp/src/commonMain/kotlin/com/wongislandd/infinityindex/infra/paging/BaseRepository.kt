@@ -7,7 +7,9 @@ import com.wongislandd.infinityindex.infra.transformers.DataWrapperTransformer
 import com.wongislandd.infinityindex.infra.util.EntityModel
 import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.util.Resource
+import com.wongislandd.infinityindex.infra.util.Resource.Loading.onSuccess
 import com.wongislandd.infinityindex.infra.util.safeLet
+import com.wongislandd.infinityindex.infra.viewmodels.AppLeveled
 import io.ktor.client.HttpClient
 import io.ktor.client.request.parameter
 import io.ktor.util.reflect.TypeInfo
@@ -31,12 +33,13 @@ abstract class BaseRepository<NETWORK_MODEL, LOCAL_MODEL : EntityModel>(
                 parameter("limit", count)
                 parameter("orderBy", sortKey)
                 safeLet(
-                    searchParam,
+                    searchParam?.takeIf { it.isNotBlank() },
                     rootEntityType.searchParamType?.key
                 ) { searchParam, searchParamType ->
                     parameter(searchParamType, searchParam)
                 }
             }
+        response.onSuccess { AppLeveled.updateAttributionText(it.attributionText) }
         return response.map { transformer.transform(it) }
     }
 
@@ -45,6 +48,7 @@ abstract class BaseRepository<NETWORK_MODEL, LOCAL_MODEL : EntityModel>(
     ): Resource<LOCAL_MODEL> {
         val response: Resource<NetworkDataWrapper<NETWORK_MODEL>> =
             makeRequest("${rootEntityType.key}/$id", typeInfo)
+        response.onSuccess { AppLeveled.updateAttributionText(it.attributionText) }
         return response.map { transformer.transform(it) }.map {
             it.data.results.firstOrNull()
         }
@@ -69,6 +73,7 @@ abstract class BaseRepository<NETWORK_MODEL, LOCAL_MODEL : EntityModel>(
                 parameter("offset", start)
                 parameter("limit", count)
             }
+        response.onSuccess { AppLeveled.updateAttributionText(it.attributionText) }
         return response.map { transformer.transform(it) }
     }
 }

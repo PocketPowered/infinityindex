@@ -96,13 +96,6 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
                     }
                     registerCallbacks(object : PagingSourceCallbacks {
                         override fun onResponse(response: Resource<DataWrapper<*>>) {
-                            sliceScope.launch {
-                                backChannelEvents.sendEvent(
-                                    ListBackChannelEvent.UpdateLoadingState(
-                                        false
-                                    )
-                                )
-                            }
                         }
 
                         override fun onSuccess(paginationContextWrapper: PaginationContextWrapper<*>) {
@@ -167,9 +160,6 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
         }
         sortOption?.also {
             currentSortOption = sortOption
-        }
-        sliceScope.launch {
-            backChannelEvents.sendEvent(ListBackChannelEvent.UpdateLoadingState(true))
         }
         currentPagingSource?.invalidate()
     }

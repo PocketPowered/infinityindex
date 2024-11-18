@@ -131,7 +131,7 @@ private fun BaseEntityCard(
     Card(
         modifier = modifier,
         backgroundColor = MaterialTheme.colors.primary,
-        elevation = 16.dp,
+        elevation = 4.dp,
         shape = RoundedCornerShape(16.dp)
     ) {
         Column(

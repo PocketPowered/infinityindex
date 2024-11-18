@@ -1,10 +1,5 @@
 package com.wongislandd.infinityindex.home
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.slideOutVertically
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,6 +10,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.wongislandd.infinityindex.infra.composables.MarvelAttributionTextLabel
 import com.wongislandd.infinityindex.infra.composables.EntitiesListUseCase
 import com.wongislandd.infinityindex.infra.composables.GlobalTopAppBar
 import com.wongislandd.infinityindex.infra.composables.ListOfEntities
@@ -40,6 +36,9 @@ fun HomeScreen(modifier: Modifier = Modifier) {
                             NavigationHelper.getAllListRoute(entityType)
                         },
                         useCase = EntitiesListUseCase.HOME)
+                }
+                item {
+                    MarvelAttributionTextLabel()
                 }
             }
         }
