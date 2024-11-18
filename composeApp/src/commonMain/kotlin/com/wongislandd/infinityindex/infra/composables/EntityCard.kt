@@ -31,7 +31,7 @@ import com.wongislandd.infinityindex.infra.navigation.LocalNavHostController
 import com.wongislandd.infinityindex.infra.util.EntityModel
 import com.wongislandd.infinityindex.infra.util.conditionallyChain
 
-private val entityCardHeight = 275.dp
+private val entityCardHeight = 285.dp
 private val entityCardWidth = 200.dp
 
 @Composable
@@ -110,13 +110,13 @@ private fun BaseEntityCard(
     content: @Composable ColumnScope.() -> Unit
 ) {
     Card(
-        modifier = modifier
-            .wrapContentHeight(),
+        modifier = modifier,
         backgroundColor = MaterialTheme.colors.primary,
         shape = RoundedCornerShape(16.dp)
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
             modifier = Modifier.height(entityCardHeight).width(entityCardWidth)
         ) {
             content()

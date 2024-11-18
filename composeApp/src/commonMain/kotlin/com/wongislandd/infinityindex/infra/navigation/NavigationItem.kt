@@ -15,6 +15,7 @@ enum class NavigationItem(
     private val baseRoute: String,
     val type: NavigationItemType = NavigationItemType.OTHER
 ) {
+    Splash("Splash", "splash"),
     Home("Home", "home"),
     RelatedComicListScreen(
         "Related",
@@ -101,19 +102,22 @@ enum class NavigationItem(
                 ROOT_ENTITY_ID_ARG,
                 TITLE_ARG
             )
+
             ComicDetailsScreen,
             CreatorDetailsScreen,
             CharacterDetailsScreen,
             SeriesDetailsScreen,
             EventDetailsScreen,
             StoryDetailsScreen -> listOf(ID_ARG, TITLE_ARG)
+
             AllComicListScreen,
             AllCreatorListScreen,
             AllCharacterListScreen,
             AllSeriesListScreen,
             AllEventListScreen,
+            AllStoriesListScreen,
             Home,
-            AllStoriesListScreen -> null
+            Splash -> null
         }
     }
 }

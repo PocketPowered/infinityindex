@@ -27,7 +27,6 @@ import org.koin.core.annotation.KoinExperimentalAPI
 fun HomeScreen(modifier: Modifier = Modifier) {
     val viewModel = koinViewModel<HomeViewModel>()
     val screenState by viewModel.screenStateSlice.screenState.collectAsState()
-    val isLoaded by screenState.hasLoaded.collectAsState()
     Box(modifier = modifier.fillMaxSize()) {
         Scaffold(topBar = {
             GlobalTopAppBar(showBackButton = false)
@@ -44,16 +43,5 @@ fun HomeScreen(modifier: Modifier = Modifier) {
                 }
             }
         }
-    }
-    AnimatedVisibility(
-        modifier = Modifier.fillMaxSize().clickable { },
-        visible = !isLoaded, exit = slideOutVertically(
-            animationSpec = tween(
-                durationMillis = 600, // Adjust duration for smoother effect
-                easing = FastOutSlowInEasing // Smooth easing curve
-            )
-        )
-    ) {
-        InfinityIndexLoadingScreen()
     }
 }

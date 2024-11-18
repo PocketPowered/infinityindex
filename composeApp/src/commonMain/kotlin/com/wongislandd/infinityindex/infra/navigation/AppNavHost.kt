@@ -22,6 +22,7 @@ import com.wongislandd.infinityindex.entities.events.EventDetailsViewModel
 import com.wongislandd.infinityindex.entities.series.SeriesDetailsViewModel
 import com.wongislandd.infinityindex.entities.stories.StoryDetailsViewModel
 import com.wongislandd.infinityindex.home.HomeScreen
+import com.wongislandd.infinityindex.home.InfinityIndexSplashScreen
 import com.wongislandd.infinityindex.infra.composables.GenericDetailsScreen
 import com.wongislandd.infinityindex.infra.composables.GenericListScreen
 import com.wongislandd.infinityindex.infra.composables.RelatedEntityListConfiguration
@@ -45,11 +46,10 @@ import com.wongislandd.infinityindex.viewmodels.rootlist.AllEventsListViewModel
 import com.wongislandd.infinityindex.viewmodels.rootlist.AllSeriesListViewModel
 import com.wongislandd.infinityindex.viewmodels.rootlist.AllStoriesListViewModel
 
-
 @Composable
 fun AppNavHost(
     modifier: Modifier = Modifier,
-    startDestination: String = NavigationItem.Home.route,
+    startDestination: String = NavigationItem.Splash.route,
 ) {
     val navController = LocalNavHostController.current
     val pageTurnEnterTransition = slideInHorizontally(
@@ -242,6 +242,9 @@ fun AppNavHost(
                 NavigationItemType.OTHER -> {
                     composable(route = navItem.route) {
                         when (navItem) {
+                            NavigationItem.Splash -> {
+                                InfinityIndexSplashScreen()
+                            }
                             NavigationItem.Home -> {
                                 HomeScreen()
                             }

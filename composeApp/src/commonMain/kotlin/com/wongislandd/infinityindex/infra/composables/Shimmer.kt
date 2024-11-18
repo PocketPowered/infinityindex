@@ -27,16 +27,18 @@ val shimmerColors = listOf(
 @Composable
 fun ShimmerEffect(
     modifier: Modifier = Modifier,
-    widthOfShadowBrush: Int = 700,
+    sizeOfShadowBrush: Int = 700,
+    colors: List<Color> = shimmerColors,
     angleOfAxisY: Float = 270f,
     durationMillis: Int = 1500,
+    isVertical: Boolean = false,
     content: @Composable BoxScope.() -> Unit
 ) {
     val transition = rememberInfiniteTransition(label = "")
 
     val translateAnimation = transition.animateFloat(
         initialValue = 0f,
-        targetValue = (durationMillis + widthOfShadowBrush).toFloat(),
+        targetValue = (durationMillis + sizeOfShadowBrush).toFloat(),
         animationSpec = infiniteRepeatable(
             animation = tween(
                 durationMillis = durationMillis,
@@ -47,11 +49,19 @@ fun ShimmerEffect(
         label = "Shimmer loading animation",
     )
 
-    val brush = Brush.linearGradient(
-        colors = shimmerColors,
-        start = Offset(x = translateAnimation.value - widthOfShadowBrush, y = 0.0f),
-        end = Offset(x = translateAnimation.value, y = angleOfAxisY),
-    )
+    val brush = if (isVertical) {
+        Brush.linearGradient(
+            colors = colors,
+            start = Offset(x = 0f, y = translateAnimation.value - sizeOfShadowBrush),
+            end = Offset(x = 0f, y = translateAnimation.value),
+        )
+    } else {
+        Brush.linearGradient(
+            colors = colors,
+            start = Offset(x = translateAnimation.value - sizeOfShadowBrush, y = 0.0f),
+            end = Offset(x = translateAnimation.value, y = angleOfAxisY),
+        )
+    }
 
     Box(
         modifier = modifier

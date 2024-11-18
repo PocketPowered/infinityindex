@@ -17,5 +17,4 @@ class HomeScreenState(
     override val seriesData: StateFlow<PagingData<Series>>,
     override val comicData: StateFlow<PagingData<Comic>>,
     override val entityCountsData: StateFlow<EntityCountsData>,
-    override val hasLoaded: StateFlow<Boolean>
 ) : PagingDataConsumerScreenState

@@ -9,7 +9,6 @@ class HomeScreenStateSlice: BaseAllEntitiesPagingDataConsumerSlice() {
     private val _screenState: MutableStateFlow<PagingDataConsumerScreenState> =
         MutableStateFlow(
             HomeScreenState(
-                hasLoaded = hasFullyLoaded,
                 characterData = characterPagingData,
                 creatorsData = creatorsPagingData,
                 eventsData = eventsPagingData,

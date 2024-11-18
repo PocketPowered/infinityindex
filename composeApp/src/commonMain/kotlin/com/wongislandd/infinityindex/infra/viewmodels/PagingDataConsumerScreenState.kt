@@ -10,7 +10,6 @@ import com.wongislandd.infinityindex.models.local.Story
 import kotlinx.coroutines.flow.StateFlow
 
 interface PagingDataConsumerScreenState {
-    val hasLoaded: StateFlow<Boolean>
     val entityCountsData: StateFlow<EntityCountsData>
     val characterData: StateFlow<PagingData<Character>>
     val creatorsData: StateFlow<PagingData<Creator>>

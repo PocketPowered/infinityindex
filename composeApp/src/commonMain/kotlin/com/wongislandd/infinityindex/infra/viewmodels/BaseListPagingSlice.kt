@@ -102,11 +102,6 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
                                         false
                                     )
                                 )
-                                backChannelEvents.sendEvent(
-                                    ListBackChannelEvent.EntityResponseReceived(
-                                        entityType
-                                    )
-                                )
                             }
                         }
 
