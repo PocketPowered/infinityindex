@@ -26,21 +26,22 @@ import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import app.cash.paging.compose.LazyPagingItems
 import com.wongislandd.infinityindex.ComicConstants
+import com.wongislandd.infinityindex.ComicConstants.RELATED_DETAILS_MAX_ENTITY_RESULTS
 import com.wongislandd.infinityindex.infra.navigation.LocalNavHostController
 import com.wongislandd.infinityindex.infra.util.EntityModel
 import com.wongislandd.infinityindex.infra.util.EntityType
-import kotlin.math.min
 
 @Composable
 fun <T : EntityModel> SectionedEntityList(
     entityType: EntityType,
-    totalItemCount: Long,
+    totalItemCount: Int?,
     pagedItems: LazyPagingItems<T>,
     showAllRoute: String,
     useCase: EntitiesListUseCase
 ) {
     val navController = LocalNavHostController.current
-    val isShowAllAvailable = totalItemCount > ComicConstants.RELATED_DETAILS_MAX_ENTITY_RESULTS
+    val isShowAllAvailable =
+        (totalItemCount ?: 0) > RELATED_DETAILS_MAX_ENTITY_RESULTS
     if (!pagedItems.loadState.isInitializing() && pagedItems.itemCount == 0) {
         return
     }
@@ -48,7 +49,7 @@ fun <T : EntityModel> SectionedEntityList(
         EntitySectionHeader(
             entityType = entityType,
             totalEntityCount = totalItemCount,
-            showAllRoute = showAllRoute.takeIf { isShowAllAvailable && useCase == EntitiesListUseCase.GENERAL },
+            showAllRoute = showAllRoute.takeIf { isShowAllAvailable && useCase == EntitiesListUseCase.HOME },
             modifier = Modifier.padding(horizontal = 8.dp)
         )
         LazyRow(
@@ -70,10 +71,9 @@ fun <T : EntityModel> SectionedEntityList(
                 when {
                     // Placeholder cards
                     loadState.isInitializing() -> {
-                        val numGhostCards = min(
-                            totalItemCount.toInt(),
-                            ComicConstants.RELATED_DETAILS_MAX_ENTITY_RESULTS
-                        )
+                        val backupNumGhostCards =
+                            if (useCase == EntitiesListUseCase.DETAILS) RELATED_DETAILS_MAX_ENTITY_RESULTS else ComicConstants.LIST_PAGE_SIZE
+                        val numGhostCards = totalItemCount ?: backupNumGhostCards
                         repeat(
                             numGhostCards
                         ) {
@@ -111,7 +111,7 @@ fun <T : EntityModel> SectionedEntityList(
 @Composable
 private fun EntitySectionHeader(
     entityType: EntityType,
-    totalEntityCount: Long,
+    totalEntityCount: Int?,
     showAllRoute: String?,
     modifier: Modifier = Modifier
 ) {
@@ -123,8 +123,10 @@ private fun EntitySectionHeader(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
+        val sectionHeaderText =
+            totalEntityCount?.let { "${entityType.displayName} (${it})" } ?: entityType.displayName
         Text(
-            text = "${entityType.displayName} ($totalEntityCount)",
+            text = sectionHeaderText,
             style = MaterialTheme.typography.h6,
             fontWeight = FontWeight.SemiBold,
             textAlign = TextAlign.Start,

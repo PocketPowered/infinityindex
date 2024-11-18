@@ -40,7 +40,7 @@ fun HomeScreen(modifier: Modifier = Modifier) {
                         showAllRouteGetter = { entityType ->
                             NavigationHelper.getAllListRoute(entityType)
                         },
-                        useCase = EntitiesListUseCase.GENERAL)
+                        useCase = EntitiesListUseCase.HOME)
                 }
             }
         }

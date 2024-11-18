@@ -3,6 +3,7 @@ package com.wongislandd.infinityindex.infra.viewmodels
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import app.cash.paging.Pager
+import com.wongislandd.infinityindex.ComicConstants
 import com.wongislandd.infinityindex.infra.DetailsBackChannelEvent
 import com.wongislandd.infinityindex.infra.DetailsUiEvent
 import com.wongislandd.infinityindex.infra.ListBackChannelEvent
@@ -194,19 +195,19 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
         return when (useCase) {
             PagedListUseCase.ALL_AVAILABLE -> {
                 PagingConfig(
-                    initialLoadSize = 40,
-                    pageSize = 20,
+                    initialLoadSize = ComicConstants.LIST_PAGE_SIZE * 2,
+                    pageSize = ComicConstants.LIST_PAGE_SIZE,
                     enablePlaceholders = false,
-                    prefetchDistance = 10
+                    prefetchDistance = ComicConstants.LIST_PAGE_SIZE / 2
                 )
             }
 
             PagedListUseCase.RELATED_ENTITIES -> {
                 PagingConfig(
-                    initialLoadSize = 40,
-                    pageSize = 20,
+                    initialLoadSize = ComicConstants.LIST_PAGE_SIZE * 2,
+                    pageSize = ComicConstants.LIST_PAGE_SIZE,
                     enablePlaceholders = false,
-                    prefetchDistance = 10
+                    prefetchDistance = ComicConstants.LIST_PAGE_SIZE / 2
                 )
             }
         }

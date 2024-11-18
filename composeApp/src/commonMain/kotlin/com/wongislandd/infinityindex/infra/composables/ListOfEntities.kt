@@ -12,7 +12,7 @@ import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.viewmodels.PagingDataConsumerScreenState
 
 enum class EntitiesListUseCase {
-    GENERAL,
+    HOME,
     DETAILS
 }
 
@@ -45,10 +45,11 @@ fun ListOfEntities(
             val entityType = entityTypeAndCountPair.first
             val totalEntityCount = entityTypeAndCountPair.second
             // Only show the section if there are items to show
-            totalEntityCount?.let {
+            val shouldShowList = totalEntityCount != null || useCase == EntitiesListUseCase.HOME
+            if (shouldShowList) {
                 SectionedEntityList(
                     entityType = entityType,
-                    totalItemCount = totalEntityCount,
+                    totalItemCount = totalEntityCount?.toInt(),
                     pagedItems = pagedItems,
                     showAllRoute = showAllRouteGetter(entityType),
                     useCase = useCase

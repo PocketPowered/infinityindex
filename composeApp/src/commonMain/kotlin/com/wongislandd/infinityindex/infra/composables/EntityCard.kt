@@ -75,7 +75,9 @@ fun EntityCard(
 
 @Composable
 fun GhostEntityCard(modifier: Modifier = Modifier) {
-    BaseEntityCard(modifier = modifier) { }
+    ShimmerEffect(modifier = modifier) {
+        BaseEntityCard { }
+    }
 }
 
 @Composable

@@ -45,6 +45,7 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import app.cash.paging.compose.LazyPagingItems
 import app.cash.paging.compose.collectAsLazyPagingItems
+import com.wongislandd.infinityindex.ComicConstants
 import com.wongislandd.infinityindex.infra.DetailsUiEvent
 import com.wongislandd.infinityindex.infra.ListUiEvent
 import com.wongislandd.infinityindex.infra.util.EntityModel
@@ -278,7 +279,7 @@ fun EntityList(
         }
         pagedEntities.apply {
             if (loadState.refresh is LoadState.Loading || loadState.append is LoadState.Loading) {
-                repeat(times = 20) {
+                repeat(ComicConstants.LIST_PAGE_SIZE * 2) {
                     item {
                         GhostEntityCard()
                     }
