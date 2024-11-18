@@ -90,7 +90,6 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.client.okhttp)
-            implementation(libs.compose.material.icons)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -120,7 +119,6 @@ kotlin {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
             implementation(libs.ktor.client.okhttp)
-            implementation(libs.compose.material.icons)
         }
 
     }
