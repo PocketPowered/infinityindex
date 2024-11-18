@@ -1,18 +1,12 @@
 package com.wongislandd.infinityindex.infra.composables
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.GridItemSpan
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.DropdownMenu
@@ -42,15 +36,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import androidx.paging.LoadState
 import app.cash.paging.compose.LazyPagingItems
 import app.cash.paging.compose.collectAsLazyPagingItems
-import com.wongislandd.infinityindex.ComicConstants
 import com.wongislandd.infinityindex.infra.DetailsUiEvent
 import com.wongislandd.infinityindex.infra.ListUiEvent
 import com.wongislandd.infinityindex.infra.util.EntityModel
 import com.wongislandd.infinityindex.infra.util.EntityType
-import com.wongislandd.infinityindex.infra.util.Resource
 import com.wongislandd.infinityindex.infra.util.SelectableSortOption
 import com.wongislandd.infinityindex.infra.util.SortOption
 import com.wongislandd.infinityindex.infra.util.events.EventBus
@@ -274,62 +265,4 @@ fun EntityList(
         emptyContent = {
             Text("No results found")
         })
-}
-
-@Composable
-private fun PagingWrapper(
-    pagedEntities: LazyPagingItems<out EntityModel>,
-    modifier: Modifier = Modifier,
-    itemContent: @Composable (EntityModel) -> Unit,
-    placeholderContent: @Composable () -> Unit,
-    errorContent: @Composable (String) -> Unit,
-    emptyContent: @Composable () -> Unit
-) {
-    LazyVerticalGrid(
-        columns = GridCells.Adaptive(180.dp),
-        contentPadding = PaddingValues(8.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        modifier = modifier
-            .background(MaterialTheme.colors.surface)
-    ) {
-        // Hide results if we are refreshing the whole source
-        if (pagedEntities.loadState.refresh != LoadState.Loading) {
-            items(pagedEntities.itemCount) { index ->
-                pagedEntities[index]?.let { entity ->
-                    itemContent(entity)
-                }
-            }
-        }
-        pagedEntities.apply {
-            if (loadState.refresh is LoadState.Loading || loadState.append is LoadState.Loading) {
-                repeat(ComicConstants.LIST_PAGE_SIZE * 2) {
-                    item {
-                        placeholderContent()
-                    }
-                }
-            }
-            item(span = {
-                GridItemSpan(maxLineSpan)
-            }) {
-                Box(
-                    modifier = Modifier.fillMaxWidth().padding(16.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    when {
-                        loadState.refresh is LoadState.Error || loadState.append is LoadState.Error -> {
-                            val message =
-                                (pagedEntities.loadState.append as? LoadState.Error)?.error?.message
-                                    ?: (pagedEntities.loadState.refresh as? LoadState.Error)?.error?.message
-                            errorContent(message ?: "Unknown error")
-                        }
-
-                        loadState.refresh is LoadState.NotLoading && loadState.append.endOfPaginationReached && itemCount == 0 -> {
-                            emptyContent()
-                        }
-                    }
-                }
-            }
-        }
-    }
 }

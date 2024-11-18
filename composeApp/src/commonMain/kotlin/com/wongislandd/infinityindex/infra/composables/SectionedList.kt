@@ -102,6 +102,14 @@ fun <T : EntityModel> SectionedEntityList(
                         }
                     }
 
+                    loadState.refresh is LoadState.Error || loadState.append is LoadState.Error -> {
+                        val message =
+                            (pagedItems.loadState.append as? LoadState.Error)?.error?.message
+                                ?: (pagedItems.loadState.refresh as? LoadState.Error)?.error?.message
+                        item {
+                            GenericErrorScreen(message ?: "Unknown error")
+                        }
+                    }
                 }
             }
         }
