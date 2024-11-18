@@ -71,9 +71,14 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
 
             PagedListUseCase.RELATED_ENTITIES -> {
                 safeLet(relatedEntityType, relatedEntityId) { relatedType, relatedId ->
-                    RelatedEntityPagingSource(repository, relatedType, relatedId)
-                }
-                    ?: throw IllegalArgumentException("Attempted to page related entities before providing a related entity type and id")
+                    RelatedEntityPagingSource(
+                        repository,
+                        relatedType,
+                        relatedId,
+                        currentSearchQuery,
+                        currentSortOption
+                    )
+                } ?: throw IllegalArgumentException("Attempted to page related entities before providing a related entity type and id")
             }
         }
     }

@@ -88,39 +88,37 @@ inline fun <NETWORK_TYPE, reified T : BaseListViewModel<NETWORK_TYPE, out Entity
                 ?: viewModel.screenStateSlice.entityType.displayName,
             isTitleShown = !screenState.searchState.isSearchBoxVisible,
             actions = {
-                if (relatedListConfig == null) {
-                    ExpandingSearch(
-                        isExpanded = screenState.searchState.isSearchBoxVisible,
-                        currentSearchParam = screenState.searchState.searchQuery.text,
-                        onSearchCleared = {
-                            coroutineScope.sendEvent(
-                                viewModel.uiEventBus,
-                                ListUiEvent.ClearSearchQuery
-                            )
-                        },
-                        onSearchParamChanged = { newQuery ->
-                            coroutineScope.sendEvent(
-                                viewModel.uiEventBus,
-                                ListUiEvent.SetPendingSearchQuery(newQuery)
-                            )
-                        },
-                        onSearchParamSubmitted = {
-                            coroutineScope.sendEvent(
-                                viewModel.uiEventBus,
-                                ListUiEvent.SubmitSearchQuery(it)
-                            )
-                        },
-                        onSearchIconClicked = {
-                            coroutineScope.sendEvent(
-                                viewModel.uiEventBus,
-                                ListUiEvent.SearchClicked
-                            )
-                        },
-                    )
-                    SortSelection(screenState.availableSortOptions, onSortSelected = {
-                        coroutineScope.sendEvent(viewModel.uiEventBus, ListUiEvent.SortSelected(it))
-                    })
-                }
+                ExpandingSearch(
+                    isExpanded = screenState.searchState.isSearchBoxVisible,
+                    currentSearchParam = screenState.searchState.searchQuery.text,
+                    onSearchCleared = {
+                        coroutineScope.sendEvent(
+                            viewModel.uiEventBus,
+                            ListUiEvent.ClearSearchQuery
+                        )
+                    },
+                    onSearchParamChanged = { newQuery ->
+                        coroutineScope.sendEvent(
+                            viewModel.uiEventBus,
+                            ListUiEvent.SetPendingSearchQuery(newQuery)
+                        )
+                    },
+                    onSearchParamSubmitted = {
+                        coroutineScope.sendEvent(
+                            viewModel.uiEventBus,
+                            ListUiEvent.SubmitSearchQuery(it)
+                        )
+                    },
+                    onSearchIconClicked = {
+                        coroutineScope.sendEvent(
+                            viewModel.uiEventBus,
+                            ListUiEvent.SearchClicked
+                        )
+                    },
+                )
+                SortSelection(screenState.availableSortOptions, onSortSelected = {
+                    coroutineScope.sendEvent(viewModel.uiEventBus, ListUiEvent.SortSelected(it))
+                })
             }
         )
     }) {

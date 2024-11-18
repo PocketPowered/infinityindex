@@ -27,9 +27,7 @@ fun HomeScreen(modifier: Modifier = Modifier) {
         Scaffold(topBar = {
             GlobalTopAppBar(showBackButton = false)
         }) {
-            LazyColumn(
-                contentPadding = PaddingValues(bottom = 16.dp)
-            ) {
+            LazyColumn {
                 item {
                     ListOfEntities(screenState,
                         showAllRouteGetter = { entityType ->

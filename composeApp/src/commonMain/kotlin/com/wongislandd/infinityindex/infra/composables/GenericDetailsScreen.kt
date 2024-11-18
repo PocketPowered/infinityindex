@@ -89,7 +89,7 @@ fun AdditionalDetailsContents(
     screenState: PagingDataConsumerScreenState,
     modifier: Modifier = Modifier
 ) {
-    AdditionalDetailsLazyColumn(modifier = modifier.widthIn(max = 800.dp)) {
+    AdditionalDetailsLazyColumn(modifier = modifier.widthIn(max = 1000.dp)) {
         item {
             PrimaryDetailContents(primaryModel, modifier = Modifier.padding(horizontal = 16.dp))
         }

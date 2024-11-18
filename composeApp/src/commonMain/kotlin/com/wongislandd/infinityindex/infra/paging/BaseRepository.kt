@@ -62,6 +62,8 @@ abstract class BaseRepository<NETWORK_MODEL, LOCAL_MODEL : EntityModel>(
     suspend fun getPagedPrimaryEntityRelatedToOtherEntity(
         relatedEntityType: EntityType,
         relatedEntityId: Int,
+        searchParam: String?,
+        sortKey: String?,
         start: Int,
         count: Int
     ): Resource<DataWrapper<LOCAL_MODEL>> {
@@ -72,6 +74,13 @@ abstract class BaseRepository<NETWORK_MODEL, LOCAL_MODEL : EntityModel>(
             ) {
                 parameter("offset", start)
                 parameter("limit", count)
+                parameter("orderBy", sortKey)
+                safeLet(
+                    searchParam?.takeIf { it.isNotBlank() },
+                    rootEntityType.searchParamType?.key
+                ) { searchParam, searchParamType ->
+                    parameter(searchParamType, searchParam)
+                }
             }
         response.onSuccess { AppLeveled.updateAttributionText(it.attributionText) }
         return response.map { transformer.transform(it) }

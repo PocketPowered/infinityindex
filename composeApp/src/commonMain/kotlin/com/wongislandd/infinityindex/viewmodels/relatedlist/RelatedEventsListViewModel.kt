@@ -4,6 +4,8 @@ import com.wongislandd.infinityindex.infra.util.events.BackChannelEvent
 import com.wongislandd.infinityindex.infra.util.events.EventBus
 import com.wongislandd.infinityindex.infra.util.events.UiEvent
 import com.wongislandd.infinityindex.infra.viewmodels.BaseListViewModel
+import com.wongislandd.infinityindex.infra.viewmodels.SearchSlice
+import com.wongislandd.infinityindex.infra.viewmodels.SortSlice
 import com.wongislandd.infinityindex.models.local.Event
 import com.wongislandd.infinityindex.models.network.NetworkEvent
 import com.wongislandd.infinityindex.viewmodels.shared.EventsListScreenStateSlice
@@ -11,12 +13,14 @@ import com.wongislandd.infinityindex.viewmodels.shared.EventsListScreenStateSlic
 class RelatedEventsListViewModel(
     uiEventBus: EventBus<UiEvent>,
     relatedEventsSlice: RelatedEventsSlice,
+    searchSlice: SearchSlice,
+    sortSlice: SortSlice,
     eventsListScreenStateSlice: EventsListScreenStateSlice,
     backChannelEventBus: EventBus<BackChannelEvent>
 ) : BaseListViewModel<NetworkEvent, Event>(
     eventsListScreenStateSlice,
-    null,
-    null,
+    sortSlice,
+    searchSlice,
     relatedEventsSlice,
     uiEventBus,
     backChannelEventBus
