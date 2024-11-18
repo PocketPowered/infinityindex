@@ -16,7 +16,11 @@ import androidx.compose.ui.unit.dp
 import com.wongislandd.infinityindex.infra.models.DefaultImageType
 
 @Composable
-fun UnknownImage(imageType: DefaultImageType, tint: Color = MaterialTheme.colors.onPrimary, modifier: Modifier = Modifier) {
+fun UnknownImage(
+    imageType: DefaultImageType,
+    tint: Color = MaterialTheme.colors.onPrimary,
+    modifier: Modifier = Modifier
+) {
     val placeholderIcon = when (imageType) {
         DefaultImageType.PERSON -> Icons.Default.Person
         DefaultImageType.PLACE -> Icons.Default.Place
@@ -25,7 +29,7 @@ fun UnknownImage(imageType: DefaultImageType, tint: Color = MaterialTheme.colors
     }
     Box(
         modifier = modifier
-            .padding(16.dp)
+            .padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 48.dp)
     ) {
         Icon(
             imageVector = placeholderIcon,
