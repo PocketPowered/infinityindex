@@ -43,6 +43,7 @@ abstract class NetworkClient(val httpClient: HttpClient) {
                 409 -> Resource.Error(NetworkError.CONFLICT)
                 408 -> Resource.Error(NetworkError.REQUEST_TIMEOUT)
                 413 -> Resource.Error(NetworkError.PAYLOAD_TOO_LARGE)
+                429 -> Resource.Error(NetworkError.MARVEL_API_RATE_LIMITED)
                 in 500..599 -> Resource.Error(NetworkError.SERVER_ERROR)
                 else -> Resource.Error(NetworkError.UNKNOWN)
             }

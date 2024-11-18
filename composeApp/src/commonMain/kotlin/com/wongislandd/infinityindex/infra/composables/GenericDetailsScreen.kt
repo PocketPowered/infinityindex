@@ -73,8 +73,8 @@ inline fun <reified T : BaseDetailsViewModel<out EntityModel>> GenericDetailsScr
                 }
 
                 is Resource.Error -> {
-                    Text(
-                        text = "Error loading details",
+                    GenericErrorScreen(
+                        errorMessage = primaryRes.error?.displayMessage ?: "Error loading details",
                         modifier = Modifier.align(Alignment.Center)
                     )
                 }

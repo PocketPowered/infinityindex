@@ -1,3 +1,5 @@
 package com.wongislandd.infinityindex.infra.util
 
-interface Error
+interface Error {
+    val displayMessage: String?
+}

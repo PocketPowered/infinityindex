@@ -50,6 +50,7 @@ import com.wongislandd.infinityindex.infra.DetailsUiEvent
 import com.wongislandd.infinityindex.infra.ListUiEvent
 import com.wongislandd.infinityindex.infra.util.EntityModel
 import com.wongislandd.infinityindex.infra.util.EntityType
+import com.wongislandd.infinityindex.infra.util.Resource
 import com.wongislandd.infinityindex.infra.util.SelectableSortOption
 import com.wongislandd.infinityindex.infra.util.SortOption
 import com.wongislandd.infinityindex.infra.util.events.EventBus
@@ -267,8 +268,8 @@ fun EntityList(
         placeholderContent = {
             GhostEntityCard()
         },
-        errorContent = {
-            Text("Error")
+        errorContent = { errorMsg ->
+            GenericErrorScreen(errorMsg)
         },
         emptyContent = {
             Text("No results found")
@@ -281,7 +282,7 @@ private fun PagingWrapper(
     modifier: Modifier = Modifier,
     itemContent: @Composable (EntityModel) -> Unit,
     placeholderContent: @Composable () -> Unit,
-    errorContent: @Composable () -> Unit,
+    errorContent: @Composable (String) -> Unit,
     emptyContent: @Composable () -> Unit
 ) {
     LazyVerticalGrid(
@@ -312,12 +313,15 @@ private fun PagingWrapper(
                 GridItemSpan(maxLineSpan)
             }) {
                 Box(
-                    modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp),
+                    modifier = Modifier.fillMaxWidth().padding(16.dp),
                     contentAlignment = Alignment.Center
                 ) {
                     when {
                         loadState.refresh is LoadState.Error || loadState.append is LoadState.Error -> {
-                            errorContent()
+                            val message =
+                                (pagedEntities.loadState.append as? LoadState.Error)?.error?.message
+                                    ?: (pagedEntities.loadState.refresh as? LoadState.Error)?.error?.message
+                            errorContent(message ?: "Unknown error")
                         }
 
                         loadState.refresh is LoadState.NotLoading && loadState.append.endOfPaginationReached && itemCount == 0 -> {

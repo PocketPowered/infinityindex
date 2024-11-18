@@ -7,6 +7,7 @@ import app.cash.paging.PagingSourceLoadResult
 import app.cash.paging.PagingSourceLoadResultError
 import app.cash.paging.PagingSourceLoadResultPage
 import com.wongislandd.infinityindex.infra.networking.models.DataWrapper
+import com.wongislandd.infinityindex.infra.util.NetworkError
 import com.wongislandd.infinityindex.infra.util.Resource
 
 interface PagingSourceCallbacks {
@@ -43,9 +44,10 @@ abstract class BasePagingSource<Value : Any> : PagingSource<Int, Value>() {
                     pagingSourceCallbacks?.onSuccess(page.data)
                     val nextOffset = page.data.start + page.data.count
                     val nextKey = if (nextOffset + limit <= page.data.total && getPageNumber(
-                        nextOffset,
-                        limit
-                    ) < maxNumberOfPages) {
+                            nextOffset,
+                            limit
+                        ) < maxNumberOfPages
+                    ) {
                         nextOffset
                     } else {
                         null
@@ -59,12 +61,12 @@ abstract class BasePagingSource<Value : Any> : PagingSource<Int, Value>() {
 
                 is Resource.Error -> {
                     pagingSourceCallbacks?.onFailure(page.throwable)
-                    return PagingSourceLoadResultError(Exception(page.error.toString()))
+                    return PagingSourceLoadResultError(Exception(page.error?.displayMessage))
                 }
 
                 else -> {
                     pagingSourceCallbacks?.onFailure()
-                    return PagingSourceLoadResultError(Exception("Unknown error"))
+                    return PagingSourceLoadResultError(Exception(NetworkError.UNKNOWN.displayMessage))
                 }
             }
         } catch (e: Exception) {
