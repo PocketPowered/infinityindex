@@ -7,7 +7,7 @@ import com.wongislandd.infinityindex.infra.util.Transformer
 import com.wongislandd.infinityindex.infra.util.safeLet
 
 data class RoledCreatorOutput(
-    val comicCreators: Map<String, List<String>>,
+    val primaryCreators: Map<String, List<String>>,
     val coverCreators: Map<String, List<String>>
 )
 

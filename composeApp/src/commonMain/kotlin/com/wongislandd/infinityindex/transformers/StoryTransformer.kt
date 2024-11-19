@@ -1,6 +1,8 @@
 package com.wongislandd.infinityindex.transformers
 
 import com.wongislandd.infinityindex.entities.comics.transformers.DateTransformer
+import com.wongislandd.infinityindex.entities.comics.transformers.RoledCreatorOutput
+import com.wongislandd.infinityindex.entities.comics.transformers.RoledCreatorTransformer
 import com.wongislandd.infinityindex.infra.models.DefaultImageType
 import com.wongislandd.infinityindex.infra.models.NavigationContext
 import com.wongislandd.infinityindex.infra.navigation.NavigationHelper
@@ -15,9 +17,13 @@ import com.wongislandd.infinityindex.models.network.NetworkStory
 
 class StoryTransformer(
     private val loadableImageTransformer: LoadableImageTransformer,
-    private val dateTransformer: DateTransformer
+    private val dateTransformer: DateTransformer,
+    private val roledCreatorTransformer: RoledCreatorTransformer
 ) : DataWrapperTransformer<NetworkStory, Story>() {
     override fun itemTransformer(input: NetworkStory): Story? {
+        val creatorsOutput = input.creators?.let {
+            roledCreatorTransformer.transform(it)
+        } ?: RoledCreatorOutput(emptyMap(), emptyMap())
         return safeLet(
             input.id,
             input.title,
@@ -47,7 +53,8 @@ class StoryTransformer(
                 relatedCreatorsCount = input.creators.getAvailableItems(),
                 relatedSeriesCount = input.series.getAvailableItems(),
                 relatedComicsCount = input.comics.getAvailableItems(),
-                lastModified = dateTransformer.transform(modified)
+                lastModified = dateTransformer.transform(modified),
+                creatorsByRole = creatorsOutput.primaryCreators
             )
         }
     }

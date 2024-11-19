@@ -3,6 +3,7 @@ package com.wongislandd.infinityindex.entities.series
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.wongislandd.infinityindex.infra.EntityDetails
+import com.wongislandd.infinityindex.infra.composables.RelatedCreatorsSection
 import com.wongislandd.infinityindex.infra.composables.InformationSnippet
 import com.wongislandd.infinityindex.models.local.Series
 import com.wongislandd.infinityindex.infra.composables.DetailsSection
@@ -21,5 +22,6 @@ fun SeriesDetails(series: Series, modifier: Modifier = Modifier) {
                 InformationSnippet("Active", "$startYear - $endYear")
             }
         }
+        RelatedCreatorsSection(series.creatorsByRole, emptyMap())
     }
 }

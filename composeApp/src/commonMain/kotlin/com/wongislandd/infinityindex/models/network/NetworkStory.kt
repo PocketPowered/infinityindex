@@ -3,6 +3,7 @@ package com.wongislandd.infinityindex.models.network
 import com.wongislandd.infinityindex.infra.networking.models.NetworkImage
 import com.wongislandd.infinityindex.infra.networking.models.NetworkList
 import com.wongislandd.infinityindex.infra.networking.models.NetworkSummary
+import com.wongislandd.infinityindex.infra.networking.models.RoledNetworkSummary
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -18,6 +19,6 @@ data class NetworkStory(
     val series: NetworkList<NetworkSummary>?,
     val events: NetworkList<NetworkSummary>?,
     val characters: NetworkList<NetworkSummary>?,
-    val creators: NetworkList<NetworkSummary>?,
+    val creators: NetworkList<RoledNetworkSummary>?,
     val originalIssue: NetworkSummary?
 )

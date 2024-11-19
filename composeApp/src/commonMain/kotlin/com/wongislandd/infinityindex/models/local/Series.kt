@@ -14,6 +14,7 @@ data class Series(
     val rating: String?,
     val startYear: Int?,
     val endYear: Int?,
+    val creatorsByRole: Map<String, List<String>>,
     override val relatedComicsCount: Int,
     override val relatedStoriesCount: Int,
     override val relatedCharactersCount: Int,

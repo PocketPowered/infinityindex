@@ -12,6 +12,7 @@ data class Story(
     override val lastModified: String,
     val type: String?,
     val description: String?,
+    val creatorsByRole: Map<String, List<String>>,
     override val relatedComicsCount: Int,
     override val relatedStoriesCount: Int,
     override val relatedCharactersCount: Int,
