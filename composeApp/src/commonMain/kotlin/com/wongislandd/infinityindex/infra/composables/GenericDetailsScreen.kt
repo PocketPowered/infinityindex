@@ -133,6 +133,9 @@ fun AdditionalDetailsContents(
             )
         }
         item {
+            BottomDetailContents(primaryModel)
+        }
+        item {
             MarvelAttributionTextLabel()
         }
     }
@@ -176,4 +179,19 @@ private fun SupplementaryDetailContents(
         entity = supplementaryEntityModel,
         modifier = modifier
     )
+}
+
+@Composable
+private fun BottomDetailContents(
+    primaryModel: EntityModel, modifier: Modifier = Modifier
+) {
+    when (primaryModel) {
+        is Comic -> {
+            MarvelLinks(primaryModel.relatedLinks, modifier)
+        }
+
+        is Character -> {
+            MarvelLinks(primaryModel.relatedLinks, modifier)
+        }
+    }
 }

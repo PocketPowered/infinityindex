@@ -54,32 +54,6 @@ fun TopLevelEntityDetails(entity: EntityModel, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun BottomLevelEntityDetails(entity: EntityModel, modifier: Modifier = Modifier) {
-    Column(
-        modifier = modifier,
-    ) {
-        DetailsSection("Developer Details") {
-            Text("ID: ${entity.id}", style = MaterialTheme.typography.body2)
-        }
-    }
-}
-
-//@Composable
-//private fun EntityMetadata(entity: EntityModel, modifier: Modifier = Modifier) {
-//    if (entity is Comic) {
-//        Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(4.dp)) {
-//            Text(
-//                text = "Published: ${entity.lastModified}",
-//                style = MaterialTheme.typography.body2,
-//                color = MaterialTheme.colors.onSurface,
-//                modifier = modifier
-//            )
-//        }
-//    }
-//}
-
-
-@Composable
 private fun EntityTypePlate(displayableEntity: DisplayableEntity, modifier: Modifier = Modifier) {
     val text = when (displayableEntity) {
         is Character -> "Character"

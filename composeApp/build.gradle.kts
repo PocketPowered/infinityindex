@@ -111,6 +111,7 @@ kotlin {
             implementation(libs.bundles.paging3)
             implementation(libs.androidx.navigation)
             implementation(libs.kermit)
+            implementation(libs.compose.webview.multiplatform)
         }
         nativeMain.dependencies {
             implementation(libs.ktor.client.darwin)
