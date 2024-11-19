@@ -1,5 +1,6 @@
 package com.wongislandd.infinityindex.models.local
 
+import com.wongislandd.infinityindex.entities.comics.models.RelatedLink
 import com.wongislandd.infinityindex.infra.models.LoadableImage
 import com.wongislandd.infinityindex.infra.models.NavigationContext
 import com.wongislandd.infinityindex.infra.util.EntityModel
@@ -15,5 +16,6 @@ data class Creator(
     override val relatedCreatorsCount: Int,
     override val relatedSeriesCount: Int,
     override val relatedEventsCount: Int,
-    override val lastModified: String
+    override val lastModified: String,
+    val relatedLinks: List<RelatedLink>
 ): EntityModel

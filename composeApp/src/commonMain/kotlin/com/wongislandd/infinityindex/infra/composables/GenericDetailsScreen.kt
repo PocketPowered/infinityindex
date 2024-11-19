@@ -193,5 +193,8 @@ private fun BottomDetailContents(
         is Character -> {
             MarvelLinks(primaryModel.relatedLinks, modifier)
         }
+        is Creator -> {
+            MarvelLinks(primaryModel.relatedLinks, modifier)
+        }
     }
 }
