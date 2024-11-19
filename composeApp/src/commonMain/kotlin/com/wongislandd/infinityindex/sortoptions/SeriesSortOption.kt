@@ -4,9 +4,10 @@ import com.wongislandd.infinityindex.infra.util.SortOption
 
 enum class SeriesSortOption(
     override val displayName: String,
-    override val sortKey: String,
+    override val sortKey: String?,
     override val isDefault: Boolean = false
 ) : SortOption {
+    DEFAULT(displayName = "Default", sortKey = null, isDefault = true),
     TITLE_DESC(displayName = "Title (dec)", sortKey = "-title"),
     TITLE_ASC(displayName = "Title (asc)", sortKey = "title"),
     START_YEAR_DEC(displayName = "Start Year (dec)", sortKey = "-startYear"),

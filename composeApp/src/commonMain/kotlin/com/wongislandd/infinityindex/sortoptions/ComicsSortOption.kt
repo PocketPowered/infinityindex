@@ -4,9 +4,10 @@ import com.wongislandd.infinityindex.infra.util.SortOption
 
 enum class ComicsSortOption(
     override val displayName: String,
-    override val sortKey: String,
+    override val sortKey: String?,
     override val isDefault: Boolean = false
 ) : SortOption {
+    DEFAULT(displayName = "Default", sortKey = null),
     FOC_DATE_DESC(displayName = "FOC Date (dec)", sortKey = "-focDate", isDefault = true),
     FOC_DATE_ASC(displayName = "FOC Date (asc)", sortKey = "focDate"),
     TITLE_DESC(displayName = "Title (dec)", sortKey = "-title"),

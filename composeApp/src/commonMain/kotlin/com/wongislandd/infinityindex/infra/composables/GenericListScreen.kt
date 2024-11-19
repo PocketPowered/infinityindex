@@ -47,6 +47,7 @@ import com.wongislandd.infinityindex.infra.util.SortOption
 import com.wongislandd.infinityindex.infra.util.events.EventBus
 import com.wongislandd.infinityindex.infra.util.events.UiEvent
 import com.wongislandd.infinityindex.infra.util.isDefaultSelectionSorted
+import com.wongislandd.infinityindex.infra.util.isNoSortOptionSelected
 import com.wongislandd.infinityindex.infra.viewmodels.BaseListViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -215,7 +216,7 @@ fun SortSelection(
         ) {
             Icon(
                 imageVector = Icons.Default.Menu,
-                tint = if (sortOptions.isDefaultSelectionSorted()) {
+                tint = if (sortOptions.isDefaultSelectionSorted() || sortOptions.isNoSortOptionSelected()) {
                     MaterialTheme.colors.onPrimary
                 } else {
                     MaterialTheme.colors.secondary
