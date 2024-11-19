@@ -44,7 +44,7 @@ object NavigationHelper {
             mapOf(
                 ROOT_ENTITY_ARG to rootEntityType.name,
                 ROOT_ENTITY_ID_ARG to rootEntityId.toString(),
-                TITLE_ARG to title
+                TITLE_ARG to cleanupTitle(title)
             )
         )
         return route
@@ -108,7 +108,7 @@ object NavigationHelper {
         val route = navigationItem.reconstructRoute(
             mapOf(
                 ID_ARG to id,
-                TITLE_ARG to title
+                TITLE_ARG to cleanupTitle(title)
             )
         )
         return route
@@ -117,4 +117,11 @@ object NavigationHelper {
     fun getHomeRoute(): String {
         return NavigationItem.Home.route
     }
+}
+
+/**
+ * Navigation gets weird if there is a "/" inside of the title, messing with the route.
+ */
+private fun cleanupTitle(title: String?): String? {
+    return title?.replace("/", " ")
 }
