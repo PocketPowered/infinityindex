@@ -14,12 +14,12 @@ import org.koin.compose.KoinContext
 
 @Composable
 @Preview
-fun InfinityIndexApp() {
+fun InfinityIndexApp(modifier: Modifier = Modifier) {
     MarvelTheme {
         KoinContext {
             NavHostControllerProvider {
                 Box(
-                    modifier = Modifier.fillMaxSize()
+                    modifier = modifier.fillMaxSize()
                         .background(color = MaterialTheme.colors.surface)
                 ) {
                     AppNavHost()
