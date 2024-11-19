@@ -13,7 +13,8 @@ sealed class DetailsBackChannelEvent : BackChannelEvent {
     data class RequestForPagination(
         val rootEntityId: Int,
         val rootEntityType: EntityType,
-        val relatedEntityTypeToPageFor: EntityType
+        val relatedEntityTypeToPageFor: EntityType,
+        val sortKey: String? = null
     ) : BackChannelEvent
 
     data class RequestForSingleRelatedDataUpdate(val entityId: Int, val entityType: EntityType) :

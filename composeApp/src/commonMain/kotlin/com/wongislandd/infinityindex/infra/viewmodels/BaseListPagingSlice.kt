@@ -58,14 +58,15 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
 
     private fun getPagingSource(
         relatedEntityType: EntityType?,
-        relatedEntityId: Int?
+        relatedEntityId: Int?,
+        sortKeyOverride: String? = null
     ): BasePagingSource<LOCAL_TYPE> {
         return when (useCase) {
             PagedListUseCase.ALL_AVAILABLE -> {
                 EntityPagingSource(
                     repository = repository,
                     searchQuery = currentSearchQuery,
-                    sortOption = currentSortOption
+                    sortKey = sortKeyOverride ?: currentSortOption?.sortKey
                 )
             }
 
@@ -76,7 +77,7 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
                         relatedType,
                         relatedId,
                         currentSearchQuery,
-                        currentSortOption
+                        sortKeyOverride ?: currentSortOption?.sortKey
                     )
                 } ?: throw IllegalArgumentException("Attempted to page related entities before providing a related entity type and id")
             }
@@ -85,7 +86,8 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
 
     private fun initializePaging(
         relatedEntityType: EntityType? = null,
-        relatedEntityId: Int? = null
+        relatedEntityId: Int? = null,
+        sortKeyOverride: String? = null
     ) {
         sliceScope.launch {
             Pager(
@@ -93,7 +95,8 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
             ) {
                 val newPagingSource = getPagingSource(
                     relatedEntityType,
-                    relatedEntityId
+                    relatedEntityId,
+                    sortKeyOverride
                 ).also { currentPagingSource = it }
                 newPagingSource.apply {
                     maxPageLimit?.also {
@@ -149,7 +152,7 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
 
             is DetailsBackChannelEvent.RequestForPagination -> {
                 if (event.relatedEntityTypeToPageFor == entityType) {
-                    initializePaging(event.rootEntityType, event.rootEntityId)
+                    initializePaging(event.rootEntityType, event.rootEntityId, event.sortKey)
                 }
             }
         }
@@ -159,14 +162,18 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
         searchQuery: String? = null,
         sortOption: SortOption? = null
     ) {
-        if (searchQuery == null && sortOption == null) return
-        searchQuery?.also {
+        var dataUpdateRequired = false
+        if (searchQuery != currentSearchQuery) {
             currentSearchQuery = searchQuery
+            dataUpdateRequired = true
         }
-        sortOption?.also {
+        if (sortOption != currentSortOption) {
             currentSortOption = sortOption
+            dataUpdateRequired = true
         }
-        currentPagingSource?.invalidate()
+        if (dataUpdateRequired) {
+            currentPagingSource?.invalidate()
+        }
     }
 
     /**

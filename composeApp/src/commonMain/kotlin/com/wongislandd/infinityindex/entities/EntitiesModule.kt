@@ -48,7 +48,7 @@ import com.wongislandd.infinityindex.transformers.StoryTransformer
 import com.wongislandd.infinityindex.models.local.Story
 import com.wongislandd.infinityindex.infra.viewmodels.BaseDetailsScreenStateSlice
 import com.wongislandd.infinityindex.infra.viewmodels.SearchSlice
-import com.wongislandd.infinityindex.infra.viewmodels.SeriesSupplementaryEntityResolutionSlice
+import com.wongislandd.infinityindex.infra.viewmodels.ComicSeriesSupplementaryEntityResolutionSlice
 import com.wongislandd.infinityindex.infra.viewmodels.SortSlice
 import com.wongislandd.infinityindex.repositories.CharactersEntityRepository
 import com.wongislandd.infinityindex.repositories.EventsEntityRepository
@@ -130,7 +130,7 @@ val entitiesModule = module {
     factoryOf(::RelatedSeriesSlice)
     factoryOf(::SingleSeriesSlice)
     factoryOf(::AllSeriesPagingSlice)
-    factoryOf(::SeriesSupplementaryEntityResolutionSlice)
+    factoryOf(::ComicSeriesSupplementaryEntityResolutionSlice)
 
     singleOf(::SeriesTransformer)
     singleOf(::SeriesEntityRepository)

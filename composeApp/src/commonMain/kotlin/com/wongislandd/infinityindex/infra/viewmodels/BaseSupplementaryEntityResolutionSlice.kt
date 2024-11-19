@@ -14,6 +14,8 @@ abstract class BaseSupplementaryEntityResolutionSlice<LOCAL_TYPE : EntityModel>(
     private val entityType: EntityType
 ) : ViewModelSlice() {
 
+    open fun onSupplementaryEntityResolved(entity: LOCAL_TYPE) {}
+
     override fun handleBackChannelEvent(event: BackChannelEvent) {
         when (event) {
             is DetailsBackChannelEvent.RequestForSingleRelatedDataUpdate -> {
@@ -28,6 +30,7 @@ abstract class BaseSupplementaryEntityResolutionSlice<LOCAL_TYPE : EntityModel>(
         sliceScope.launch {
             val response = repository.get(id)
             response.onSuccess { data ->
+                onSupplementaryEntityResolved(data)
                 launch {
                     backChannelEvents.sendEvent(
                         DetailsBackChannelEvent.SingleRelatedDataUpdate(

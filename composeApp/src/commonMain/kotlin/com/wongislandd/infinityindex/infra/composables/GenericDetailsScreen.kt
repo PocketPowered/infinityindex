@@ -90,6 +90,7 @@ fun AdditionalDetailsContents(
     modifier: Modifier = Modifier
 ) {
     val supplementaryData = screenState.supplementaryData.collectAsState()
+    val supplementaryDataValue = supplementaryData.value
     AdditionalDetailsLazyColumn(modifier = modifier.widthIn(max = 1000.dp)) {
         item {
             PrimaryDetailContents(primaryModel, modifier = Modifier.padding(horizontal = 16.dp))
@@ -111,12 +112,22 @@ fun AdditionalDetailsContents(
             ListOfEntities(
                 screenState,
                 showAllRouteGetter = { entityType ->
-                    NavigationHelper.getRelatedListRoute(
-                        primaryModel.getEntityType(),
-                        primaryModel.id,
-                        entityType,
-                        "${entityType.displayName} related to ${primaryModel.displayName}"
-                    )
+                    // Show all related to the supplementary data (useful for comics showing on comics screen from series resolution)
+                    if (supplementaryDataValue != null && entityType == primaryModel.getEntityType()) {
+                        NavigationHelper.getRelatedListRoute(
+                            supplementaryDataValue.getEntityType(),
+                            supplementaryDataValue.id,
+                            entityType,
+                            "${entityType.displayName} related to ${supplementaryDataValue.displayName}"
+                        )
+                    } else {
+                        NavigationHelper.getRelatedListRoute(
+                            primaryModel.getEntityType(),
+                            primaryModel.id,
+                            entityType,
+                            "${entityType.displayName} related to ${primaryModel.displayName}"
+                        )
+                    }
                 },
                 useCase = EntitiesListUseCase.DETAILS,
             )

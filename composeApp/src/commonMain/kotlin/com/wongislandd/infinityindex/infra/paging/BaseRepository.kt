@@ -64,8 +64,8 @@ abstract class BaseRepository<NETWORK_MODEL, LOCAL_MODEL : EntityModel>(
     suspend fun getPagedPrimaryEntityRelatedToOtherEntity(
         relatedEntityType: EntityType,
         relatedEntityId: Int,
-        searchParam: String?,
-        sortKey: String?,
+        searchParam: String? = null,
+        sortKey: String? = null,
         start: Int,
         count: Int
     ): Resource<DataWrapper<LOCAL_MODEL>> {

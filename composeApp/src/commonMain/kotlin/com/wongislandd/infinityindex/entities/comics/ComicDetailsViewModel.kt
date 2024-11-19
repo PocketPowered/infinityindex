@@ -1,14 +1,15 @@
 package com.wongislandd.infinityindex.entities.comics
 
-import com.wongislandd.infinityindex.models.local.Comic
 import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.util.events.BackChannelEvent
 import com.wongislandd.infinityindex.infra.util.events.EventBus
 import com.wongislandd.infinityindex.infra.util.events.UiEvent
 import com.wongislandd.infinityindex.infra.viewmodels.BaseDetailsScreenStateSlice
 import com.wongislandd.infinityindex.infra.viewmodels.BaseDetailsViewModel
-import com.wongislandd.infinityindex.infra.viewmodels.SeriesSupplementaryEntityResolutionSlice
+import com.wongislandd.infinityindex.infra.viewmodels.ComicSeriesSupplementaryEntityResolutionSlice
+import com.wongislandd.infinityindex.models.local.Comic
 import com.wongislandd.infinityindex.viewmodels.relatedlist.RelatedCharactersSlice
+import com.wongislandd.infinityindex.viewmodels.relatedlist.RelatedComicsSlice
 import com.wongislandd.infinityindex.viewmodels.relatedlist.RelatedCreatorsSlice
 import com.wongislandd.infinityindex.viewmodels.relatedlist.RelatedEventsSlice
 import com.wongislandd.infinityindex.viewmodels.relatedlist.RelatedSeriesSlice
@@ -20,7 +21,8 @@ class ComicDetailsViewModel(
     uiEventBus: EventBus<UiEvent>,
     backChannelEventBus: EventBus<BackChannelEvent>,
     singleComicSlice: SingleComicSlice,
-    seriesSupplementaryEntityResolutionSlice: SeriesSupplementaryEntityResolutionSlice,
+    seriesSupplementaryEntityResolutionSlice: ComicSeriesSupplementaryEntityResolutionSlice,
+    comicsResolutionSlice: RelatedComicsSlice,
     storiesResolutionSlice: RelatedStoriesSlice,
     eventsResolutionSlice: RelatedEventsSlice,
     creatorsResolutionSlice: RelatedCreatorsSlice,
@@ -33,6 +35,7 @@ class ComicDetailsViewModel(
     backChannelEventBus,
     listOf(
         seriesSupplementaryEntityResolutionSlice,
+        comicsResolutionSlice,
         singleComicSlice,
         storiesResolutionSlice,
         eventsResolutionSlice,

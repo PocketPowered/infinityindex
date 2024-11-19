@@ -105,7 +105,7 @@ class ComicTransformer(
                 relatedStoriesCount = input.stories.getAvailableItems(),
                 relatedCharactersCount = input.characters.getAvailableItems(),
                 relatedCreatorsCount = input.creators.getAvailableItems(),
-                relatedSeriesCount = 0,
+                relatedSeriesCount = if (input.series != null) 1 else 0,
                 relatedComicsCount = 0,
                 comicCreatorsByRole = creatorsOutput.comicCreators,
                 coverCreatorsByRole = creatorsOutput.coverCreators,
