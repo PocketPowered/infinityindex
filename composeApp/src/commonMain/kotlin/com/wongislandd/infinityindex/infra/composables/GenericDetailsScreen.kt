@@ -185,16 +185,19 @@ private fun SupplementaryDetailContents(
 private fun BottomDetailContents(
     primaryModel: EntityModel, modifier: Modifier = Modifier
 ) {
+    /**
+     * Desktop library does not support web linking
+     */
     when (primaryModel) {
         is Comic -> {
-            MarvelLinks(primaryModel.relatedLinks, modifier)
+            // MarvelLinks(primaryModel.relatedLinks, modifier)
         }
 
         is Character -> {
-            MarvelLinks(primaryModel.relatedLinks, modifier)
+            // MarvelLinks(primaryModel.relatedLinks, modifier)
         }
         is Creator -> {
-            MarvelLinks(primaryModel.relatedLinks, modifier)
+            // MarvelLinks(primaryModel.relatedLinks, modifier)
         }
     }
 }

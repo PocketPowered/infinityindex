@@ -90,6 +90,7 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.client.okhttp)
+            implementation(libs.compose.webview.multiplatform)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -111,10 +112,10 @@ kotlin {
             implementation(libs.bundles.paging3)
             implementation(libs.androidx.navigation)
             implementation(libs.kermit)
-            implementation(libs.compose.webview.multiplatform)
         }
         nativeMain.dependencies {
             implementation(libs.ktor.client.darwin)
+            implementation(libs.compose.webview.multiplatform)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
