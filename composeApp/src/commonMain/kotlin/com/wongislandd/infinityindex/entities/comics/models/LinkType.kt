@@ -6,6 +6,8 @@ enum class LinkType(
     DETAILS("Details"),
     PURCHASE("Purchase"),
     IN_APP_LINK("App Link"),
+    WIKI("Wiki"),
+    COMIC_LINK("Comic"),
     READER("Read"),
     UNKNOWN("Unknown")
 }

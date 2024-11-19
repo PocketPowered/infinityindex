@@ -1,7 +1,6 @@
 package com.wongislandd.infinityindex.infra.composables
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -18,14 +17,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.wongislandd.infinityindex.infra.util.DisplayableEntity
+import com.wongislandd.infinityindex.infra.util.EntityModel
 import com.wongislandd.infinityindex.models.local.Character
 import com.wongislandd.infinityindex.models.local.Comic
 import com.wongislandd.infinityindex.models.local.Creator
 import com.wongislandd.infinityindex.models.local.Event
 import com.wongislandd.infinityindex.models.local.Series
 import com.wongislandd.infinityindex.models.local.Story
-import com.wongislandd.infinityindex.infra.util.DisplayableEntity
-import com.wongislandd.infinityindex.infra.util.EntityModel
 
 @Composable
 fun TopLevelEntityDetails(entity: EntityModel, modifier: Modifier = Modifier) {
@@ -40,14 +39,13 @@ fun TopLevelEntityDetails(entity: EntityModel, modifier: Modifier = Modifier) {
         )
         Text(
             text = entity.displayName,
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier.padding(8.dp),
             style = MaterialTheme.typography.h4,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center
         )
         EntityTypePlate(entity)
         Spacer(modifier = Modifier.height(8.dp))
-        EntityMetadata(entity)
     }
 }
 
@@ -62,17 +60,19 @@ fun BottomLevelEntityDetails(entity: EntityModel, modifier: Modifier = Modifier)
     }
 }
 
-@Composable
-private fun EntityMetadata(entity: EntityModel, modifier: Modifier = Modifier) {
-    Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(4.dp)) {
-        Text(
-            text = "Last Modified: ${entity.lastModified}",
-            style = MaterialTheme.typography.body2,
-            color = MaterialTheme.colors.onSurface,
-            modifier = modifier
-        )
-    }
-}
+//@Composable
+//private fun EntityMetadata(entity: EntityModel, modifier: Modifier = Modifier) {
+//    if (entity is Comic) {
+//        Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(4.dp)) {
+//            Text(
+//                text = "Published: ${entity.lastModified}",
+//                style = MaterialTheme.typography.body2,
+//                color = MaterialTheme.colors.onSurface,
+//                modifier = modifier
+//            )
+//        }
+//    }
+//}
 
 
 @Composable

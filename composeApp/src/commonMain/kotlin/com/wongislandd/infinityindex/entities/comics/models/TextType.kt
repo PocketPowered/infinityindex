@@ -5,5 +5,6 @@ enum class TextType(
 ) {
     ISSUE_SOLICIT_TEXT("Issue Solicit"),
     PREVIEW_TEXT("Preview"),
+    ISSUE_PREVIEW_TEXT("Issue Preview Text"),
     UNKNOWN("Unknown")
 }

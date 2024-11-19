@@ -132,7 +132,7 @@ private fun EntitySectionHeader(
         verticalAlignment = Alignment.CenterVertically
     ) {
         val sectionHeaderText =
-            totalEntityCount?.let { "${entityType.displayName} (${it})" } ?: entityType.displayName
+            totalEntityCount?.let { "${entityType.displayName} (${formatNumberWithCommas(it)})" } ?: entityType.displayName
         Text(
             text = sectionHeaderText,
             style = MaterialTheme.typography.h6,
@@ -161,3 +161,11 @@ private fun CombinedLoadStates.isInitializing() = this.refresh == LoadState.Load
 
 private fun CombinedLoadStates.isDoneLoading() =
     this.refresh is LoadState.NotLoading && this.append.endOfPaginationReached
+
+private fun formatNumberWithCommas(number: Int): String {
+    return number.toString()
+        .reversed()
+        .chunked(3)
+        .joinToString(",")
+        .reversed()
+}

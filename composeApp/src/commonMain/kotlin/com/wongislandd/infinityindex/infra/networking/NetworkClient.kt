@@ -5,6 +5,7 @@ import com.wongislandd.infinityindex.infra.util.NetworkError
 import com.wongislandd.infinityindex.infra.util.Resource
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
+import io.ktor.client.network.sockets.SocketTimeoutException
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.get
 import io.ktor.client.request.url
@@ -16,7 +17,7 @@ abstract class NetworkClient(val httpClient: HttpClient) {
 
     suspend inline fun <reified T> makeRequest(
         endpoint: String,
-        typeInfo : TypeInfo,
+        typeInfo: TypeInfo,
         builder: HttpRequestBuilder.() -> Unit = {},
     ): Resource<T> {
         return makeNetworkRequest(endpoint, typeInfo, builder)
@@ -24,7 +25,7 @@ abstract class NetworkClient(val httpClient: HttpClient) {
 
     suspend inline fun <reified T> makeNetworkRequest(
         endpoint: String,
-        typeInfo : TypeInfo,
+        typeInfo: TypeInfo,
         builder: HttpRequestBuilder.() -> Unit = {}
     ): Resource<T> {
         try {
@@ -38,6 +39,7 @@ abstract class NetworkClient(val httpClient: HttpClient) {
                     val data: T = response.body(typeInfo)
                     Resource.Success(data)
                 }
+
                 401 -> Resource.Error(NetworkError.UNAUTHORIZED)
                 404 -> Resource.Error(NetworkError.NOT_FOUND)
                 409 -> Resource.Error(NetworkError.CONFLICT)
@@ -52,6 +54,8 @@ abstract class NetworkClient(val httpClient: HttpClient) {
             return Resource.Error(NetworkError.NO_INTERNET)
         } catch (e: SerializationException) {
             return Resource.Error(NetworkError.SERIALIZATION)
+        } catch (e: SocketTimeoutException) {
+            return Resource.Error(NetworkError.REQUEST_TIMEOUT)
         } catch (e: Exception) {
             Logger.e(tag = "Network Error", null) {
                 e.toString()

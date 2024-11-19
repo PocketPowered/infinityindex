@@ -31,7 +31,9 @@ abstract class BaseRepository<NETWORK_MODEL, LOCAL_MODEL : EntityModel>(
             makeRequest(rootEntityType.key, typeInfo) {
                 parameter("offset", start)
                 parameter("limit", count)
-                parameter("orderBy", sortKey)
+                sortKey?.also {
+                    parameter("orderBy", it)
+                }
                 safeLet(
                     searchParam?.takeIf { it.isNotBlank() },
                     rootEntityType.searchParamType?.key

@@ -1,5 +1,6 @@
 package com.wongislandd.infinityindex.infra.composables
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -45,6 +46,8 @@ fun DetailsSection(
             color = MaterialTheme.colors.primary,
         )
         Spacer(modifier = Modifier.height(8.dp))
-        content()
+        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            content()
+        }
     }
 }

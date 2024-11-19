@@ -14,9 +14,15 @@ class RelatedPricesTransformer(
         return input.mapNotNull { networkUrl ->
             val associatedType = networkUrl.type?.let { networkFieldTypeMapper.mapPriceType(it) }
             safeLet(associatedType, networkUrl.price) { type, price ->
-                RelatedPrice(type, price)
+                RelatedPrice(type, formatToDollarAmount(price))
             }
         }
+    }
+
+    private fun formatToDollarAmount(amount: Float): String {
+        val dollars = amount.toInt()
+        val cents = ((amount - dollars) * 100).toInt()
+        return "$${dollars}.${if (cents < 10) "0$cents" else cents}"
     }
 
 }

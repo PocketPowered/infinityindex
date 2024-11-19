@@ -27,6 +27,8 @@ data class Comic(
     val ean: String?,
     val issn: String?,
     val format: String?,
+    val comicCreatorsByRole: Map<String, List<String>>,
+    val coverCreatorsByRole: Map<String, List<String>>,
     override val relatedEventsCount: Int,
     override val relatedStoriesCount: Int,
     override val relatedCharactersCount: Int,

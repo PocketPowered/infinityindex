@@ -13,8 +13,8 @@ import com.wongislandd.infinityindex.sortoptions.EventsSortOption
 import com.wongislandd.infinityindex.sortoptions.SeriesSortOption
 import com.wongislandd.infinityindex.sortoptions.StoriesSortOption
 
-fun EntityType.getDefaultSortOption(): SortOption {
-    val discoveredEntityType = when (this) {
+fun EntityType.getDefaultSortOption(): SortOption? {
+    val discoveredSortOption = when (this) {
         EntityType.COMICS -> ComicsSortOption.entries.find { it.isDefault }
         EntityType.CHARACTERS -> CharactersSortOption.entries.find { it.isDefault }
         EntityType.CREATORS -> CreatorsSortOption.entries.find { it.isDefault }
@@ -22,10 +22,7 @@ fun EntityType.getDefaultSortOption(): SortOption {
         EntityType.SERIES -> SeriesSortOption.entries.find { it.isDefault }
         EntityType.STORIES -> StoriesSortOption.entries.find { it.isDefault }
     }
-    if (discoveredEntityType == null) {
-        throw IllegalStateException("No default sort option found for entity type $this")
-    }
-    return discoveredEntityType
+    return discoveredSortOption
 }
 
 fun EntityType.getSortOptions(): List<SortOption> {

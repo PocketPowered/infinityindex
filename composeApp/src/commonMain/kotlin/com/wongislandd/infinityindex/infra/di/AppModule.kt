@@ -1,6 +1,7 @@
 package com.wongislandd.infinityindex.infra.di
 
 import com.wongislandd.infinityindex.entities.comics.transformers.DateTransformer
+import com.wongislandd.infinityindex.entities.comics.transformers.RoledCreatorTransformer
 import com.wongislandd.infinityindex.entities.entitiesModule
 import com.wongislandd.infinityindex.home.homeModule
 import com.wongislandd.infinityindex.infra.DetailsBackChannelEvent
@@ -18,6 +19,7 @@ expect val platformModule: Module
 val appModule = module {
     singleOf(::LoadableImageTransformer)
     singleOf(::DateTransformer)
+    singleOf(::RoledCreatorTransformer)
     eventBusFactory<DetailsBackChannelEvent>()
     eventBusFactory<DetailsUiEvent>()
 }

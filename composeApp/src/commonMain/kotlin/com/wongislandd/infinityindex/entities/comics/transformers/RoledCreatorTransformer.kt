@@ -1,0 +1,37 @@
+package com.wongislandd.infinityindex.entities.comics.transformers
+
+import com.wongislandd.infinityindex.entities.comics.capitalizeEachWord
+import com.wongislandd.infinityindex.infra.networking.models.NetworkList
+import com.wongislandd.infinityindex.infra.networking.models.RoledNetworkSummary
+import com.wongislandd.infinityindex.infra.util.Transformer
+import com.wongislandd.infinityindex.infra.util.safeLet
+
+data class RoledCreatorOutput(
+    val comicCreators: Map<String, List<String>>,
+    val coverCreators: Map<String, List<String>>
+)
+
+class RoledCreatorTransformer : Transformer<NetworkList<RoledNetworkSummary>, RoledCreatorOutput> {
+    override fun transform(input: NetworkList<RoledNetworkSummary>): RoledCreatorOutput {
+        val comicCreators = mutableMapOf<String, MutableList<String>>()
+        val coverCreators = mutableMapOf<String, MutableList<String>>()
+        input.items?.forEach { networkSummary ->
+            safeLet(networkSummary.name, networkSummary.role) { name, role ->
+                val isCoverRole = role.contains("cover", ignoreCase = true)
+                val adjustedRole = role.capitalizeEachWord()
+                if (isCoverRole) {
+                    coverCreators[adjustedRole]?.add(name) ?: coverCreators.set(
+                        adjustedRole,
+                        mutableListOf(name)
+                    )
+                } else {
+                    comicCreators[adjustedRole]?.add(name) ?: comicCreators.set(
+                        adjustedRole,
+                        mutableListOf(name)
+                    )
+                }
+            }
+        }
+        return RoledCreatorOutput(comicCreators, coverCreators)
+    }
+}

@@ -6,6 +6,8 @@ import com.wongislandd.infinityindex.entities.comics.transformers.RelatedDatesTr
 import com.wongislandd.infinityindex.entities.comics.transformers.RelatedLinksTransformer
 import com.wongislandd.infinityindex.entities.comics.transformers.RelatedPricesTransformer
 import com.wongislandd.infinityindex.entities.comics.transformers.RelatedTextsTransformer
+import com.wongislandd.infinityindex.entities.comics.transformers.RoledCreatorOutput
+import com.wongislandd.infinityindex.entities.comics.transformers.RoledCreatorTransformer
 import com.wongislandd.infinityindex.infra.models.DefaultImageType
 import com.wongislandd.infinityindex.infra.models.NavigationContext
 import com.wongislandd.infinityindex.infra.navigation.NavigationHelper
@@ -25,6 +27,7 @@ class ComicTransformer(
     private val relatedTextsTransformer: RelatedTextsTransformer,
     private val relatedLinksTransformer: RelatedLinksTransformer,
     private val relatedPricesTransformer: RelatedPricesTransformer,
+    private val roledCreatorTransformer: RoledCreatorTransformer,
     private val datesTransformer: DateTransformer
 ) : DataWrapperTransformer<NetworkComic, Comic>() {
 
@@ -41,6 +44,9 @@ class ComicTransformer(
         val relatedPrices = input.prices?.let {
             relatedPricesTransformer.transform(it)
         } ?: emptyList()
+        val creatorsOutput = input.creators?.let {
+            roledCreatorTransformer.transform(it)
+        } ?: RoledCreatorOutput(emptyMap(), emptyMap())
 
         // Sometimes description comes as empty but ISSUE_SOLICIT_TEXT is basically a description.
         // Pick one of these two, then drop ISSUE_SOLICIT_TEXT.
@@ -90,6 +96,8 @@ class ComicTransformer(
                 relatedCreatorsCount = input.creators.getAvailableItems(),
                 relatedSeriesCount = 0,
                 relatedComicsCount = 0,
+                comicCreatorsByRole = creatorsOutput.comicCreators,
+                coverCreatorsByRole = creatorsOutput.coverCreators
             )
         }
     }

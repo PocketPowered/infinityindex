@@ -45,7 +45,7 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
 
     private var currentPagingSource: BasePagingSource<LOCAL_TYPE>? = null
     private var currentSearchQuery: String? = null
-    private var currentSortOption: SortOption = entityType.getDefaultSortOption()
+    private var currentSortOption: SortOption? = entityType.getDefaultSortOption()
     private var pagingConfig: PagingConfig = getDefaultPagingConfig()
     private var maxPageLimit: Int? = null
 

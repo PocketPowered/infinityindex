@@ -8,6 +8,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -18,7 +19,8 @@ fun InformationSnippet(name: String, value: String, modifier: Modifier = Modifie
         Text(
             text = value,
             style = MaterialTheme.typography.body2,
-            modifier = Modifier.widthIn(max = 200.dp)
+            modifier = Modifier.widthIn(max = 200.dp),
+            textAlign = TextAlign.End
         )
     }
 }
