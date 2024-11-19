@@ -33,6 +33,8 @@ abstract class BaseSingleEntityResolutionSlice<NETWORK_TYPE, LOCAL_TYPE : Entity
         }
     }
 
+    open fun onSingleEntityLoaded(entity: LOCAL_TYPE) {}
+
     private fun loadSingleEntity(primaryResourceId: Int) {
         sliceScope.launch {
             val singleEntityRes = repository.get(primaryResourceId)
@@ -44,6 +46,7 @@ abstract class BaseSingleEntityResolutionSlice<NETWORK_TYPE, LOCAL_TYPE : Entity
             )
             // Send out the signals to start paging for related entities, see [BaseRelatedEntitiesSlice]
             singleEntityRes.onSuccess { entity ->
+                onSingleEntityLoaded(entity)
                 launch {
                     sendEntityCountSignals(entity)
                     sendRelatedPagingRequestSignals(primaryResourceId, entity)

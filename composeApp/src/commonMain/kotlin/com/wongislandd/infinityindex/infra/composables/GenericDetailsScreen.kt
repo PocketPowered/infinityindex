@@ -1,12 +1,12 @@
 package com.wongislandd.infinityindex.infra.composables
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -25,8 +25,8 @@ import com.wongislandd.infinityindex.infra.navigation.NavigationHelper
 import com.wongislandd.infinityindex.infra.util.EntityModel
 import com.wongislandd.infinityindex.infra.util.Resource
 import com.wongislandd.infinityindex.infra.util.getEntityType
+import com.wongislandd.infinityindex.infra.viewmodels.BaseDetailsScreenState
 import com.wongislandd.infinityindex.infra.viewmodels.BaseDetailsViewModel
-import com.wongislandd.infinityindex.infra.viewmodels.PagingDataConsumerScreenState
 import com.wongislandd.infinityindex.models.local.Character
 import com.wongislandd.infinityindex.models.local.Comic
 import com.wongislandd.infinityindex.models.local.Creator
@@ -86,12 +86,26 @@ inline fun <reified T : BaseDetailsViewModel<out EntityModel>> GenericDetailsScr
 @Composable
 fun AdditionalDetailsContents(
     primaryModel: EntityModel,
-    screenState: PagingDataConsumerScreenState,
+    screenState: BaseDetailsScreenState<out EntityModel>,
     modifier: Modifier = Modifier
 ) {
+    val supplementaryData = screenState.supplementaryData.collectAsState()
     AdditionalDetailsLazyColumn(modifier = modifier.widthIn(max = 1000.dp)) {
         item {
             PrimaryDetailContents(primaryModel, modifier = Modifier.padding(horizontal = 16.dp))
+        }
+        // Support showing supplementary data
+        supplementaryData.value?.also { supplementaryModel ->
+            item {
+                Column(modifier = Modifier.padding(horizontal = 16.dp)) {
+                    EntitySectionHeader(
+                        entityType = supplementaryModel.getEntityType(),
+                        totalEntityCount = null,
+                        showAllRoute = null,
+                    )
+                    SupplementaryDetailContents(supplementaryModel)
+                }
+            }
         }
         item {
             ListOfEntities(
@@ -140,4 +154,15 @@ private fun PrimaryDetailContents(primaryModel: EntityModel, modifier: Modifier 
             EventDetails(primaryModel, modifier)
         }
     }
+}
+
+@Composable
+private fun SupplementaryDetailContents(
+    supplementaryEntityModel: EntityModel,
+    modifier: Modifier = Modifier
+) {
+    EntityCard(
+        entity = supplementaryEntityModel,
+        modifier = modifier
+    )
 }

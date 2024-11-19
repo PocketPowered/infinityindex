@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.StateFlow
 data class BaseDetailsScreenState<T : EntityModel>(
     val primaryId: Int? = null,
     val primaryRes: Resource<T> = Resource.Loading,
+    val supplementaryData: StateFlow<EntityModel?>,
     override val entityCountsData: StateFlow<EntityCountsData>,
     override val characterData: StateFlow<PagingData<Character>>,
     override val creatorsData: StateFlow<PagingData<Creator>>,

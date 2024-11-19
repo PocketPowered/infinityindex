@@ -1,6 +1,13 @@
 package com.wongislandd.infinityindex.infra.networking.models
 
+import com.wongislandd.infinityindex.infra.util.EntityType
 import kotlinx.serialization.Serializable
+
+data class EntityReference(
+    val entityType: EntityType,
+    val entityId: Int,
+    val name: String
+)
 
 @Serializable
 data class NetworkSummary(

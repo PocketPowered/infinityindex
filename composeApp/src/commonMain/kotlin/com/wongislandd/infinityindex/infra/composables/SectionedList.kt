@@ -117,7 +117,7 @@ fun <T : EntityModel> SectionedEntityList(
 }
 
 @Composable
-private fun EntitySectionHeader(
+fun EntitySectionHeader(
     entityType: EntityType,
     totalEntityCount: Int?,
     showAllRoute: String?,

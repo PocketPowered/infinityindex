@@ -7,6 +7,7 @@ import com.wongislandd.infinityindex.infra.util.events.EventBus
 import com.wongislandd.infinityindex.infra.util.events.UiEvent
 import com.wongislandd.infinityindex.infra.viewmodels.BaseDetailsScreenStateSlice
 import com.wongislandd.infinityindex.infra.viewmodels.BaseDetailsViewModel
+import com.wongislandd.infinityindex.infra.viewmodels.SeriesSupplementaryEntityResolutionSlice
 import com.wongislandd.infinityindex.viewmodels.relatedlist.RelatedCharactersSlice
 import com.wongislandd.infinityindex.viewmodels.relatedlist.RelatedCreatorsSlice
 import com.wongislandd.infinityindex.viewmodels.relatedlist.RelatedEventsSlice
@@ -19,6 +20,7 @@ class ComicDetailsViewModel(
     uiEventBus: EventBus<UiEvent>,
     backChannelEventBus: EventBus<BackChannelEvent>,
     singleComicSlice: SingleComicSlice,
+    seriesSupplementaryEntityResolutionSlice: SeriesSupplementaryEntityResolutionSlice,
     storiesResolutionSlice: RelatedStoriesSlice,
     eventsResolutionSlice: RelatedEventsSlice,
     creatorsResolutionSlice: RelatedCreatorsSlice,
@@ -30,6 +32,7 @@ class ComicDetailsViewModel(
     uiEventBus,
     backChannelEventBus,
     listOf(
+        seriesSupplementaryEntityResolutionSlice,
         singleComicSlice,
         storiesResolutionSlice,
         eventsResolutionSlice,

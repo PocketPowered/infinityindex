@@ -6,6 +6,7 @@ import com.wongislandd.infinityindex.entities.comics.models.RelatedPrice
 import com.wongislandd.infinityindex.entities.comics.models.RelatedText
 import com.wongislandd.infinityindex.infra.models.LoadableImage
 import com.wongislandd.infinityindex.infra.models.NavigationContext
+import com.wongislandd.infinityindex.infra.networking.models.EntityReference
 import com.wongislandd.infinityindex.infra.util.EntityModel
 
 data class Comic(
@@ -29,6 +30,7 @@ data class Comic(
     val format: String?,
     val comicCreatorsByRole: Map<String, List<String>>,
     val coverCreatorsByRole: Map<String, List<String>>,
+    val seriesEntityReference: EntityReference?,
     override val relatedEventsCount: Int,
     override val relatedStoriesCount: Int,
     override val relatedCharactersCount: Int,

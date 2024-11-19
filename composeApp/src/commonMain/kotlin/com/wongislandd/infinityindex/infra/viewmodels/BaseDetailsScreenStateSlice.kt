@@ -10,9 +10,12 @@ import kotlinx.coroutines.flow.StateFlow
 abstract class BaseDetailsScreenStateSlice<T : EntityModel> : BaseScreenStateSlice<T>,
     BaseAllEntitiesPagingDataConsumerSlice() {
 
+    private val _supplementaryData: MutableStateFlow<EntityModel?> = MutableStateFlow(null)
+
     private val _screenState: MutableStateFlow<BaseDetailsScreenState<T>> =
         MutableStateFlow(
             BaseDetailsScreenState(
+                supplementaryData = _supplementaryData,
                 characterData = characterPagingData,
                 creatorsData = creatorsPagingData,
                 eventsData = eventsPagingData,
@@ -33,6 +36,10 @@ abstract class BaseDetailsScreenStateSlice<T : EntityModel> : BaseScreenStateSli
                 (event.update as? Resource<T>)?.let {
                     _screenState.value = _screenState.value.copy(primaryRes = it)
                 }
+            }
+
+            is DetailsBackChannelEvent.SingleRelatedDataUpdate<*> -> {
+                _supplementaryData.value = event.update
             }
         }
     }

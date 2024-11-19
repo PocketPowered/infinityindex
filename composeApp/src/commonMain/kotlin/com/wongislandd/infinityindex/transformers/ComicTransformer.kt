@@ -2,6 +2,7 @@ package com.wongislandd.infinityindex.transformers
 
 import com.wongislandd.infinityindex.entities.comics.models.TextType
 import com.wongislandd.infinityindex.entities.comics.transformers.DateTransformer
+import com.wongislandd.infinityindex.entities.comics.transformers.EntityReferenceTransformer
 import com.wongislandd.infinityindex.entities.comics.transformers.RelatedDatesTransformer
 import com.wongislandd.infinityindex.entities.comics.transformers.RelatedLinksTransformer
 import com.wongislandd.infinityindex.entities.comics.transformers.RelatedPricesTransformer
@@ -28,8 +29,14 @@ class ComicTransformer(
     private val relatedLinksTransformer: RelatedLinksTransformer,
     private val relatedPricesTransformer: RelatedPricesTransformer,
     private val roledCreatorTransformer: RoledCreatorTransformer,
+    private val entityReferenceTransformer: EntityReferenceTransformer,
     private val datesTransformer: DateTransformer
 ) : DataWrapperTransformer<NetworkComic, Comic>() {
+
+    private val textTypesToCountAsDescription = setOf(
+        TextType.ISSUE_SOLICIT_TEXT,
+        TextType.ISSUE_PREVIEW_TEXT
+    )
 
     override fun itemTransformer(input: NetworkComic): Comic? {
         val relatedDates = input.dates?.let {
@@ -48,12 +55,16 @@ class ComicTransformer(
             roledCreatorTransformer.transform(it)
         } ?: RoledCreatorOutput(emptyMap(), emptyMap())
 
+        val seriesEntityReference = input.series?.let {
+            entityReferenceTransformer.transform(it)
+        }
+
         // Sometimes description comes as empty but ISSUE_SOLICIT_TEXT is basically a description.
         // Pick one of these two, then drop ISSUE_SOLICIT_TEXT.
         val description =
             input.description.dropIfEmpty()
-                ?: relatedTexts.find { it.type == TextType.ISSUE_SOLICIT_TEXT }?.text
-        val filteredRelatedTexts = relatedTexts.filter { it.type != TextType.ISSUE_SOLICIT_TEXT }
+                ?: relatedTexts.find { textTypesToCountAsDescription.contains(it.type) }?.text
+        val filteredRelatedTexts = relatedTexts.filter { !textTypesToCountAsDescription.contains(it.type) }
 
         return safeLet(
             input.id,
@@ -97,7 +108,8 @@ class ComicTransformer(
                 relatedSeriesCount = 0,
                 relatedComicsCount = 0,
                 comicCreatorsByRole = creatorsOutput.comicCreators,
-                coverCreatorsByRole = creatorsOutput.coverCreators
+                coverCreatorsByRole = creatorsOutput.coverCreators,
+                seriesEntityReference = seriesEntityReference
             )
         }
     }
