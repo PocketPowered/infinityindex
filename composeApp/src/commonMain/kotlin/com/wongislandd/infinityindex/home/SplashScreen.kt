@@ -1,5 +1,6 @@
 package com.wongislandd.infinityindex.home
 
+import NavigationItem
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -73,7 +74,9 @@ fun InfinityIndexSplashScreen(modifier: Modifier = Modifier) {
     val navController = LocalNavHostController.current
     LaunchedEffect(Unit) {
         delay(ComicConstants.SPLASH_SCREEN_DURATION)
-        navController.navigate(NavigationHelper.getHomeRoute())
+        navController.navigate(NavigationHelper.getHomeRoute()) {
+            popUpTo(NavigationItem.Splash.route) { inclusive = true }
+        }
     }
     Box(modifier = modifier.fillMaxSize().background(MaterialTheme.colors.primary)) {
         AlternatingIcons(

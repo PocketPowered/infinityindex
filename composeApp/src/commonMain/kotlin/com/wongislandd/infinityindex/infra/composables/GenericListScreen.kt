@@ -33,6 +33,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
@@ -145,12 +147,17 @@ fun ExpandingSearch(
     isExpanded: Boolean,
     modifier: Modifier = Modifier
 ) {
+    val searchBoxFocusRequester = remember { FocusRequester() }
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.End,
         verticalAlignment = Alignment.CenterVertically
     ) {
         if (isExpanded) {
+            LaunchedEffect(isExpanded) {
+                searchBoxFocusRequester.requestFocus()
+            }
+
             TextField(
                 value = currentSearchParam,
                 onValueChange = onSearchParamChanged,
@@ -177,6 +184,7 @@ fun ExpandingSearch(
                     }
                 },
                 modifier = Modifier
+                    .focusRequester(searchBoxFocusRequester) // Attach FocusRequester to TextField
                     .padding(horizontal = 16.dp),
                 colors = TextFieldDefaults.textFieldColors(
                     textColor = MaterialTheme.colors.onSurface,
@@ -189,6 +197,7 @@ fun ExpandingSearch(
                     onSearchParamSubmitted(
                         currentSearchParam
                     )
+                    searchBoxFocusRequester.requestFocus()
                 })
             )
         } else {
@@ -196,7 +205,7 @@ fun ExpandingSearch(
                 Icon(
                     imageVector = Icons.Default.Search,
                     tint = if (currentSearchParam.isNotEmpty()) MaterialTheme.colors.secondary else MaterialTheme.colors.onPrimary,
-                    contentDescription = "Search"
+                    contentDescription = "Search",
                 )
             }
         }
