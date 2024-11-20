@@ -11,9 +11,7 @@ class RelatedLinksTransformer(
     private val networkFieldTypeMapper: NetworkFieldTypeMapper,
 ) : Transformer<List<NetworkUrl>, List<RelatedLink>> {
 
-    private val blacklistedLinkTypes = setOf(
-        LinkType.IN_APP_LINK,
-        LinkType.PURCHASE
+    private val blacklistedLinkTypes = emptySet<LinkType>(
     )
 
     override fun transform(input: List<NetworkUrl>): List<RelatedLink> {

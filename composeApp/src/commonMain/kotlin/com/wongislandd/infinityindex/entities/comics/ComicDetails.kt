@@ -6,6 +6,7 @@ import com.wongislandd.infinityindex.infra.EntityDetails
 import com.wongislandd.infinityindex.infra.composables.RelatedCreatorsSection
 import com.wongislandd.infinityindex.infra.composables.DetailsSection
 import com.wongislandd.infinityindex.infra.composables.InformationSnippet
+import com.wongislandd.infinityindex.infra.composables.MarvelLinks
 import com.wongislandd.infinityindex.infra.composables.SimpleDetailsSection
 import com.wongislandd.infinityindex.models.local.Comic
 
@@ -51,5 +52,6 @@ fun ComicDetails(comic: Comic, modifier: Modifier = Modifier) {
                 InformationSnippet(relatedPrice.type.displayName, relatedPrice.price)
             }
         }
+        MarvelLinks(comic.relatedLinks)
     }
 }

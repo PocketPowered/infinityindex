@@ -34,10 +34,10 @@ fun ListOfEntities(
     val sections = listOf(
         Pair(EntityType.COMICS, entityCounts.comicCount) to pagedComics,
         Pair(EntityType.CHARACTERS, entityCounts.charactersCount) to pagedCharacters,
-        Pair(EntityType.SERIES, entityCounts.seriesCount) to pagedSeries,
         Pair(EntityType.EVENTS, entityCounts.eventsCount) to pagedEvents,
-        Pair(EntityType.STORIES, entityCounts.storiesCount) to pagedStories,
         Pair(EntityType.CREATORS, entityCounts.creatorsCount) to pagedCreators,
+        Pair(EntityType.SERIES, entityCounts.seriesCount) to pagedSeries,
+        Pair(EntityType.STORIES, entityCounts.storiesCount) to pagedStories,
     )
 
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(16.dp)) {

@@ -3,11 +3,11 @@ package com.wongislandd.infinityindex.entities.comics.models
 enum class LinkType(
     val displayName: String
 ) {
-    DETAILS("Marvel Details"),
+    DETAILS("Marvel Details Page"),
     PURCHASE("Purchase"),
-    IN_APP_LINK("App Link"),
+    IN_APP_LINK("Marvel Unlimited App Link"),
     WIKI("Wiki"),
-    COMIC_LINK("Comic"),
-    READER("Read"),
+    COMIC_LINK("Additional Comic Details"),
+    READER("Read Online"),
     UNKNOWN("Unknown")
 }
