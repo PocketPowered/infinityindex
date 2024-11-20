@@ -9,7 +9,9 @@ import com.wongislandd.infinityindex.models.local.Series
 import com.wongislandd.infinityindex.models.local.Story
 import kotlinx.coroutines.flow.StateFlow
 
-class HomeScreenState(
+data class HomeScreenState(
+    val isHomeScreenLoading: Boolean,
+    val errorData: String? = null,
     override val characterData: StateFlow<PagingData<Character>>,
     override val creatorsData: StateFlow<PagingData<Creator>>,
     override val eventsData: StateFlow<PagingData<Event>>,

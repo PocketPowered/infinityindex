@@ -49,7 +49,7 @@ import com.wongislandd.infinityindex.viewmodels.rootlist.AllStoriesListViewModel
 @Composable
 fun AppNavHost(
     modifier: Modifier = Modifier,
-    startDestination: String = NavigationItem.Splash.route,
+    startDestination: String = NavigationItem.Home.route,
 ) {
     val navController = LocalNavHostController.current
     val pageTurnEnterTransition = slideInHorizontally(

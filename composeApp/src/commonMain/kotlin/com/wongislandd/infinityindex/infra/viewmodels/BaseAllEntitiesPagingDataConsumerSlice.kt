@@ -1,7 +1,7 @@
 package com.wongislandd.infinityindex.infra.viewmodels
 
 import androidx.paging.PagingData
-import com.wongislandd.infinityindex.infra.ListBackChannelEvent
+import com.wongislandd.infinityindex.infra.PagingBackChannelEvent
 import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.util.ViewModelSlice
 import com.wongislandd.infinityindex.infra.util.events.BackChannelEvent
@@ -40,14 +40,13 @@ abstract class BaseAllEntitiesPagingDataConsumerSlice : ViewModelSlice() {
     protected val comicPagingData: MutableStateFlow<PagingData<Comic>> =
         MutableStateFlow(PagingData.empty())
 
-
     override fun handleBackChannelEvent(event: BackChannelEvent) {
         when (event) {
-            is ListBackChannelEvent.PagingDataResUpdate<*> -> {
+            is PagingBackChannelEvent.PagingDataResUpdate<*> -> {
                 handlePagingUpdate(event)
             }
 
-            is ListBackChannelEvent.EntityCountsUpdate -> {
+            is PagingBackChannelEvent.EntityCountsUpdate -> {
                 handleEntityCountsUpdate(event)
             }
         }
@@ -58,7 +57,7 @@ abstract class BaseAllEntitiesPagingDataConsumerSlice : ViewModelSlice() {
      * Although this is kind of safe, as long as the right entity type is passed!
      */
     @Suppress("UNCHECKED_CAST")
-    private fun handlePagingUpdate(event: ListBackChannelEvent.PagingDataResUpdate<*>) {
+    private fun handlePagingUpdate(event: PagingBackChannelEvent.PagingDataResUpdate<*>) {
         when (event.entityType) {
             EntityType.CHARACTERS -> {
                 characterPagingData.value = event.update as PagingData<Character>
@@ -86,7 +85,7 @@ abstract class BaseAllEntitiesPagingDataConsumerSlice : ViewModelSlice() {
         }
     }
 
-    private fun handleEntityCountsUpdate(event: ListBackChannelEvent.EntityCountsUpdate) {
+    private fun handleEntityCountsUpdate(event: PagingBackChannelEvent.EntityCountsUpdate) {
         when (event.entityType) {
             EntityType.CHARACTERS -> {
                 entityCountsData.update {

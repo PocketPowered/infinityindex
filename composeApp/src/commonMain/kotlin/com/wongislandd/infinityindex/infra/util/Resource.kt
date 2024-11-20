@@ -1,5 +1,10 @@
 package com.wongislandd.infinityindex.infra.util
 
+/**
+ * Useful to put in a resource where we really only care about loading state
+ */
+object Empty
+
 sealed class Resource<out T> {
 
     object Loading : Resource<Nothing>()

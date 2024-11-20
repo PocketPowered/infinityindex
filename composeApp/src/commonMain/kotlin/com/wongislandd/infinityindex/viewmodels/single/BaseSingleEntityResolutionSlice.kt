@@ -2,7 +2,7 @@ package com.wongislandd.infinityindex.viewmodels.single
 
 import com.wongislandd.infinityindex.infra.DetailsBackChannelEvent
 import com.wongislandd.infinityindex.infra.DetailsUiEvent
-import com.wongislandd.infinityindex.infra.ListBackChannelEvent
+import com.wongislandd.infinityindex.infra.PagingBackChannelEvent
 import com.wongislandd.infinityindex.infra.paging.BaseRepository
 import com.wongislandd.infinityindex.infra.util.EntityModel
 import com.wongislandd.infinityindex.infra.util.EntityType
@@ -70,7 +70,7 @@ abstract class BaseSingleEntityResolutionSlice<NETWORK_TYPE, LOCAL_TYPE : Entity
         ).forEach {
             if (it.value > 0) {
                 backChannelEvents.sendEvent(
-                    ListBackChannelEvent.EntityCountsUpdate(
+                    PagingBackChannelEvent.EntityCountsUpdate(
                         totalCount = it.value.toLong(),
                         entityType = it.key,
                     )

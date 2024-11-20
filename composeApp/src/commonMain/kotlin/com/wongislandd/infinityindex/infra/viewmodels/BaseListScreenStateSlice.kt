@@ -4,7 +4,7 @@ import app.cash.paging.PagingData
 import com.wongislandd.infinityindex.entities.comics.models.SearchIntention
 import com.wongislandd.infinityindex.entities.comics.models.SearchQuery
 import com.wongislandd.infinityindex.entities.comics.models.SearchState
-import com.wongislandd.infinityindex.infra.ListBackChannelEvent
+import com.wongislandd.infinityindex.infra.PagingBackChannelEvent
 import com.wongislandd.infinityindex.infra.util.EntityModel
 import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.util.SelectableSortOption
@@ -41,11 +41,11 @@ abstract class BaseListScreenStateSlice<T : EntityModel>(
     @Suppress("UNCHECKED_CAST")
     override fun handleBackChannelEvent(event: BackChannelEvent) {
         when (event) {
-            is ListBackChannelEvent.PagingDataResUpdate<*> -> {
+            is PagingBackChannelEvent.PagingDataResUpdate<*> -> {
                 _listPagingData.value = event.update as PagingData<EntityModel>
             }
 
-            is ListBackChannelEvent.UpdateSearchBoxVisibility -> {
+            is PagingBackChannelEvent.UpdateSearchBoxVisibility -> {
                 _screenState.update {
                     it.copy(
                         searchState = it.searchState.copy(
@@ -55,7 +55,7 @@ abstract class BaseListScreenStateSlice<T : EntityModel>(
                 }
             }
 
-            is ListBackChannelEvent.UpdatePendingSearchQuery -> {
+            is PagingBackChannelEvent.UpdatePendingSearchQuery -> {
                 _screenState.update {
                     it.copy(
                         searchState = it.searchState.copy(
@@ -65,7 +65,7 @@ abstract class BaseListScreenStateSlice<T : EntityModel>(
                 }
             }
 
-            is ListBackChannelEvent.SubmitSortSelection -> {
+            is PagingBackChannelEvent.SubmitSortSelection -> {
                 _screenState.update {
                     val newSortOptions = it.availableSortOptions.map { selectableSortOption ->
                         selectableSortOption.copy(

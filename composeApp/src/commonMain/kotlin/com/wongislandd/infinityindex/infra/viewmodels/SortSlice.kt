@@ -1,6 +1,6 @@
 package com.wongislandd.infinityindex.infra.viewmodels
 
-import com.wongislandd.infinityindex.infra.ListBackChannelEvent
+import com.wongislandd.infinityindex.infra.PagingBackChannelEvent
 import com.wongislandd.infinityindex.infra.ListUiEvent
 import com.wongislandd.infinityindex.infra.util.ViewModelSlice
 import com.wongislandd.infinityindex.infra.util.events.BackChannelEvent
@@ -13,7 +13,7 @@ class SortSlice : ViewModelSlice() {
         when (event) {
             is ListUiEvent.SortSelected -> {
                 sliceScope.launch {
-                    backChannelEvents.sendEvent(ListBackChannelEvent.SubmitSortSelection(event.sortOption))
+                    backChannelEvents.sendEvent(PagingBackChannelEvent.SubmitSortSelection(event.sortOption))
                 }
             }
         }

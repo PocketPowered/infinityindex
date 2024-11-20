@@ -77,6 +77,11 @@ fun InfinityIndexSplashScreen(modifier: Modifier = Modifier) {
             popUpTo(NavigationItem.Splash.route) { inclusive = true }
         }
     }
+    InfinityIndexLoadingScreen(modifier)
+}
+
+@Composable
+fun InfinityIndexLoadingScreen(modifier: Modifier = Modifier) {
     Box(modifier = modifier.fillMaxSize().background(MaterialTheme.colors.primary)) {
         AlternatingIcons(
             icons = splashScreenIcons,

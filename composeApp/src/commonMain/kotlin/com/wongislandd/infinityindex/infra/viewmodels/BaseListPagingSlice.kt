@@ -6,7 +6,7 @@ import app.cash.paging.Pager
 import com.wongislandd.infinityindex.ComicConstants
 import com.wongislandd.infinityindex.infra.DetailsBackChannelEvent
 import com.wongislandd.infinityindex.infra.DetailsUiEvent
-import com.wongislandd.infinityindex.infra.ListBackChannelEvent
+import com.wongislandd.infinityindex.infra.PagingBackChannelEvent
 import com.wongislandd.infinityindex.infra.networking.models.DataWrapper
 import com.wongislandd.infinityindex.infra.paging.BasePagingSource
 import com.wongislandd.infinityindex.infra.paging.BaseRepository
@@ -14,6 +14,7 @@ import com.wongislandd.infinityindex.infra.paging.EntityPagingSource
 import com.wongislandd.infinityindex.infra.paging.PaginationContextWrapper
 import com.wongislandd.infinityindex.infra.paging.PagingSourceCallbacks
 import com.wongislandd.infinityindex.infra.paging.RelatedEntityPagingSource
+import com.wongislandd.infinityindex.infra.util.Empty
 import com.wongislandd.infinityindex.infra.util.EntityModel
 import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.util.Resource
@@ -79,7 +80,8 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
                         currentSearchQuery,
                         sortKeyOverride ?: currentSortOption?.sortKey
                     )
-                } ?: throw IllegalArgumentException("Attempted to page related entities before providing a related entity type and id")
+                }
+                    ?: throw IllegalArgumentException("Attempted to page related entities before providing a related entity type and id")
             }
         }
     }
@@ -104,28 +106,42 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
                     }
                     registerCallbacks(object : PagingSourceCallbacks {
                         override fun onResponse(response: Resource<DataWrapper<*>>) {
+
                         }
 
                         override fun onSuccess(paginationContextWrapper: PaginationContextWrapper<*>) {
                             sliceScope.launch {
                                 backChannelEvents.sendEvent(
-                                    ListBackChannelEvent.EntityCountsUpdate(
+                                    PagingBackChannelEvent.EntityCountsUpdate(
                                         totalCount = paginationContextWrapper.total,
                                         entityType = entityType
+                                    )
+                                )
+                                backChannelEvents.sendEvent(
+                                    PagingBackChannelEvent.PagingResponseReceived(
+                                        Resource.Success(Empty),
+                                        entityType
                                     )
                                 )
                             }
                         }
 
                         override fun onFailure(error: Throwable?) {
-                            // do nothing
+                            sliceScope.launch {
+                                backChannelEvents.sendEvent(
+                                    PagingBackChannelEvent.PagingResponseReceived(
+                                        Resource.Error(error = null, throwable = error),
+                                        entityType
+                                    )
+                                )
+                            }
                         }
                     })
                 }
                 newPagingSource
             }.flow.cachedIn(sliceScope).collectLatest {
                 backChannelEvents.sendEvent(
-                    ListBackChannelEvent.PagingDataResUpdate(it, entityType)
+                    PagingBackChannelEvent.PagingDataResUpdate(it, entityType)
                 )
             }
         }
@@ -142,11 +158,11 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
 
     override fun handleBackChannelEvent(event: BackChannelEvent) {
         when (event) {
-            is ListBackChannelEvent.SubmitSearchQuery -> updatePagingParameters(
+            is PagingBackChannelEvent.SubmitSearchQuery -> updatePagingParameters(
                 searchQuery = event.query,
             )
 
-            is ListBackChannelEvent.SubmitSortSelection -> updatePagingParameters(
+            is PagingBackChannelEvent.SubmitSortSelection -> updatePagingParameters(
                 sortOption = event.sortOption
             )
 
