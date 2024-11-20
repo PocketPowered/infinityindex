@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.icons.Icons
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -21,27 +20,27 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.wongislandd.infinityindex.ComicConstants
-import com.wongislandd.infinityindex.infra.composables.Animation
-import com.wongislandd.infinityindex.infra.composables.AutoAwesome
-import com.wongislandd.infinityindex.infra.composables.CrisisAlert
-import com.wongislandd.infinityindex.infra.composables.Diamond
-import com.wongislandd.infinityindex.infra.composables.DonutLarge
-import com.wongislandd.infinityindex.infra.composables.DoubleArrow
-import com.wongislandd.infinityindex.infra.composables.Masks
-import com.wongislandd.infinityindex.infra.composables.Shield
+import com.wongislandd.infinityindex.infra.composables.Bolt
+import com.wongislandd.infinityindex.infra.composables.DominoMask
+import com.wongislandd.infinityindex.infra.composables.Freeze
+import com.wongislandd.infinityindex.infra.composables.Infinity
+import com.wongislandd.infinityindex.infra.composables.MenuBook
+import com.wongislandd.infinityindex.infra.composables.Planet
+import com.wongislandd.infinityindex.infra.composables.Rocket
+import com.wongislandd.infinityindex.infra.composables.Storm
 import com.wongislandd.infinityindex.infra.navigation.LocalNavHostController
 import com.wongislandd.infinityindex.infra.navigation.NavigationHelper
 import kotlinx.coroutines.delay
 
 private val splashScreenIcons = listOf(
-    Icons.Rounded.Shield,
-    Icons.Outlined.Diamond,
-    Icons.Outlined.Masks,
-    Icons.Outlined.Animation,
-    Icons.Outlined.DonutLarge,
-    Icons.Outlined.DoubleArrow,
-    Icons.Rounded.CrisisAlert,
-    Icons.Outlined.AutoAwesome,
+    Infinity,
+    DominoMask,
+    Bolt,
+    MenuBook,
+    Freeze,
+    Planet,
+    Storm,
+    Rocket
 )
 
 @Composable
@@ -50,7 +49,7 @@ fun AlternatingIcons(
     iconColor: Color = MaterialTheme.colors.onPrimary,
     iconSize: Dp = 24.dp,
     modifier: Modifier = Modifier,
-    intervalMillis: Long = 350
+    intervalMillis: Long = 200
 ) {
     var currentIndex by remember { mutableStateOf(0) }
 
