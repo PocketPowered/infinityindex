@@ -11,6 +11,8 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.buildkonfig)
+    alias(libs.plugins.google.services)
+    alias(libs.plugins.crashlytics)
 }
 
 buildkonfig {
@@ -90,7 +92,7 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.client.okhttp)
-            implementation(libs.compose.webview.multiplatform)
+            implementation(libs.gitlive.firebase.kotlin.crashlytics)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -115,7 +117,6 @@ kotlin {
         }
         nativeMain.dependencies {
             implementation(libs.ktor.client.darwin)
-            implementation(libs.compose.webview.multiplatform)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -147,8 +148,15 @@ android {
     }
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             signingConfig = signingConfigs.getByName("debug")
+            proguardFiles(
+                // Includes the default ProGuard rules files that are packaged with
+                // the Android Gradle plugin. To learn more, go to the section about
+                // R8 configuration files.
+                getDefaultProguardFile("proguard-android-optimize.txt")
+            )
         }
     }
     compileOptions {

@@ -12,11 +12,16 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.ui.Modifier
 import com.wongislandd.infinityindex.infra.di.initializeKoin
 import com.wongislandd.infinityindex.themes.MarvelTheme
+import dev.gitlive.firebase.Firebase
+import dev.gitlive.firebase.crashlytics.crashlytics
+import dev.gitlive.firebase.initialize
 
 class MainActivity : ComponentActivity() {
 
     init {
         initializeKoin()
+        Firebase.initialize(context = this)
+        Firebase.crashlytics.setCrashlyticsCollectionEnabled(true)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

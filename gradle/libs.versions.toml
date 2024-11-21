@@ -32,6 +32,13 @@ navigation="2.8.0-alpha10"
 kermit="2.0.4"
 material-icons ="1.7.5"
 webview="1.9.40-alpha04"
+#Firebase android
+firebase-android-bom = "33.6.0"
+#Gradle
+gradlePlugins-crashlytics = "2.9.9"
+gradlePlugins-google-services = "4.4.1"
+#Gitlive
+firebase-gitlive-sdk = "1.12.0"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -54,6 +61,12 @@ landscapist-placeholder = { module = "com.github.skydoves:landscapist-placeholde
 paging-compose-common = { module = "app.cash.paging:paging-compose-common", version.ref = "paging3" }
 paging-common = { module = "app.cash.paging:paging-common", version.ref = "paging3" }
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
+#Firebase
+firebase-android-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-android-bom" }
+firebase-android-crashlytics-ktx = { module = "com.google.firebase:firebase-crashlytics" }
+#Gitlive
+gitlive-firebase-kotlin-crashlytics = { module = "dev.gitlive:firebase-crashlytics", version.ref = "firebase-gitlive-sdk" }
+
 
 squareup-okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
@@ -88,6 +101,9 @@ ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref="kotlin"}
 buildkonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildkonfig" }
+crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "gradlePlugins-crashlytics" }
+google-services = { id = "com.google.gms.google-services", version.ref = "gradlePlugins-google-services" }
+
 
 
 [bundles]
