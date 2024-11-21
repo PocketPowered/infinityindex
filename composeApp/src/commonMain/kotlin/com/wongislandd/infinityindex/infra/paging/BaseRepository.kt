@@ -1,5 +1,6 @@
 package com.wongislandd.infinityindex.infra.paging
 
+import com.wongislandd.infinityindex.ComicConstants
 import com.wongislandd.infinityindex.infra.networking.NetworkClient
 import com.wongislandd.infinityindex.infra.networking.models.DataWrapper
 import com.wongislandd.infinityindex.infra.networking.models.NetworkDataWrapper
@@ -39,6 +40,9 @@ abstract class BaseRepository<NETWORK_MODEL, LOCAL_MODEL : EntityModel>(
                     rootEntityType.searchParamType?.key
                 ) { searchParam, searchParamType ->
                     parameter(searchParamType, searchParam)
+                }
+                if (rootEntityType == EntityType.COMICS) {
+                    parameter("dateRange", ComicConstants.PREDEFINED_DATE_RANGE)
                 }
             }
         response.onSuccess { AppLeveled.updateAttributionText(it.attributionText) }
