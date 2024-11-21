@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1064403539917",
+    "project_id": "infinity-index",
+    "storage_bucket": "infinity-index.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1064403539917:android:700be83100ee7a177f9684",
+        "android_client_info": {
+          "package_name": "com.wongislandd.infinityindex"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKqYrLTo4U1TUpITsl8TpH3M1lIQ36qdg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1064403539917:android:21693515782c9fab7f9684",
+        "android_client_info": {
+          "package_name": "com.wongislandd.infinityindex.debug"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKqYrLTo4U1TUpITsl8TpH3M1lIQ36qdg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

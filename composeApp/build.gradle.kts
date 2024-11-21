@@ -150,7 +150,7 @@ android {
         }
     }
     buildTypes {
-        getByName("release") {
+        release {
             isMinifyEnabled = true
             isShrinkResources = true
             signingConfig = signingConfigs.getByName("debug")
@@ -160,6 +160,12 @@ android {
                 // R8 configuration files.
                 getDefaultProguardFile("proguard-android-optimize.txt")
             )
+            versionNameSuffix = "-prod"
+        }
+        debug {
+            isDebuggable = true
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = "-debug"
         }
     }
     compileOptions {
