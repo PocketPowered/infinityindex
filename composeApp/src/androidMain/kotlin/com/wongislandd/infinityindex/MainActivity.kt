@@ -14,16 +14,19 @@ import com.wongislandd.infinityindex.infra.di.initializeKoin
 import com.wongislandd.infinityindex.infra.di.stopKoin
 import com.wongislandd.infinityindex.themes.MarvelTheme
 import dev.gitlive.firebase.Firebase
+import dev.gitlive.firebase.analytics.FirebaseAnalytics
+import dev.gitlive.firebase.analytics.analytics
 import dev.gitlive.firebase.crashlytics.crashlytics
 import dev.gitlive.firebase.initialize
 
 class MainActivity : ComponentActivity() {
 
+    private lateinit var analytics: FirebaseAnalytics
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initializeKoin()
-        Firebase.initialize(context = this)
-        Firebase.crashlytics.setCrashlyticsCollectionEnabled(true)
+        initializeFirebase()
         enableEdgeToEdge(
             statusBarStyle = SystemBarStyle.light(
                 Color.TRANSPARENT, Color.TRANSPARENT
@@ -41,6 +44,12 @@ class MainActivity : ComponentActivity() {
                 )
             }
         }
+    }
+
+    private fun initializeFirebase() {
+        analytics = Firebase.analytics
+        Firebase.initialize(context = this)
+        Firebase.crashlytics.setCrashlyticsCollectionEnabled(true)
     }
 
     override fun onDestroy() {

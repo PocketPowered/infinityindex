@@ -93,6 +93,8 @@ kotlin {
             implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.gitlive.firebase.kotlin.crashlytics)
+            implementation(libs.gitlive.firebase.kotlin.analytics)
+            implementation(libs.gitlive.firebase.kotlin.performance)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
