@@ -37,7 +37,7 @@ fun PagingWrapper(
             .background(MaterialTheme.colors.surface)
     ) {
         // Hide results if we are refreshing the whole source
-        if (pagedEntities.loadState.refresh != LoadState.Loading) {
+        if (pagedEntities.loadState.refresh !is LoadState.Loading && pagedEntities.loadState.refresh !is LoadState.Error) {
             items(pagedEntities.itemCount) { index ->
                 pagedEntities[index]?.let { entity ->
                     itemContent(entity)
