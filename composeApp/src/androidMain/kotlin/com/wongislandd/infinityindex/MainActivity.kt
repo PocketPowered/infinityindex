@@ -15,9 +15,12 @@ import com.wongislandd.infinityindex.themes.MarvelTheme
 
 class MainActivity : ComponentActivity() {
 
+    init {
+        initializeKoin()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initializeKoin()
         enableEdgeToEdge(
             statusBarStyle = SystemBarStyle.light(
                 Color.TRANSPARENT, Color.TRANSPARENT

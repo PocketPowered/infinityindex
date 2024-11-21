@@ -1,5 +1,6 @@
 package com.wongislandd.infinityindex.infra.composables
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -61,7 +62,7 @@ inline fun <reified T : BaseDetailsViewModel<out EntityModel>> GenericDetailsScr
         Box(modifier = Modifier.fillMaxSize()) {
             when (val primaryRes = screenState.primaryRes) {
                 is Resource.Success -> {
-                    AdditionalDetailsContents(
+                    DetailsContents(
                         primaryRes.data,
                         screenState,
                         modifier = Modifier.align(Alignment.Center)
@@ -84,17 +85,27 @@ inline fun <reified T : BaseDetailsViewModel<out EntityModel>> GenericDetailsScr
 }
 
 @Composable
-fun AdditionalDetailsContents(
+fun DetailsContents(
     primaryModel: EntityModel,
     screenState: BaseDetailsScreenState<out EntityModel>,
     modifier: Modifier = Modifier
 ) {
     val supplementaryData = screenState.supplementaryData.collectAsState()
     val supplementaryDataValue = supplementaryData.value
-    AdditionalDetailsLazyColumn(modifier = modifier.widthIn(max = 1000.dp)) {
+    AdditionalDetailsLazyColumn(modifier = modifier) {
         item {
-            PrimaryDetailContents(primaryModel, modifier = Modifier.padding(horizontal = 16.dp))
+            Column(
+                modifier = Modifier.widthIn(max = 1000.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                PrimaryDetailContents(
+                    primaryModel,
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+            }
         }
+
         // Support showing supplementary data
         supplementaryData.value?.also { supplementaryModel ->
             item {
@@ -108,6 +119,7 @@ fun AdditionalDetailsContents(
                 }
             }
         }
+
         item {
             ListOfEntities(
                 screenState,
@@ -196,6 +208,7 @@ private fun BottomDetailContents(
         is Character -> {
             // MarvelLinks(primaryModel.relatedLinks, modifier)
         }
+
         is Creator -> {
             // MarvelLinks(primaryModel.relatedLinks, modifier)
         }
