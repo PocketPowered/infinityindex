@@ -71,6 +71,7 @@ firebase-analytics = { module = "com.google.firebase:firebase-analytics", versio
 gitlive-firebase-kotlin-crashlytics = { module = "dev.gitlive:firebase-crashlytics", version.ref = "firebase-gitlive-sdk" }
 gitlive-firebase-kotlin-analytics = { module = "dev.gitlive:firebase-analytics", version.ref = "firebase-gitlive-sdk" }
 gitlive-firebase-kotlin-performance = { module = "dev.gitlive:firebase-perf", version.ref = "firebase-gitlive-sdk" }
+gitlive-firebase-kotlin-installations = { module = "dev.gitlive:firebase-installations", version.ref = "firebase-gitlive-sdk" }
 
 
 squareup-okio = { module = "com.squareup.okio:okio", version.ref = "okio" }

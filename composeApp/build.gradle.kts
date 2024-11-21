@@ -95,6 +95,7 @@ kotlin {
             implementation(libs.gitlive.firebase.kotlin.crashlytics)
             implementation(libs.gitlive.firebase.kotlin.analytics)
             implementation(libs.gitlive.firebase.kotlin.performance)
+            implementation(libs.gitlive.firebase.kotlin.installations)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
