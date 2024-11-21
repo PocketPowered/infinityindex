@@ -14,6 +14,9 @@ class EventBus<T: Event> {
     val events: SharedFlow<T> = _events.asSharedFlow()
 
     suspend fun sendEvent(event: T) {
+        Logger.i(tag = "EventBus", null) {
+            event.toString()
+        }
         _events.emit(event)
     }
 }
@@ -21,9 +24,6 @@ class EventBus<T: Event> {
 fun <T: Event> CoroutineScope.collectEvents(eventBus: EventBus<T>, onEvent: (T) -> Unit) {
     this.launch {
         eventBus.events.collect { event ->
-            Logger.i(tag = "EventBus", null) {
-                event.toString()
-            }
             onEvent(event)
         }
     }
