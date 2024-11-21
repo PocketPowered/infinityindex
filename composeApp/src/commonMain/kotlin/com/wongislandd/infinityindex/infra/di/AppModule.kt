@@ -34,3 +34,7 @@ fun initializeKoin() {
         )
     }
 }
+
+fun stopKoin() {
+    org.koin.core.context.stopKoin()
+}

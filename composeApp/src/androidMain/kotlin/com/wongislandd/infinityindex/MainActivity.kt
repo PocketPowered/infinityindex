@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.ui.Modifier
 import com.wongislandd.infinityindex.infra.di.initializeKoin
+import com.wongislandd.infinityindex.infra.di.stopKoin
 import com.wongislandd.infinityindex.themes.MarvelTheme
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.crashlytics.crashlytics
@@ -18,14 +19,11 @@ import dev.gitlive.firebase.initialize
 
 class MainActivity : ComponentActivity() {
 
-    init {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         initializeKoin()
         Firebase.initialize(context = this)
         Firebase.crashlytics.setCrashlyticsCollectionEnabled(true)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         enableEdgeToEdge(
             statusBarStyle = SystemBarStyle.light(
                 Color.TRANSPARENT, Color.TRANSPARENT
@@ -43,5 +41,10 @@ class MainActivity : ComponentActivity() {
                 )
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        stopKoin()
     }
 }
