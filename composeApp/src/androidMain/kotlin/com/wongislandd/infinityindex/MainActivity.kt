@@ -14,6 +14,7 @@ import com.wongislandd.infinityindex.infra.di.initializeKoin
 import com.wongislandd.infinityindex.themes.MarvelTheme
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initializeKoin()

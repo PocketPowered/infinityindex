@@ -18,6 +18,12 @@ class EventTransformer(
     private val dateTransformer: DateTransformer
 ) : DataWrapperTransformer<NetworkEvent, Event>() {
     override fun itemTransformer(input: NetworkEvent): Event? {
+        val transformedStart = input.start?.let {
+            dateTransformer.transform(input.start)
+        }
+        val transformedEnd = input.end?.let {
+            dateTransformer.transform(input.end)
+        }
         return safeLet(
             input.id,
             input.title,
@@ -40,8 +46,8 @@ class EventTransformer(
                     )
                 ),
                 description = input.description,
-                start = input.start,
-                end = input.end,
+                start = transformedStart,
+                end = transformedEnd,
                 relatedEventsCount = 0,
                 relatedStoriesCount = input.stories.getAvailableItems(),
                 relatedCharactersCount = input.characters.getAvailableItems(),
