@@ -96,8 +96,6 @@ kotlin {
             implementation(libs.gitlive.firebase.kotlin.analytics)
             implementation(libs.gitlive.firebase.kotlin.performance)
             implementation(libs.gitlive.firebase.kotlin.installations)
-            implementation(libs.koin.androidx.compose)
-            implementation(libs.koin.android)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
