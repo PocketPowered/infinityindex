@@ -12,6 +12,7 @@ import com.wongislandd.infinityindex.infra.transformers.LoadableImageTransformer
 import com.wongislandd.infinityindex.infra.util.events.eventBusFactory
 import com.wongislandd.infinityindex.infra.viewmodels.createDataStore
 import com.wongislandd.infinityindex.repositories.DataStoreRepository
+import com.wongislandd.infinityindex.settings.settingsModule
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
@@ -39,6 +40,7 @@ fun initializeKoin(context: Any? = null) =
         modules(
             dataStoreModule(context),
             appModule, platformModule,
-            infraModule, entitiesModule, homeModule
+            infraModule, entitiesModule, homeModule,
+            settingsModule
         )
     }

@@ -117,6 +117,10 @@ object NavigationHelper {
     fun getHomeRoute(): String {
         return NavigationItem.Home.route
     }
+
+    fun getSettingsRoute(): String {
+        return NavigationItem.Settings.route
+    }
 }
 
 /**

@@ -1,6 +1,8 @@
-package com.wongislandd.infinityindex.infra.viewmodels
+package com.wongislandd.infinityindex.home
 
 import androidx.paging.PagingData
+import com.wongislandd.infinityindex.infra.viewmodels.EntityCountsData
+import com.wongislandd.infinityindex.infra.viewmodels.PagingDataConsumerScreenState
 import com.wongislandd.infinityindex.models.local.Character
 import com.wongislandd.infinityindex.models.local.Comic
 import com.wongislandd.infinityindex.models.local.Creator

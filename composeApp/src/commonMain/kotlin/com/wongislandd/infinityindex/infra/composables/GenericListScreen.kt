@@ -48,14 +48,11 @@ import com.wongislandd.infinityindex.infra.util.EntityModel
 import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.util.SelectableSortOption
 import com.wongislandd.infinityindex.infra.util.SortOption
-import com.wongislandd.infinityindex.infra.util.events.EventBus
-import com.wongislandd.infinityindex.infra.util.events.UiEvent
 import com.wongislandd.infinityindex.infra.util.isDefaultSelectionSorted
 import com.wongislandd.infinityindex.infra.util.isNoSortOptionSelected
+import com.wongislandd.infinityindex.infra.util.sendEvent
 import com.wongislandd.infinityindex.infra.viewmodels.BaseListViewModel
 import com.wongislandd.infinityindex.viewmodels.slices.ComicsListScreenStateSlice
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 
@@ -157,13 +154,6 @@ inline fun <NETWORK_TYPE, reified T : BaseListViewModel<NETWORK_TYPE, out Entity
         }
     }
 }
-
-fun CoroutineScope.sendEvent(eventBus: EventBus<UiEvent>, event: ListUiEvent) {
-    launch {
-        eventBus.sendEvent(event)
-    }
-}
-
 
 @Composable
 fun ComicFilters(

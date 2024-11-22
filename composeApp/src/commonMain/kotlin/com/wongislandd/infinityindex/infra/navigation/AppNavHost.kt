@@ -15,12 +15,6 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.wongislandd.infinityindex.viewmodels.CharacterDetailsViewModel
-import com.wongislandd.infinityindex.viewmodels.ComicDetailsViewModel
-import com.wongislandd.infinityindex.viewmodels.CreatorDetailsViewModel
-import com.wongislandd.infinityindex.viewmodels.EventDetailsViewModel
-import com.wongislandd.infinityindex.viewmodels.SeriesDetailsViewModel
-import com.wongislandd.infinityindex.viewmodels.StoryDetailsViewModel
 import com.wongislandd.infinityindex.home.HomeScreen
 import com.wongislandd.infinityindex.home.InfinityIndexSplashScreen
 import com.wongislandd.infinityindex.infra.composables.GenericDetailsScreen
@@ -33,18 +27,25 @@ import com.wongislandd.infinityindex.models.network.NetworkCreator
 import com.wongislandd.infinityindex.models.network.NetworkEvent
 import com.wongislandd.infinityindex.models.network.NetworkSeries
 import com.wongislandd.infinityindex.models.network.NetworkStory
-import com.wongislandd.infinityindex.viewmodels.RelatedCharactersListViewModel
-import com.wongislandd.infinityindex.viewmodels.RelatedComicsListViewModel
-import com.wongislandd.infinityindex.viewmodels.RelatedCreatorsListViewModel
-import com.wongislandd.infinityindex.viewmodels.RelatedEventsListViewModel
-import com.wongislandd.infinityindex.viewmodels.RelatedSeriesListViewModel
-import com.wongislandd.infinityindex.viewmodels.RelatedStoriesListViewModel
+import com.wongislandd.infinityindex.settings.SettingsScreen
 import com.wongislandd.infinityindex.viewmodels.AllCharactersListViewModel
 import com.wongislandd.infinityindex.viewmodels.AllComicsListViewModel
 import com.wongislandd.infinityindex.viewmodels.AllCreatorsListViewModel
 import com.wongislandd.infinityindex.viewmodels.AllEventsListViewModel
 import com.wongislandd.infinityindex.viewmodels.AllSeriesListViewModel
 import com.wongislandd.infinityindex.viewmodels.AllStoriesListViewModel
+import com.wongislandd.infinityindex.viewmodels.CharacterDetailsViewModel
+import com.wongislandd.infinityindex.viewmodels.ComicDetailsViewModel
+import com.wongislandd.infinityindex.viewmodels.CreatorDetailsViewModel
+import com.wongislandd.infinityindex.viewmodels.EventDetailsViewModel
+import com.wongislandd.infinityindex.viewmodels.RelatedCharactersListViewModel
+import com.wongislandd.infinityindex.viewmodels.RelatedComicsListViewModel
+import com.wongislandd.infinityindex.viewmodels.RelatedCreatorsListViewModel
+import com.wongislandd.infinityindex.viewmodels.RelatedEventsListViewModel
+import com.wongislandd.infinityindex.viewmodels.RelatedSeriesListViewModel
+import com.wongislandd.infinityindex.viewmodels.RelatedStoriesListViewModel
+import com.wongislandd.infinityindex.viewmodels.SeriesDetailsViewModel
+import com.wongislandd.infinityindex.viewmodels.StoryDetailsViewModel
 
 @Composable
 fun AppNavHost(
@@ -248,7 +249,9 @@ fun AppNavHost(
                             NavigationItem.Home -> {
                                 HomeScreen()
                             }
-
+                            NavigationItem.Settings -> {
+                                SettingsScreen()
+                            }
                             else -> HomeScreen()
                         }
                     }

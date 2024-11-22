@@ -17,6 +17,7 @@ enum class NavigationItem(
 ) {
     Splash("Splash", "splash"),
     Home("Home", "home"),
+    Settings("Settings", "settings"),
     RelatedComicListScreen(
         "Related",
         "comics/related",
@@ -117,6 +118,7 @@ enum class NavigationItem(
             AllEventListScreen,
             AllStoriesListScreen,
             Home,
+            Settings,
             Splash -> null
         }
     }

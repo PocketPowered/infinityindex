@@ -8,7 +8,7 @@ import com.wongislandd.infinityindex.infra.viewmodels.BaseListScreenStateSlice
 import com.wongislandd.infinityindex.infra.viewmodels.ComicListScreenState
 import com.wongislandd.infinityindex.models.local.Comic
 import com.wongislandd.infinityindex.repositories.DataStoreRepository
-import com.wongislandd.infinityindex.repositories.FilterType
+import com.wongislandd.infinityindex.repositories.Setting
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.onEach
@@ -35,9 +35,9 @@ class ComicsListScreenStateSlice(
         super.afterInit()
         sliceScope.launch {
             val digitallyAvailableFilterEnabled =
-                dataStoreRepository.readFilterPreference(FilterType.DIGITALLY_AVAILABLE)
+                dataStoreRepository.readBooleanPreference(Setting.DIGITALLY_AVAILABLE.key)
             val variantsFilterEnabled =
-                dataStoreRepository.readFilterPreference(FilterType.VARIANTS)
+                dataStoreRepository.readBooleanPreference(Setting.VARIANTS.key)
             _screenState.update {
                 it.copy(
                     isDigitallyAvailableFilterEnabled = digitallyAvailableFilterEnabled,
@@ -67,8 +67,8 @@ class ComicsListScreenStateSlice(
                             event.selected
                         )
                     )
-                    dataStoreRepository.saveFilterPreference(
-                        FilterType.DIGITALLY_AVAILABLE,
+                    dataStoreRepository.saveBooleanPreference(
+                        Setting.DIGITALLY_AVAILABLE.key,
                         event.selected
                     )
                 }
@@ -86,7 +86,10 @@ class ComicsListScreenStateSlice(
                             event.selected
                         )
                     )
-                    dataStoreRepository.saveFilterPreference(FilterType.VARIANTS, event.selected)
+                    dataStoreRepository.saveBooleanPreference(
+                        Setting.VARIANTS.key,
+                        event.selected
+                    )
                 }
             }
         }

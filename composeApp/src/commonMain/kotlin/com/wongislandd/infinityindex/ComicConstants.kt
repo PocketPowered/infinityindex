@@ -8,9 +8,9 @@ object ComicConstants {
     const val LIST_PAGE_SIZE = 10
     const val SPLASH_SCREEN_DURATION = 2000L
     private const val COMIC_LOOK_FORWARD_PERIOD_DAYS = 30
-    val PREDEFINED_DATE_RANGE = get10YearsFromNow()
+    val PREDEFINED_DATE_RANGE = getLookForwardDistance()
 
-    private fun get10YearsFromNow(): String {
+    private fun getLookForwardDistance(): String {
         val currentDate = Clock.System.now()
 
         // Look forward period
