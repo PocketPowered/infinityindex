@@ -35,7 +35,7 @@ fun dataStoreModule(context: Any?) = module {
     single<DataStore<Preferences>> { createDataStore(context) }
 }
 
-fun initializeKoin(context: Any? = null) {
+fun initializeKoin(context: Any? = null) =
     startKoin {
         modules(
             dataStoreModule(context),
@@ -43,7 +43,6 @@ fun initializeKoin(context: Any? = null) {
             infraModule, entitiesModule, homeModule
         )
     }
-}
 
 fun stopKoin() {
     org.koin.core.context.stopKoin()
