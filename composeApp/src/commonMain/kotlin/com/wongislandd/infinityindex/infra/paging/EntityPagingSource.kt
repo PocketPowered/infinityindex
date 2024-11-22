@@ -8,8 +8,7 @@ class EntityPagingSource<NETWORK_MODEL, LOCAL_MODEL: EntityModel>(
     private val repository: BaseRepository<NETWORK_MODEL, LOCAL_MODEL>,
     private val searchQuery: String?,
     private val sortKey: String? = null,
-    private val digitalAvailabilityFilterEnabled: Boolean = false,
-    private val isVariantsEnabled: Boolean = false,
+    private val additionalPagingParams: Map<String, Any> = emptyMap()
 ) : BasePagingSource<LOCAL_MODEL>() {
     override suspend fun fetchData(start: Int, count: Int): Resource<DataWrapper<LOCAL_MODEL>> {
         return repository.getAll(
@@ -17,8 +16,7 @@ class EntityPagingSource<NETWORK_MODEL, LOCAL_MODEL: EntityModel>(
             count,
             searchQuery,
             sortKey,
-            digitalAvailabilityFilterEnabled,
-            isVariantsEnabled
+            additionalPagingParams
         )
     }
 }

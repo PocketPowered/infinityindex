@@ -1,6 +1,5 @@
 package com.wongislandd.infinityindex.infra.paging
 
-import com.wongislandd.infinityindex.ComicConstants
 import com.wongislandd.infinityindex.infra.networking.NetworkClient
 import com.wongislandd.infinityindex.infra.networking.models.DataWrapper
 import com.wongislandd.infinityindex.infra.networking.models.NetworkDataWrapper
@@ -28,18 +27,48 @@ abstract class BaseRepository<NETWORK_MODEL, LOCAL_MODEL : EntityModel>(
         count: Int,
         searchParam: String?,
         sortKey: String?,
-        digitalAvailabilityFilterEnabled: Boolean,
-        isVariantsEnabled: Boolean
+        additionalParams: Map<String, Any> = emptyMap(),
     ): Resource<DataWrapper<LOCAL_MODEL>> {
         val response: Resource<NetworkDataWrapper<NETWORK_MODEL>> =
             makeRequest(rootEntityType.key, typeInfo) {
-                attachParams(
+                attachBasicPagingParams(
                     searchParam,
                     sortKey,
-                    digitalAvailabilityFilterEnabled,
-                    isVariantsEnabled,
                     start,
-                    count
+                    count,
+                    additionalParams
+                )
+            }
+        response.onSuccess { AppLeveled.updateAttributionText(it.attributionText) }
+        return response.map { transformer.transform(it) }
+    }
+
+
+    /**
+     * If this is the Comics Repository, I can use this to find comics
+     * related to another entity. This is designed this way so that this repository
+     * only needs to know how to transform one type of entity.
+     */
+    suspend fun getPagedPrimaryEntityRelatedToOtherEntity(
+        relatedEntityType: EntityType,
+        relatedEntityId: Int,
+        searchParam: String? = null,
+        sortKey: String? = null,
+        start: Int,
+        count: Int,
+        additionalParams: Map<String, Any> = emptyMap(),
+    ): Resource<DataWrapper<LOCAL_MODEL>> {
+        val response: Resource<NetworkDataWrapper<NETWORK_MODEL>> =
+            makeRequest(
+                "${relatedEntityType.key}/$relatedEntityId/${rootEntityType.key}",
+                typeInfo
+            ) {
+                attachBasicPagingParams(
+                    searchParam,
+                    sortKey,
+                    start,
+                    count,
+                    additionalParams
                 )
             }
         response.onSuccess { AppLeveled.updateAttributionText(it.attributionText) }
@@ -57,46 +86,12 @@ abstract class BaseRepository<NETWORK_MODEL, LOCAL_MODEL : EntityModel>(
         }
     }
 
-    /**
-     * If this is the Comics Repository, I can use this to find comics
-     * related to another entity. This is designed this way so that this repository
-     * only needs to know how to transform one type of entity.
-     */
-    suspend fun getPagedPrimaryEntityRelatedToOtherEntity(
-        relatedEntityType: EntityType,
-        relatedEntityId: Int,
+    private fun HttpRequestBuilder.attachBasicPagingParams(
         searchParam: String? = null,
         sortKey: String? = null,
-        digitalAvailabilityFilterEnabled: Boolean = false,
-        isVariantsEnabled: Boolean = true,
         start: Int,
-        count: Int
-    ): Resource<DataWrapper<LOCAL_MODEL>> {
-        val response: Resource<NetworkDataWrapper<NETWORK_MODEL>> =
-            makeRequest(
-                "${relatedEntityType.key}/$relatedEntityId/${rootEntityType.key}",
-                typeInfo
-            ) {
-                attachParams(
-                    searchParam,
-                    sortKey,
-                    digitalAvailabilityFilterEnabled,
-                    isVariantsEnabled,
-                    start,
-                    count
-                )
-            }
-        response.onSuccess { AppLeveled.updateAttributionText(it.attributionText) }
-        return response.map { transformer.transform(it) }
-    }
-
-    private fun HttpRequestBuilder.attachParams(
-        searchParam: String? = null,
-        sortKey: String? = null,
-        digitalAvailabilityFilterEnabled: Boolean = false,
-        isVariantsEnabled: Boolean = true,
-        start: Int,
-        count: Int
+        count: Int,
+        additionalParams: Map<String, Any> = emptyMap(),
     ) {
         parameter("offset", start)
         parameter("limit", count)
@@ -104,17 +99,11 @@ abstract class BaseRepository<NETWORK_MODEL, LOCAL_MODEL : EntityModel>(
         safeLet(
             searchParam?.takeIf { it.isNotBlank() },
             rootEntityType.searchParamType?.key
-        ) { searchParam, searchParamType ->
-            parameter(searchParamType, searchParam)
+        ) { searchQuery, searchParamType ->
+            parameter(searchParamType, searchQuery)
         }
-        if (rootEntityType == EntityType.COMICS) {
-            parameter("dateRange", ComicConstants.PREDEFINED_DATE_RANGE)
-            if (digitalAvailabilityFilterEnabled) {
-                parameter("hasDigitalIssue", true)
-            }
-            if (!isVariantsEnabled) {
-                parameter("noVariants", true)
-            }
+        additionalParams.forEach {
+            parameter(it.key, it.value)
         }
     }
 }

@@ -44,19 +44,22 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
     private val useCase: PagedListUseCase
 ) : ViewModelSlice() {
 
-    private var currentPagingSource: BasePagingSource<LOCAL_TYPE>? = null
-    private var currentSearchQuery: String? = null
-    private var currentSortOption: SortOption? = entityType.getDefaultSortOption()
-    private var currentDigitalAvailabilityFilterEnabled: Boolean = false
-    private var currentVariantsEnabled: Boolean = false
-    private var pagingConfig: PagingConfig = getDefaultPagingConfig()
-    private var maxPageLimit: Int? = null
+    protected var currentPagingSource: BasePagingSource<LOCAL_TYPE>? = null
+    protected var currentSearchQuery: String? = null
+    protected var currentSortOption: SortOption? = entityType.getDefaultSortOption()
+    protected var pagingConfig: PagingConfig = getDefaultPagingConfig()
+    protected var maxPageLimit: Int? = null
 
     override fun afterInit() {
         // If this is a list for a root entity, we don't need to wait on anything
         if (useCase == PagedListUseCase.ALL_AVAILABLE) {
             initializePaging()
         }
+    }
+
+    open fun getAdditionalPagingParams(): Map<String, Any> {
+        // override this to add extra params for different use cases
+        return emptyMap()
     }
 
     private fun getPagingSource(
@@ -70,8 +73,7 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
                     repository = repository,
                     searchQuery = currentSearchQuery,
                     sortKey = sortKeyOverride ?: currentSortOption?.sortKey,
-                    digitalAvailabilityFilterEnabled =  currentDigitalAvailabilityFilterEnabled,
-                    isVariantsEnabled = currentVariantsEnabled
+                    additionalPagingParams = getAdditionalPagingParams()
                 )
             }
 
@@ -83,8 +85,7 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
                         relatedId,
                         currentSearchQuery,
                         sortKeyOverride ?: currentSortOption?.sortKey,
-                        currentDigitalAvailabilityFilterEnabled,
-                        currentVariantsEnabled
+                        getAdditionalPagingParams()
                     )
                 }
                     ?: throw IllegalArgumentException("Attempted to page related entities before providing a related entity type and id")
@@ -172,14 +173,6 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
                 sortOption = event.sortOption
             )
 
-            is PagingBackChannelEvent.SubmitDigitalAvailabilityFilterChange -> updatePagingParameters(
-                digitalAvailabilityFilter = event.filterOn
-            )
-
-            is PagingBackChannelEvent.VariantsFilterChange -> updatePagingParameters(
-                isVariantsEnabled = event.allowVariants
-            )
-
             is DetailsBackChannelEvent.RequestForPagination -> {
                 if (event.relatedEntityTypeToPageFor == entityType) {
                     initializePaging(event.rootEntityType, event.rootEntityId, event.sortKey)
@@ -191,24 +184,14 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
     private fun updatePagingParameters(
         searchQuery: String? = null,
         sortOption: SortOption? = null,
-        digitalAvailabilityFilter: Boolean = false,
-        isVariantsEnabled: Boolean = true
     ) {
         var dataUpdateRequired = false
-        if (searchQuery != currentSearchQuery) {
+        if (searchQuery != null && searchQuery != currentSearchQuery) {
             currentSearchQuery = searchQuery
             dataUpdateRequired = true
         }
-        if (sortOption != currentSortOption) {
+        if (sortOption != null && sortOption != currentSortOption) {
             currentSortOption = sortOption
-            dataUpdateRequired = true
-        }
-        if (digitalAvailabilityFilter != currentDigitalAvailabilityFilterEnabled) {
-            currentDigitalAvailabilityFilterEnabled = digitalAvailabilityFilter
-            dataUpdateRequired = true
-        }
-        if (isVariantsEnabled != currentVariantsEnabled) {
-            currentVariantsEnabled = isVariantsEnabled
             dataUpdateRequired = true
         }
         if (dataUpdateRequired) {
