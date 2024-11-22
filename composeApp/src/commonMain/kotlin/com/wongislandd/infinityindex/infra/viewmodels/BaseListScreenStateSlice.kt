@@ -4,103 +4,38 @@ import app.cash.paging.PagingData
 import com.wongislandd.infinityindex.entities.comics.models.SearchIntention
 import com.wongislandd.infinityindex.entities.comics.models.SearchQuery
 import com.wongislandd.infinityindex.entities.comics.models.SearchState
-import com.wongislandd.infinityindex.infra.ListUiEvent
 import com.wongislandd.infinityindex.infra.PagingBackChannelEvent
 import com.wongislandd.infinityindex.infra.util.EntityModel
 import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.util.SelectableSortOption
 import com.wongislandd.infinityindex.infra.util.ViewModelSlice
 import com.wongislandd.infinityindex.infra.util.events.BackChannelEvent
-import com.wongislandd.infinityindex.infra.util.events.UiEvent
 import com.wongislandd.infinityindex.infra.util.getSortOptions
-import com.wongislandd.infinityindex.repositories.DataStoreRepository
-import com.wongislandd.infinityindex.repositories.FilterType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 
 abstract class BaseListScreenStateSlice<T : EntityModel>(
-    val entityType: EntityType,
-    val dataStoreRepository: DataStoreRepository
+    val entityType: EntityType
 ) : BaseScreenStateSlice<T>, ViewModelSlice() {
 
     private val _listPagingData: MutableStateFlow<PagingData<EntityModel>> =
         MutableStateFlow(PagingData.empty())
 
-    private val _screenState: MutableStateFlow<SimpleListScreenState> =
-        MutableStateFlow(
-            SimpleListScreenState(
-                isDigitallyAvailableFilterEnabled = false,
-                isVariantsEnabled = false,
-                availableSortOptions = entityType.getSortOptions()
-                    .map { SelectableSortOption(it, it.isDefault) },
-                searchState = SearchState(
-                    searchQuery = SearchQuery("", SearchIntention.PENDING),
-                    isSearchBoxVisible = false
-                )
+    private val _listState: MutableStateFlow<ListState> = MutableStateFlow(
+        ListState(
+            availableSortOptions = entityType.getSortOptions()
+                .map { SelectableSortOption(it, it.isDefault) },
+            searchState = SearchState(
+                searchQuery = SearchQuery("", SearchIntention.PENDING),
+                isSearchBoxVisible = false
             )
         )
-
-    override fun afterInit() {
-        // Sync filters with preference
-        sliceScope.launch {
-            val digitallyAvailableFilterEnabled =
-                dataStoreRepository.readFilterPreference(FilterType.DIGITALLY_AVAILABLE)
-            val variantsFilterEnabled =
-                dataStoreRepository.readFilterPreference(FilterType.VARIANTS)
-            _screenState.update {
-                it.copy(
-                    isDigitallyAvailableFilterEnabled = digitallyAvailableFilterEnabled,
-                    isVariantsEnabled = variantsFilterEnabled
-                )
-            }
-        }
-    }
+    )
 
     val listPagingData: StateFlow<PagingData<EntityModel>> = _listPagingData
 
-    val screenState: StateFlow<SimpleListScreenState> = _screenState
-
-    override fun handleUiEvent(event: UiEvent) {
-        super.handleUiEvent(event)
-        when (event) {
-            is ListUiEvent.ToggleDigitalAvailabilityFilter -> {
-                _screenState.update {
-                    it.copy(
-                        isDigitallyAvailableFilterEnabled = event.selected
-                    )
-                }
-                sliceScope.launch {
-                    backChannelEvents.sendEvent(
-                        PagingBackChannelEvent.SubmitDigitalAvailabilityFilterChange(
-                            event.selected
-                        )
-                    )
-                    dataStoreRepository.saveFilterPreference(
-                        FilterType.DIGITALLY_AVAILABLE,
-                        event.selected
-                    )
-                }
-            }
-
-            is ListUiEvent.ToggleVariantsFilter -> {
-                _screenState.update {
-                    it.copy(
-                        isVariantsEnabled = event.selected
-                    )
-                }
-                sliceScope.launch {
-                    backChannelEvents.sendEvent(
-                        PagingBackChannelEvent.VariantsFilterChange(
-                            event.selected
-                        )
-                    )
-                    dataStoreRepository.saveFilterPreference(FilterType.VARIANTS, event.selected)
-                }
-            }
-        }
-    }
+    val listState: StateFlow<ListState> = _listState
 
     @Suppress("UNCHECKED_CAST")
     override fun handleBackChannelEvent(event: BackChannelEvent) {
@@ -110,7 +45,7 @@ abstract class BaseListScreenStateSlice<T : EntityModel>(
             }
 
             is PagingBackChannelEvent.UpdateSearchBoxVisibility -> {
-                _screenState.update {
+                _listState.update {
                     it.copy(
                         searchState = it.searchState.copy(
                             isSearchBoxVisible = event.isVisible
@@ -120,7 +55,7 @@ abstract class BaseListScreenStateSlice<T : EntityModel>(
             }
 
             is PagingBackChannelEvent.UpdatePendingSearchQuery -> {
-                _screenState.update {
+                _listState.update {
                     it.copy(
                         searchState = it.searchState.copy(
                             searchQuery = SearchQuery(event.query, SearchIntention.PENDING)
@@ -130,7 +65,7 @@ abstract class BaseListScreenStateSlice<T : EntityModel>(
             }
 
             is PagingBackChannelEvent.SubmitSortSelection -> {
-                _screenState.update {
+                _listState.update {
                     val newSortOptions = it.availableSortOptions.map { selectableSortOption ->
                         selectableSortOption.copy(
                             isSelected = selectableSortOption.sortOption == event.sortOption

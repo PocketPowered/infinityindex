@@ -84,7 +84,7 @@ inline fun <NETWORK_TYPE, reified T : BaseListViewModel<NETWORK_TYPE, out Entity
         }
     }
 
-    val screenState by viewModel.screenStateSlice.screenState.collectAsState()
+    val screenState by viewModel.screenStateSlice.listState.collectAsState()
     val lazyPagingEntities = viewModel.screenStateSlice.listPagingData.collectAsLazyPagingItems()
     val coroutineScope = rememberCoroutineScope()
     Scaffold(topBar = {
@@ -124,8 +124,8 @@ inline fun <NETWORK_TYPE, reified T : BaseListViewModel<NETWORK_TYPE, out Entity
                 if (!screenState.searchState.isSearchBoxVisible) {
                     if (viewModel.screenStateSlice.entityType == EntityType.COMICS) {
                         Filters(
-                            isVariantsFilterEnabled = screenState.isVariantsEnabled,
-                            isDigitalAvailabilityFilterEnabled = screenState.isDigitallyAvailableFilterEnabled,
+                            isVariantsFilterEnabled = false,
+                            isDigitalAvailabilityFilterEnabled = false,
                             onVariantsFilterChanged = {
                                 coroutineScope.sendEvent(
                                     viewModel.uiEventBus,

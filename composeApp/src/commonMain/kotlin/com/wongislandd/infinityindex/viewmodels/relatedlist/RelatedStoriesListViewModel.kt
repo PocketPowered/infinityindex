@@ -1,6 +1,6 @@
 package com.wongislandd.infinityindex.viewmodels.relatedlist
 
-import com.wongislandd.infinityindex.entities.stories.StoriesListScreenStateSlice
+import com.wongislandd.infinityindex.viewmodels.shared.StoriesListScreenStateSlice
 import com.wongislandd.infinityindex.infra.util.events.BackChannelEvent
 import com.wongislandd.infinityindex.infra.util.events.EventBus
 import com.wongislandd.infinityindex.infra.util.events.UiEvent

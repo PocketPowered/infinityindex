@@ -1,4 +1,4 @@
-package com.wongislandd.infinityindex.entities.series
+package com.wongislandd.infinityindex.viewmodels.shared
 
 import com.wongislandd.infinityindex.models.local.Series
 import com.wongislandd.infinityindex.infra.viewmodels.BaseDetailsScreenStateSlice
