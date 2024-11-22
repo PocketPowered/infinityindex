@@ -14,7 +14,9 @@ import org.koin.compose.KoinContext
 
 @Composable
 @Preview
-fun InfinityIndexApp(modifier: Modifier = Modifier) {
+fun InfinityIndexApp(
+    modifier: Modifier = Modifier
+) {
     MarvelTheme {
         KoinContext {
             NavHostControllerProvider {

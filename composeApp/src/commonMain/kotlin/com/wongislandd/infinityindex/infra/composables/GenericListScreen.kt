@@ -121,25 +121,29 @@ inline fun <NETWORK_TYPE, reified T : BaseListViewModel<NETWORK_TYPE, out Entity
                         )
                     },
                 )
-                Filters(
-                    isVariantsFilterEnabled = screenState.isVariantsEnabled,
-                    isDigitalAvailabilityFilterEnabled = screenState.isDigitallyAvailableFilterEnabled,
-                    onVariantsFilterChanged = {
-                        coroutineScope.sendEvent(
-                            viewModel.uiEventBus,
-                            ListUiEvent.ToggleVariantsFilter(it)
+                if (!screenState.searchState.isSearchBoxVisible) {
+                    if (viewModel.screenStateSlice.entityType == EntityType.COMICS) {
+                        Filters(
+                            isVariantsFilterEnabled = screenState.isVariantsEnabled,
+                            isDigitalAvailabilityFilterEnabled = screenState.isDigitallyAvailableFilterEnabled,
+                            onVariantsFilterChanged = {
+                                coroutineScope.sendEvent(
+                                    viewModel.uiEventBus,
+                                    ListUiEvent.ToggleVariantsFilter(it)
+                                )
+                            },
+                            onDigitalAvailabilityFilterChanged = {
+                                coroutineScope.sendEvent(
+                                    viewModel.uiEventBus,
+                                    ListUiEvent.ToggleDigitalAvailabilityFilter(it)
+                                )
+                            },
                         )
-                    },
-                    onDigitalAvailabilityFilterChanged = {
-                        coroutineScope.sendEvent(
-                            viewModel.uiEventBus,
-                            ListUiEvent.ToggleDigitalAvailabilityFilter(it)
-                        )
-                    },
-                )
-                SortSelection(screenState.availableSortOptions, onSortSelected = {
-                    coroutineScope.sendEvent(viewModel.uiEventBus, ListUiEvent.SortSelected(it))
-                })
+                    }
+                    SortSelection(screenState.availableSortOptions, onSortSelected = {
+                        coroutineScope.sendEvent(viewModel.uiEventBus, ListUiEvent.SortSelected(it))
+                    })
+                }
             }
         )
     }) {

@@ -13,13 +13,16 @@ import com.wongislandd.infinityindex.infra.util.ViewModelSlice
 import com.wongislandd.infinityindex.infra.util.events.BackChannelEvent
 import com.wongislandd.infinityindex.infra.util.events.UiEvent
 import com.wongislandd.infinityindex.infra.util.getSortOptions
+import com.wongislandd.infinityindex.repositories.DataStoreRepository
+import com.wongislandd.infinityindex.repositories.FilterType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 abstract class BaseListScreenStateSlice<T : EntityModel>(
-    val entityType: EntityType
+    val entityType: EntityType,
+    val dataStoreRepository: DataStoreRepository
 ) : BaseScreenStateSlice<T>, ViewModelSlice() {
 
     private val _listPagingData: MutableStateFlow<PagingData<EntityModel>> =
@@ -39,6 +42,22 @@ abstract class BaseListScreenStateSlice<T : EntityModel>(
             )
         )
 
+    override fun afterInit() {
+        // Sync filters with preference
+        sliceScope.launch {
+            val digitallyAvailableFilterEnabled =
+                dataStoreRepository.readFilterPreference(FilterType.DIGITALLY_AVAILABLE)
+            val variantsFilterEnabled =
+                dataStoreRepository.readFilterPreference(FilterType.VARIANTS)
+            _screenState.update {
+                it.copy(
+                    isDigitallyAvailableFilterEnabled = digitallyAvailableFilterEnabled,
+                    isVariantsEnabled = variantsFilterEnabled
+                )
+            }
+        }
+    }
+
     val listPagingData: StateFlow<PagingData<EntityModel>> = _listPagingData
 
     val screenState: StateFlow<SimpleListScreenState> = _screenState
@@ -53,11 +72,18 @@ abstract class BaseListScreenStateSlice<T : EntityModel>(
                     )
                 }
                 sliceScope.launch {
-                    backChannelEvents.sendEvent(PagingBackChannelEvent.SubmitDigitalAvailabilityFilterChange(
+                    backChannelEvents.sendEvent(
+                        PagingBackChannelEvent.SubmitDigitalAvailabilityFilterChange(
+                            event.selected
+                        )
+                    )
+                    dataStoreRepository.saveFilterPreference(
+                        FilterType.DIGITALLY_AVAILABLE,
                         event.selected
-                    ))
+                    )
                 }
             }
+
             is ListUiEvent.ToggleVariantsFilter -> {
                 _screenState.update {
                     it.copy(
@@ -65,9 +91,12 @@ abstract class BaseListScreenStateSlice<T : EntityModel>(
                     )
                 }
                 sliceScope.launch {
-                    backChannelEvents.sendEvent(PagingBackChannelEvent.VariantsFilterChange(
-                        event.selected
-                    ))
+                    backChannelEvents.sendEvent(
+                        PagingBackChannelEvent.VariantsFilterChange(
+                            event.selected
+                        )
+                    )
+                    dataStoreRepository.saveFilterPreference(FilterType.VARIANTS, event.selected)
                 }
             }
         }

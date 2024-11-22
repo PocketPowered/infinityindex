@@ -117,6 +117,9 @@ kotlin {
             implementation(libs.bundles.paging3)
             implementation(libs.androidx.navigation)
             implementation(libs.kermit)
+            implementation(libs.datastore)
+            implementation(libs.datastore.preferences)
+            implementation(libs.atomicfu)
         }
         nativeMain.dependencies {
             implementation(libs.ktor.client.darwin)

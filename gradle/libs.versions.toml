@@ -38,6 +38,8 @@ firebase-analytics= "22.1.2"
 #Gradle
 crashlytics = "3.0.2"
 google-services = "4.4.2"
+datastore="1.1.1"
+atomicfu = "0.23.2"
 
 #Gitlive
 firebase-gitlive-sdk = "2.1.0"
@@ -72,7 +74,9 @@ gitlive-firebase-kotlin-crashlytics = { module = "dev.gitlive:firebase-crashlyti
 gitlive-firebase-kotlin-analytics = { module = "dev.gitlive:firebase-analytics", version.ref = "firebase-gitlive-sdk" }
 gitlive-firebase-kotlin-performance = { module = "dev.gitlive:firebase-perf", version.ref = "firebase-gitlive-sdk" }
 gitlive-firebase-kotlin-installations = { module = "dev.gitlive:firebase-installations", version.ref = "firebase-gitlive-sdk" }
-
+datastore = { module = "androidx.datastore:datastore", version.ref = "datastore" }
+datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
+atomicfu = { module = "org.jetbrains.kotlinx:atomicfu", version.ref = "atomicfu" }
 
 squareup-okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
