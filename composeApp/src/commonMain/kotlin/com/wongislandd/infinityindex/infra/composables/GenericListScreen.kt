@@ -53,6 +53,7 @@ import com.wongislandd.infinityindex.infra.util.events.UiEvent
 import com.wongislandd.infinityindex.infra.util.isDefaultSelectionSorted
 import com.wongislandd.infinityindex.infra.util.isNoSortOptionSelected
 import com.wongislandd.infinityindex.infra.viewmodels.BaseListViewModel
+import com.wongislandd.infinityindex.viewmodels.shared.ComicsListScreenStateSlice
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
@@ -86,6 +87,11 @@ inline fun <NETWORK_TYPE, reified T : BaseListViewModel<NETWORK_TYPE, out Entity
 
     val screenState by viewModel.screenStateSlice.listState.collectAsState()
     val lazyPagingEntities = viewModel.screenStateSlice.listPagingData.collectAsLazyPagingItems()
+    val comicListScreenState = if (viewModel.screenStateSlice is ComicsListScreenStateSlice) {
+        viewModel.screenStateSlice.screenState.collectAsState()
+    } else {
+        null
+    }
     val coroutineScope = rememberCoroutineScope()
     Scaffold(topBar = {
         GlobalTopAppBar(
@@ -121,29 +127,28 @@ inline fun <NETWORK_TYPE, reified T : BaseListViewModel<NETWORK_TYPE, out Entity
                         )
                     },
                 )
-                if (!screenState.searchState.isSearchBoxVisible) {
-                    if (viewModel.screenStateSlice.entityType == EntityType.COMICS) {
-                        Filters(
-                            isVariantsFilterEnabled = false,
-                            isDigitalAvailabilityFilterEnabled = false,
-                            onVariantsFilterChanged = {
-                                coroutineScope.sendEvent(
-                                    viewModel.uiEventBus,
-                                    ListUiEvent.ToggleVariantsFilter(it)
-                                )
-                            },
-                            onDigitalAvailabilityFilterChanged = {
-                                coroutineScope.sendEvent(
-                                    viewModel.uiEventBus,
-                                    ListUiEvent.ToggleDigitalAvailabilityFilter(it)
-                                )
-                            },
-                        )
-                    }
-                    SortSelection(screenState.availableSortOptions, onSortSelected = {
-                        coroutineScope.sendEvent(viewModel.uiEventBus, ListUiEvent.SortSelected(it))
-                    })
+                // Enable filters for comics
+                comicListScreenState?.also { comicListScreenState ->
+                    ComicFilters(
+                        isVariantsFilterEnabled = comicListScreenState.value.isVariantsEnabled,
+                        isDigitalAvailabilityFilterEnabled = comicListScreenState.value.isDigitallyAvailableFilterEnabled,
+                        onVariantsFilterChanged = {
+                            coroutineScope.sendEvent(
+                                viewModel.uiEventBus,
+                                ListUiEvent.ToggleVariantsFilter(it)
+                            )
+                        },
+                        onDigitalAvailabilityFilterChanged = {
+                            coroutineScope.sendEvent(
+                                viewModel.uiEventBus,
+                                ListUiEvent.ToggleDigitalAvailabilityFilter(it)
+                            )
+                        },
+                    )
                 }
+                SortSelection(screenState.availableSortOptions, onSortSelected = {
+                    coroutineScope.sendEvent(viewModel.uiEventBus, ListUiEvent.SortSelected(it))
+                })
             }
         )
     }) {
@@ -159,8 +164,9 @@ fun CoroutineScope.sendEvent(eventBus: EventBus<UiEvent>, event: ListUiEvent) {
     }
 }
 
+
 @Composable
-fun Filters(
+fun ComicFilters(
     isVariantsFilterEnabled: Boolean,
     isDigitalAvailabilityFilterEnabled: Boolean,
     onVariantsFilterChanged: (Boolean) -> Unit,

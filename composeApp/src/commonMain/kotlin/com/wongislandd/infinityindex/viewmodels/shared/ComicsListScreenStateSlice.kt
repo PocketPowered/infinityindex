@@ -10,6 +10,7 @@ import com.wongislandd.infinityindex.models.local.Comic
 import com.wongislandd.infinityindex.repositories.DataStoreRepository
 import com.wongislandd.infinityindex.repositories.FilterType
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -27,6 +28,8 @@ class ComicsListScreenStateSlice(
                 listState = listState.value
             )
         )
+
+    val screenState: StateFlow<ComicListScreenState> = _screenState
 
     override fun afterInit() {
         super.afterInit()
