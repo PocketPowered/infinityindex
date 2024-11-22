@@ -26,7 +26,7 @@ class CreatorTransformer(
         return safeLet(
             input.id,
             input.fullName,
-            input.modified
+            input.modified?.let { dateTransformer.transform(it) }
         ) { id, name, modified ->
             Creator(
                 id = id,
@@ -50,7 +50,7 @@ class CreatorTransformer(
                 relatedCreatorsCount = 0,
                 relatedSeriesCount = input.series.getAvailableItems(),
                 relatedComicsCount = input.comics.getAvailableItems(),
-                lastModified = dateTransformer.transform(modified),
+                lastModified = modified,
                 relatedLinks = relatedLinks
             )
         }

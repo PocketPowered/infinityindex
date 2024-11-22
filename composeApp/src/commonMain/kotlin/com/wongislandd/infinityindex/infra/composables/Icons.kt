@@ -646,3 +646,81 @@ val Infinity: ImageVector
     }
 
 private var _infinity: ImageVector? = null
+
+
+val Sort: ImageVector
+    get() {
+        if (_sort != null) {
+            return _sort!!
+        }
+        _sort = ImageVector.Builder(
+            name = "Sort_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24",
+            defaultWidth = 24.dp,
+            defaultHeight = 24.dp,
+            viewportWidth = 960f,
+            viewportHeight = 960f
+        ).apply {
+            materialPath {
+                moveTo(120f, 720f)
+                verticalLineToRelative(-80f)
+                horizontalLineToRelative(240f)
+                verticalLineToRelative(80f)
+                horizontalLineTo(120f)
+                close()
+                moveToRelative(0f, -200f)
+                verticalLineToRelative(-80f)
+                horizontalLineToRelative(480f)
+                verticalLineToRelative(80f)
+                horizontalLineTo(120f)
+                close()
+                moveToRelative(0f, -200f)
+                verticalLineToRelative(-80f)
+                horizontalLineToRelative(720f)
+                verticalLineToRelative(80f)
+                horizontalLineTo(120f)
+                close()
+            }
+        }.build()
+        return _sort!!
+    }
+
+private var _sort: ImageVector? = null
+
+val Filter: ImageVector
+    get() {
+        if (_filter != null) {
+            return _filter!!
+        }
+        _filter = ImageVector.Builder(
+            name = "Filter_list_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24",
+            defaultWidth = 24.dp,
+            defaultHeight = 24.dp,
+            viewportWidth = 960f,
+            viewportHeight = 960f
+        ).apply {
+            materialPath {
+                moveTo(400f, 720f)
+                verticalLineToRelative(-80f)
+                horizontalLineToRelative(160f)
+                verticalLineToRelative(80f)
+                horizontalLineTo(400f)
+                close()
+                moveTo(240f, 520f)
+                verticalLineToRelative(-80f)
+                horizontalLineToRelative(480f)
+                verticalLineToRelative(80f)
+                horizontalLineTo(240f)
+                close()
+                moveTo(120f, 320f)
+                verticalLineToRelative(-80f)
+                horizontalLineToRelative(720f)
+                verticalLineToRelative(80f)
+                horizontalLineTo(120f)
+                close()
+            }
+        }.build()
+        return _filter!!
+    }
+
+private var _filter: ImageVector? = null
+

@@ -47,6 +47,8 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
     private var currentPagingSource: BasePagingSource<LOCAL_TYPE>? = null
     private var currentSearchQuery: String? = null
     private var currentSortOption: SortOption? = entityType.getDefaultSortOption()
+    private var currentDigitalAvailabilityFilterEnabled: Boolean = false
+    private var currentVariantsEnabled: Boolean = false
     private var pagingConfig: PagingConfig = getDefaultPagingConfig()
     private var maxPageLimit: Int? = null
 
@@ -67,7 +69,9 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
                 EntityPagingSource(
                     repository = repository,
                     searchQuery = currentSearchQuery,
-                    sortKey = sortKeyOverride ?: currentSortOption?.sortKey
+                    sortKey = sortKeyOverride ?: currentSortOption?.sortKey,
+                    digitalAvailabilityFilterEnabled =  currentDigitalAvailabilityFilterEnabled,
+                    isVariantsEnabled = currentVariantsEnabled
                 )
             }
 
@@ -78,7 +82,9 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
                         relatedType,
                         relatedId,
                         currentSearchQuery,
-                        sortKeyOverride ?: currentSortOption?.sortKey
+                        sortKeyOverride ?: currentSortOption?.sortKey,
+                        currentDigitalAvailabilityFilterEnabled,
+                        currentVariantsEnabled
                     )
                 }
                     ?: throw IllegalArgumentException("Attempted to page related entities before providing a related entity type and id")
@@ -166,6 +172,14 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
                 sortOption = event.sortOption
             )
 
+            is PagingBackChannelEvent.SubmitDigitalAvailabilityFilterChange -> updatePagingParameters(
+                digitalAvailabilityFilter = event.filterOn
+            )
+
+            is PagingBackChannelEvent.VariantsFilterChange -> updatePagingParameters(
+                isVariantsEnabled = event.allowVariants
+            )
+
             is DetailsBackChannelEvent.RequestForPagination -> {
                 if (event.relatedEntityTypeToPageFor == entityType) {
                     initializePaging(event.rootEntityType, event.rootEntityId, event.sortKey)
@@ -176,7 +190,9 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
 
     private fun updatePagingParameters(
         searchQuery: String? = null,
-        sortOption: SortOption? = null
+        sortOption: SortOption? = null,
+        digitalAvailabilityFilter: Boolean = false,
+        isVariantsEnabled: Boolean = true
     ) {
         var dataUpdateRequired = false
         if (searchQuery != currentSearchQuery) {
@@ -185,6 +201,14 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
         }
         if (sortOption != currentSortOption) {
             currentSortOption = sortOption
+            dataUpdateRequired = true
+        }
+        if (digitalAvailabilityFilter != currentDigitalAvailabilityFilterEnabled) {
+            currentDigitalAvailabilityFilterEnabled = digitalAvailabilityFilter
+            dataUpdateRequired = true
+        }
+        if (isVariantsEnabled != currentVariantsEnabled) {
+            currentVariantsEnabled = isVariantsEnabled
             dataUpdateRequired = true
         }
         if (dataUpdateRequired) {

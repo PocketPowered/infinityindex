@@ -13,5 +13,9 @@ sealed class ListUiEvent : UiEvent {
 
     data class SetPendingSearchQuery(val query: String): ListUiEvent()
 
+    data class ToggleDigitalAvailabilityFilter(val selected: Boolean): ListUiEvent()
+
+    data class ToggleVariantsFilter(val selected: Boolean): ListUiEvent()
+
     data object ClearSearchQuery: ListUiEvent()
 }

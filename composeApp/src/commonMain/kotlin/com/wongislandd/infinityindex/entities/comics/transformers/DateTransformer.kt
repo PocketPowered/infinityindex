@@ -6,16 +6,20 @@ import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
-class DateTransformer: Transformer<String, String> {
+class DateTransformer: Transformer<String, String?> {
 
     private val isoOffsetDateTimeRegex = Regex("""\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}-\d{4}""")
 
 
-    override fun transform(input: String): String {
-        return if (isoOffsetDateTimeRegex.matches(input)) {
-            formatIsoDate(input)
-        } else {
-            formatSimpleDate(input)
+    override fun transform(input: String): String? {
+        return try {
+            if (isoOffsetDateTimeRegex.matches(input)) {
+                formatIsoDate(input)
+            } else {
+                formatSimpleDate(input)
+            }
+        } catch (e: Exception) {
+            null
         }
     }
 

@@ -27,7 +27,7 @@ class CharacterTransformer(
         return safeLet(
             input.id,
             input.name,
-            input.modified
+            input.modified?.let { dateTransformer.transform(it) }
         ) { id, name, modified ->
             Character(
                 id = id,
@@ -54,7 +54,7 @@ class CharacterTransformer(
                 relatedCreatorsCount = 0,
                 relatedSeriesCount = input.series.getAvailableItems(),
                 relatedComicsCount = input.comics.getAvailableItems(),
-                lastModified = dateTransformer.transform(modified)
+                lastModified = modified
             )
         }
     }

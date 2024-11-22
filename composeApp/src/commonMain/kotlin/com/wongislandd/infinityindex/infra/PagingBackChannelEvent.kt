@@ -30,5 +30,9 @@ sealed class PagingBackChannelEvent : BackChannelEvent {
 
     data class SubmitSearchQuery(val query: String) : PagingBackChannelEvent()
 
+    data class SubmitDigitalAvailabilityFilterChange(val filterOn: Boolean) : PagingBackChannelEvent()
+
+    data class VariantsFilterChange(val allowVariants: Boolean) : PagingBackChannelEvent()
+
     data class SubmitSortSelection(val sortOption: SortOption) : PagingBackChannelEvent()
 }

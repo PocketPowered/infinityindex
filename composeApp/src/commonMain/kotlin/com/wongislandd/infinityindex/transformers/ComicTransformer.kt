@@ -69,7 +69,7 @@ class ComicTransformer(
         return safeLet(
             input.id,
             input.title,
-            input.modified
+            input.modified?.let { datesTransformer.transform(it) }
         ) { id, title, modified ->
             Comic(
                 id = id,
@@ -89,7 +89,7 @@ class ComicTransformer(
                 ),
                 pageCount = input.pageCount,
                 issueNumber = input.issueNumber,
-                lastModified = datesTransformer.transform(modified),
+                lastModified = modified,
                 relatedDates = relatedDates,
                 relatedTexts = filteredRelatedTexts,
                 relatedPrices = relatedPrices,

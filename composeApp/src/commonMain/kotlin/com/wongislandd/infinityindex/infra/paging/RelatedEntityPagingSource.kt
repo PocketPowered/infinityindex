@@ -10,7 +10,9 @@ class RelatedEntityPagingSource<NETWORK_MODEL, LOCAL_MODEL: EntityModel>(
     private val relatedEntityType: EntityType,
     private val relatedEntityId: Int,
     private val searchQuery: String? = null,
-    private val sortKey: String? = null
+    private val sortKey: String? = null,
+    private val digitalAvailabilityFilterEnabled: Boolean = false,
+    private val isVariantsEnabled: Boolean = true,
 ) : BasePagingSource<LOCAL_MODEL>() {
     override suspend fun fetchData(start: Int, count: Int): Resource<DataWrapper<LOCAL_MODEL>> {
         return primaryEntityRepository.getPagedPrimaryEntityRelatedToOtherEntity(
@@ -18,6 +20,8 @@ class RelatedEntityPagingSource<NETWORK_MODEL, LOCAL_MODEL: EntityModel>(
             relatedEntityId,
             searchQuery,
             sortKey,
+            digitalAvailabilityFilterEnabled,
+            isVariantsEnabled,
             start,
             count,
         )

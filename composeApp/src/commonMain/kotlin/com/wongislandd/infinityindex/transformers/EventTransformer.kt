@@ -27,7 +27,7 @@ class EventTransformer(
         return safeLet(
             input.id,
             input.title,
-            input.modified
+            input.modified?.let { dateTransformer.transform(it) }
         ) { id, title, modified ->
             Event(
                 id = id,
@@ -54,7 +54,7 @@ class EventTransformer(
                 relatedCreatorsCount = input.creators.getAvailableItems(),
                 relatedSeriesCount = input.series.getAvailableItems(),
                 relatedComicsCount = input.comics.getAvailableItems(),
-                lastModified = dateTransformer.transform(modified)
+                lastModified = modified
             )
         }
     }

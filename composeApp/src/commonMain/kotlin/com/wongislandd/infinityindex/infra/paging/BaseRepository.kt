@@ -12,6 +12,7 @@ import com.wongislandd.infinityindex.infra.util.Resource.Loading.onSuccess
 import com.wongislandd.infinityindex.infra.util.safeLet
 import com.wongislandd.infinityindex.infra.viewmodels.AppLeveled
 import io.ktor.client.HttpClient
+import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.parameter
 import io.ktor.util.reflect.TypeInfo
 
@@ -27,23 +28,19 @@ abstract class BaseRepository<NETWORK_MODEL, LOCAL_MODEL : EntityModel>(
         count: Int,
         searchParam: String?,
         sortKey: String?,
+        digitalAvailabilityFilterEnabled: Boolean,
+        isVariantsEnabled: Boolean
     ): Resource<DataWrapper<LOCAL_MODEL>> {
         val response: Resource<NetworkDataWrapper<NETWORK_MODEL>> =
             makeRequest(rootEntityType.key, typeInfo) {
-                parameter("offset", start)
-                parameter("limit", count)
-                sortKey?.also {
-                    parameter("orderBy", it)
-                }
-                safeLet(
-                    searchParam?.takeIf { it.isNotBlank() },
-                    rootEntityType.searchParamType?.key
-                ) { searchParam, searchParamType ->
-                    parameter(searchParamType, searchParam)
-                }
-                if (rootEntityType == EntityType.COMICS) {
-                    parameter("dateRange", ComicConstants.PREDEFINED_DATE_RANGE)
-                }
+                attachParams(
+                    searchParam,
+                    sortKey,
+                    digitalAvailabilityFilterEnabled,
+                    isVariantsEnabled,
+                    start,
+                    count
+                )
             }
         response.onSuccess { AppLeveled.updateAttributionText(it.attributionText) }
         return response.map { transformer.transform(it) }
@@ -70,6 +67,8 @@ abstract class BaseRepository<NETWORK_MODEL, LOCAL_MODEL : EntityModel>(
         relatedEntityId: Int,
         searchParam: String? = null,
         sortKey: String? = null,
+        digitalAvailabilityFilterEnabled: Boolean = false,
+        isVariantsEnabled: Boolean = true,
         start: Int,
         count: Int
     ): Resource<DataWrapper<LOCAL_MODEL>> {
@@ -78,17 +77,44 @@ abstract class BaseRepository<NETWORK_MODEL, LOCAL_MODEL : EntityModel>(
                 "${relatedEntityType.key}/$relatedEntityId/${rootEntityType.key}",
                 typeInfo
             ) {
-                parameter("offset", start)
-                parameter("limit", count)
-                parameter("orderBy", sortKey)
-                safeLet(
-                    searchParam?.takeIf { it.isNotBlank() },
-                    rootEntityType.searchParamType?.key
-                ) { searchParam, searchParamType ->
-                    parameter(searchParamType, searchParam)
-                }
+                attachParams(
+                    searchParam,
+                    sortKey,
+                    digitalAvailabilityFilterEnabled,
+                    isVariantsEnabled,
+                    start,
+                    count
+                )
             }
         response.onSuccess { AppLeveled.updateAttributionText(it.attributionText) }
         return response.map { transformer.transform(it) }
+    }
+
+    private fun HttpRequestBuilder.attachParams(
+        searchParam: String? = null,
+        sortKey: String? = null,
+        digitalAvailabilityFilterEnabled: Boolean = false,
+        isVariantsEnabled: Boolean = true,
+        start: Int,
+        count: Int
+    ) {
+        parameter("offset", start)
+        parameter("limit", count)
+        parameter("orderBy", sortKey)
+        safeLet(
+            searchParam?.takeIf { it.isNotBlank() },
+            rootEntityType.searchParamType?.key
+        ) { searchParam, searchParamType ->
+            parameter(searchParamType, searchParam)
+        }
+        if (rootEntityType == EntityType.COMICS) {
+            parameter("dateRange", ComicConstants.PREDEFINED_DATE_RANGE)
+            if (digitalAvailabilityFilterEnabled) {
+                parameter("hasDigitalIssue", true)
+            }
+            if (!isVariantsEnabled) {
+                parameter("noVariants", true)
+            }
+        }
     }
 }

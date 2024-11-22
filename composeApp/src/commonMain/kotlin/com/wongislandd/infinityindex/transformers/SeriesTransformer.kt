@@ -28,7 +28,7 @@ class SeriesTransformer(
         return safeLet(
             input.id,
             input.title,
-            input.modified
+            input.modified?.let { datesTransformer.transform(it) }
         ) { id, title, modified ->
             Series(
                 id = id,
@@ -56,7 +56,7 @@ class SeriesTransformer(
                 relatedCreatorsCount = input.creators.getAvailableItems(),
                 relatedSeriesCount = 0,
                 relatedComicsCount = input.comics.getAvailableItems(),
-                lastModified = datesTransformer.transform(modified),
+                lastModified = modified,
                 creatorsByRole = creatorsOutput.primaryCreators
             )
         }

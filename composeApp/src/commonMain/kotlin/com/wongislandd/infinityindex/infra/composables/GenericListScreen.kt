@@ -1,14 +1,17 @@
 package com.wongislandd.infinityindex.infra.composables
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.Checkbox
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
@@ -21,7 +24,6 @@ import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -119,6 +121,22 @@ inline fun <NETWORK_TYPE, reified T : BaseListViewModel<NETWORK_TYPE, out Entity
                         )
                     },
                 )
+                Filters(
+                    isVariantsFilterEnabled = screenState.isVariantsEnabled,
+                    isDigitalAvailabilityFilterEnabled = screenState.isDigitallyAvailableFilterEnabled,
+                    onVariantsFilterChanged = {
+                        coroutineScope.sendEvent(
+                            viewModel.uiEventBus,
+                            ListUiEvent.ToggleVariantsFilter(it)
+                        )
+                    },
+                    onDigitalAvailabilityFilterChanged = {
+                        coroutineScope.sendEvent(
+                            viewModel.uiEventBus,
+                            ListUiEvent.ToggleDigitalAvailabilityFilter(it)
+                        )
+                    },
+                )
                 SortSelection(screenState.availableSortOptions, onSortSelected = {
                     coroutineScope.sendEvent(viewModel.uiEventBus, ListUiEvent.SortSelected(it))
                 })
@@ -134,6 +152,69 @@ inline fun <NETWORK_TYPE, reified T : BaseListViewModel<NETWORK_TYPE, out Entity
 fun CoroutineScope.sendEvent(eventBus: EventBus<UiEvent>, event: ListUiEvent) {
     launch {
         eventBus.sendEvent(event)
+    }
+}
+
+@Composable
+fun Filters(
+    isVariantsFilterEnabled: Boolean,
+    isDigitalAvailabilityFilterEnabled: Boolean,
+    onVariantsFilterChanged: (Boolean) -> Unit,
+    onDigitalAvailabilityFilterChanged: (Boolean) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    var expanded by remember { mutableStateOf(false) }
+    Column(modifier = modifier) {
+        IconButton(
+            onClick = { expanded = true },
+        ) {
+            Icon(
+                imageVector = Filter,
+                tint = if (isDigitalAvailabilityFilterEnabled || isVariantsFilterEnabled) {
+                    MaterialTheme.colors.secondary
+                } else {
+                    MaterialTheme.colors.onPrimary
+                },
+                contentDescription = "Filter Options",
+                modifier = Modifier.size(24.dp)
+            )
+        }
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            LabeledCheckbox(
+                checked = isDigitalAvailabilityFilterEnabled,
+                onCheckedChange = onDigitalAvailabilityFilterChanged,
+                label = "Digitally Available"
+            )
+            LabeledCheckbox(
+                checked = isVariantsFilterEnabled,
+                onCheckedChange = onVariantsFilterChanged,
+                label = "Allow Variants"
+            )
+        }
+    }
+}
+
+@Composable
+private fun LabeledCheckbox(
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
+    label: String
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.fillMaxWidth().padding(8.dp).clickable { onCheckedChange(!checked) }
+    ) {
+        Checkbox(
+            checked = checked,
+            onCheckedChange = onCheckedChange
+        )
+        Text(
+            text = label,
+            modifier = Modifier.padding(horizontal = 8.dp)
+        )
     }
 }
 
@@ -224,7 +305,7 @@ fun SortSelection(
             onClick = { expanded = true },
         ) {
             Icon(
-                imageVector = Icons.Default.Menu,
+                imageVector = Sort,
                 tint = if (sortOptions.isDefaultSelectionSorted() || sortOptions.isNoSortOptionSelected()) {
                     MaterialTheme.colors.onPrimary
                 } else {
