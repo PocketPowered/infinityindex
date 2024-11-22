@@ -9,7 +9,7 @@ import com.wongislandd.infinityindex.models.local.Comic
 import com.wongislandd.infinityindex.models.network.NetworkComic
 import com.wongislandd.infinityindex.repositories.ComicsEntityRepository
 import com.wongislandd.infinityindex.repositories.DataStoreRepository
-import com.wongislandd.infinityindex.repositories.NumberSetting
+import com.wongislandd.infinityindex.settings.NumberSetting
 import kotlinx.coroutines.launch
 
 abstract class ComicsListPagingSlice(

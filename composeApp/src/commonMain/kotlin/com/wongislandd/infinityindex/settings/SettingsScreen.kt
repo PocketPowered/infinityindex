@@ -31,7 +31,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.wongislandd.infinityindex.infra.composables.GlobalTopAppBar
 import com.wongislandd.infinityindex.infra.util.sendEvent
-import com.wongislandd.infinityindex.repositories.Setting
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 

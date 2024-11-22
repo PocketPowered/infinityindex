@@ -8,7 +8,7 @@ import com.wongislandd.infinityindex.infra.viewmodels.BaseListScreenStateSlice
 import com.wongislandd.infinityindex.infra.viewmodels.ComicListScreenState
 import com.wongislandd.infinityindex.models.local.Comic
 import com.wongislandd.infinityindex.repositories.DataStoreRepository
-import com.wongislandd.infinityindex.repositories.ToggleSetting
+import com.wongislandd.infinityindex.settings.ToggleSetting
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.onEach

@@ -3,8 +3,6 @@ package com.wongislandd.infinityindex.settings
 import com.wongislandd.infinityindex.infra.util.ViewModelSlice
 import com.wongislandd.infinityindex.infra.util.events.UiEvent
 import com.wongislandd.infinityindex.repositories.DataStoreRepository
-import com.wongislandd.infinityindex.repositories.NumberSetting
-import com.wongislandd.infinityindex.repositories.ToggleSetting
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
