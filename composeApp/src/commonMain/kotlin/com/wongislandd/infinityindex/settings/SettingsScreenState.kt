@@ -1,5 +1,6 @@
 package com.wongislandd.infinityindex.settings
 
 data class SettingsScreenState(
-    val settings: List<SelectableSetting>
+    val toggleSettings: List<SelectableToggleSetting>,
+    val numberSettings: List<AdjustableNumberSetting>
 )

@@ -3,11 +3,15 @@ package com.wongislandd.infinityindex.settings
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Switch
 import androidx.compose.material.SwitchDefaults
@@ -15,13 +19,18 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.wongislandd.infinityindex.infra.composables.GlobalTopAppBar
 import com.wongislandd.infinityindex.infra.util.sendEvent
+import com.wongislandd.infinityindex.repositories.Setting
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 
@@ -33,19 +42,40 @@ fun SettingsScreen(modifier: Modifier = Modifier) {
     val coroutineScope = rememberCoroutineScope()
     Scaffold(topBar = { GlobalTopAppBar("Settings") }, modifier = modifier) {
         LazyColumn(
-            modifier = Modifier.fillMaxSize().padding(16.dp),
+            modifier = Modifier.fillMaxSize().widthIn(max = 1000.dp).padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            items(screenState.settings.size) { index ->
-                val selectableSetting = screenState.settings[index]
+            item {
+                Text(
+                    text = "Settings may require you to refresh results to take effect.",
+                    style = MaterialTheme.typography.h6,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+            items(screenState.toggleSettings.size) { index ->
+                val selectableSetting = screenState.toggleSettings[index]
                 ToggleSetting(
-                    selectableSetting = selectableSetting,
+                    selectableToggleSetting = selectableSetting,
                     onSettingSelected = {
                         coroutineScope.sendEvent(
                             viewModel.uiEventBus,
-                            SettingsUiEvent.AdjustSetting(
-                                screenState.settings[index].setting,
-                                selectableSetting.isSettingEnabled.not()
+                            SettingsUiEvent.ToggledSetting(
+                                screenState.toggleSettings[index].setting,
+                                selectableSetting.currentValue.not()
+                            )
+                        )
+                    }
+                )
+            }
+            items(screenState.numberSettings.size) {
+                NumberSetting(
+                    numberSetting = screenState.numberSettings[it],
+                    onValueChanged = { newValue ->
+                        coroutineScope.sendEvent(
+                            viewModel.uiEventBus,
+                            SettingsUiEvent.NumberSettingChanged(
+                                screenState.numberSettings[it].setting,
+                                newValue
                             )
                         )
                     }
@@ -56,13 +86,89 @@ fun SettingsScreen(modifier: Modifier = Modifier) {
 }
 
 @Composable
+private fun NumberSetting(
+    numberSetting: AdjustableNumberSetting,
+    onValueChanged: (Int) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    SettingBase(numberSetting.setting, modifier = modifier) {
+        PositiveNumberPicker(
+            value = numberSetting.currentValue,
+            onValueChange = onValueChanged,
+            modifier = Modifier.widthIn(max = 75.dp)
+        )
+    }
+}
+
+@Composable
+fun PositiveNumberPicker(
+    value: Int,
+    onValueChange: (Int) -> Unit,
+    modifier: Modifier = Modifier,
+    label: String = "Days"
+) {
+    var textValue by remember { mutableStateOf(value.toString()) }
+    var isError by remember { mutableStateOf(false) }
+    Column(modifier = modifier) {
+        OutlinedTextField(
+            value = textValue,
+            onValueChange = { newText ->
+                if (newText.all { it.isDigit() }) { // Ensure only digits
+                    val newValue = newText.toIntOrNull()
+                    if (newValue != null && newValue >= 0) {
+                        textValue = newText
+                        isError = false
+                        onValueChange(newValue)
+                    } else {
+                        textValue = ""
+                        isError = true
+                    }
+                } else {
+                    isError = true
+                }
+            },
+            label = { Text(label) },
+            isError = isError,
+            singleLine = true,
+            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+        )
+
+        if (isError) {
+            Text(
+                text = "Invalid",
+                color = MaterialTheme.colors.error,
+                style = MaterialTheme.typography.caption,
+                modifier = Modifier.padding(start = 16.dp, top = 4.dp)
+            )
+        }
+    }
+}
+
+@Composable
 private fun ToggleSetting(
-    selectableSetting: SelectableSetting,
+    selectableToggleSetting: SelectableToggleSetting,
     onSettingSelected: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    SettingBase(selectableToggleSetting.setting, modifier = modifier) {
+        Switch(
+            checked = selectableToggleSetting.currentValue,
+            onCheckedChange = { onSettingSelected() },
+            colors = SwitchDefaults.colors(
+                checkedThumbColor = MaterialTheme.colors.secondary
+            )
+        )
+    }
+}
+
+@Composable
+private fun SettingBase(
+    setting: Setting<out Any>,
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit
+) {
     Row(
-        modifier = modifier.widthIn(max = 800.dp),
+        modifier = modifier,
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -72,21 +178,16 @@ private fun ToggleSetting(
             modifier = Modifier.weight(1f)
         ) {
             Text(
-                text = selectableSetting.setting.displayName,
+                text = setting.displayName,
                 style = MaterialTheme.typography.body1,
                 fontWeight = FontWeight.SemiBold
             )
             Text(
-                text = selectableSetting.setting.description,
+                text = setting.description,
                 style = MaterialTheme.typography.caption
             )
         }
-        Switch(
-            checked = selectableSetting.isSettingEnabled,
-            onCheckedChange = { onSettingSelected() },
-            colors = SwitchDefaults.colors(
-                checkedThumbColor = MaterialTheme.colors.secondary
-            )
-        )
+        Spacer(modifier = Modifier.size(16.dp))
+        content()
     }
 }

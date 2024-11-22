@@ -8,7 +8,7 @@ import com.wongislandd.infinityindex.infra.viewmodels.BaseListScreenStateSlice
 import com.wongislandd.infinityindex.infra.viewmodels.ComicListScreenState
 import com.wongislandd.infinityindex.models.local.Comic
 import com.wongislandd.infinityindex.repositories.DataStoreRepository
-import com.wongislandd.infinityindex.repositories.Setting
+import com.wongislandd.infinityindex.repositories.ToggleSetting
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.onEach
@@ -35,9 +35,9 @@ class ComicsListScreenStateSlice(
         super.afterInit()
         sliceScope.launch {
             val digitallyAvailableFilterEnabled =
-                dataStoreRepository.readBooleanPreference(Setting.DIGITALLY_AVAILABLE.key)
+                dataStoreRepository.readBooleanPreference(ToggleSetting.DIGITALLY_AVAILABLE)
             val variantsFilterEnabled =
-                dataStoreRepository.readBooleanPreference(Setting.VARIANTS.key)
+                dataStoreRepository.readBooleanPreference(ToggleSetting.VARIANTS)
             _screenState.update {
                 it.copy(
                     isDigitallyAvailableFilterEnabled = digitallyAvailableFilterEnabled,
@@ -68,7 +68,7 @@ class ComicsListScreenStateSlice(
                         )
                     )
                     dataStoreRepository.saveBooleanPreference(
-                        Setting.DIGITALLY_AVAILABLE.key,
+                        ToggleSetting.DIGITALLY_AVAILABLE,
                         event.selected
                     )
                 }
@@ -87,7 +87,7 @@ class ComicsListScreenStateSlice(
                         )
                     )
                     dataStoreRepository.saveBooleanPreference(
-                        Setting.VARIANTS.key,
+                        ToggleSetting.VARIANTS,
                         event.selected
                     )
                 }
