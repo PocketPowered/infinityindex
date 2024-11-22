@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -41,45 +42,47 @@ fun SettingsScreen(modifier: Modifier = Modifier) {
     val screenState by viewModel.settingsScreenStateSlice.screenState.collectAsState()
     val coroutineScope = rememberCoroutineScope()
     Scaffold(topBar = { GlobalTopAppBar("Settings") }, modifier = modifier) {
-        LazyColumn(
-            modifier = Modifier.fillMaxSize().widthIn(max = 1000.dp).padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            item {
-                Text(
-                    text = "Settings may require you to refresh results to take effect.",
-                    style = MaterialTheme.typography.h6,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-            items(screenState.toggleSettings.size) { index ->
-                val selectableSetting = screenState.toggleSettings[index]
-                ToggleSetting(
-                    selectableToggleSetting = selectableSetting,
-                    onSettingSelected = {
-                        coroutineScope.sendEvent(
-                            viewModel.uiEventBus,
-                            SettingsUiEvent.ToggledSetting(
-                                screenState.toggleSettings[index].setting,
-                                selectableSetting.currentValue.not()
+        Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
+            LazyColumn(
+                modifier = Modifier.fillMaxHeight().widthIn(max = 1000.dp).padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+            ) {
+                item {
+                    Text(
+                        text = "Settings may require you to refresh results to take effect.",
+                        style = MaterialTheme.typography.h6,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+                items(screenState.toggleSettings.size) { index ->
+                    val selectableSetting = screenState.toggleSettings[index]
+                    ToggleSetting(
+                        selectableToggleSetting = selectableSetting,
+                        onSettingSelected = {
+                            coroutineScope.sendEvent(
+                                viewModel.uiEventBus,
+                                SettingsUiEvent.ToggledSetting(
+                                    screenState.toggleSettings[index].setting,
+                                    selectableSetting.currentValue.not()
+                                )
                             )
-                        )
-                    }
-                )
-            }
-            items(screenState.numberSettings.size) {
-                NumberSetting(
-                    numberSetting = screenState.numberSettings[it],
-                    onValueChanged = { newValue ->
-                        coroutineScope.sendEvent(
-                            viewModel.uiEventBus,
-                            SettingsUiEvent.NumberSettingChanged(
-                                screenState.numberSettings[it].setting,
-                                newValue
+                        }
+                    )
+                }
+                items(screenState.numberSettings.size) {
+                    NumberSetting(
+                        numberSetting = screenState.numberSettings[it],
+                        onValueChanged = { newValue ->
+                            coroutineScope.sendEvent(
+                                viewModel.uiEventBus,
+                                SettingsUiEvent.NumberSettingChanged(
+                                    screenState.numberSettings[it].setting,
+                                    newValue
+                                )
                             )
-                        )
-                    }
-                )
+                        }
+                    )
+                }
             }
         }
     }
