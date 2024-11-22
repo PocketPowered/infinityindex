@@ -15,12 +15,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.wongislandd.infinityindex.entities.characters.CharacterDetails
-import com.wongislandd.infinityindex.entities.comics.ComicDetails
-import com.wongislandd.infinityindex.entities.creators.CreatorDetails
-import com.wongislandd.infinityindex.entities.events.EventDetails
-import com.wongislandd.infinityindex.entities.series.SeriesDetails
-import com.wongislandd.infinityindex.entities.stories.StoryDetails
 import com.wongislandd.infinityindex.infra.DetailsUiEvent
 import com.wongislandd.infinityindex.infra.navigation.NavigationHelper
 import com.wongislandd.infinityindex.infra.util.EntityModel
@@ -34,6 +28,12 @@ import com.wongislandd.infinityindex.models.local.Creator
 import com.wongislandd.infinityindex.models.local.Event
 import com.wongislandd.infinityindex.models.local.Series
 import com.wongislandd.infinityindex.models.local.Story
+import com.wongislandd.infinityindex.ui.CharacterDetails
+import com.wongislandd.infinityindex.ui.ComicDetails
+import com.wongislandd.infinityindex.ui.CreatorDetails
+import com.wongislandd.infinityindex.ui.EventDetails
+import com.wongislandd.infinityindex.ui.SeriesDetails
+import com.wongislandd.infinityindex.ui.StoryDetails
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 
@@ -145,9 +145,6 @@ fun DetailsContents(
             )
         }
         item {
-            BottomDetailContents(primaryModel)
-        }
-        item {
             MarvelAttributionTextLabel()
         }
     }
@@ -191,26 +188,4 @@ private fun SupplementaryDetailContents(
         entity = supplementaryEntityModel,
         modifier = modifier
     )
-}
-
-@Composable
-private fun BottomDetailContents(
-    primaryModel: EntityModel, modifier: Modifier = Modifier
-) {
-    /**
-     * Desktop library does not support web linking
-     */
-    when (primaryModel) {
-        is Comic -> {
-            // MarvelLinks(primaryModel.relatedLinks, modifier)
-        }
-
-        is Character -> {
-            // MarvelLinks(primaryModel.relatedLinks, modifier)
-        }
-
-        is Creator -> {
-            // MarvelLinks(primaryModel.relatedLinks, modifier)
-        }
-    }
 }

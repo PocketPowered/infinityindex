@@ -1,7 +1,7 @@
 package com.wongislandd.infinityindex.transformers
 
-import com.wongislandd.infinityindex.entities.comics.transformers.DateTransformer
-import com.wongislandd.infinityindex.entities.comics.transformers.RelatedLinksTransformer
+import com.wongislandd.infinityindex.transformers.util.DateTransformer
+import com.wongislandd.infinityindex.transformers.util.RelatedLinksTransformer
 import com.wongislandd.infinityindex.infra.models.DefaultImageType
 import com.wongislandd.infinityindex.infra.models.NavigationContext
 import com.wongislandd.infinityindex.infra.navigation.NavigationHelper

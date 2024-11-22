@@ -1,6 +1,6 @@
 package com.wongislandd.infinityindex.models.local
 
-import com.wongislandd.infinityindex.entities.comics.models.RelatedLink
+import com.wongislandd.infinityindex.models.util.RelatedLink
 import com.wongislandd.infinityindex.infra.models.LoadableImage
 import com.wongislandd.infinityindex.infra.models.NavigationContext
 import com.wongislandd.infinityindex.infra.util.EntityModel

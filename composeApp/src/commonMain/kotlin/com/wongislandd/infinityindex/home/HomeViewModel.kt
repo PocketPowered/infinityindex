@@ -1,12 +1,12 @@
 package com.wongislandd.infinityindex.home
 
 import app.cash.paging.PagingConfig
-import com.wongislandd.infinityindex.viewmodels.rootlist.AllCharactersPagingSlice
-import com.wongislandd.infinityindex.viewmodels.rootlist.AllComicsPagingSlice
-import com.wongislandd.infinityindex.viewmodels.rootlist.AllCreatorsPagingSlice
-import com.wongislandd.infinityindex.viewmodels.rootlist.AllEventsPagingSlice
-import com.wongislandd.infinityindex.viewmodels.rootlist.AllSeriesPagingSlice
-import com.wongislandd.infinityindex.viewmodels.rootlist.AllStoriesPagingSlice
+import com.wongislandd.infinityindex.viewmodels.slices.AllCharactersPagingSlice
+import com.wongislandd.infinityindex.viewmodels.slices.AllComicsPagingSlice
+import com.wongislandd.infinityindex.viewmodels.slices.AllCreatorsPagingSlice
+import com.wongislandd.infinityindex.viewmodels.slices.AllEventsPagingSlice
+import com.wongislandd.infinityindex.viewmodels.slices.AllSeriesPagingSlice
+import com.wongislandd.infinityindex.viewmodels.slices.AllStoriesPagingSlice
 import com.wongislandd.infinityindex.infra.util.SliceableViewModel
 import com.wongislandd.infinityindex.infra.util.events.BackChannelEvent
 import com.wongislandd.infinityindex.infra.util.events.EventBus

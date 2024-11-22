@@ -2,10 +2,9 @@ package com.wongislandd.infinityindex.infra.di
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import com.wongislandd.infinityindex.entities.comics.transformers.DateTransformer
-import com.wongislandd.infinityindex.entities.comics.transformers.EntityReferenceTransformer
-import com.wongislandd.infinityindex.entities.comics.transformers.RoledCreatorTransformer
-import com.wongislandd.infinityindex.entities.entitiesModule
+import com.wongislandd.infinityindex.transformers.util.DateTransformer
+import com.wongislandd.infinityindex.transformers.util.EntityReferenceTransformer
+import com.wongislandd.infinityindex.transformers.util.RoledCreatorTransformer
 import com.wongislandd.infinityindex.home.homeModule
 import com.wongislandd.infinityindex.infra.DetailsBackChannelEvent
 import com.wongislandd.infinityindex.infra.DetailsUiEvent
@@ -43,7 +42,3 @@ fun initializeKoin(context: Any? = null) =
             infraModule, entitiesModule, homeModule
         )
     }
-
-fun stopKoin() {
-    org.koin.core.context.stopKoin()
-}

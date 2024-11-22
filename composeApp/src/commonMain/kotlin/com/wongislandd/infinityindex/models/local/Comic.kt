@@ -1,9 +1,9 @@
 package com.wongislandd.infinityindex.models.local
 
-import com.wongislandd.infinityindex.entities.comics.models.RelatedDate
-import com.wongislandd.infinityindex.entities.comics.models.RelatedLink
-import com.wongislandd.infinityindex.entities.comics.models.RelatedPrice
-import com.wongislandd.infinityindex.entities.comics.models.RelatedText
+import com.wongislandd.infinityindex.models.util.RelatedDate
+import com.wongislandd.infinityindex.models.util.RelatedLink
+import com.wongislandd.infinityindex.models.util.RelatedPrice
+import com.wongislandd.infinityindex.models.util.RelatedText
 import com.wongislandd.infinityindex.infra.models.LoadableImage
 import com.wongislandd.infinityindex.infra.models.NavigationContext
 import com.wongislandd.infinityindex.infra.networking.models.EntityReference

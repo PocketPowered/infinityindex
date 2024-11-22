@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.wongislandd.infinityindex.infra.navigation.AppNavHost
 import com.wongislandd.infinityindex.infra.navigation.NavHostControllerProvider
-import com.wongislandd.infinityindex.themes.MarvelTheme
+import com.wongislandd.infinityindex.ui.MarvelTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.KoinContext
 

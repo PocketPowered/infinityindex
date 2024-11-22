@@ -53,7 +53,7 @@ import com.wongislandd.infinityindex.infra.util.events.UiEvent
 import com.wongislandd.infinityindex.infra.util.isDefaultSelectionSorted
 import com.wongislandd.infinityindex.infra.util.isNoSortOptionSelected
 import com.wongislandd.infinityindex.infra.viewmodels.BaseListViewModel
-import com.wongislandd.infinityindex.viewmodels.shared.ComicsListScreenStateSlice
+import com.wongislandd.infinityindex.viewmodels.slices.ComicsListScreenStateSlice
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
@@ -101,7 +101,7 @@ inline fun <NETWORK_TYPE, reified T : BaseListViewModel<NETWORK_TYPE, out Entity
             actions = {
                 ExpandingSearch(
                     isExpanded = screenState.searchState.isSearchBoxVisible,
-                    currentSearchParam = screenState.searchState.searchQuery.text,
+                    currentSearchParam = screenState.searchState.searchQuery,
                     onSearchCleared = {
                         coroutineScope.sendEvent(
                             viewModel.uiEventBus,

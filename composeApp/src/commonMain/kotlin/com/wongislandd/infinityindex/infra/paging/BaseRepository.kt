@@ -39,8 +39,7 @@ abstract class BaseRepository<NETWORK_MODEL, LOCAL_MODEL : EntityModel>(
                     additionalParams
                 )
             }
-        response.onSuccess { AppLeveled.updateAttributionText(it.attributionText) }
-        return response.map { transformer.transform(it) }
+        return handleResponse(response)
     }
 
 
@@ -71,8 +70,7 @@ abstract class BaseRepository<NETWORK_MODEL, LOCAL_MODEL : EntityModel>(
                     additionalParams
                 )
             }
-        response.onSuccess { AppLeveled.updateAttributionText(it.attributionText) }
-        return response.map { transformer.transform(it) }
+        return handleResponse(response)
     }
 
     suspend fun get(
@@ -80,10 +78,16 @@ abstract class BaseRepository<NETWORK_MODEL, LOCAL_MODEL : EntityModel>(
     ): Resource<LOCAL_MODEL> {
         val response: Resource<NetworkDataWrapper<NETWORK_MODEL>> =
             makeRequest("${rootEntityType.key}/$id", typeInfo)
-        response.onSuccess { AppLeveled.updateAttributionText(it.attributionText) }
-        return response.map { transformer.transform(it) }.map {
+        return handleResponse(response).map {
             it.data.results.firstOrNull()
         }
+    }
+
+    private fun handleResponse(response: Resource<NetworkDataWrapper<NETWORK_MODEL>>): Resource<DataWrapper<LOCAL_MODEL>> {
+        if (AppLeveled.attributionText.value == null) {
+            response.onSuccess { AppLeveled.updateAttributionText(it.attributionText) }
+        }
+        return response.map { transformer.transform(it) }
     }
 
     private fun HttpRequestBuilder.attachBasicPagingParams(

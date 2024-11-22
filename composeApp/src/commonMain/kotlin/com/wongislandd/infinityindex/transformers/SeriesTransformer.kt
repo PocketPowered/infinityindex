@@ -1,8 +1,8 @@
 package com.wongislandd.infinityindex.transformers
 
-import com.wongislandd.infinityindex.entities.comics.transformers.DateTransformer
-import com.wongislandd.infinityindex.entities.comics.transformers.RoledCreatorOutput
-import com.wongislandd.infinityindex.entities.comics.transformers.RoledCreatorTransformer
+import com.wongislandd.infinityindex.transformers.util.DateTransformer
+import com.wongislandd.infinityindex.transformers.util.RoledCreatorOutput
+import com.wongislandd.infinityindex.transformers.util.RoledCreatorTransformer
 import com.wongislandd.infinityindex.infra.models.DefaultImageType
 import com.wongislandd.infinityindex.infra.models.NavigationContext
 import com.wongislandd.infinityindex.infra.navigation.NavigationHelper

@@ -1,9 +1,6 @@
 package com.wongislandd.infinityindex.infra.viewmodels
 
 import app.cash.paging.PagingData
-import com.wongislandd.infinityindex.entities.comics.models.SearchIntention
-import com.wongislandd.infinityindex.entities.comics.models.SearchQuery
-import com.wongislandd.infinityindex.entities.comics.models.SearchState
 import com.wongislandd.infinityindex.infra.PagingBackChannelEvent
 import com.wongislandd.infinityindex.infra.util.EntityModel
 import com.wongislandd.infinityindex.infra.util.EntityType
@@ -11,6 +8,7 @@ import com.wongislandd.infinityindex.infra.util.SelectableSortOption
 import com.wongislandd.infinityindex.infra.util.ViewModelSlice
 import com.wongislandd.infinityindex.infra.util.events.BackChannelEvent
 import com.wongislandd.infinityindex.infra.util.getSortOptions
+import com.wongislandd.infinityindex.models.util.SearchState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -27,7 +25,7 @@ abstract class BaseListScreenStateSlice<T : EntityModel>(
             availableSortOptions = entityType.getSortOptions()
                 .map { SelectableSortOption(it, it.isDefault) },
             searchState = SearchState(
-                searchQuery = SearchQuery("", SearchIntention.PENDING),
+                searchQuery = "",
                 isSearchBoxVisible = false
             )
         )
@@ -58,7 +56,7 @@ abstract class BaseListScreenStateSlice<T : EntityModel>(
                 _listState.update {
                     it.copy(
                         searchState = it.searchState.copy(
-                            searchQuery = SearchQuery(event.query, SearchIntention.PENDING)
+                            searchQuery = event.query
                         )
                     )
                 }

@@ -10,7 +10,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.ui.Modifier
-import com.wongislandd.infinityindex.themes.MarvelTheme
+import com.wongislandd.infinityindex.ui.MarvelTheme
 
 class MainActivity : ComponentActivity() {
 

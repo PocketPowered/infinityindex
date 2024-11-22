@@ -12,7 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
-import com.wongislandd.infinityindex.entities.comics.models.RelatedLink
+import com.wongislandd.infinityindex.models.util.RelatedLink
 
 @Composable
 private fun LinkOut(link: RelatedLink, modifier: Modifier = Modifier) {

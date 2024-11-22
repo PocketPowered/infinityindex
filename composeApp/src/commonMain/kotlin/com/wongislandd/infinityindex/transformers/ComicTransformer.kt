@@ -1,14 +1,14 @@
 package com.wongislandd.infinityindex.transformers
 
-import com.wongislandd.infinityindex.entities.comics.models.TextType
-import com.wongislandd.infinityindex.entities.comics.transformers.DateTransformer
-import com.wongislandd.infinityindex.entities.comics.transformers.EntityReferenceTransformer
-import com.wongislandd.infinityindex.entities.comics.transformers.RelatedDatesTransformer
-import com.wongislandd.infinityindex.entities.comics.transformers.RelatedLinksTransformer
-import com.wongislandd.infinityindex.entities.comics.transformers.RelatedPricesTransformer
-import com.wongislandd.infinityindex.entities.comics.transformers.RelatedTextsTransformer
-import com.wongislandd.infinityindex.entities.comics.transformers.RoledCreatorOutput
-import com.wongislandd.infinityindex.entities.comics.transformers.RoledCreatorTransformer
+import com.wongislandd.infinityindex.models.util.TextType
+import com.wongislandd.infinityindex.transformers.util.DateTransformer
+import com.wongislandd.infinityindex.transformers.util.EntityReferenceTransformer
+import com.wongislandd.infinityindex.transformers.util.RelatedDatesTransformer
+import com.wongislandd.infinityindex.transformers.util.RelatedLinksTransformer
+import com.wongislandd.infinityindex.transformers.util.RelatedPricesTransformer
+import com.wongislandd.infinityindex.transformers.util.RelatedTextsTransformer
+import com.wongislandd.infinityindex.transformers.util.RoledCreatorOutput
+import com.wongislandd.infinityindex.transformers.util.RoledCreatorTransformer
 import com.wongislandd.infinityindex.infra.models.DefaultImageType
 import com.wongislandd.infinityindex.infra.models.NavigationContext
 import com.wongislandd.infinityindex.infra.navigation.NavigationHelper
