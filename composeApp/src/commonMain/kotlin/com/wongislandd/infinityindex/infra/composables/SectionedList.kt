@@ -56,7 +56,7 @@ fun <T : EntityModel> SectionedEntityList(
             totalEntityCount = totalItemCount,
             title = title,
             isContentInitializing = pagedItems.loadState.isInitializing(),
-            showAllRoute = showAllRoute.takeIf { isShowAllAvailable && useCase == EntitiesListUseCase.HOME },
+            showAllRoute = showAllRoute.takeIf { isShowAllAvailable && useCase == EntitiesListUseCase.BROWSE },
             modifier = Modifier.padding(horizontal = 8.dp)
         )
         LazyRow(

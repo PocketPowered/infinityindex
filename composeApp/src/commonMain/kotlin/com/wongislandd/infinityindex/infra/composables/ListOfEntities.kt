@@ -12,7 +12,7 @@ import com.wongislandd.infinityindex.infra.viewmodels.EntityPagingData
 import com.wongislandd.infinityindex.infra.viewmodels.PagingDataConsumerScreenState
 
 enum class EntitiesListUseCase {
-    HOME,
+    BROWSE,
     DETAILS
 }
 
@@ -56,7 +56,7 @@ private fun PagedEntity(
     val pagingItems = entityPagingData.pagingData.collectAsLazyPagingItems()
     val pagingTitle = entityPagingData.pagingTitle
     val entityCount = entityPagingData.entityCount
-    val shouldShowList = entityCount != null || useCase == EntitiesListUseCase.HOME
+    val shouldShowList = entityCount != null || useCase == EntitiesListUseCase.BROWSE
     if (shouldShowList) {
         SectionedEntityList(
             entityType = entityPagingData.entityType,
@@ -64,7 +64,7 @@ private fun PagedEntity(
             pagedItems = pagingItems,
             title = pagingTitle,
             showAllRoute = showAllRoute,
-            useCase = EntitiesListUseCase.HOME,
+            useCase = EntitiesListUseCase.BROWSE,
             modifier = modifier
         )
     }

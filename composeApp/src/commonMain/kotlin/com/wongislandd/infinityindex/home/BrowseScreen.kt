@@ -30,7 +30,7 @@ import org.koin.core.annotation.KoinExperimentalAPI
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable
-fun Browse(modifier: Modifier = Modifier) {
+fun BrowseScreen(modifier: Modifier = Modifier) {
     val viewModel = koinViewModel<BrowseViewModel>()
     val screenState by viewModel.screenStateSlice.screenState.collectAsState()
     val navController = LocalNavHostController.current
@@ -62,7 +62,7 @@ fun Browse(modifier: Modifier = Modifier) {
                             showAllRouteGetter = { entityType ->
                                 NavigationHelper.getAllListRoute(entityType)
                             },
-                            useCase = EntitiesListUseCase.HOME
+                            useCase = EntitiesListUseCase.BROWSE
                         )
                     }
                     item {

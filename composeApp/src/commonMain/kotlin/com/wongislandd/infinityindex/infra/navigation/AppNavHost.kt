@@ -15,7 +15,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.wongislandd.infinityindex.home.Browse
+import com.wongislandd.infinityindex.home.BrowseScreen
 import com.wongislandd.infinityindex.home.InfinityIndexSplashScreen
 import com.wongislandd.infinityindex.infra.composables.GenericDetailsScreen
 import com.wongislandd.infinityindex.infra.composables.GenericListScreen
@@ -247,12 +247,12 @@ fun AppNavHost(
                                 InfinityIndexSplashScreen()
                             }
                             NavigationItem.Browse -> {
-                                Browse()
+                                BrowseScreen()
                             }
                             NavigationItem.Settings -> {
                                 SettingsScreen()
                             }
-                            else -> Browse()
+                            else -> BrowseScreen()
                         }
                     }
                 }
