@@ -182,7 +182,12 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
 
             is DetailsBackChannelEvent.RequestForPagination -> {
                 if (event.relatedEntityTypeToPageFor == entityType) {
-                    initializePaging(event.rootEntityType, event.rootEntityId, event.sortKey)
+                    initializePaging(
+                        event.rootEntityType,
+                        event.rootEntityId,
+                        event.sortKey,
+                        event.titleOfResults
+                    )
                 }
             }
         }
