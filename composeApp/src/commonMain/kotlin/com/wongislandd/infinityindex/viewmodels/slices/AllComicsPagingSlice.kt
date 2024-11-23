@@ -11,4 +11,9 @@ class AllComicsPagingSlice(
     repository,
     PagedListUseCase.ALL_AVAILABLE,
     dataStoreRepository
-)
+) {
+    override fun onReadyToPage() {
+        super.onReadyToPage()
+        initializePaging()
+    }
+}

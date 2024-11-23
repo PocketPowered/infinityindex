@@ -29,12 +29,19 @@ abstract class ComicsListPagingSlice(
         LookForwardDateHelper.getLookForwardDateRange(ComicConstants.DEFAULT_LOOK_AHEAD_DAYS)
 
     override fun getAdditionalPagingParams(): Map<String, Any> {
-        return mapOf(
-            "hasDigitalIssue" to isDigitallyAvailableFilterEnabled,
-            "noVariants" to !isVariantsEnabled,
+        val extraParams: MutableMap<String, Any> = mutableMapOf(
             "dateRange" to lookAheadDateRange
         )
+        if (isDigitallyAvailableFilterEnabled) {
+            extraParams["hasDigitalIssue"] = true
+        }
+        if (!isVariantsEnabled) {
+            extraParams["noVariants"] = true
+        }
+        return extraParams
     }
+
+    override fun shouldInitiallyLoad(): Boolean = false
 
     override fun afterInit() {
         super.afterInit()
@@ -45,20 +52,19 @@ abstract class ComicsListPagingSlice(
                         NumberSetting.LOOK_AHEAD_DAYS
                     )
                 )
-        }
-        sliceScope.launch {
             isDigitallyAvailableFilterEnabled =
                 dataStoreRepository.readBooleanPreference(
                     ToggleSetting.DIGITALLY_AVAILABLE
                 )
-        }
-        sliceScope.launch {
             isVariantsEnabled =
                 dataStoreRepository.readBooleanPreference(
                     ToggleSetting.VARIANTS
                 )
+            onReadyToPage()
         }
     }
+
+    open fun onReadyToPage() {}
 
     override fun handleBackChannelEvent(event: BackChannelEvent) {
         super.handleBackChannelEvent(event)

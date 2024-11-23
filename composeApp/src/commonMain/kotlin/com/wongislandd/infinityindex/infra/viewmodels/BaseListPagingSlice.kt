@@ -53,10 +53,12 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
 
     override fun afterInit() {
         // If this is a list for a root entity, we don't need to wait on anything
-        if (useCase == PagedListUseCase.ALL_AVAILABLE) {
+        if (shouldInitiallyLoad()) {
             initializePaging()
         }
     }
+
+    open fun shouldInitiallyLoad(): Boolean = useCase == PagedListUseCase.ALL_AVAILABLE
 
     open fun getAdditionalPagingParams(): Map<String, Any> {
         // override this to add extra params for different use cases
@@ -95,7 +97,7 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
     }
 
     @Suppress("UNCHECKED_CAST")
-    private fun initializePaging(
+    protected fun initializePaging(
         relatedEntityType: EntityType? = null,
         relatedEntityId: Int? = null,
         sortKeyOverride: String? = null,
