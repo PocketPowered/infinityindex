@@ -6,16 +6,18 @@ import com.wongislandd.infinityindex.infra.util.Resource
 import com.wongislandd.infinityindex.infra.util.events.BackChannelEvent
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 
 abstract class BaseDetailsScreenStateSlice<T : EntityModel> : BaseScreenStateSlice<T>,
     BaseAllEntitiesPagingDataConsumerSlice() {
 
-    private val _supplementaryData: MutableStateFlow<EntityModel?> = MutableStateFlow(null)
+    private val _supplementaryEntityData: MutableStateFlow<Resource<SupplementaryEntityData>> =
+        MutableStateFlow(Resource.NotLoading)
 
     private val _screenState: MutableStateFlow<BaseDetailsScreenState<T>> =
         MutableStateFlow(
             BaseDetailsScreenState(
-                supplementaryData = _supplementaryData,
+                supplementaryEntityData = _supplementaryEntityData,
                 characterData = characterWrappedPagingData,
                 creatorsData = creatorsWrappedPagingData,
                 eventsData = eventsWrappedPagingData,
@@ -32,13 +34,17 @@ abstract class BaseDetailsScreenStateSlice<T : EntityModel> : BaseScreenStateSli
         super.handleBackChannelEvent(event)
         when (event) {
             is DetailsBackChannelEvent.SingleDataResUpdate<*> -> {
-                (event.update as? Resource<T>)?.let {
-                    _screenState.value = _screenState.value.copy(primaryRes = it)
+                (event.update as? Resource<T>)?.let { updateData ->
+                    _screenState.update {
+                        it.copy(primaryRes = updateData)
+                    }
                 }
             }
 
-            is DetailsBackChannelEvent.SingleRelatedDataUpdate<*> -> {
-                _supplementaryData.value = event.update
+            is DetailsBackChannelEvent.SupplementaryDataUpdate -> {
+                _supplementaryEntityData.update {
+                    event.supplementaryDataRes
+                }
             }
         }
     }

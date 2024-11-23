@@ -22,7 +22,7 @@ class ComicSeriesSupplementaryEntityResolutionSlice(
                     EntityType.SERIES,
                     EntityType.COMICS,
                     ComicsSortOption.ONSALE_DATE_DESC.sortKey,
-                    "Comics in this Series"
+                    "Comics in Series"
                 )
             )
         }

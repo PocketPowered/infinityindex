@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
 data class BaseDetailsScreenState<T : EntityModel>(
     val primaryId: Int? = null,
     val primaryRes: Resource<T> = Resource.Loading,
-    val supplementaryData: StateFlow<EntityModel?>,
+    val supplementaryEntityData: StateFlow<Resource<SupplementaryEntityData>>,
     override val characterData: StateFlow<EntityPagingData>,
     override val creatorsData: StateFlow<EntityPagingData>,
     override val eventsData: StateFlow<EntityPagingData>,
@@ -17,3 +17,8 @@ data class BaseDetailsScreenState<T : EntityModel>(
     override val seriesData: StateFlow<EntityPagingData>,
     override val comicData: StateFlow<EntityPagingData>,
 ) : PagingDataConsumerScreenState
+
+data class SupplementaryEntityData(
+    val title: String? = null,
+    val entity: EntityModel
+)

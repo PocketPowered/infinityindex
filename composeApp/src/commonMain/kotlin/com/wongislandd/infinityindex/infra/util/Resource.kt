@@ -7,9 +7,13 @@ object Empty
 
 sealed class Resource<out T> {
 
+    object NotLoading: Resource<Nothing>()
     object Loading : Resource<Nothing>()
     data class Success<out T>(val data: T) : Resource<T>()
-    data class Error(val error: com.wongislandd.infinityindex.infra.util.Error?, val throwable: Throwable? = null) : Resource<Nothing>()
+    data class Error(
+        val error: com.wongislandd.infinityindex.infra.util.Error?,
+        val throwable: Throwable? = null
+    ) : Resource<Nothing>()
 
     fun <R> map(transform: (T) -> R?): Resource<R> {
         return when (this) {
@@ -23,12 +27,20 @@ sealed class Resource<out T> {
             }
             is Error -> this
             is Loading -> this
+            is NotLoading -> this
         }
     }
 
-     fun <T> Resource<T>.onSuccess(block: (T) -> Unit): Resource<T> {
+    fun <T> Resource<T>.onSuccess(block: (T) -> Unit): Resource<T> {
         if (this is Success) {
             block(data)
+        }
+        return this
+    }
+
+    fun Resource<*>.onError(block: (error: com.wongislandd.infinityindex.infra.util.Error?, throwable: Throwable?) -> Unit): Resource<*> {
+        if (this is Error) {
+            block(error, throwable)
         }
         return this
     }

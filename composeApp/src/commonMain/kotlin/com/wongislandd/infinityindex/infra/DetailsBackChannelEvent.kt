@@ -4,6 +4,7 @@ import com.wongislandd.infinityindex.infra.util.EntityModel
 import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.util.Resource
 import com.wongislandd.infinityindex.infra.util.events.BackChannelEvent
+import com.wongislandd.infinityindex.infra.viewmodels.SupplementaryEntityData
 
 sealed class DetailsBackChannelEvent : BackChannelEvent {
 
@@ -18,10 +19,14 @@ sealed class DetailsBackChannelEvent : BackChannelEvent {
         val titleOfResults: String? = null
     ) : BackChannelEvent
 
-    data class RequestForSingleRelatedDataUpdate(val entityId: Int, val entityType: EntityType) :
+    data class RequestForSingleRelatedDataUpdate(
+        val entityId: Int, val entityType: EntityType,
+        val titleOfResults: String? = null
+    ) :
         BackChannelEvent
 
-    data class SingleRelatedDataUpdate<T : EntityModel>(val update: T, val type: EntityType) :
-        BackChannelEvent
+    data class SupplementaryDataUpdate(
+        val supplementaryDataRes: Resource<SupplementaryEntityData>
+    ) : BackChannelEvent
 
 }

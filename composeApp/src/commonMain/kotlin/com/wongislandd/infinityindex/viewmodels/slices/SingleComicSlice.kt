@@ -20,7 +20,7 @@ class SingleComicSlice(
                 backChannelEvents.sendEvent(
                     DetailsBackChannelEvent.RequestForSingleRelatedDataUpdate(
                         it.entityId,
-                        EntityType.SERIES
+                        EntityType.SERIES,
                     )
                 )
             }

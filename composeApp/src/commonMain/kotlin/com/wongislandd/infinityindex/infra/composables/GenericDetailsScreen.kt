@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.wongislandd.infinityindex.infra.DetailsUiEvent
 import com.wongislandd.infinityindex.infra.navigation.NavigationHelper
 import com.wongislandd.infinityindex.infra.util.EntityModel
+import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.util.Resource
 import com.wongislandd.infinityindex.infra.util.getEntityType
 import com.wongislandd.infinityindex.infra.viewmodels.BaseDetailsScreenState
@@ -79,6 +80,10 @@ inline fun <reified T : BaseDetailsViewModel<out EntityModel>> GenericDetailsScr
                         modifier = Modifier.align(Alignment.Center)
                     )
                 }
+
+                is Resource.NotLoading -> {
+                    // do nothing
+                }
             }
         }
     }
@@ -90,7 +95,7 @@ fun DetailsContents(
     screenState: BaseDetailsScreenState<out EntityModel>,
     modifier: Modifier = Modifier
 ) {
-    val supplementaryData = screenState.supplementaryData.collectAsState()
+    val supplementaryData = screenState.supplementaryEntityData.collectAsState()
     val supplementaryDataValue = supplementaryData.value
     AdditionalDetailsLazyColumn(modifier = modifier) {
         item {
@@ -107,15 +112,35 @@ fun DetailsContents(
         }
 
         // Support showing supplementary data
-        supplementaryData.value?.also { supplementaryModel ->
-            item {
-                Column(modifier = Modifier.padding(horizontal = 16.dp)) {
-                    EntitySectionHeader(
-                        entityType = supplementaryModel.getEntityType(),
-                        totalEntityCount = null,
-                        showAllRoute = null,
-                    )
-                    SupplementaryDetailContents(supplementaryModel)
+        item {
+            when (supplementaryDataValue) {
+                is Resource.Loading -> {
+                    Column(modifier = Modifier.padding(horizontal = 16.dp)) {
+                        EntitySectionHeader(
+                            entityType = EntityType.SERIES,
+                            totalEntityCount = null,
+                            showAllRoute = null,
+                            isContentInitializing = true
+                        )
+                        GhostEntityCard()
+                    }
+                }
+
+                is Resource.Success -> {
+                    Column(modifier = Modifier.padding(horizontal = 16.dp)) {
+                        EntitySectionHeader(
+                            entityType = supplementaryDataValue.data.entity.getEntityType(),
+                            totalEntityCount = null,
+                            showAllRoute = null,
+                            title = supplementaryDataValue.data.title
+                        )
+                        EntityCard(supplementaryDataValue.data.entity)
+                    }
+                }
+
+                is Resource.Error,
+                Resource.NotLoading -> {
+                    // do nothing
                 }
             }
         }
@@ -125,12 +150,12 @@ fun DetailsContents(
                 screenState,
                 showAllRouteGetter = { entityType ->
                     // Show all related to the supplementary data (useful for comics showing on comics screen from series resolution)
-                    if (supplementaryDataValue != null && entityType == primaryModel.getEntityType()) {
+                    if (supplementaryDataValue is Resource.Success && entityType == primaryModel.getEntityType()) {
                         NavigationHelper.getRelatedListRoute(
-                            supplementaryDataValue.getEntityType(),
-                            supplementaryDataValue.id,
+                            supplementaryDataValue.data.entity.getEntityType(),
+                            supplementaryDataValue.data.entity.id,
                             entityType,
-                            "${entityType.displayName} related to ${supplementaryDataValue.displayName}"
+                            "${entityType.displayName} related to ${supplementaryDataValue.data.entity.displayName}"
                         )
                     } else {
                         NavigationHelper.getRelatedListRoute(
@@ -177,15 +202,4 @@ private fun PrimaryDetailContents(primaryModel: EntityModel, modifier: Modifier 
             EventDetails(primaryModel, modifier)
         }
     }
-}
-
-@Composable
-private fun SupplementaryDetailContents(
-    supplementaryEntityModel: EntityModel,
-    modifier: Modifier = Modifier
-) {
-    EntityCard(
-        entity = supplementaryEntityModel,
-        modifier = modifier
-    )
 }
