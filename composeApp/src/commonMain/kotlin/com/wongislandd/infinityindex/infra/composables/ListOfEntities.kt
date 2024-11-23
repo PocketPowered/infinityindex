@@ -4,11 +4,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import app.cash.paging.compose.collectAsLazyPagingItems
 import com.wongislandd.infinityindex.infra.util.EntityType
+import com.wongislandd.infinityindex.infra.viewmodels.EntityPagingData
 import com.wongislandd.infinityindex.infra.viewmodels.PagingDataConsumerScreenState
 
 enum class EntitiesListUseCase {
@@ -23,38 +23,49 @@ fun ListOfEntities(
     useCase: EntitiesListUseCase,
     modifier: Modifier = Modifier,
 ) {
-    val entityCounts by screenState.entityCountsData.collectAsState()
-    val pagedCharacters = screenState.characterData.collectAsLazyPagingItems()
-    val pagedCreators = screenState.creatorsData.collectAsLazyPagingItems()
-    val pagedEvents = screenState.eventsData.collectAsLazyPagingItems()
-    val pagedStories = screenState.storiesData.collectAsLazyPagingItems()
-    val pagedSeries = screenState.seriesData.collectAsLazyPagingItems()
-    val pagedComics = screenState.comicData.collectAsLazyPagingItems()
+    val charactersData = screenState.characterData.collectAsState()
+    val creatorsData = screenState.creatorsData.collectAsState()
+    val eventsData = screenState.eventsData.collectAsState()
+    val storiesData = screenState.storiesData.collectAsState()
+    val seriesData = screenState.seriesData.collectAsState()
+    val comicData = screenState.comicData.collectAsState()
 
     val sections = listOf(
-        Pair(EntityType.COMICS, entityCounts.comicCount) to pagedComics,
-        Pair(EntityType.CHARACTERS, entityCounts.charactersCount) to pagedCharacters,
-        Pair(EntityType.EVENTS, entityCounts.eventsCount) to pagedEvents,
-        Pair(EntityType.CREATORS, entityCounts.creatorsCount) to pagedCreators,
-        Pair(EntityType.SERIES, entityCounts.seriesCount) to pagedSeries,
-        Pair(EntityType.STORIES, entityCounts.storiesCount) to pagedStories,
+        comicData,
+        charactersData,
+        eventsData,
+        seriesData,
+        creatorsData,
+        storiesData,
     )
 
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(16.dp)) {
-        sections.forEach { (entityTypeAndCountPair, pagedItems) ->
-            val entityType = entityTypeAndCountPair.first
-            val totalEntityCount = entityTypeAndCountPair.second
-            // Only show the section if there are items to show
-            val shouldShowList = totalEntityCount != null || useCase == EntitiesListUseCase.HOME
-            if (shouldShowList) {
-                SectionedEntityList(
-                    entityType = entityType,
-                    totalItemCount = totalEntityCount?.toInt(),
-                    pagedItems = pagedItems,
-                    showAllRoute = showAllRouteGetter(entityType),
-                    useCase = useCase
-                )
-            }
+        sections.forEach { entitySection ->
+            PagedEntity(entitySection.value, showAllRouteGetter(entitySection.value.entityType), useCase)
         }
+    }
+}
+
+@Composable
+private fun PagedEntity(
+    entityPagingData: EntityPagingData,
+    showAllRoute: String,
+    useCase: EntitiesListUseCase,
+    modifier: Modifier = Modifier
+) {
+    val pagingItems = entityPagingData.pagingData.collectAsLazyPagingItems()
+    val pagingTitle = entityPagingData.pagingTitle
+    val entityCount = entityPagingData.entityCount
+    val shouldShowList = entityCount != null || useCase == EntitiesListUseCase.HOME
+    if (shouldShowList) {
+        SectionedEntityList(
+            entityType = entityPagingData.entityType,
+            totalItemCount = entityCount,
+            pagedItems = pagingItems,
+            title = pagingTitle,
+            showAllRoute = showAllRoute,
+            useCase = EntitiesListUseCase.HOME,
+            modifier = modifier
+        )
     }
 }

@@ -16,13 +16,12 @@ abstract class BaseDetailsScreenStateSlice<T : EntityModel> : BaseScreenStateSli
         MutableStateFlow(
             BaseDetailsScreenState(
                 supplementaryData = _supplementaryData,
-                characterData = characterPagingData,
-                creatorsData = creatorsPagingData,
-                eventsData = eventsPagingData,
-                storiesData = storiesPagingData,
-                seriesData = seriesPagingData,
-                comicData = comicPagingData,
-                entityCountsData = entityCountsData
+                characterData = characterWrappedPagingData,
+                creatorsData = creatorsWrappedPagingData,
+                eventsData = eventsWrappedPagingData,
+                storiesData = storiesWrappedPagingData,
+                seriesData = seriesWrappedPagingData,
+                comicData = comicWrappedPagingData,
             )
         )
 

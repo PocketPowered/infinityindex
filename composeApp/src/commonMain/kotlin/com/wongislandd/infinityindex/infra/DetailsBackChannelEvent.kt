@@ -14,7 +14,8 @@ sealed class DetailsBackChannelEvent : BackChannelEvent {
         val rootEntityId: Int,
         val rootEntityType: EntityType,
         val relatedEntityTypeToPageFor: EntityType,
-        val sortKey: String? = null
+        val sortKey: String? = null,
+        val titleOfResults: String? = null
     ) : BackChannelEvent
 
     data class RequestForSingleRelatedDataUpdate(val entityId: Int, val entityType: EntityType) :

@@ -2,15 +2,10 @@ package com.wongislandd.infinityindex.infra.viewmodels
 
 import androidx.paging.PagingData
 import com.wongislandd.infinityindex.infra.PagingBackChannelEvent
+import com.wongislandd.infinityindex.infra.util.EntityModel
 import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.util.ViewModelSlice
 import com.wongislandd.infinityindex.infra.util.events.BackChannelEvent
-import com.wongislandd.infinityindex.models.local.Character
-import com.wongislandd.infinityindex.models.local.Comic
-import com.wongislandd.infinityindex.models.local.Creator
-import com.wongislandd.infinityindex.models.local.Event
-import com.wongislandd.infinityindex.models.local.Series
-import com.wongislandd.infinityindex.models.local.Story
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 
@@ -19,30 +14,94 @@ import kotlinx.coroutines.flow.update
  */
 abstract class BaseAllEntitiesPagingDataConsumerSlice : ViewModelSlice() {
 
-    protected val entityCountsData: MutableStateFlow<EntityCountsData> =
-        MutableStateFlow(EntityCountsData())
+    private val mutablePagingDatas: Map<EntityType, MutableStateFlow<PagingData<EntityModel>>> =
+        mapOf(
+            EntityType.CHARACTERS to MutableStateFlow(PagingData.empty()),
+            EntityType.CREATORS to MutableStateFlow(PagingData.empty()),
+            EntityType.EVENTS to MutableStateFlow(PagingData.empty()),
+            EntityType.STORIES to MutableStateFlow(PagingData.empty()),
+            EntityType.SERIES to MutableStateFlow(PagingData.empty()),
+            EntityType.COMICS to MutableStateFlow(PagingData.empty())
+        )
 
-    protected val characterPagingData: MutableStateFlow<PagingData<Character>> =
-        MutableStateFlow(PagingData.empty())
+    protected val characterWrappedPagingData: MutableStateFlow<EntityPagingData> =
+        MutableStateFlow(
+            EntityPagingData(
+                pagingData = getPagingData(EntityType.CHARACTERS),
+                pagingTitle = "Characters",
+                entityType = EntityType.CHARACTERS
+            )
+        )
 
-    protected val creatorsPagingData: MutableStateFlow<PagingData<Creator>> =
-        MutableStateFlow(PagingData.empty())
+    protected val creatorsWrappedPagingData: MutableStateFlow<EntityPagingData> =
+        MutableStateFlow(
+            EntityPagingData(
+                pagingData = getPagingData(EntityType.CREATORS),
+                pagingTitle = "Creators",
+                entityType = EntityType.CREATORS
+            )
+        )
 
-    protected val eventsPagingData: MutableStateFlow<PagingData<Event>> =
-        MutableStateFlow(PagingData.empty())
+    protected val eventsWrappedPagingData: MutableStateFlow<EntityPagingData> =
+        MutableStateFlow(
+            EntityPagingData(
+                pagingData = getPagingData(EntityType.EVENTS),
+                pagingTitle = "Events",
+                entityType = EntityType.EVENTS
+            )
+        )
 
-    protected val storiesPagingData: MutableStateFlow<PagingData<Story>> =
-        MutableStateFlow(PagingData.empty())
+    protected val storiesWrappedPagingData: MutableStateFlow<EntityPagingData> =
+        MutableStateFlow(
+            EntityPagingData(
+                pagingData = getPagingData(EntityType.STORIES),
+                pagingTitle = "Stories",
+                entityType = EntityType.STORIES
+            )
+        )
 
-    protected val seriesPagingData: MutableStateFlow<PagingData<Series>> =
-        MutableStateFlow(PagingData.empty())
+    protected val seriesWrappedPagingData: MutableStateFlow<EntityPagingData> =
+        MutableStateFlow(
+            EntityPagingData(
+                pagingData = getPagingData(EntityType.SERIES),
+                pagingTitle = "Series",
+                entityType = EntityType.SERIES
+            )
+        )
 
-    protected val comicPagingData: MutableStateFlow<PagingData<Comic>> =
-        MutableStateFlow(PagingData.empty())
+    protected val comicWrappedPagingData: MutableStateFlow<EntityPagingData> =
+        MutableStateFlow(
+            EntityPagingData(
+                pagingData = getPagingData(EntityType.COMICS),
+                pagingTitle = "Comics",
+                entityType = EntityType.COMICS
+            )
+        )
+
+    private val wrappedPagingDataMap = mapOf(
+        EntityType.CHARACTERS to characterWrappedPagingData,
+        EntityType.CREATORS to creatorsWrappedPagingData,
+        EntityType.EVENTS to eventsWrappedPagingData,
+        EntityType.STORIES to storiesWrappedPagingData,
+        EntityType.SERIES to seriesWrappedPagingData,
+        EntityType.COMICS to comicWrappedPagingData
+    )
+
+
+    private fun getPagingData(entityType: EntityType): MutableStateFlow<PagingData<EntityModel>> {
+        return mutablePagingDatas[entityType]
+            ?: throw IllegalStateException("No paging data found for $entityType")
+    }
+
+    private fun getWrappedPagingData(entityType: EntityType): MutableStateFlow<EntityPagingData> {
+        return wrappedPagingDataMap[entityType]
+            ?: throw IllegalStateException("No wrapped paging data found for $entityType")
+    }
+
 
     override fun handleBackChannelEvent(event: BackChannelEvent) {
         when (event) {
-            is PagingBackChannelEvent.PagingDataResUpdate<*> -> {
+            is PagingBackChannelEvent.PagingDataResUpdate -> {
                 handlePagingUpdate(event)
             }
 
@@ -56,84 +115,18 @@ abstract class BaseAllEntitiesPagingDataConsumerSlice : ViewModelSlice() {
      * Find a better way around the genericness here, so that you don't need an unchecked cast.
      * Although this is kind of safe, as long as the right entity type is passed!
      */
-    @Suppress("UNCHECKED_CAST")
-    private fun handlePagingUpdate(event: PagingBackChannelEvent.PagingDataResUpdate<*>) {
-        when (event.entityType) {
-            EntityType.CHARACTERS -> {
-                characterPagingData.value = event.update as PagingData<Character>
-            }
-
-            EntityType.EVENTS -> {
-                eventsPagingData.value = event.update as PagingData<Event>
-            }
-
-            EntityType.CREATORS -> {
-                creatorsPagingData.value = event.update as PagingData<Creator>
-            }
-
-            EntityType.STORIES -> {
-                storiesPagingData.value = event.update as PagingData<Story>
-            }
-
-            EntityType.COMICS -> {
-                comicPagingData.value = event.update as PagingData<Comic>
-            }
-
-            EntityType.SERIES -> {
-                seriesPagingData.value = event.update as PagingData<Series>
-            }
+    private fun handlePagingUpdate(event: PagingBackChannelEvent.PagingDataResUpdate) {
+        getPagingData(event.entityType).update {
+            event.update
+        }
+        getWrappedPagingData(event.entityType).update {
+            it.copy(pagingTitle = event.titleOfResults)
         }
     }
 
     private fun handleEntityCountsUpdate(event: PagingBackChannelEvent.EntityCountsUpdate) {
-        when (event.entityType) {
-            EntityType.CHARACTERS -> {
-                entityCountsData.update {
-                    it.copy(
-                        charactersCount = event.totalCount
-                    )
-                }
-            }
-
-            EntityType.EVENTS -> {
-                entityCountsData.update {
-                    it.copy(
-                        eventsCount = event.totalCount
-                    )
-                }
-            }
-
-            EntityType.CREATORS -> {
-                entityCountsData.update {
-                    it.copy(
-                        creatorsCount = event.totalCount
-                    )
-                }
-            }
-
-            EntityType.STORIES -> {
-                entityCountsData.update {
-                    it.copy(
-                        storiesCount = event.totalCount
-                    )
-                }
-            }
-
-            EntityType.COMICS -> {
-                entityCountsData.update {
-                    it.copy(
-                        comicCount = event.totalCount
-                    )
-                }
-            }
-
-            EntityType.SERIES -> {
-                entityCountsData.update {
-                    it.copy(
-                        seriesCount = event.totalCount
-                    )
-                }
-            }
+        getWrappedPagingData(event.entityType).update {
+            it.copy(entityCount = event.totalCount.toInt())
         }
     }
 }

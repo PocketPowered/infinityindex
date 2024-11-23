@@ -1,6 +1,7 @@
 package com.wongislandd.infinityindex.infra.viewmodels
 
 import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import app.cash.paging.Pager
 import com.wongislandd.infinityindex.ComicConstants
@@ -93,10 +94,12 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
         }
     }
 
+    @Suppress("UNCHECKED_CAST")
     private fun initializePaging(
         relatedEntityType: EntityType? = null,
         relatedEntityId: Int? = null,
-        sortKeyOverride: String? = null
+        sortKeyOverride: String? = null,
+        titleOfPagination: String? = null
     ) {
         sliceScope.launch {
             Pager(
@@ -148,7 +151,11 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
                 newPagingSource
             }.flow.cachedIn(sliceScope).collectLatest {
                 backChannelEvents.sendEvent(
-                    PagingBackChannelEvent.PagingDataResUpdate(it, entityType)
+                    PagingBackChannelEvent.PagingDataResUpdate(
+                        it as PagingData<EntityModel>,
+                        entityType,
+                        titleOfPagination
+                    )
                 )
             }
         }

@@ -1,9 +1,7 @@
 package com.wongislandd.infinityindex.infra.composables
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -24,7 +22,6 @@ import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -43,7 +40,9 @@ fun <T : EntityModel> SectionedEntityList(
     totalItemCount: Int?,
     pagedItems: LazyPagingItems<T>,
     showAllRoute: String,
-    useCase: EntitiesListUseCase
+    title: String? = null,
+    useCase: EntitiesListUseCase,
+    modifier: Modifier = Modifier
 ) {
     val navController = LocalNavHostController.current
     val isShowAllAvailable =
@@ -51,10 +50,11 @@ fun <T : EntityModel> SectionedEntityList(
     if (!pagedItems.loadState.isInitializing() && pagedItems.itemCount == 0) {
         return
     }
-    Column(modifier = Modifier.fillMaxWidth()) {
+    Column(modifier = modifier.fillMaxWidth()) {
         EntitySectionHeader(
             entityType = entityType,
             totalEntityCount = totalItemCount,
+            title = title,
             isContentInitializing = pagedItems.loadState.isInitializing(),
             showAllRoute = showAllRoute.takeIf { isShowAllAvailable && useCase == EntitiesListUseCase.HOME },
             modifier = Modifier.padding(horizontal = 8.dp)
@@ -127,11 +127,13 @@ fun <T : EntityModel> SectionedEntityList(
 fun EntitySectionHeader(
     entityType: EntityType,
     totalEntityCount: Int?,
+    title: String? = null,
     isContentInitializing: Boolean = false,
     showAllRoute: String?,
     modifier: Modifier = Modifier
 ) {
     val navController = LocalNavHostController.current
+    val headerTitle = title ?: entityType.displayName
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -149,8 +151,8 @@ fun EntitySectionHeader(
             }
         } else {
             val sectionHeaderText =
-                totalEntityCount?.let { "${entityType.displayName} (${formatNumberWithCommas(it)})" }
-                    ?: entityType.displayName
+                totalEntityCount?.let { "$headerTitle (${formatNumberWithCommas(it)})" }
+                    ?: headerTitle
             Text(
                 text = sectionHeaderText,
                 style = MaterialTheme.typography.h6,

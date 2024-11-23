@@ -35,11 +35,10 @@ abstract class BaseListScreenStateSlice<T : EntityModel>(
 
     val listState: StateFlow<ListState> = _listState
 
-    @Suppress("UNCHECKED_CAST")
     override fun handleBackChannelEvent(event: BackChannelEvent) {
         when (event) {
-            is PagingBackChannelEvent.PagingDataResUpdate<*> -> {
-                _listPagingData.value = event.update as PagingData<EntityModel>
+            is PagingBackChannelEvent.PagingDataResUpdate -> {
+                _listPagingData.value = event.update
             }
 
             is PagingBackChannelEvent.UpdateSearchBoxVisibility -> {

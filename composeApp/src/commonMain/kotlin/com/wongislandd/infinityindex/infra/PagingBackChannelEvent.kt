@@ -9,9 +9,10 @@ import com.wongislandd.infinityindex.infra.util.events.BackChannelEvent
 
 sealed class PagingBackChannelEvent : BackChannelEvent {
 
-    data class PagingDataResUpdate<T : EntityModel>(
-        val update: PagingData<T>,
-        val entityType: EntityType
+    data class PagingDataResUpdate(
+        val update: PagingData<EntityModel>,
+        val entityType: EntityType,
+        val titleOfResults: String? = null
     ) : PagingBackChannelEvent()
 
     data class EntityCountsUpdate(
