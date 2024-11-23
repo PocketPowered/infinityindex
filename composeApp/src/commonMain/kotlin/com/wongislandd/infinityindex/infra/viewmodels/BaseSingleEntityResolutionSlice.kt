@@ -1,4 +1,4 @@
-package com.wongislandd.infinityindex.viewmodels.slices
+package com.wongislandd.infinityindex.infra.viewmodels
 
 import com.wongislandd.infinityindex.infra.DetailsBackChannelEvent
 import com.wongislandd.infinityindex.infra.DetailsUiEvent

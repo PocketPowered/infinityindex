@@ -4,6 +4,7 @@ import com.wongislandd.infinityindex.infra.DetailsBackChannelEvent
 import com.wongislandd.infinityindex.models.local.Comic
 import com.wongislandd.infinityindex.models.network.NetworkComic
 import com.wongislandd.infinityindex.infra.util.EntityType
+import com.wongislandd.infinityindex.infra.viewmodels.BaseSingleEntityResolutionSlice
 import com.wongislandd.infinityindex.repositories.ComicsEntityRepository
 import kotlinx.coroutines.launch
 
