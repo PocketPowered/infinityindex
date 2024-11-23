@@ -15,7 +15,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.wongislandd.infinityindex.home.HomeScreen
+import com.wongislandd.infinityindex.home.Browse
 import com.wongislandd.infinityindex.home.InfinityIndexSplashScreen
 import com.wongislandd.infinityindex.infra.composables.GenericDetailsScreen
 import com.wongislandd.infinityindex.infra.composables.GenericListScreen
@@ -50,7 +50,7 @@ import com.wongislandd.infinityindex.viewmodels.StoryDetailsViewModel
 @Composable
 fun AppNavHost(
     modifier: Modifier = Modifier,
-    startDestination: String = NavigationItem.Home.route,
+    startDestination: String = NavigationItem.Browse.route,
 ) {
     val navController = LocalNavHostController.current
     val pageTurnEnterTransition = slideInHorizontally(
@@ -246,13 +246,13 @@ fun AppNavHost(
                             NavigationItem.Splash -> {
                                 InfinityIndexSplashScreen()
                             }
-                            NavigationItem.Home -> {
-                                HomeScreen()
+                            NavigationItem.Browse -> {
+                                Browse()
                             }
                             NavigationItem.Settings -> {
                                 SettingsScreen()
                             }
-                            else -> HomeScreen()
+                            else -> Browse()
                         }
                     }
                 }

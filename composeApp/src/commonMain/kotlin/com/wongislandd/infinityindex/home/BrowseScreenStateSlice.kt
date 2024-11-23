@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 
 
-class HomeScreenStateSlice : BaseAllEntitiesPagingDataConsumerSlice() {
+class BrowseScreenStateSlice : BaseAllEntitiesPagingDataConsumerSlice() {
 
     private val firstResponseTracker: MutableMap<EntityType, Resource<Any>> = mutableMapOf(
         EntityType.CHARACTERS to Resource.Loading,
@@ -22,10 +22,10 @@ class HomeScreenStateSlice : BaseAllEntitiesPagingDataConsumerSlice() {
         EntityType.COMICS to Resource.Loading
     )
 
-    private val _screenState: MutableStateFlow<HomeScreenState> =
+    private val _screenState: MutableStateFlow<BrowseScreenState> =
         MutableStateFlow(
-            HomeScreenState(
-                isHomeScreenLoading = true,
+            BrowseScreenState(
+                isBrowseScreenLoading = true,
                 characterData = characterWrappedPagingData,
                 creatorsData = creatorsWrappedPagingData,
                 eventsData = eventsWrappedPagingData,
@@ -34,7 +34,7 @@ class HomeScreenStateSlice : BaseAllEntitiesPagingDataConsumerSlice() {
                 comicData = comicWrappedPagingData
             )
         )
-    val screenState: StateFlow<HomeScreenState> = _screenState
+    val screenState: StateFlow<BrowseScreenState> = _screenState
 
     override fun handleBackChannelEvent(event: BackChannelEvent) {
         super.handleBackChannelEvent(event)
@@ -42,7 +42,7 @@ class HomeScreenStateSlice : BaseAllEntitiesPagingDataConsumerSlice() {
             is PagingBackChannelEvent.PagingResponseReceived -> {
                 firstResponseTracker[event.entityType] = event.response
                 if (firstResponseTracker.values.all { it !is Resource.Loading }) {
-                    _screenState.update { it.copy(isHomeScreenLoading = false) }
+                    _screenState.update { it.copy(isBrowseScreenLoading = false) }
                     maybeDisplayErrorIfNoneLoaded()
                 }
             }

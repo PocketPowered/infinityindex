@@ -30,8 +30,8 @@ import org.koin.core.annotation.KoinExperimentalAPI
 
 @OptIn(KoinExperimentalAPI::class)
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier) {
-    val viewModel = koinViewModel<HomeViewModel>()
+fun Browse(modifier: Modifier = Modifier) {
+    val viewModel = koinViewModel<BrowseViewModel>()
     val screenState by viewModel.screenStateSlice.screenState.collectAsState()
     val navController = LocalNavHostController.current
     Box(modifier = modifier.fillMaxSize()) {
@@ -71,7 +71,7 @@ fun HomeScreen(modifier: Modifier = Modifier) {
                 }
             }
         }
-        if (screenState.isHomeScreenLoading) {
+        if (screenState.isBrowseScreenLoading) {
             InfinityIndexLoadingScreen(modifier = Modifier.clickable(
                 indication = null, // Removes ripple or any click feedback
                 interactionSource = remember { MutableInteractionSource() }

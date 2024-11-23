@@ -5,7 +5,7 @@ import androidx.datastore.preferences.core.Preferences
 import com.wongislandd.infinityindex.transformers.util.DateTransformer
 import com.wongislandd.infinityindex.transformers.util.EntityReferenceTransformer
 import com.wongislandd.infinityindex.transformers.util.RoledCreatorTransformer
-import com.wongislandd.infinityindex.home.homeModule
+import com.wongislandd.infinityindex.home.browseModule
 import com.wongislandd.infinityindex.infra.DetailsBackChannelEvent
 import com.wongislandd.infinityindex.infra.DetailsUiEvent
 import com.wongislandd.infinityindex.infra.transformers.LoadableImageTransformer
@@ -40,7 +40,7 @@ fun initializeKoin(context: Any? = null) =
         modules(
             dataStoreModule(context),
             appModule, platformModule,
-            infraModule, entitiesModule, homeModule,
+            infraModule, entitiesModule, browseModule,
             settingsModule
         )
     }

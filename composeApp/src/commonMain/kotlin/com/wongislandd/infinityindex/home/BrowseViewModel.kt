@@ -12,8 +12,8 @@ import com.wongislandd.infinityindex.infra.util.events.BackChannelEvent
 import com.wongislandd.infinityindex.infra.util.events.EventBus
 import com.wongislandd.infinityindex.infra.util.events.UiEvent
 
-class HomeViewModel(
-    val screenStateSlice: HomeScreenStateSlice,
+class BrowseViewModel(
+    val screenStateSlice: BrowseScreenStateSlice,
     allComicsPagingSlice: AllComicsPagingSlice,
     allCreatorsPagingSlice: AllCreatorsPagingSlice,
     allCharactersPagingSlice: AllCharactersPagingSlice,
