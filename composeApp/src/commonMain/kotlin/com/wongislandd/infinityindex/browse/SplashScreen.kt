@@ -1,4 +1,4 @@
-package com.wongislandd.infinityindex.home
+package com.wongislandd.infinityindex.browse
 
 import NavigationItem
 import androidx.compose.foundation.background

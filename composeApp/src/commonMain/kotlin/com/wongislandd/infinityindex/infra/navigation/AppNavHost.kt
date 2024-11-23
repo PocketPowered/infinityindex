@@ -15,8 +15,8 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.wongislandd.infinityindex.home.BrowseScreen
-import com.wongislandd.infinityindex.home.InfinityIndexSplashScreen
+import com.wongislandd.infinityindex.browse.BrowseScreen
+import com.wongislandd.infinityindex.browse.InfinityIndexSplashScreen
 import com.wongislandd.infinityindex.infra.composables.GenericDetailsScreen
 import com.wongislandd.infinityindex.infra.composables.GenericListScreen
 import com.wongislandd.infinityindex.infra.composables.RelatedEntityListConfiguration

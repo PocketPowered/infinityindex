@@ -1,4 +1,4 @@
-package com.wongislandd.infinityindex.home
+package com.wongislandd.infinityindex.browse
 
 import org.koin.compose.viewmodel.dsl.viewModelOf
 import org.koin.core.module.dsl.factoryOf

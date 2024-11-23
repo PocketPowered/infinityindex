@@ -1,4 +1,4 @@
-package com.wongislandd.infinityindex.home
+package com.wongislandd.infinityindex.browse
 
 import com.wongislandd.infinityindex.infra.viewmodels.EntityPagingData
 import com.wongislandd.infinityindex.infra.viewmodels.PagingDataConsumerScreenState

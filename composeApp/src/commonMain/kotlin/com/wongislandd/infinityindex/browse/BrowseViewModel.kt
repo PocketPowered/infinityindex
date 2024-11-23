@@ -1,4 +1,4 @@
-package com.wongislandd.infinityindex.home
+package com.wongislandd.infinityindex.browse
 
 import app.cash.paging.PagingConfig
 import com.wongislandd.infinityindex.viewmodels.slices.AllCharactersPagingSlice

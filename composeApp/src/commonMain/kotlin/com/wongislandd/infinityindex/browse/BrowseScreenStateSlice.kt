@@ -1,4 +1,4 @@
-package com.wongislandd.infinityindex.home
+package com.wongislandd.infinityindex.browse
 
 import com.wongislandd.infinityindex.infra.PagingBackChannelEvent
 import com.wongislandd.infinityindex.infra.util.EntityType

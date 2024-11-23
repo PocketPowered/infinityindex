@@ -5,7 +5,7 @@ import androidx.datastore.preferences.core.Preferences
 import com.wongislandd.infinityindex.transformers.util.DateTransformer
 import com.wongislandd.infinityindex.transformers.util.EntityReferenceTransformer
 import com.wongislandd.infinityindex.transformers.util.RoledCreatorTransformer
-import com.wongislandd.infinityindex.home.browseModule
+import com.wongislandd.infinityindex.browse.browseModule
 import com.wongislandd.infinityindex.infra.DetailsBackChannelEvent
 import com.wongislandd.infinityindex.infra.DetailsUiEvent
 import com.wongislandd.infinityindex.infra.transformers.LoadableImageTransformer
