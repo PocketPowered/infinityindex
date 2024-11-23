@@ -18,7 +18,7 @@ import com.wongislandd.infinityindex.viewmodels.slices.StoriesListScreenStateSli
 import com.wongislandd.infinityindex.viewmodels.StoryDetailsViewModel
 import com.wongislandd.infinityindex.infra.viewmodels.BaseDetailsScreenStateSlice
 import com.wongislandd.infinityindex.viewmodels.slices.ComicsListScreenStateSlice
-import com.wongislandd.infinityindex.infra.viewmodels.ComicSeriesSupplementaryEntityResolutionSlice
+import com.wongislandd.infinityindex.viewmodels.slices.ComicSeriesSupplementaryEntityResolutionSlice
 import com.wongislandd.infinityindex.infra.viewmodels.SearchSlice
 import com.wongislandd.infinityindex.infra.viewmodels.SortSlice
 import com.wongislandd.infinityindex.models.local.Character
@@ -40,17 +40,17 @@ import com.wongislandd.infinityindex.transformers.EventTransformer
 import com.wongislandd.infinityindex.transformers.SeriesTransformer
 import com.wongislandd.infinityindex.transformers.StoryTransformer
 import com.wongislandd.infinityindex.viewmodels.RelatedCharactersListViewModel
-import com.wongislandd.infinityindex.viewmodels.slices.RelatedCharactersSlice
+import com.wongislandd.infinityindex.viewmodels.slices.RelatedCharactersPagingSlice
 import com.wongislandd.infinityindex.viewmodels.RelatedComicsListViewModel
-import com.wongislandd.infinityindex.viewmodels.slices.RelatedComicsSlice
+import com.wongislandd.infinityindex.viewmodels.slices.RelatedComicsPagingSlice
 import com.wongislandd.infinityindex.viewmodels.RelatedCreatorsListViewModel
-import com.wongislandd.infinityindex.viewmodels.slices.RelatedCreatorsSlice
+import com.wongislandd.infinityindex.viewmodels.slices.RelatedCreatorsPagingSlice
 import com.wongislandd.infinityindex.viewmodels.RelatedEventsListViewModel
-import com.wongislandd.infinityindex.viewmodels.slices.RelatedEventsSlice
+import com.wongislandd.infinityindex.viewmodels.slices.RelatedEventsPagingSlice
 import com.wongislandd.infinityindex.viewmodels.RelatedSeriesListViewModel
-import com.wongislandd.infinityindex.viewmodels.slices.RelatedSeriesSlice
+import com.wongislandd.infinityindex.viewmodels.slices.RelatedSeriesPagingSlice
 import com.wongislandd.infinityindex.viewmodels.RelatedStoriesListViewModel
-import com.wongislandd.infinityindex.viewmodels.slices.RelatedStoriesSlice
+import com.wongislandd.infinityindex.viewmodels.slices.RelatedStoriesPagingSlice
 import com.wongislandd.infinityindex.viewmodels.AllCharactersListViewModel
 import com.wongislandd.infinityindex.viewmodels.slices.AllCharactersPagingSlice
 import com.wongislandd.infinityindex.viewmodels.AllComicsListViewModel
@@ -88,7 +88,7 @@ val entitiesModule = module {
     factoryOf<BaseDetailsScreenStateSlice<Event>>(::EventDetailsScreenStateSlice)
     factoryOf(::EventsListScreenStateSlice)
     factoryOf(::AllEventsPagingSlice)
-    factoryOf(::RelatedEventsSlice)
+    factoryOf(::RelatedEventsPagingSlice)
     factoryOf(::SingleEventSlice)
     singleOf(::EventTransformer)
     singleOf(::EventsEntityRepository)
@@ -100,7 +100,7 @@ val entitiesModule = module {
     // Comic-related
     factoryOf<BaseDetailsScreenStateSlice<Comic>>(::ComicDetailsScreenStateSlice)
     factoryOf(::ComicsListScreenStateSlice)
-    factoryOf(::RelatedComicsSlice)
+    factoryOf(::RelatedComicsPagingSlice)
     factoryOf(::AllComicsPagingSlice)
     factoryOf(::SingleComicSlice)
     singleOf(::ComicTransformer)
@@ -112,7 +112,7 @@ val entitiesModule = module {
     // Creator-related
     factoryOf<BaseDetailsScreenStateSlice<Creator>>(::CreatorDetailsScreenStateSlice)
     factoryOf(::CreatorsListScreenStateSlice)
-    factoryOf(::RelatedCreatorsSlice)
+    factoryOf(::RelatedCreatorsPagingSlice)
     factoryOf(::AllCreatorsPagingSlice)
     factoryOf(::SingleCreatorSlice)
     singleOf(::CreatorTransformer)
@@ -124,7 +124,7 @@ val entitiesModule = module {
     // Story-related
     factoryOf<BaseDetailsScreenStateSlice<Story>>(::StoryDetailsScreenStateSlice)
     factoryOf(::StoriesListScreenStateSlice)
-    factoryOf(::RelatedStoriesSlice)
+    factoryOf(::RelatedStoriesPagingSlice)
     factoryOf(::AllStoriesPagingSlice)
     factoryOf(::SingleStorySlice)
     singleOf(::StoryTransformer)
@@ -136,7 +136,7 @@ val entitiesModule = module {
     // Series-related
     factoryOf<BaseDetailsScreenStateSlice<Series>>(::SeriesDetailsScreenStateSlice)
     factoryOf(::SeriesListScreenStateSlice)
-    factoryOf(::RelatedSeriesSlice)
+    factoryOf(::RelatedSeriesPagingSlice)
     factoryOf(::SingleSeriesSlice)
     factoryOf(::AllSeriesPagingSlice)
     factoryOf(::ComicSeriesSupplementaryEntityResolutionSlice)
@@ -150,7 +150,7 @@ val entitiesModule = module {
     // Character-related
     factoryOf<BaseDetailsScreenStateSlice<Character>>(::CharacterDetailsScreenStateSlice)
     factoryOf(::CharactersListScreenStateSlice)
-    factoryOf(::RelatedCharactersSlice)
+    factoryOf(::RelatedCharactersPagingSlice)
     factoryOf(::AllCharactersPagingSlice)
     factoryOf(::SingleCharacterSlice)
     singleOf(::CharacterTransformer)

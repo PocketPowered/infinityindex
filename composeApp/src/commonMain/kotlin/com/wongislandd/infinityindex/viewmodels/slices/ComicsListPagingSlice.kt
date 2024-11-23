@@ -1,10 +1,12 @@
-package com.wongislandd.infinityindex.infra.viewmodels
+package com.wongislandd.infinityindex.viewmodels.slices
 
 import com.wongislandd.infinityindex.ComicConstants
 import com.wongislandd.infinityindex.infra.PagingBackChannelEvent
 import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.util.LookForwardDateHelper
 import com.wongislandd.infinityindex.infra.util.events.BackChannelEvent
+import com.wongislandd.infinityindex.infra.viewmodels.BaseListPagingSlice
+import com.wongislandd.infinityindex.infra.viewmodels.PagedListUseCase
 import com.wongislandd.infinityindex.models.local.Comic
 import com.wongislandd.infinityindex.models.network.NetworkComic
 import com.wongislandd.infinityindex.repositories.ComicsEntityRepository

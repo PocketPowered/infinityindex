@@ -9,20 +9,20 @@ import com.wongislandd.infinityindex.infra.viewmodels.SortSlice
 import com.wongislandd.infinityindex.models.local.Character
 import com.wongislandd.infinityindex.models.network.NetworkCharacter
 import com.wongislandd.infinityindex.viewmodels.slices.CharactersListScreenStateSlice
-import com.wongislandd.infinityindex.viewmodels.slices.RelatedCharactersSlice
+import com.wongislandd.infinityindex.viewmodels.slices.RelatedCharactersPagingSlice
 
 class RelatedCharactersListViewModel(
     uiEventBus: EventBus<UiEvent>,
     searchSlice: SearchSlice,
     sortSlice: SortSlice,
-    relatedCharactersSlice: RelatedCharactersSlice,
+    relatedCharactersPagingSlice: RelatedCharactersPagingSlice,
     charactersListScreenStateSlice: CharactersListScreenStateSlice,
     backChannelEventBus: EventBus<BackChannelEvent>
 ) : BaseListViewModel<NetworkCharacter, Character>(
     charactersListScreenStateSlice,
     sortSlice,
     searchSlice,
-    relatedCharactersSlice,
+    relatedCharactersPagingSlice,
     uiEventBus,
     backChannelEventBus
 )

@@ -9,11 +9,11 @@ import com.wongislandd.infinityindex.infra.viewmodels.SearchSlice
 import com.wongislandd.infinityindex.infra.viewmodels.SortSlice
 import com.wongislandd.infinityindex.models.local.Comic
 import com.wongislandd.infinityindex.models.network.NetworkComic
-import com.wongislandd.infinityindex.viewmodels.slices.RelatedComicsSlice
+import com.wongislandd.infinityindex.viewmodels.slices.RelatedComicsPagingSlice
 
 class RelatedComicsListViewModel(
     uiEventBus: EventBus<UiEvent>,
-    relatedComicsSlice: RelatedComicsSlice,
+    relatedComicsPagingSlice: RelatedComicsPagingSlice,
     searchSlice: SearchSlice,
     sortSlice: SortSlice,
     comicsListScreenStateSlice: ComicsListScreenStateSlice,
@@ -22,7 +22,7 @@ class RelatedComicsListViewModel(
     comicsListScreenStateSlice,
     sortSlice,
     searchSlice,
-    relatedComicsSlice,
+    relatedComicsPagingSlice,
     uiEventBus,
     backChannelEventBus
 )

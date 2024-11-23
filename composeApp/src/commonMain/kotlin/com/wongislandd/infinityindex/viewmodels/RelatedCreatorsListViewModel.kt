@@ -9,11 +9,11 @@ import com.wongislandd.infinityindex.infra.viewmodels.SortSlice
 import com.wongislandd.infinityindex.models.local.Creator
 import com.wongislandd.infinityindex.models.network.NetworkCreator
 import com.wongislandd.infinityindex.viewmodels.slices.CreatorsListScreenStateSlice
-import com.wongislandd.infinityindex.viewmodels.slices.RelatedCreatorsSlice
+import com.wongislandd.infinityindex.viewmodels.slices.RelatedCreatorsPagingSlice
 
 class RelatedCreatorsListViewModel(
     uiEventBus: EventBus<UiEvent>,
-    relatedCreatorsSlice: RelatedCreatorsSlice,
+    relatedCreatorsPagingSlice: RelatedCreatorsPagingSlice,
     searchSlice: SearchSlice,
     sortSlice: SortSlice,
     creatorsListScreenStateSlice: CreatorsListScreenStateSlice,
@@ -22,7 +22,7 @@ class RelatedCreatorsListViewModel(
     creatorsListScreenStateSlice,
     sortSlice,
     searchSlice,
-    relatedCreatorsSlice,
+    relatedCreatorsPagingSlice,
     uiEventBus,
     backChannelEventBus
 )

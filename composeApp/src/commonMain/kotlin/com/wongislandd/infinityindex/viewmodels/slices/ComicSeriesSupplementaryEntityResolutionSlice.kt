@@ -1,7 +1,8 @@
-package com.wongislandd.infinityindex.infra.viewmodels
+package com.wongislandd.infinityindex.viewmodels.slices
 
 import com.wongislandd.infinityindex.infra.DetailsBackChannelEvent
 import com.wongislandd.infinityindex.infra.util.EntityType
+import com.wongislandd.infinityindex.infra.viewmodels.BaseSupplementaryEntityResolutionSlice
 import com.wongislandd.infinityindex.models.local.Series
 import com.wongislandd.infinityindex.repositories.SeriesEntityRepository
 import com.wongislandd.infinityindex.sortoptions.ComicsSortOption

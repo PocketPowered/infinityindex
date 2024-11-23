@@ -6,14 +6,14 @@ import com.wongislandd.infinityindex.infra.util.events.EventBus
 import com.wongislandd.infinityindex.infra.util.events.UiEvent
 import com.wongislandd.infinityindex.infra.viewmodels.BaseDetailsScreenStateSlice
 import com.wongislandd.infinityindex.infra.viewmodels.BaseDetailsViewModel
-import com.wongislandd.infinityindex.infra.viewmodels.ComicSeriesSupplementaryEntityResolutionSlice
+import com.wongislandd.infinityindex.viewmodels.slices.ComicSeriesSupplementaryEntityResolutionSlice
 import com.wongislandd.infinityindex.models.local.Comic
-import com.wongislandd.infinityindex.viewmodels.slices.RelatedCharactersSlice
-import com.wongislandd.infinityindex.viewmodels.slices.RelatedComicsSlice
-import com.wongislandd.infinityindex.viewmodels.slices.RelatedCreatorsSlice
-import com.wongislandd.infinityindex.viewmodels.slices.RelatedEventsSlice
-import com.wongislandd.infinityindex.viewmodels.slices.RelatedSeriesSlice
-import com.wongislandd.infinityindex.viewmodels.slices.RelatedStoriesSlice
+import com.wongislandd.infinityindex.viewmodels.slices.RelatedCharactersPagingSlice
+import com.wongislandd.infinityindex.viewmodels.slices.RelatedComicsPagingSlice
+import com.wongislandd.infinityindex.viewmodels.slices.RelatedCreatorsPagingSlice
+import com.wongislandd.infinityindex.viewmodels.slices.RelatedEventsPagingSlice
+import com.wongislandd.infinityindex.viewmodels.slices.RelatedSeriesPagingSlice
+import com.wongislandd.infinityindex.viewmodels.slices.RelatedStoriesPagingSlice
 import com.wongislandd.infinityindex.viewmodels.slices.SingleComicSlice
 
 class ComicDetailsViewModel(
@@ -22,12 +22,12 @@ class ComicDetailsViewModel(
     backChannelEventBus: EventBus<BackChannelEvent>,
     singleComicSlice: SingleComicSlice,
     seriesSupplementaryEntityResolutionSlice: ComicSeriesSupplementaryEntityResolutionSlice,
-    comicsResolutionSlice: RelatedComicsSlice,
-    storiesResolutionSlice: RelatedStoriesSlice,
-    eventsResolutionSlice: RelatedEventsSlice,
-    creatorsResolutionSlice: RelatedCreatorsSlice,
-    charactersResolutionSlice: RelatedCharactersSlice,
-    seriesResolutionSlice: RelatedSeriesSlice,
+    comicsResolutionSlice: RelatedComicsPagingSlice,
+    storiesResolutionSlice: RelatedStoriesPagingSlice,
+    eventsResolutionSlice: RelatedEventsPagingSlice,
+    creatorsResolutionSlice: RelatedCreatorsPagingSlice,
+    charactersResolutionSlice: RelatedCharactersPagingSlice,
+    seriesResolutionSlice: RelatedSeriesPagingSlice,
 ) : BaseDetailsViewModel<Comic>(
     EntityType.COMICS,
     screenStateSlice,

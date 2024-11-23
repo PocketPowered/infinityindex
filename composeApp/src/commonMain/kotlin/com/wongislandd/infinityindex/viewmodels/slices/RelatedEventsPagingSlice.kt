@@ -7,7 +7,7 @@ import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.viewmodels.BaseListPagingSlice
 import com.wongislandd.infinityindex.infra.viewmodels.PagedListUseCase
 
-class RelatedEventsSlice(
+class RelatedEventsPagingSlice(
     eventsRepository: EventsEntityRepository
 ) : BaseListPagingSlice<NetworkEvent, Event>(
     eventsRepository,

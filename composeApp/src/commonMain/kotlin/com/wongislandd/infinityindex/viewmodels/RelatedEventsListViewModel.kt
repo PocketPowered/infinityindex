@@ -9,11 +9,11 @@ import com.wongislandd.infinityindex.infra.viewmodels.SortSlice
 import com.wongislandd.infinityindex.models.local.Event
 import com.wongislandd.infinityindex.models.network.NetworkEvent
 import com.wongislandd.infinityindex.viewmodels.slices.EventsListScreenStateSlice
-import com.wongislandd.infinityindex.viewmodels.slices.RelatedEventsSlice
+import com.wongislandd.infinityindex.viewmodels.slices.RelatedEventsPagingSlice
 
 class RelatedEventsListViewModel(
     uiEventBus: EventBus<UiEvent>,
-    relatedEventsSlice: RelatedEventsSlice,
+    relatedEventsPagingSlice: RelatedEventsPagingSlice,
     searchSlice: SearchSlice,
     sortSlice: SortSlice,
     eventsListScreenStateSlice: EventsListScreenStateSlice,
@@ -22,7 +22,7 @@ class RelatedEventsListViewModel(
     eventsListScreenStateSlice,
     sortSlice,
     searchSlice,
-    relatedEventsSlice,
+    relatedEventsPagingSlice,
     uiEventBus,
     backChannelEventBus
 )

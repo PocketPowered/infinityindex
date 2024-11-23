@@ -3,9 +3,9 @@ package com.wongislandd.infinityindex.viewmodels.slices
 import com.wongislandd.infinityindex.infra.viewmodels.PagedListUseCase
 import com.wongislandd.infinityindex.repositories.SeriesEntityRepository
 
-class AllSeriesPagingSlice(
-    repository: SeriesEntityRepository
+class RelatedSeriesPagingSlice(
+    seriesRepository: SeriesEntityRepository
 ) : SeriesListPagingSlice(
-    repository,
-    PagedListUseCase.ALL_AVAILABLE
+    seriesRepository,
+    PagedListUseCase.RELATED_ENTITIES
 )

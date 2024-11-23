@@ -7,21 +7,21 @@ import com.wongislandd.infinityindex.infra.util.events.EventBus
 import com.wongislandd.infinityindex.infra.util.events.UiEvent
 import com.wongislandd.infinityindex.infra.viewmodels.BaseDetailsScreenStateSlice
 import com.wongislandd.infinityindex.infra.viewmodels.BaseDetailsViewModel
-import com.wongislandd.infinityindex.viewmodels.slices.RelatedCharactersSlice
-import com.wongislandd.infinityindex.viewmodels.slices.RelatedComicsSlice
-import com.wongislandd.infinityindex.viewmodels.slices.RelatedCreatorsSlice
-import com.wongislandd.infinityindex.viewmodels.slices.RelatedSeriesSlice
-import com.wongislandd.infinityindex.viewmodels.slices.RelatedStoriesSlice
+import com.wongislandd.infinityindex.viewmodels.slices.RelatedCharactersPagingSlice
+import com.wongislandd.infinityindex.viewmodels.slices.RelatedComicsPagingSlice
+import com.wongislandd.infinityindex.viewmodels.slices.RelatedCreatorsPagingSlice
+import com.wongislandd.infinityindex.viewmodels.slices.RelatedSeriesPagingSlice
+import com.wongislandd.infinityindex.viewmodels.slices.RelatedStoriesPagingSlice
 import com.wongislandd.infinityindex.viewmodels.slices.SingleEventSlice
 
 class EventDetailsViewModel(
     screenStateSlice: BaseDetailsScreenStateSlice<Event>,
-    comicResolutionSlice: RelatedComicsSlice,
-    storiesResolutionSlice: RelatedStoriesSlice,
+    comicResolutionSlice: RelatedComicsPagingSlice,
+    storiesResolutionSlice: RelatedStoriesPagingSlice,
     singleEventSlice: SingleEventSlice,
-    creatorsResolutionSlice: RelatedCreatorsSlice,
-    charactersResolutionSlice: RelatedCharactersSlice,
-    seriesResolutionSlice: RelatedSeriesSlice,
+    creatorsResolutionSlice: RelatedCreatorsPagingSlice,
+    charactersResolutionSlice: RelatedCharactersPagingSlice,
+    seriesResolutionSlice: RelatedSeriesPagingSlice,
     uiEventBus: EventBus<UiEvent>,
     backChannelEventBus: EventBus<BackChannelEvent>
 ) : BaseDetailsViewModel<Event>(

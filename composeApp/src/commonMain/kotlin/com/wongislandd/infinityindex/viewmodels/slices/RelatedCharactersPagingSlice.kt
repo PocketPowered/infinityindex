@@ -7,7 +7,7 @@ import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.viewmodels.BaseListPagingSlice
 import com.wongislandd.infinityindex.infra.viewmodels.PagedListUseCase
 
-class RelatedCharactersSlice(
+class RelatedCharactersPagingSlice(
     charactersRepository: CharactersEntityRepository
 ) : BaseListPagingSlice<NetworkCharacter, Character>(
     charactersRepository,

@@ -8,12 +8,12 @@ import com.wongislandd.infinityindex.infra.viewmodels.SearchSlice
 import com.wongislandd.infinityindex.infra.viewmodels.SortSlice
 import com.wongislandd.infinityindex.models.local.Series
 import com.wongislandd.infinityindex.models.network.NetworkSeries
-import com.wongislandd.infinityindex.viewmodels.slices.RelatedSeriesSlice
+import com.wongislandd.infinityindex.viewmodels.slices.RelatedSeriesPagingSlice
 import com.wongislandd.infinityindex.viewmodels.slices.SeriesListScreenStateSlice
 
 class RelatedSeriesListViewModel(
     uiEventBus: EventBus<UiEvent>,
-    relatedSeriesSlice: RelatedSeriesSlice,
+    relatedSeriesPagingSlice: RelatedSeriesPagingSlice,
     searchSlice: SearchSlice,
     sortSlice: SortSlice,
     seriesListScreenStateSlice: SeriesListScreenStateSlice,
@@ -22,7 +22,7 @@ class RelatedSeriesListViewModel(
     seriesListScreenStateSlice,
     sortSlice,
     searchSlice,
-    relatedSeriesSlice,
+    relatedSeriesPagingSlice,
     uiEventBus,
     backChannelEventBus
 )
