@@ -10,6 +10,7 @@ import com.wongislandd.infinityindex.models.network.NetworkComic
 import com.wongislandd.infinityindex.repositories.ComicsEntityRepository
 import com.wongislandd.infinityindex.repositories.DataStoreRepository
 import com.wongislandd.infinityindex.settings.NumberSetting
+import com.wongislandd.infinityindex.settings.ToggleSetting
 import kotlinx.coroutines.launch
 
 abstract class ComicsListPagingSlice(
@@ -41,6 +42,18 @@ abstract class ComicsListPagingSlice(
                     dataStoreRepository.readIntPreference(
                         NumberSetting.LOOK_AHEAD_DAYS
                     )
+                )
+        }
+        sliceScope.launch {
+            isDigitallyAvailableFilterEnabled =
+                dataStoreRepository.readBooleanPreference(
+                    ToggleSetting.DIGITALLY_AVAILABLE
+                )
+        }
+        sliceScope.launch {
+            isVariantsEnabled =
+                dataStoreRepository.readBooleanPreference(
+                    ToggleSetting.VARIANTS
                 )
         }
     }
