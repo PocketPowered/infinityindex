@@ -114,8 +114,8 @@ object NavigationHelper {
         return route
     }
 
-    fun getHomeRoute(): String {
-        return NavigationItem.Home.route
+    fun getBrowseRoute(): String {
+        return NavigationItem.Browse.route
     }
 
     fun getSettingsRoute(): String {

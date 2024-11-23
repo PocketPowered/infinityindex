@@ -16,7 +16,7 @@ enum class NavigationItem(
     val type: NavigationItemType = NavigationItemType.OTHER
 ) {
     Splash("Splash", "splash"),
-    Home("Home", "home"),
+    Browse("Browse", "browse"),
     Settings("Settings", "settings"),
     RelatedComicListScreen(
         "Related",
@@ -117,7 +117,7 @@ enum class NavigationItem(
             AllSeriesListScreen,
             AllEventListScreen,
             AllStoriesListScreen,
-            Home,
+            Browse,
             Settings,
             Splash -> null
         }

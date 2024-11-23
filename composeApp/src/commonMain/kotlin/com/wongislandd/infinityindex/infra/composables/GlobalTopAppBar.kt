@@ -42,9 +42,9 @@ fun GlobalTopAppBar(
                 modifier = Modifier.combinedClickable(
                     onClick = { navController.popBackStack() },
                     onLongClick = { navController.navigate(
-                        NavigationHelper.getHomeRoute()
+                        NavigationHelper.getBrowseRoute()
                     ) {
-                        popUpTo(NavigationHelper.getHomeRoute()) { inclusive = true }
+                        popUpTo(NavigationHelper.getBrowseRoute()) { inclusive = true }
                     } }
                 ).padding(16.dp))
         }

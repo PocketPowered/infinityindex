@@ -73,7 +73,7 @@ fun InfinityIndexSplashScreen(modifier: Modifier = Modifier) {
     val navController = LocalNavHostController.current
     LaunchedEffect(Unit) {
         delay(ComicConstants.SPLASH_SCREEN_DURATION)
-        navController.navigate(NavigationHelper.getHomeRoute()) {
+        navController.navigate(NavigationHelper.getBrowseRoute()) {
             popUpTo(NavigationItem.Splash.route) { inclusive = true }
         }
     }
