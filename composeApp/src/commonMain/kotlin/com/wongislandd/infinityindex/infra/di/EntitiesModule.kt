@@ -27,6 +27,7 @@ import com.wongislandd.infinityindex.models.local.Creator
 import com.wongislandd.infinityindex.models.local.Event
 import com.wongislandd.infinityindex.models.local.Series
 import com.wongislandd.infinityindex.models.local.Story
+import com.wongislandd.infinityindex.repositories.CachingPreferenceRepository
 import com.wongislandd.infinityindex.repositories.CharactersEntityRepository
 import com.wongislandd.infinityindex.repositories.ComicsEntityRepository
 import com.wongislandd.infinityindex.repositories.CreatorsEntityRepository
@@ -83,6 +84,8 @@ val entitiesModule = module {
     // Shared
     factoryOf(::SortSlice)
     factoryOf(::SearchSlice)
+    singleOf(::CachingPreferenceRepository)
+
 
     // Event-related
     factoryOf<BaseDetailsScreenStateSlice<Event>>(::EventDetailsScreenStateSlice)

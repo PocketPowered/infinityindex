@@ -1,6 +1,5 @@
 package com.wongislandd.infinityindex.viewmodels.slices
 
-import com.wongislandd.infinityindex.ComicConstants
 import com.wongislandd.infinityindex.infra.PagingBackChannelEvent
 import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.util.LookForwardDateHelper
@@ -9,24 +8,61 @@ import com.wongislandd.infinityindex.infra.viewmodels.BaseListPagingSlice
 import com.wongislandd.infinityindex.infra.viewmodels.PagedListUseCase
 import com.wongislandd.infinityindex.models.local.Comic
 import com.wongislandd.infinityindex.models.network.NetworkComic
+import com.wongislandd.infinityindex.repositories.CachingPreferenceRepository
 import com.wongislandd.infinityindex.repositories.ComicsEntityRepository
-import com.wongislandd.infinityindex.repositories.DataStoreRepository
 import com.wongislandd.infinityindex.settings.NumberSetting
 import com.wongislandd.infinityindex.settings.ToggleSetting
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 abstract class ComicsListPagingSlice(
     repository: ComicsEntityRepository,
     useCase: PagedListUseCase,
-    private val dataStoreRepository: DataStoreRepository,
+    private val cachingPreferenceRepository: CachingPreferenceRepository,
 ) : BaseListPagingSlice<NetworkComic, Comic>(
     repository, EntityType.COMICS, useCase
 ) {
 
-    private var isDigitallyAvailableFilterEnabled: Boolean = false
-    private var isVariantsEnabled: Boolean = false
+    private var isDigitallyAvailableFilterEnabled: Boolean =
+        cachingPreferenceRepository.getCachedBooleanPreference(
+            ToggleSetting.DIGITALLY_AVAILABLE
+        )
+    private var isVariantsEnabled: Boolean = cachingPreferenceRepository.getCachedBooleanPreference(
+        ToggleSetting.VARIANTS
+    )
+
     private var lookAheadDateRange =
-        LookForwardDateHelper.getLookForwardDateRange(ComicConstants.DEFAULT_LOOK_AHEAD_DAYS)
+        LookForwardDateHelper.getLookForwardDateRange(
+            cachingPreferenceRepository.getCachedNumberPreference(
+                NumberSetting.LOOK_AHEAD_DAYS
+            )
+        )
+
+
+    override fun afterInit() {
+        super.afterInit()
+        subscribeToSettingChanges()
+    }
+
+    private fun subscribeToSettingChanges() {
+        sliceScope.launch {
+            combine(
+                cachingPreferenceRepository.getBooleanPreference(ToggleSetting.DIGITALLY_AVAILABLE),
+                cachingPreferenceRepository.getBooleanPreference(ToggleSetting.VARIANTS),
+                cachingPreferenceRepository.getIntPreference(NumberSetting.LOOK_AHEAD_DAYS)
+            ) { isDigitallyAvailableEnabled, isVariantsEnabled, lookAheadDays ->
+                Triple(isDigitallyAvailableEnabled, isVariantsEnabled, lookAheadDays)
+            }.onEach { (isDigitallyAvailableEnabled, isVariantsEnabled, lookAheadDays) ->
+                this@ComicsListPagingSlice.isDigitallyAvailableFilterEnabled =
+                    isDigitallyAvailableEnabled
+                this@ComicsListPagingSlice.isVariantsEnabled = isVariantsEnabled
+                lookAheadDateRange = LookForwardDateHelper.getLookForwardDateRange(lookAheadDays)
+                currentPagingSource?.invalidate()
+            }.launchIn(this)
+        }
+    }
 
     override fun getAdditionalPagingParams(): Map<String, Any> {
         val extraParams: MutableMap<String, Any> = mutableMapOf(
@@ -40,31 +76,6 @@ abstract class ComicsListPagingSlice(
         }
         return extraParams
     }
-
-    override fun shouldInitiallyLoad(): Boolean = false
-
-    override fun afterInit() {
-        super.afterInit()
-        sliceScope.launch {
-            lookAheadDateRange =
-                LookForwardDateHelper.getLookForwardDateRange(
-                    dataStoreRepository.readIntPreference(
-                        NumberSetting.LOOK_AHEAD_DAYS
-                    )
-                )
-            isDigitallyAvailableFilterEnabled =
-                dataStoreRepository.readBooleanPreference(
-                    ToggleSetting.DIGITALLY_AVAILABLE
-                )
-            isVariantsEnabled =
-                dataStoreRepository.readBooleanPreference(
-                    ToggleSetting.VARIANTS
-                )
-            onReadyToPage()
-        }
-    }
-
-    open fun onReadyToPage() {}
 
     override fun handleBackChannelEvent(event: BackChannelEvent) {
         super.handleBackChannelEvent(event)

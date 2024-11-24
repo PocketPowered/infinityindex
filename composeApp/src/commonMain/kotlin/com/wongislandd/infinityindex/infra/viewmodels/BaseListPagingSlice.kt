@@ -46,10 +46,10 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
 ) : ViewModelSlice() {
 
     protected var currentPagingSource: BasePagingSource<LOCAL_TYPE>? = null
-    protected var currentSearchQuery: String? = null
-    protected var currentSortOption: SortOption? = entityType.getDefaultSortOption()
-    protected var pagingConfig: PagingConfig = getDefaultPagingConfig()
-    protected var maxPageLimit: Int? = null
+    private var currentSearchQuery: String? = null
+    private var currentSortOption: SortOption? = entityType.getDefaultSortOption()
+    private var pagingConfig: PagingConfig = getDefaultPagingConfig()
+    private var maxPageLimit: Int? = null
 
     override fun afterInit() {
         // If this is a list for a root entity, we don't need to wait on anything

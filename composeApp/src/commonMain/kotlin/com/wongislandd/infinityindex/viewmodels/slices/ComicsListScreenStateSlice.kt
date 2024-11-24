@@ -7,7 +7,7 @@ import com.wongislandd.infinityindex.infra.util.events.UiEvent
 import com.wongislandd.infinityindex.infra.viewmodels.BaseListScreenStateSlice
 import com.wongislandd.infinityindex.infra.viewmodels.ComicListScreenState
 import com.wongislandd.infinityindex.models.local.Comic
-import com.wongislandd.infinityindex.repositories.DataStoreRepository
+import com.wongislandd.infinityindex.repositories.CachingPreferenceRepository
 import com.wongislandd.infinityindex.settings.ToggleSetting
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,15 +16,19 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class ComicsListScreenStateSlice(
-    private val dataStoreRepository: DataStoreRepository
+    private val cachingPreferenceRepository: CachingPreferenceRepository
 ) : BaseListScreenStateSlice<Comic>(
     EntityType.COMICS,
 ) {
     private val _screenState: MutableStateFlow<ComicListScreenState> =
         MutableStateFlow(
             ComicListScreenState(
-                isDigitallyAvailableFilterEnabled = false,
-                isVariantsEnabled = false,
+                isDigitallyAvailableFilterEnabled = cachingPreferenceRepository.getCachedBooleanPreference(
+                    ToggleSetting.DIGITALLY_AVAILABLE
+                ),
+                isVariantsEnabled = cachingPreferenceRepository.getCachedBooleanPreference(
+                    ToggleSetting.VARIANTS
+                ),
                 listState = listState.value
             )
         )
@@ -34,16 +38,6 @@ class ComicsListScreenStateSlice(
     override fun afterInit() {
         super.afterInit()
         sliceScope.launch {
-            val digitallyAvailableFilterEnabled =
-                dataStoreRepository.readBooleanPreference(ToggleSetting.DIGITALLY_AVAILABLE)
-            val variantsFilterEnabled =
-                dataStoreRepository.readBooleanPreference(ToggleSetting.VARIANTS)
-            _screenState.update {
-                it.copy(
-                    isDigitallyAvailableFilterEnabled = digitallyAvailableFilterEnabled,
-                    isVariantsEnabled = variantsFilterEnabled
-                )
-            }
             listState.onEach { newListState ->
                 _screenState.update {
                     it.copy(listState = newListState)
@@ -67,7 +61,7 @@ class ComicsListScreenStateSlice(
                             event.selected
                         )
                     )
-                    dataStoreRepository.saveBooleanPreference(
+                    cachingPreferenceRepository.saveBooleanPreference(
                         ToggleSetting.DIGITALLY_AVAILABLE,
                         event.selected
                     )
@@ -86,7 +80,7 @@ class ComicsListScreenStateSlice(
                             event.selected
                         )
                     )
-                    dataStoreRepository.saveBooleanPreference(
+                    cachingPreferenceRepository.saveBooleanPreference(
                         ToggleSetting.VARIANTS,
                         event.selected
                     )

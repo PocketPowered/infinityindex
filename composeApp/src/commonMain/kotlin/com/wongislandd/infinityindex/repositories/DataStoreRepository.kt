@@ -5,7 +5,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import com.wongislandd.infinityindex.settings.NumberSetting
 import com.wongislandd.infinityindex.settings.ToggleSetting
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class DataStoreRepository(
@@ -18,10 +18,10 @@ class DataStoreRepository(
         }
     }
 
-    suspend fun readBooleanPreference(setting: ToggleSetting): Boolean {
+    fun readBooleanPreference(setting: ToggleSetting): Flow<Boolean> {
         return dataStore.data.map { preferences ->
-            preferences[setting.key]
-        }.first() ?: false
+            preferences[setting.key] ?: setting.defaultValue
+        }
     }
 
     suspend fun saveIntPreference(setting: NumberSetting, value: Int) {
@@ -30,9 +30,9 @@ class DataStoreRepository(
         }
     }
 
-    suspend fun readIntPreference(setting: NumberSetting): Int {
+    fun readIntPreference(setting: NumberSetting): Flow<Int> {
         return dataStore.data.map { preferences ->
-            preferences[setting.key]
-        }.first() ?: setting.defaultValue
+            preferences[setting.key] ?: setting.defaultValue
+        }
     }
 }

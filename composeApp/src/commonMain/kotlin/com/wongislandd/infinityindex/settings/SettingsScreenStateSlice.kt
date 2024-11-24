@@ -2,44 +2,96 @@ package com.wongislandd.infinityindex.settings
 
 import com.wongislandd.infinityindex.infra.util.ViewModelSlice
 import com.wongislandd.infinityindex.infra.util.events.UiEvent
-import com.wongislandd.infinityindex.repositories.DataStoreRepository
+import com.wongislandd.infinityindex.repositories.CachingPreferenceRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class SettingsScreenStateSlice(
-    private val dataStoreRepository: DataStoreRepository
+    private val cachingPreferenceRepository: CachingPreferenceRepository
 ) : ViewModelSlice() {
 
-    private val _screenState: MutableStateFlow<SettingsScreenState> =
-        MutableStateFlow(SettingsScreenState(emptyList(), emptyList()))
+    private val _screenState: MutableStateFlow<SettingsScreenState>
 
-    val screenState: StateFlow<SettingsScreenState> = _screenState
+    val screenState: StateFlow<SettingsScreenState>
+
+    init {
+        val toggleSettings = ToggleSetting.entries.map {
+            val isSettingEnabled = cachingPreferenceRepository.getCachedBooleanPreference(it)
+            SelectableToggleSetting(
+                it,
+                currentValue = isSettingEnabled
+            )
+        }
+        val numberSettings = NumberSetting.entries.map {
+            val currentValue = cachingPreferenceRepository.getCachedNumberPreference(it)
+            AdjustableNumberSetting(
+                it,
+                currentValue = currentValue
+            )
+        }
+        _screenState = MutableStateFlow(SettingsScreenState(toggleSettings, numberSettings))
+        screenState = _screenState
+    }
 
     override fun afterInit() {
         super.afterInit()
+        listenForSettingChanges()
+    }
+
+    private fun listenForSettingChanges() {
         sliceScope.launch {
-            val toggleSettings = ToggleSetting.entries.map {
-                val isSettingEnabled = dataStoreRepository.readBooleanPreference(it)
-                SelectableToggleSetting(
-                    it,
-                    currentValue = isSettingEnabled
-                )
-            }
-            val numberSettings = NumberSetting.entries.map {
-                val currentValue = dataStoreRepository.readIntPreference(it)
-                AdjustableNumberSetting(
-                    it,
-                    currentValue = currentValue
-                )
-            }
-            _screenState.update {
-                it.copy(
-                    toggleSettings = toggleSettings,
-                    numberSettings = numberSettings
-                )
-            }
+            cachingPreferenceRepository.getBooleanPreference(ToggleSetting.DIGITALLY_AVAILABLE)
+                .collectLatest { isDigitallyAvailableEnabled ->
+                    _screenState.update {
+                        it.copy(
+                            toggleSettings = it.toggleSettings.map { setting ->
+                                if (setting.setting == ToggleSetting.DIGITALLY_AVAILABLE) {
+                                    setting.copy(currentValue = isDigitallyAvailableEnabled)
+                                } else {
+                                    setting
+                                }
+                            }
+                        )
+                    }
+                }
+        }
+        sliceScope.launch {
+            cachingPreferenceRepository.getBooleanPreference(ToggleSetting.VARIANTS)
+                .collectLatest { isVariantsEnabled ->
+                    _screenState.update {
+                        it.copy(
+                            toggleSettings = it.toggleSettings.map { setting ->
+                                if (setting.setting == ToggleSetting.VARIANTS) {
+                                    setting.copy(currentValue = isVariantsEnabled)
+                                } else {
+                                    setting
+                                }
+                            }
+                        )
+                    }
+                }
+        }
+        sliceScope.launch {
+            cachingPreferenceRepository.getIntPreference(NumberSetting.LOOK_AHEAD_DAYS)
+                .onEach { lookAheadDaysChanged ->
+                    _screenState.update {
+                        it.copy(
+                            numberSettings = it.numberSettings.map { setting ->
+                                if (setting.setting == NumberSetting.LOOK_AHEAD_DAYS) {
+                                    setting.copy(currentValue = lookAheadDaysChanged)
+                                } else {
+                                    setting
+                                }
+                            }
+                        )
+                    }
+
+                }
+
         }
     }
 
@@ -58,7 +110,7 @@ class SettingsScreenStateSlice(
 
     private fun adjustToggleSetting(toggleSetting: ToggleSetting, shouldEnable: Boolean) {
         sliceScope.launch {
-            dataStoreRepository.saveBooleanPreference(toggleSetting, shouldEnable)
+            cachingPreferenceRepository.saveBooleanPreference(toggleSetting, shouldEnable)
             _screenState.update {
                 val newList = it.toggleSettings.map { existingSetting ->
                     if (existingSetting.setting == toggleSetting) {
@@ -74,7 +126,7 @@ class SettingsScreenStateSlice(
 
     private fun adjustNumberSetting(setting: NumberSetting, newValue: Int) {
         sliceScope.launch {
-            dataStoreRepository.saveIntPreference(setting, newValue)
+            cachingPreferenceRepository.saveIntPreference(setting, newValue)
             _screenState.update {
                 val newList = it.numberSettings.map { existingSetting ->
                     if (existingSetting.setting == setting) {
