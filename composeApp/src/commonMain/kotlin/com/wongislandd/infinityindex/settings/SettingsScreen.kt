@@ -48,7 +48,7 @@ fun SettingsScreen(modifier: Modifier = Modifier) {
             ) {
                 item {
                     Text(
-                        text = "Settings may require you to refresh results to take effect.",
+                        text = "Changing settings may cause a reload of some results",
                         style = MaterialTheme.typography.h6,
                         fontWeight = FontWeight.Bold
                     )
