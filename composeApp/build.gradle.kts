@@ -144,8 +144,8 @@ android {
         applicationId = "com.wongislandd.infinityindex"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 9
-        versionName = "1.9"
+        versionCode = 10
+        versionName = "2.0"
     }
     packaging {
         resources {
