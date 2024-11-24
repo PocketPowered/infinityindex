@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.wongislandd.infinityindex.infra.viewmodels.AppLeveled
 
+
 @Composable
 fun MarvelAttributionTextLabel(modifier: Modifier = Modifier) {
     val attributionTextLabel = AppLeveled.attributionText.collectAsState(null)

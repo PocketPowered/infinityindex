@@ -57,7 +57,8 @@ class SeriesTransformer(
                 relatedSeriesCount = 0,
                 relatedComicsCount = input.comics.getAvailableItems(),
                 lastModified = modified,
-                creatorsByRole = creatorsOutput.primaryCreators
+                creatorsByRole = creatorsOutput.primaryCreators,
+                type = input.type.dropIfEmpty()
             )
         }
     }

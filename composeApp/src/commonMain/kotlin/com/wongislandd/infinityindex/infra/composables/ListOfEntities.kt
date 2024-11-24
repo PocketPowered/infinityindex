@@ -30,11 +30,12 @@ fun ListOfEntities(
     val seriesData = screenState.seriesData.collectAsState()
     val comicData = screenState.comicData.collectAsState()
 
+    // Controls the order of the sections
     val sections = listOf(
         comicData,
-        charactersData,
-        eventsData,
         seriesData,
+        eventsData,
+        charactersData,
         creatorsData,
         storiesData,
     )

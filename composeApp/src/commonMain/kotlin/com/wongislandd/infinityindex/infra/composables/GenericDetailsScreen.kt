@@ -170,6 +170,7 @@ fun DetailsContents(
             )
         }
         item {
+            LastModifiedLabel(primaryModel)
             MarvelAttributionTextLabel()
         }
     }

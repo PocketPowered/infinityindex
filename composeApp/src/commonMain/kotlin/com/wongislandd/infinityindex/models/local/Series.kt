@@ -10,6 +10,7 @@ data class Series(
     override val image: LoadableImage,
     override val navContext: NavigationContext,
     override val lastModified: String,
+    val type: String?,
     val description: String?,
     val rating: String?,
     val startYear: Int?,

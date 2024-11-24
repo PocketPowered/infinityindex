@@ -24,6 +24,9 @@ fun SeriesDetails(series: Series, modifier: Modifier = Modifier) {
                     if (DateHelper.isYearInTheFuture(endYear)) "Present" else endYear
                 InformationSnippet("Active", "$startYear - $endYearOrPresent")
             }
+            series.type?.also { type ->
+                InformationSnippet("Type", type)
+            }
         }
         RelatedCreatorsSection(series.creatorsByRole, emptyMap())
     }

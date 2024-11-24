@@ -14,6 +14,7 @@ data class NetworkSeries(
     val title: String?,
     val description: String?,
     val resourceURI: String?,
+    val type: String?,
     val urls: List<NetworkUrl>?,
     val startYear: Int?,
     val endYear: Int?,

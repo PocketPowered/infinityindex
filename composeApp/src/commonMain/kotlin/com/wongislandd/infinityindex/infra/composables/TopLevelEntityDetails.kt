@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -56,15 +55,7 @@ fun TopLevelEntityDetails(entity: EntityModel, modifier: Modifier = Modifier) {
 
 @Composable
 private fun EntityTypePlate(displayableEntity: DisplayableEntity, modifier: Modifier = Modifier) {
-    val text = when (displayableEntity) {
-        is Character -> "Character"
-        is Event -> "Event"
-        is Story -> "Story"
-        is Comic -> "Comic"
-        is Series -> "Series"
-        is Creator -> "Creator"
-        else -> "Unknown"
-    }
+    val text = displayableEntity.getSingleTypeName()
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier
@@ -77,5 +68,17 @@ private fun EntityTypePlate(displayableEntity: DisplayableEntity, modifier: Modi
             color = MaterialTheme.colors.onSecondary,
             style = MaterialTheme.typography.caption
         )
+    }
+}
+
+fun DisplayableEntity.getSingleTypeName(): String {
+    return when (this) {
+        is Character -> "Character"
+        is Event -> "Event"
+        is Story -> "Story"
+        is Comic -> "Comic"
+        is Series -> "Series"
+        is Creator -> "Creator"
+        else -> "Unknown"
     }
 }
