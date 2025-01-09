@@ -31,6 +31,7 @@ PRIVATE_API_KEY =  {your private api key}
 ![characterDetails](https://github.com/user-attachments/assets/9d5b5306-8f83-4347-8931-7af29dd20910)
 
 <h1>iOS</h1>
+
 ![Simulator Screenshot - iPhone 16 - 2025-01-09 at 14 18 49](https://github.com/user-attachments/assets/0f8d1c79-89f8-4df2-a8fd-4f566829af71)
 ![Simulator Screenshot - iPhone 16 - 2025-01-09 at 14 18 04](https://github.com/user-attachments/assets/c1e8899e-dd65-4754-a5fc-f93e6c4ca582)
 ![Simulator Screenshot - iPhone 16 - 2025-01-09 at 14 17 28](https://github.com/user-attachments/assets/3c53e47d-14b4-42ac-9ec5-1aef6a633f18)
@@ -38,5 +39,6 @@ PRIVATE_API_KEY =  {your private api key}
 ![Simulator Screenshot - iPhone 16 - 2025-01-09 at 14 15 34](https://github.com/user-attachments/assets/e57f1f61-953e-497f-818e-33841de70256)
 
 <h1>Desktop</h1>
+
 ![capture-2025-01-09-19 10 43@2x](https://github.com/user-attachments/assets/ec230af4-e511-4646-aa70-b25d5d3bb378)
 ![capture-2025-01-09-19 11 44@2x](https://github.com/user-attachments/assets/7464eed2-d793-42d9-884b-0fe93cbf15b2)
