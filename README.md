@@ -11,6 +11,7 @@ PRIVATE_API_KEY =  {your private api key}
 ```
 
 <h1>Android</h1>
+
 ![tabletlisting](https://github.com/user-attachments/assets/0852e36c-84f4-4aa8-a2d8-4a50a6b05731)
 ![tablethome](https://github.com/user-attachments/assets/478f19c2-9e50-40ee-a37c-c5e7e8388d83)
 ![seriesdetails](https://github.com/user-attachments/assets/e59d6b8e-62df-495c-8f58-2930dd570262)
