@@ -32,6 +32,7 @@ jobs:
       uses: actions/upload-pages-artifact@v3
       with:
         path: composeApp/build/dist/wasmJs/productionExecutable
+    environment: secrets
 
   deploy:
     # Add a dependency to the build job
