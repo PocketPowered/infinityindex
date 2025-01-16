@@ -28,6 +28,8 @@ import com.wongislandd.infinityindex.infra.navigation.NavigationHelper
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 
+expect val isSettingsAvailable: Boolean
+
 @OptIn(KoinExperimentalAPI::class)
 @Composable
 fun BrowseScreen(modifier: Modifier = Modifier) {
@@ -38,14 +40,16 @@ fun BrowseScreen(modifier: Modifier = Modifier) {
         Scaffold(topBar = {
             GlobalTopAppBar(showBackButton = false,
                 actions = {
-                    IconButton(
-                        onClick = { navController.navigate(NavigationHelper.getSettingsRoute()) },
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Settings,
-                            contentDescription = "Go to settings",
-                            modifier = Modifier.size(24.dp)
-                        )
+                    if (isSettingsAvailable) {
+                        IconButton(
+                            onClick = { navController.navigate(NavigationHelper.getSettingsRoute()) },
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Settings,
+                                contentDescription = "Go to settings",
+                                modifier = Modifier.size(24.dp)
+                            )
+                        }
                     }
                 })
         }) {

@@ -42,6 +42,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import app.cash.paging.compose.LazyPagingItems
 import app.cash.paging.compose.collectAsLazyPagingItems
+import com.wongislandd.infinityindex.browse.isSettingsAvailable
 import com.wongislandd.infinityindex.infra.DetailsUiEvent
 import com.wongislandd.infinityindex.infra.ListUiEvent
 import com.wongislandd.infinityindex.infra.util.EntityModel
@@ -124,24 +125,26 @@ inline fun <NETWORK_TYPE, reified T : BaseListViewModel<NETWORK_TYPE, out Entity
                         )
                     },
                 )
-                // Enable filters for comics
-                comicListScreenState?.also { comicListScreenState ->
-                    ComicFilters(
-                        isVariantsFilterEnabled = comicListScreenState.value.isVariantsEnabled,
-                        isDigitalAvailabilityFilterEnabled = comicListScreenState.value.isDigitallyAvailableFilterEnabled,
-                        onVariantsFilterChanged = {
-                            coroutineScope.sendEvent(
-                                viewModel.uiEventBus,
-                                ListUiEvent.ToggleVariantsFilter(it)
-                            )
-                        },
-                        onDigitalAvailabilityFilterChanged = {
-                            coroutineScope.sendEvent(
-                                viewModel.uiEventBus,
-                                ListUiEvent.ToggleDigitalAvailabilityFilter(it)
-                            )
-                        },
-                    )
+                if (isSettingsAvailable) {
+                    // Enable filters for comics
+                    comicListScreenState?.also { comicListScreenState ->
+                        ComicFilters(
+                            isVariantsFilterEnabled = comicListScreenState.value.isVariantsEnabled,
+                            isDigitalAvailabilityFilterEnabled = comicListScreenState.value.isDigitallyAvailableFilterEnabled,
+                            onVariantsFilterChanged = {
+                                coroutineScope.sendEvent(
+                                    viewModel.uiEventBus,
+                                    ListUiEvent.ToggleVariantsFilter(it)
+                                )
+                            },
+                            onDigitalAvailabilityFilterChanged = {
+                                coroutineScope.sendEvent(
+                                    viewModel.uiEventBus,
+                                    ListUiEvent.ToggleDigitalAvailabilityFilter(it)
+                                )
+                            },
+                        )
+                    }
                 }
                 SortSelection(screenState.availableSortOptions, onSortSelected = {
                     coroutineScope.sendEvent(viewModel.uiEventBus, ListUiEvent.SortSelected(it))
