@@ -24,7 +24,7 @@ jobs:
         PUBLIC_API_KEY: ${{ secrets.PUBLIC_API_KEY }}
         PRIVATE_API_KEY: ${{ secrets.PRIVATE_API_KEY }}
         GH_PAT: ${{ secrets.GH_PAT }} 
-      run: echo 'PUBLIC_API_KEY=${{ secrets.PUBLIC_API_KEY }}\nPRIVATE_API_KEY=${{ secrets.PRIVATE_API_KEY }}\nGH_PAT=${{ secrets.GH_PAT }}' > ./local.properties
+      run: echo -e 'PUBLIC_API_KEY=${{ secrets.PUBLIC_API_KEY }}\nPRIVATE_API_KEY=${{ secrets.PRIVATE_API_KEY }}\nGH_PAT=${{ secrets.GH_PAT }}' > ./local.properties
     - name: Run Gradle Tasks
       run: ./gradlew clean wasmJsBrowserDistribution
 
