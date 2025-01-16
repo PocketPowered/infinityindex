@@ -27,7 +27,7 @@ okio = "3.9.1"
 buildkonfig="0.15.2"
 kotlinx-serialization = "1.6.3"
 landscapist="2.4.0"
-paging3="3.3.0-alpha02-0.5.1"
+paging3="3.3.0-alpha02-0.6.0-wasm.1"
 navigation="2.8.0-alpha10"
 kermit="2.0.4"
 material-icons ="1.7.5"
@@ -129,4 +129,10 @@ landscapist = [
 paging3 = [
     "paging-common",
     "paging-compose-common"
+]
+
+datastore = [
+    "datastore",
+    "datastore-preferences",
+    "atomicfu"
 ]

@@ -1,5 +1,6 @@
 package com.wongislandd.infinityindex.repositories
 
+import com.wongislandd.infinityindex.infra.viewmodels.DataStoreRepository
 import com.wongislandd.infinityindex.settings.NumberSetting
 import com.wongislandd.infinityindex.settings.ToggleSetting
 import kotlinx.coroutines.GlobalScope
@@ -54,5 +55,9 @@ class CachingPreferenceRepository(private val dataStoreRepository: DataStoreRepo
 
     fun getCachedNumberPreference(setting: NumberSetting): Int {
         return cachedNumberPreferences[setting] ?: setting.defaultValue
+    }
+
+    fun isSupported(): Boolean {
+        return dataStoreRepository.isSupported()
     }
 }

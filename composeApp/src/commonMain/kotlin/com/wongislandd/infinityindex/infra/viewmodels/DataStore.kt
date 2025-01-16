@@ -1,6 +1,19 @@
 package com.wongislandd.infinityindex.infra.viewmodels
 
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
+import com.wongislandd.infinityindex.settings.NumberSetting
+import com.wongislandd.infinityindex.settings.ToggleSetting
+import kotlinx.coroutines.flow.Flow
 
-expect fun createDataStore(context: Any? = null): DataStore<Preferences>
+interface DataStoreRepository {
+    suspend fun saveBooleanPreference(setting: ToggleSetting, value: Boolean)
+
+    fun readBooleanPreference(setting: ToggleSetting): Flow<Boolean>
+
+    suspend fun saveIntPreference(setting: NumberSetting, value: Int)
+
+    fun readIntPreference(setting: NumberSetting): Flow<Int>
+
+    fun isSupported(): Boolean
+}
+
+expect class DataStoreRepositoryImpl(): DataStoreRepository

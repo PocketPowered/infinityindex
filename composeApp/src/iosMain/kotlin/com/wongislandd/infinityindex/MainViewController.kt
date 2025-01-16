@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.ComposeUIViewController
+import com.wongislandd.infinityindex.infra.di.initializeKoin
 import com.wongislandd.infinityindex.ui.MarvelTheme
 
 fun MainViewController() = ComposeUIViewController {

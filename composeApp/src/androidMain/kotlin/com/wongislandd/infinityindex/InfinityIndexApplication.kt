@@ -20,8 +20,8 @@ class InfinityIndexApplication : Application(), KoinComponent {
     }
 
     private fun initializeFirebase() {
-        analytics = Firebase.analytics
         Firebase.initialize(context = this)
+        analytics = Firebase.analytics
         Firebase.crashlytics.setCrashlyticsCollectionEnabled(true)
     }
 }

@@ -1,19 +1,17 @@
 package com.wongislandd.infinityindex.settings
 
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.intPreferencesKey
 import com.wongislandd.infinityindex.ComicConstants
 
 enum class NumberSetting(
     override val displayName: String,
     override val description: String,
-    override val key: Preferences.Key<Int>,
+    override val key: String,
     override val defaultValue: Int,
 ) : Setting<Int> {
     LOOK_AHEAD_DAYS(
         "Look Forward Days",
         "Comics served will be available at most this many days in the future.",
-        intPreferencesKey("numberOfComicsPerPage"),
+        "numberOfComicsPerPage",
         ComicConstants.DEFAULT_LOOK_AHEAD_DAYS
     )
 }
