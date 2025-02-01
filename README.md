@@ -1,4 +1,4 @@
-This is a Multiplatform project centered around exploring Marvel comics data. Data is provided by the official Marvel API. Check it out on [web here](https://wongislandd.github.io/infinityindex/)!
+This is a Multiplatform project centered around exploring Marvel comics data. Data is provided by the official Marvel API. Check it out on [web here](https://pocketpowered.github.io/infinityindex/)!
 
 The app is currently listed in beta on the Play Store.
 
