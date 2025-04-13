@@ -1,6 +1,6 @@
 This is a Multiplatform project centered around exploring Marvel comics data. Data is provided by the official Marvel API. Check it out on [web here](https://pocketpowered.github.io/infinityindex/)!
 
-The app is currently listed in beta on the Play Store.
+The app is currently listed on the [Play Store here](https://play.google.com/store/apps/details?id=com.wongislandd.infinityindex&hl=en_US)
 
 To run this locally:
 1. You'll need to get your own API keys from the [Marvel Developer Portal](https://developer.marvel.com/docs)
@@ -30,7 +30,7 @@ PRIVATE_API_KEY =  {your private api key}
 
 <h1>Web</h1>
 
-[Check it out here!](https://wongislandd.github.io/infinityindex/)
+[Check it out here!](https://pocketpowered.github.io/infinityindex/)
 
 | ![Arc 2025-01-31 12 45 20](https://github.com/user-attachments/assets/9e1d3cc4-1d78-43ac-9322-6b313616a108) | ![Arc 2025-01-31 12 45 27](https://github.com/user-attachments/assets/25823ae7-5aa9-4eaa-a74f-4f27045aaafd) |
 |:---------------------------------------------------:|:---------------------------------------------------:|
