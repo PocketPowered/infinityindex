@@ -1,7 +1,7 @@
 package com.wongislandd.infinityindex.infra.paging
 
-import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import app.cash.paging.PagingSource
 import app.cash.paging.PagingSourceLoadParams
 import app.cash.paging.PagingSourceLoadResult
 import app.cash.paging.PagingSourceLoadResultError
@@ -15,7 +15,7 @@ interface PagingSourceCallbacks {
 
     fun onSuccess(paginationContextWrapper: PaginationContextWrapper<*>)
 
-    fun onFailure(error: Throwable? = null)
+    fun onFailure(error: Resource.Error? = null)
 }
 
 abstract class BasePagingSource<Value : Any> : PagingSource<Int, Value>() {
@@ -60,7 +60,7 @@ abstract class BasePagingSource<Value : Any> : PagingSource<Int, Value>() {
                 }
 
                 is Resource.Error -> {
-                    pagingSourceCallbacks?.onFailure(page.throwable)
+                    pagingSourceCallbacks?.onFailure(page)
                     return PagingSourceLoadResultError(Exception(page.error?.displayMessage))
                 }
 

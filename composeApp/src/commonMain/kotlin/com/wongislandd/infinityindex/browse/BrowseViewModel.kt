@@ -1,6 +1,6 @@
 package com.wongislandd.infinityindex.browse
 
-import app.cash.paging.PagingConfig
+import app.cash.paging.createPagingConfig
 import com.wongislandd.infinityindex.viewmodels.slices.AllCharactersPagingSlice
 import com.wongislandd.infinityindex.viewmodels.slices.AllComicsPagingSlice
 import com.wongislandd.infinityindex.viewmodels.slices.AllCreatorsPagingSlice
@@ -28,6 +28,9 @@ class BrowseViewModel(
 ) {
 
     init {
+        val pagingConfig = createPagingConfig(
+            pageSize = 3
+        )
         listOf(
             allComicsPagingSlice,
             allCreatorsPagingSlice,
@@ -37,14 +40,7 @@ class BrowseViewModel(
             allEventsPagingSlice
         ).forEach {
             apply {
-                it.setPagingConfig(
-                    PagingConfig(
-                        initialLoadSize = 8,
-                        pageSize = 3,
-                        enablePlaceholders = false,
-                        prefetchDistance = 2
-                    )
-                )
+                it.setPagingConfig(pagingConfig)
             }
         }
         registerSlice(screenStateSlice)

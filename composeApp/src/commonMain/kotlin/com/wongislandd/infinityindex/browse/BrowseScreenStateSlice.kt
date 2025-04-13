@@ -55,7 +55,16 @@ class BrowseScreenStateSlice : BaseAllEntitiesPagingDataConsumerSlice() {
      */
     private fun maybeDisplayErrorIfNoneLoaded() {
         if (firstResponseTracker.values.all { it is Resource.Error }) {
-            _screenState.update { it.copy(errorData = NetworkError.COULD_NOT_CONTACT_MARVEL_API.displayMessage) }
+            val errorCounts =
+                firstResponseTracker.values.map { (it as? Resource.Error)?.error }.groupingBy { it }
+                    .eachCount()
+            val mostCommonError = errorCounts.maxByOrNull { it.value }?.key
+            _screenState.update {
+                it.copy(
+                    errorData = mostCommonError?.displayMessage
+                        ?: NetworkError.COULD_NOT_CONTACT_MARVEL_API.displayMessage
+                )
+            }
         }
     }
 

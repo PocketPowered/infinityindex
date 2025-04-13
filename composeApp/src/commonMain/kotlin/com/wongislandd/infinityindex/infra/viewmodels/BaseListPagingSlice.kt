@@ -18,6 +18,7 @@ import com.wongislandd.infinityindex.infra.paging.RelatedEntityPagingSource
 import com.wongislandd.infinityindex.infra.util.Empty
 import com.wongislandd.infinityindex.infra.util.EntityModel
 import com.wongislandd.infinityindex.infra.util.EntityType
+import com.wongislandd.infinityindex.infra.util.Error
 import com.wongislandd.infinityindex.infra.util.Resource
 import com.wongislandd.infinityindex.infra.util.SortOption
 import com.wongislandd.infinityindex.infra.util.ViewModelSlice
@@ -138,11 +139,11 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
                             }
                         }
 
-                        override fun onFailure(error: Throwable?) {
+                        override fun onFailure(error: Resource.Error?) {
                             sliceScope.launch {
                                 backChannelEvents.sendEvent(
                                     PagingBackChannelEvent.PagingResponseReceived(
-                                        Resource.Error(error = null, throwable = error),
+                                        error ?: Resource.Error(null),
                                         entityType
                                     )
                                 )
