@@ -1,6 +1,7 @@
 package com.wongislandd.infinityindex.infra.networking
 
 import com.wongislandd.infinityindex.BuildKonfig
+import com.wongislandd.infinityindex.infra.viewmodels.AppLeveled
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.plugins.HttpTimeout
@@ -11,7 +12,6 @@ import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.serialization.kotlinx.json.json
-import kotlinx.datetime.Clock
 import kotlinx.serialization.json.Json
 import okio.ByteString.Companion.encodeUtf8
 
@@ -24,7 +24,7 @@ private const val HASH_QUERY_PARAM = "hash"
 fun createHttpClient(engine: HttpClientEngine): HttpClient {
     return HttpClient(engine) {
         defaultRequest {
-            val timestamp = Clock.System.now().toString()
+            val timestamp = AppLeveled.getFreshTimestamp().toString()
             url(BASE_URL)
             url.parameters.append(TIMESTAMP_QUERY_PARAM, timestamp)
             url.parameters.append(API_KEY_QUERY_PARAM, BuildKonfig.PUBLIC_API_KEY)
@@ -43,7 +43,9 @@ fun createHttpClient(engine: HttpClientEngine): HttpClient {
         install(HttpTimeout) {
             requestTimeoutMillis = 15000
         }
-        install(HttpCache)
+        install(HttpCache) {
+            // TODO Find out how to avoid cache validation so long as the request is distinct
+        }
         install(ContentNegotiation) {
             json(
                 json = Json {

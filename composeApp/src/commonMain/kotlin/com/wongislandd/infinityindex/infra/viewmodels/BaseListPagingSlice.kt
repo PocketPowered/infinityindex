@@ -3,6 +3,7 @@ package com.wongislandd.infinityindex.infra.viewmodels
 import app.cash.paging.Pager
 import app.cash.paging.PagingConfig
 import app.cash.paging.PagingData
+import androidx.paging.cachedIn
 import app.cash.paging.createPagingConfig
 import com.wongislandd.infinityindex.ComicConstants
 import com.wongislandd.infinityindex.infra.DetailsBackChannelEvent
@@ -151,7 +152,7 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
                     })
                 }
                 newPagingSource
-            }.flow.collectLatest { pagingData ->
+            }.flow.cachedIn(sliceScope).collectLatest { pagingData ->
                 backChannelEvents.sendEvent(
                     PagingBackChannelEvent.PagingDataResUpdate(
                         pagingData as PagingData<EntityModel>,

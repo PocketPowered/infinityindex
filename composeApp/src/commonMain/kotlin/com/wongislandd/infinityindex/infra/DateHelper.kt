@@ -1,5 +1,6 @@
 package com.wongislandd.infinityindex.infra
 
+import com.wongislandd.infinityindex.infra.viewmodels.AppLeveled
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
@@ -7,7 +8,7 @@ import kotlinx.datetime.toLocalDateTime
 object DateHelper {
 
     fun getCurrentYear(): Int {
-        val currentDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
+        val currentDate = AppLeveled.getFreshTimestamp().toLocalDateTime(TimeZone.currentSystemDefault())
         return currentDate.year
     }
 
