@@ -1,11 +1,12 @@
 package com.wongislandd.infinityindex.infra.paging
 
-import androidx.paging.PagingState
 import app.cash.paging.PagingSource
 import app.cash.paging.PagingSourceLoadParams
 import app.cash.paging.PagingSourceLoadResult
 import app.cash.paging.PagingSourceLoadResultError
 import app.cash.paging.PagingSourceLoadResultPage
+import app.cash.paging.PagingState
+import co.touchlab.kermit.Logger
 import com.wongislandd.infinityindex.infra.networking.models.DataWrapper
 import com.wongislandd.infinityindex.infra.util.NetworkError
 import com.wongislandd.infinityindex.infra.util.Resource
@@ -41,6 +42,7 @@ abstract class BasePagingSource<Value : Any> : PagingSource<Int, Value>() {
             pagingSourceCallbacks?.onResponse(response)
             when (val page = paginateResponse(response)) {
                 is Resource.Success -> {
+                    Logger.d("[BasePagingSource] onSuccess ${page.data}")
                     pagingSourceCallbacks?.onSuccess(page.data)
                     val nextOffset = page.data.start + page.data.count
                     val nextKey = if (nextOffset + limit <= page.data.total && getPageNumber(
@@ -52,19 +54,20 @@ abstract class BasePagingSource<Value : Any> : PagingSource<Int, Value>() {
                     } else {
                         null
                     }
-                    PagingSourceLoadResultPage(
+                    return PagingSourceLoadResultPage(
                         data = page.data.items,
                         prevKey = null,
                         nextKey = nextKey
                     )
                 }
-
                 is Resource.Error -> {
+                    Logger.d("[BasePagingSource] Error loading page: ${page.error}")
                     pagingSourceCallbacks?.onFailure(page)
                     return PagingSourceLoadResultError(Exception(page.error?.displayMessage))
                 }
 
                 else -> {
+                    Logger.d("[BasePagingSource] Failure loading page: ${page}")
                     pagingSourceCallbacks?.onFailure()
                     return PagingSourceLoadResultError(Exception(NetworkError.UNKNOWN.displayMessage))
                 }

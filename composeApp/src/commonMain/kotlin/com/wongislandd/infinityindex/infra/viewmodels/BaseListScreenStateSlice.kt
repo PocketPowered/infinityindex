@@ -38,7 +38,9 @@ abstract class BaseListScreenStateSlice<T : EntityModel>(
     override fun handleBackChannelEvent(event: BackChannelEvent) {
         when (event) {
             is PagingBackChannelEvent.PagingDataResUpdate -> {
-                _listPagingData.value = event.update
+                _listPagingData.update {
+                    event.update
+                }
             }
 
             is PagingBackChannelEvent.UpdateSearchBoxVisibility -> {

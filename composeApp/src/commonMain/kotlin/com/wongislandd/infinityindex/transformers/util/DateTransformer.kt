@@ -8,8 +8,8 @@ import kotlinx.datetime.toLocalDateTime
 
 class DateTransformer: Transformer<String, String?> {
 
-    private val isoOffsetDateTimeRegex = Regex("""\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}-\d{4}""")
-
+    // Updated regex to match the offset (e.g., +0000 or -0500)
+    private val isoOffsetDateTimeRegex = Regex("""\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}([-+]\d{4})""")
 
     override fun transform(input: String): String? {
         return try {
@@ -23,13 +23,15 @@ class DateTransformer: Transformer<String, String?> {
         }
     }
 
+    private fun formatIsoDate(input: String): String {
+        // Handle the timezone offset (e.g., +0000) by adding a colon for parsing
+        val formattedInput = input.replace(Regex("([-+][0-9]{2})([0-9]{2})$"), "$1:$2")
 
-    private fun formatIsoDate(input: String, timezone: String = "UTC"): String {
-        // Parse the input string to an Instant (adjusting the timezone format if necessary)
-        val instant = Instant.parse(input.replace(Regex("([-+][0-9]{2})([0-9]{2})$"), "$1:$2"))
+        // Parse the input string to an Instant, which handles the timezone offset
+        val instant = Instant.parse(formattedInput)
 
-        // Convert to LocalDateTime in the specified time zone
-        val dateTime = instant.toLocalDateTime(TimeZone.of(timezone))
+        // Convert to LocalDateTime in UTC (or other specified timezone if needed)
+        val dateTime = instant.toLocalDateTime(TimeZone.UTC)
 
         // Format the date as "Month Day, Year"
         return "${dateTime.month.name.lowercase().replaceFirstChar { it.uppercase() }} ${dateTime.dayOfMonth}, ${dateTime.year}"

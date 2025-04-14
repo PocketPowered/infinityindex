@@ -1,6 +1,6 @@
 package com.wongislandd.infinityindex.infra
 
-import androidx.paging.PagingData
+import app.cash.paging.PagingData
 import com.wongislandd.infinityindex.infra.util.EntityModel
 import com.wongislandd.infinityindex.infra.util.EntityType
 import com.wongislandd.infinityindex.infra.util.Resource

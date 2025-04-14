@@ -1,9 +1,9 @@
 package com.wongislandd.infinityindex.infra.viewmodels
 
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
-import androidx.paging.cachedIn
 import app.cash.paging.Pager
+import app.cash.paging.PagingConfig
+import app.cash.paging.PagingData
+import app.cash.paging.createPagingConfig
 import com.wongislandd.infinityindex.ComicConstants
 import com.wongislandd.infinityindex.infra.DetailsBackChannelEvent
 import com.wongislandd.infinityindex.infra.DetailsUiEvent
@@ -15,10 +15,8 @@ import com.wongislandd.infinityindex.infra.paging.EntityPagingSource
 import com.wongislandd.infinityindex.infra.paging.PaginationContextWrapper
 import com.wongislandd.infinityindex.infra.paging.PagingSourceCallbacks
 import com.wongislandd.infinityindex.infra.paging.RelatedEntityPagingSource
-import com.wongislandd.infinityindex.infra.util.Empty
 import com.wongislandd.infinityindex.infra.util.EntityModel
 import com.wongislandd.infinityindex.infra.util.EntityType
-import com.wongislandd.infinityindex.infra.util.Error
 import com.wongislandd.infinityindex.infra.util.Resource
 import com.wongislandd.infinityindex.infra.util.SortOption
 import com.wongislandd.infinityindex.infra.util.ViewModelSlice
@@ -98,7 +96,7 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
     }
 
     @Suppress("UNCHECKED_CAST")
-    protected fun initializePaging(
+    private fun initializePaging(
         relatedEntityType: EntityType? = null,
         relatedEntityId: Int? = null,
         sortKeyOverride: String? = null,
@@ -106,7 +104,8 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
     ) {
         sliceScope.launch {
             Pager(
-                config = pagingConfig
+                config = pagingConfig,
+                initialKey = null,
             ) {
                 val newPagingSource = getPagingSource(
                     relatedEntityType,
@@ -132,7 +131,7 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
                                 )
                                 backChannelEvents.sendEvent(
                                     PagingBackChannelEvent.PagingResponseReceived(
-                                        Resource.Success(Empty),
+                                        Resource.Success(paginationContextWrapper),
                                         entityType
                                     )
                                 )
@@ -152,10 +151,10 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
                     })
                 }
                 newPagingSource
-            }.flow.cachedIn(sliceScope).collectLatest {
+            }.flow.collectLatest { pagingData ->
                 backChannelEvents.sendEvent(
                     PagingBackChannelEvent.PagingDataResUpdate(
-                        it as PagingData<EntityModel>,
+                        pagingData as PagingData<EntityModel>,
                         entityType,
                         titleOfPagination
                     )
@@ -229,7 +228,7 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
     private fun getDefaultPagingConfig(): PagingConfig {
         return when (useCase) {
             PagedListUseCase.ALL_AVAILABLE -> {
-                PagingConfig(
+                createPagingConfig(
                     initialLoadSize = ComicConstants.LIST_PAGE_SIZE * 2,
                     pageSize = ComicConstants.LIST_PAGE_SIZE,
                     enablePlaceholders = false,
@@ -238,7 +237,7 @@ abstract class BaseListPagingSlice<NETWORK_TYPE, LOCAL_TYPE : EntityModel>(
             }
 
             PagedListUseCase.RELATED_ENTITIES -> {
-                PagingConfig(
+                createPagingConfig(
                     initialLoadSize = ComicConstants.LIST_PAGE_SIZE * 2,
                     pageSize = ComicConstants.LIST_PAGE_SIZE,
                     enablePlaceholders = false,

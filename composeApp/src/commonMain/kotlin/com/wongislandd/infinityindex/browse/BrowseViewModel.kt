@@ -40,7 +40,7 @@ class BrowseViewModel(
             allEventsPagingSlice
         ).forEach {
             apply {
-                it.setPagingConfig(pagingConfig, 2)
+                it.setPagingConfig(pagingConfig, 1)
             }
         }
         registerSlice(screenStateSlice)
