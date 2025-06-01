@@ -5,6 +5,30 @@ jdk_dir="${CI_DERIVED_DATA_PATH}/JDK"
 gradle_dir="${repo_dir}/Common"
 cache_dir="${CI_DERIVED_DATA_PATH}/.gradle"
 jdk_version="20.0.1"
+
+#!/bin/bash
+
+echo ">> [CI] Running ci_post_clone.sh..."
+
+# Function to generate local.properties
+create_local_properties() {
+  echo ">> [CI] Creating local.properties..."
+
+  cat <<EOF > local.properties
+GH_PAT=${GH_PAT}
+PRIVATE_API_KEY=${PRIVATE_API_KEY}
+PUBLIC_API_KEY=${PUBLIC_API_KEY}
+EOF
+
+  echo ">> [CI] local.properties created:"
+  cat local.properties | grep -v "PRIVATE" | grep -v "GH_PAT"
+}
+
+# --- Call the function ---
+create_local_properties
+
+# --- Add any other setup steps below ---
+
 # Check if we stored gradle caches in DerivedData.
 recover_cache_files() {
     
@@ -51,5 +75,6 @@ tar_name="jdk-${jdk_version}_${arch_type}_bin.tar.gz"
 echo " - Set JAVA_HOME in Xcode Cloud to ${jdk_dir}/Home"
 return 0
 }
+create_local_properties
 recover_cache_files
 install_jdk_if_needed
