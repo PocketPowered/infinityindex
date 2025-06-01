@@ -28,7 +28,7 @@ val appModule = module {
 }
 
 fun dataStoreModule(context: Any?) = module {
-    single<DataStoreRepository> { DataStoreRepositoryImpl() }
+    single<DataStoreRepository> { DataStoreRepositoryImpl(context) }
 }
 
 fun initializeKoin(context: Any? = null) =

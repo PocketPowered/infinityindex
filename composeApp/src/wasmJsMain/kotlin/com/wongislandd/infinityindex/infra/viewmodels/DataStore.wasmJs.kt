@@ -5,7 +5,7 @@ import com.wongislandd.infinityindex.settings.ToggleSetting
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
-actual class DataStoreRepositoryImpl : DataStoreRepository {
+actual class DataStoreRepositoryImpl actual constructor(context: Any?) : DataStoreRepository {
     override suspend fun saveBooleanPreference(setting: ToggleSetting, value: Boolean) {
 
     }

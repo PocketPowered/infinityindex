@@ -35,7 +35,7 @@ object DatastoreProvider {
     }
 }
 
-actual class DataStoreRepositoryImpl : DataStoreRepository {
+actual class DataStoreRepositoryImpl actual constructor(context: Any?) : DataStoreRepository {
 
     @OptIn(ExperimentalForeignApi::class)
     private val dataStore = DatastoreProvider.getDatastore {

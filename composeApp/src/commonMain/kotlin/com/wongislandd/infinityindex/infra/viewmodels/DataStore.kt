@@ -16,4 +16,4 @@ interface DataStoreRepository {
     fun isSupported(): Boolean
 }
 
-expect class DataStoreRepositoryImpl(): DataStoreRepository
+expect class DataStoreRepositoryImpl(context: Any? = null): DataStoreRepository

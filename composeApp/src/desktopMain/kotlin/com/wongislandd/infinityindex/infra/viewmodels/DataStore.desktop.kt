@@ -33,7 +33,7 @@ object DatastoreProvider {
 }
 
 
-actual class DataStoreRepositoryImpl : DataStoreRepository {
+actual class DataStoreRepositoryImpl actual constructor(context: Any?): DataStoreRepository {
 
     private val dataStore = DatastoreProvider.getDatastore { DATA_STORE_FILE_NAME }
 
