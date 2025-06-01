@@ -1,3 +1,5 @@
+[May 9, 2025 Update] -- The Marvel API appears to be down. I can work on porting over the data to use comicvine's API once I have more free time
+
 This is a Multiplatform project centered around exploring Marvel comics data. Data is provided by the official Marvel API. Check it out on [web here](https://pocketpowered.github.io/infinityindex/)!
 
 The app is currently listed on the [Play Store here](https://play.google.com/store/apps/details?id=com.wongislandd.infinityindex&hl=en_US)
