@@ -21,11 +21,8 @@ PUBLIC_API_KEY=${PUBLIC_API_KEY}
 EOF
 
   echo ">> [CI] local.properties created:"
-  cat local.properties | grep -v "PRIVATE" | grep -v "GH_PAT"
+  cat local.properties | grep -v "PRIVATE" | grep -v "GH_PAT" | grep -v "PUBLIC"
 }
-
-# --- Call the function ---
-create_local_properties
 
 # --- Add any other setup steps below ---
 
