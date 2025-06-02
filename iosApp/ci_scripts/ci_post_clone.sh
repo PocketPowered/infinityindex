@@ -14,14 +14,14 @@ echo ">> [CI] Running ci_post_clone.sh..."
 create_local_properties() {
   echo ">> [CI] Creating local.properties..."
 
-  cat <<EOF > local.properties
+  cat <<EOF > /Volumes/workspace/repository/local.properties
 GH_PAT=${GH_PAT}
 PRIVATE_API_KEY=${PRIVATE_API_KEY}
 PUBLIC_API_KEY=${PUBLIC_API_KEY}
 EOF
 
   echo ">> [CI] local.properties created:"
-  cat local.properties | grep -v "PRIVATE" | grep -v "GH_PAT" | grep -v "PUBLIC"
+  cat /Volumes/workspace/repository/local.properties | grep -v "PRIVATE" | grep -v "GH_PAT" | grep -v "PUBLIC"
 }
 
 # --- Add any other setup steps below ---
